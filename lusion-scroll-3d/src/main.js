@@ -268,11 +268,12 @@ function tick() {
     smooth = target;
   }
   const sh = shotAt(smooth);
+  const radius = sh.radius * (isMobile ? 1.5 : 1); // 移动端拉远：窄屏下瓶身不裁边
   const drift = reduceMotion ? 0 : Math.sin(t * 0.12) * 0.05; // 轻微呼吸式环绕
   camera.position.set(
-    Math.sin(sh.angle + drift) * sh.radius,
+    Math.sin(sh.angle + drift) * radius,
     sh.height,
-    Math.cos(sh.angle + drift) * sh.radius
+    Math.cos(sh.angle + drift) * radius
   );
   camera.lookAt(0, sh.lookY, 0);
   scene.fog.density += (sh.fog - scene.fog.density) * (1 - Math.pow(0.01, dt)); // 雾浓度呼吸过渡

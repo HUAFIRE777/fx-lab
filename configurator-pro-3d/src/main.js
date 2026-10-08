@@ -25,7 +25,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 const forceProcedural = new URLSearchParams(location.search).has('procedural');
 
 /* ================= 配置数据 ================= */
-const MODEL_URL = 'https://models.eazyopc.com/3d-assets-gallery/models-web/hero/tripo_watch.glb';
+const MODEL_URL = './models/tripo_watch.glb';
 
 const DIALS = [
   { name: '曜石黑', color: '#232326', price: 0 },

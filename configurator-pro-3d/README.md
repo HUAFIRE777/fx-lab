@@ -79,9 +79,8 @@ python3 ~/workspace/bin/fx-singlefile.py configurator-pro-3d
 # 强制程序化手表（跳过模型加载）：index.html?procedural
 ```
 
-注意：brief 指定的 `https://models.eazyopc.com/3d-assets/…/tripo_watch.glb` 实际 404，
-可用地址是 `3d-assets-gallery` 桶：`https://models.eazyopc.com/3d-assets-gallery/models-web/hero/tripo_watch.glb`（200，4.8MB）。
-file:// 打开时浏览器不发可用 Origin，R2 CORS 可能拦截——此时 try/catch 自动降级为程序化手表，console 仅 warn、无 error。
+模型已下载到本地 `models/tripo_watch.glb`（4.8MB），开箱即用无外部依赖。
+加载失败时 try/catch 自动降级为程序化手表，console 仅 warn、无 error。
 
 ## 移动端
 
