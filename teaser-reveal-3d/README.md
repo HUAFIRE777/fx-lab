@@ -17,12 +17,12 @@
 2. **黑场剪影**：2D canvas 幕布层盖住整个视口，程序化绘制耳机剪影（头梁圆弧 + 两耳罩 + 红色边缘光晕），以 0.12 rad/s 缓慢旋转。
 3. **拖拽揭幕**：`pointerdown/move` 在幕布 mask 上用柔边戳擦除（`destination-out`）；48×30 计数网格实时算出揭开百分比，提示文案同步（"继续 — 已揭开 37%"）。
 4. **自动揭晓**：揭开 ≥45% 时触发 `finishReveal()` —— 幕布整体 1.3s 淡出并移除，发布信息（眉题 → 大标题 → 日期 → 参数 → 订阅表单）逐行 `stagger 0.12s` 浮现。
-5. **真容舞台**：3D 场景 R2 拉取 Draco 压缩耳机模型（失败/超时/无 WebGL → 程序化剪影兜底，首屏永远完整）；红色轮廓光 + 白色主光 + 产品后方红色光晕 + 130 颗红色悬浮微尘；idle 缓慢自转 + 呼吸浮动 + 相机微摆。
+5. **真容舞台**：3D 场景加载本地 Draco 压缩耳机模型（`models/electronics/tripo_headphone.glb`；失败/超时/无 WebGL → 程序化剪影兜底，首屏永远完整）；红色轮廓光 + 白色主光 + 产品后方红色光晕 + 130 颗红色悬浮微尘；idle 缓慢自转 + 呼吸浮动 + 相机微摆。
 6. **订阅闭环**：邮箱正则校验，错误红边聚焦；提交成功表单隐藏、左侧红线成功态文案。
 
 ## 配置参数（`src/config.js`）
 
-- `modelUrl` —— R2 耳机模型（Draco 压缩）；R2 补全 CORS 后自动真实加载。
+- `modelUrl` —— 本地耳机模型（Draco 压缩，`models/electronics/tripo_headphone.glb`）；换任意 GLB 地址即可。
 - `countdownTarget` —— 倒计时目标（`2026-11-11T00:00:00+08:00`），页面自动算"距揭晓还有 X 天"。
 - `revealThreshold` —— 揭开比例阈值（0.45）。
 - `loadTimeoutMs` —— 模型加载超时（9000ms），超时即降级。
@@ -68,7 +68,7 @@ python3 ~/workspace/bin/fx-singlefile.py teaser-reveal-3d
 
 ## 验收记录（2026-10-05）
 
-1. console 检测：`[teaser] R2 model unavailable (CORS), procedural fallback used` —— 唯一告警，为已知的 CORS 阻塞（允许项），其余零错误。
-2. URL 扫描：`https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/…/tripo_headphone.glb` + gsap.min.js 注释内的 `gsap.com` 许可链接（未被请求，与 cart-fly-3d 一致，无外部资源请求）。
+1. console 检测：零错误（模型本地加载；加载失败时走程序化剪影兜底，不报错）。
+2. URL 扫描：模型为本地相对路径；gsap.min.js 注释内的 `gsap.com` 许可链接未被请求，无外部资源请求。
 3. 截图：`shots/teaser-reveal-3d.png` —— 黑场红边耳机剪影 + hint + 倒计时 37 天；`?state=open` 揭晓态：兜底 3D 耳机 + 听澜 One 大标题 + 日期 + 参数 + 订阅表单，全部正常。
 4. 文案：无 Lorem/emoji 列表。

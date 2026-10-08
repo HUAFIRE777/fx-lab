@@ -6,12 +6,10 @@
 
 ## 用的两个模型（为什么选它们）
 
-| 侧 | 模型 | R2 链接状态 |
-|---|---|---|
-| A | `tripo_headphone.glb`（头戴式耳机，Tripo H3.1 生成） | ✅ 已上线，可直链 |
-| B | `tripo_keyboard.glb`（机械键盘，Tripo H3.1 生成） | ⏳ 待 `hero/` 同步到 R2 后可用 |
-
-基址：`https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/`
+| 侧 | 模型（本地 `models/electronics/`） |
+|---|---|
+| A | `tripo_headphone.glb`（头戴式耳机，Tripo H3.1 生成） |
+| B | `tripo_keyboard.glb`（机械键盘，Tripo H3.1 生成） |
 
 选择理由：① 同类（`electronics/` 桌面音频外设），对比页讲得通——耳机 vs 键盘是独立站经典「桌面装备二选一」场景；② 都是 Tripo H3.1 生成的减面版（3.8MB / 2.9MB），加载快，适合网页；③ 体量相近，归一化后视觉可比。
 

@@ -1,7 +1,7 @@
 /* huafire3d fx-lab — original implementation · teaser-reveal-3d */
 export const CONFIG = {
   // R2 耳机模型（含 Draco 压缩；CORS 未配时自动降级为程序化剪影）。
-  modelUrl: 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb',
+  modelUrl: './models/electronics/tripo_headphone.glb',
 
   brand: '听澜 HEARLAN',
   brandSub: '新品预告',

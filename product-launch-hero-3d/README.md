@@ -13,7 +13,7 @@
 
 ## 用法
 
-- 打开 `index.html` 即可看（单文件，零外部依赖；3D 模型走 R2 外链）。
+- 打开 `index.html` 即可看（单文件，零外部依赖；3D 模型在本地 `models/` 目录）。
 - 换产品：改 `src/config.js` → `modelUrl`（任意 GLB），卖点锚点按新模型的包围盒自动计算。
 - 调时间轴：`CONFIG.timeline`（black / spotlight / reveal / callouts，单位秒）。
 - 调试参数：`?state=final` 直接跳终态（截图用）；`?model=<url>` 覆盖模型 URL。
@@ -21,11 +21,8 @@
 
 ## 模型说明（2026-10-05）
 
-任务简报指定手表模型，但 R2 上 `models-web/hero/electronics/` 下除耳机外全部 404（R2 尚未全量同步，仅 `tripo_headphone.glb` 可用，已用 curl 验证 200）。故本模板使用已验证的耳机模型：
-
-`https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb`
-
-R2 补全后把 `CONFIG.modelUrl` 换成手表 URL 即可，锚点/构图自动适配。模型加载失败时自动降级为程序化备用产品（控制台 warning，不报错、不白屏）。
+本模板使用本地 `models/electronics/tripo_headphone.glb`（Tripo 生成的头戴耳机）。
+换任意模型 URL 即可，锚点/构图自动适配。模型加载失败时自动降级为程序化备用产品（控制台 warning，不报错、不白屏）。
 
 ## Draco 说明
 

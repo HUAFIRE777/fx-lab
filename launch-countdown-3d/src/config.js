@@ -11,7 +11,7 @@ export const CONFIG = {
   launchAt: "2026-10-10T20:00:00+08:00",
 
   model: {
-    url: "https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb",
+    url: "./models/electronics/tripo_headphone.glb",
     /* 模型在世界单位里的目标高度，越大越有压迫感 */
     targetHeight: 2.1,
     /* 初始展示角度 */

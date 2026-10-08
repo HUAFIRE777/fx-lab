@@ -5,7 +5,7 @@ export const CONFIG = {
   // ---- 模型 ----
   model: {
     // 默认耳机模型（R2 公网桶外链，打包时保持不动）
-    url: 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb',
+    url: './models/electronics/tripo_headphone.glb',
   },
 
   // ---- 文案（电商首屏信息）----

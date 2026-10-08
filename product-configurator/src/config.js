@@ -16,7 +16,7 @@ export const CONFIG = {
 
   model: {
     // R2 外链：单文件打包时保持不动，按字节原样保留
-    url: 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb',
+    url: './models/electronics/tripo_headphone.glb',
     credit: '模型来源 Tripo Studio AI 生成（3d-assets 共享库）',
   },
 

@@ -4,7 +4,7 @@
 export const CONFIG = {
   // 3D 模型（R2 外链；单文件打包时保持外链，不内联）
   modelUrl:
-    'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_keyboard.glb',
+    './models/electronics/tripo_keyboard.glb',
 
   // 模型归一化：最长边缩放到该宽度（世界单位）
   modelWidth: 2.0,

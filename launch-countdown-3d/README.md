@@ -2,7 +2,7 @@
 
 <!-- huafire3d fx-lab — original implementation -->
 
-新品发布倒计时页：中央 3D 产品（R2 模型外链）缓慢旋转 + 翻牌时钟倒计时（天/时/分/秒，CSS 3D 翻页）；倒计时归零即揭幕——2400 粒子爆发 + 镜头推进 + "IT'S HERE." 揭幕 + CTA 浮现。示例产品 AURA X1 虚构旗舰耳机。双击 `index.html` 即可看。
+新品发布倒计时页：中央 3D 产品（本地模型）缓慢旋转 + 翻牌时钟倒计时（天/时/分/秒，CSS 3D 翻页）；倒计时归零即揭幕——2400 粒子爆发 + 镜头推进 + "IT'S HERE." 揭幕 + CTA 浮现。示例产品 AURA X1 虚构旗舰耳机。双击 `index.html` 即可看。
 
 ## 参考声明（诚实版）
 
@@ -39,7 +39,7 @@
 
 ```
 launch-countdown-3d/
-├── index.html            # 单文件成品（1373KB，唯一外链是 R2 模型）
+├── index.html            # 单文件成品（1373KB，零外部依赖，模型在本地 models/ 目录）
 ├── index.src.html        # 源码母版（改这里）
 ├── build.py              # 构建脚本：母版 → 内联 → 打包（可重复跑）
 ├── src/

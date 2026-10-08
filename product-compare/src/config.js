@@ -3,7 +3,7 @@
    接入真实独立站时，只改这里即可：MODEL_URL 换 SKU 的 GLB 链接，
    SPECS 换真实参数。差异行由页面自动判定（a !== b），无需手写。 */
 
-const R2 = 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero';
+const R2 = './models';
 
 export const PRODUCTS = {
   a: {

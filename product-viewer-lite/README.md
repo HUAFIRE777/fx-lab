@@ -66,8 +66,7 @@ python3 ~/workspace/bin/fx-singlefile.py product-viewer-lite
 
 （组件样式在影子 DOM 内自带，不依赖 `src/styles.css`，那是演示页样式。）
 
-**注意：模型地址必须是允许跨域的 CDN**（响应头带 `Access-Control-Allow-Origin`），
-否则浏览器拦截 GLB 加载。自家 R2 公开桶记得开 CORS。
+**注意**：如需把模型换到自己的 CDN，记得给 CDN 配 `Access-Control-Allow-Origin` 跨域头，否则浏览器会拦截 GLB 加载。默认本地 `models/` 目录无此问题。
 
 ## 目录
 

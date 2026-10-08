@@ -3,7 +3,7 @@ export const CONFIG = {
   // 3D product model. NOTE (2026-10-05): the brief's watch URL 404s on R2
   // (only the headphone has been uploaded so far); using the verified one.
   // Swap to any GLB by changing this single line.
-  modelUrl: 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb',
+  modelUrl: './models/electronics/tripo_headphone.glb',
 
   brand: 'AURELIA',
   eyebrow: 'Introducing',

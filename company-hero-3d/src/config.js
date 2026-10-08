@@ -34,7 +34,7 @@ export const CONFIG = {
 
   /* hero 右侧真实 3D 产品点缀（R2 外链，打包时保持不动） */
   model: {
-    url: 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb',
+    url: './models/electronics/tripo_headphone.glb',
     label: '耳机 · Tripo 生成样机',
     position: [2.05, 0.12, -0.4],
     targetHeight: 1.75,

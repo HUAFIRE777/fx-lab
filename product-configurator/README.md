@@ -9,8 +9,8 @@
 
 ## 打开方式
 
-- **成品**：双击 `index.html`（已打包的单文件，CSS/JS/Three.js 全内联，断网可开；
-  3D 模型走 R2 外链，需联网加载）。
+- **成品**：双击 `index.html`（已打包的单文件，CSS/JS/Three.js 全内联；
+  3D 模型在本地 `models/` 目录，无外部依赖，断网可开）。
 - **二次开发**：改 `index.template.html` / `src/` 后，
   `cp index.template.html index.html && python3 ~/workspace/bin/fx-singlefile.py product-configurator`
   重新打包。**不要对已打包的 index.html 重复跑打包器**（单向）。
@@ -21,19 +21,13 @@ URL 参数：`?model=<url>` 覆盖模型（测试用）、`?spin=0` 关闭自动
 
 ## 部署注意（上线前必读）
 
-- **R2 必须配 CORS**：模型用 `fetch` 拉取，浏览器要求 R2 桶返回
-  `Access-Control-Allow-Origin`。实测 `pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev`
-  目前**没有配**，页面会报 CORS 错误、模型加载失败——这是基础设施配置问题，
-  不是模板 bug。4 个 R2 桶都要配（Cloudflare 控制台 → R2 → 桶 → Settings → CORS Policy）。
 - **模型面数**：演示模型约 188 万三角面，手机端偏重。生产建议用减面管线
   （ultra 档 60 万面）处理后再挂 CONFIG。
 
 ## 模型说明
 
-任务指定的 `tripo_watch.glb` 在 R2 上返回 404（尚未同步上传），按任务允许
-"同目录换别的"，改用**同目录已确认 200** 的
-`models-web/hero/electronics/tripo_headphone.glb`（Tripo 生成的头戴耳机，19MB）。
-CONFIG 里换回手表 URL 即可，相机/灯光按包围盒自动适配。
+演示模型为本地 `models/electronics/` 目录的 GLB（Tripo 生成）。
+CONFIG 里换任意模型 URL 即可，相机/灯光按包围盒自动适配。
 
 ## 手法拆解
 
@@ -60,7 +54,7 @@ CONFIG 里换回手表 URL 即可，相机/灯光按包围盒自动适配。
 | 字段 | 说明 |
 |---|---|
 | `product.{name,tagline,basePrice,currency,formatPrice}` | 商品名/卖点/基价/货币/格式化 |
-| `model.url` | GLB 的 R2 外链（打包时原样保留） |
+| `model.url` | GLB 路径（本地 `models/` 目录，换 CDN 改这里） |
 | `camera.{fov,distanceFactor,min/maxDistanceFactor,polarMin/polarMax}` | 视角，距离按模型尺寸自动换算 |
 | `stage.{autoRotateSpeed,idleResumeMs,bgTop/bgBottom,keyLightColor,rimLightColor}` | 展台氛围 |
 | `options[]` | 选项组：`swatch`（色板单选）/`pill`（胶囊单选）/`check`（复选多选）；`color` 换色，`material{}` 换工艺，`priceDelta` 加价 |

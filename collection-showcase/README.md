@@ -17,17 +17,17 @@
   （`build.py` 是幂等的，可反复跑；`fx-singlefile.py` 是一次性单向打包，不要对已打包文件重复跑。）
 
 **零国外依赖**：Three.js/Draco 走 `vendor/` 相对路径（打包后转 data: URL 内联），
-无 Google Fonts（系统字体栈），无 CDN。模型走 R2 外链（见下）。
+无 Google Fonts（系统字体栈），无 CDN。模型全部在本地 `models/` 目录，开箱即用。
 
 ## 换商品：只改 `src/config.js`
 
 ```js
-export const R2_BASE = 'https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero';
+export const MODEL_BASE = './models'; // 本地模型目录，换 CDN 改这里即可
 export const CONFIG = [
   { id: 'aurora-x9',
     name: 'Aurora X9 头戴式耳机', en: 'Aurora X9 Headphones',
     category: '数码', price: 1299, tag: '新品',          // tag 为空则不显示角标
-    model: `${R2_BASE}/electronics/tripo_headphone.glb`, // 模型 URL（R2 外链）
+    model: `${MODEL_BASE}/electronics/tripo_headphone.glb`, // 模型路径（本地）
     tint: '#e8edf4',                                     // 视口底色
     desc: '...' },
   // ... 继续加
@@ -68,12 +68,6 @@ export const CATEGORIES = ['全部', '数码', '服饰', '出行', '配饰'];
 
 ## 已知事项
 
-- **R2 同步中**：2026-10-05 实测，6 个模型 URL 目前仅
-  `electronics/tripo_headphone.glb` 返回 200，其余 5 个还是 404（同步未完成）。
-  未上线的卡片会显示失败占位 + 重试按钮，R2 同步完成后点重试即亮。
-- **R2 跨域**：当前 R2 公共 URL 未返回 `Access-Control-Allow-Origin`，
-  跨域页面用 `fetch` 拉 GLB 会被浏览器拦截。模板放**同源**（如同一 r2.dev 域名）下无此问题；
-  若要跨域嵌入，需给 R2 桶配一条 CORS 规则（`Access-Control-Allow-Origin: *`）。
 - **移动端**：单列网格；弹窗内大视口可拖拽旋转；`prefers-reduced-motion` 时转盘静止。
 
 ## 文件结构

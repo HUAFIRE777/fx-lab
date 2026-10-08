@@ -31,7 +31,7 @@
 ## 配置参数
 
 ```js
-MODEL_URL  // R2 模型地址（唯一外部请求）
+MODEL_URL  // 模型地址（本地 models/ 目录；换自己 CDN 的 URL 也行）
 DIALS[6]   // 表盘：曜石黑/象牙白/深海蓝/墨绿/赭石/酒红，溢价 +¥0 / +¥500
 STRAPS[3]  // 表带：意大利皮革(+¥800, rough .72) / 精钢链带(+¥2000, metal .92) / 尼龙织带(+¥0, rough .92)
 ENVS[3]    // 场景：影棚 #F4F4F2 / 黄昏 #2E2118 / 夜晚 #0F0F13（背景+三灯色温+曝光+阴影不透明度）
@@ -66,7 +66,7 @@ configurator-pro-3d/
 └── README.md
 ```
 
-外部请求：除 R2 模型 GLB 外为零（three/Draco/字体/纹理全内联或程序化生成）。
+外部请求：零（模型在本地 models/；three/Draco/字体/纹理全内联或程序化生成）。
 
 ## 重建方式
 
@@ -76,7 +76,7 @@ cp index.src.html index.html
 python3 ~/workspace/bin/fx-singlefile.py configurator-pro-3d
 # esbuild 预检：
 /tmp/esb/node_modules/.bin/esbuild src/main.js --bundle --format=esm --external:three --minify --outfile=/dev/null
-# 强制程序化手表（跳过 R2）：index.html?procedural
+# 强制程序化手表（跳过模型加载）：index.html?procedural
 ```
 
 注意：brief 指定的 `https://models.eazyopc.com/3d-assets/…/tripo_watch.glb` 实际 404，

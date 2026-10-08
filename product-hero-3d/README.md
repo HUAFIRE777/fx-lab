@@ -1,10 +1,10 @@
 # product-hero-3d · 电商产品 Hero 3D 模板
 
 <!-- huafire3d fx-lab — original implementation -->
-独立站首页首屏：全屏 3D 产品展示。默认模型为 R2 公网桶的耳机
+独立站首页首屏：全屏 3D 产品展示。默认模型为 本地 models/ 目录的耳机模型
 （`models-web/hero/electronics/tripo_headphone.glb`，Draco 压缩——模板自带解码器，零额外请求）。
 
-双击 `index.html` 即可看（单文件，断网可开；模型走 R2 外链需联网）。
+双击 `index.html` 即可看（单文件，断网可开；模型已在本地 models/ 目录，断网可开）。
 
 ## 手法拆解
 

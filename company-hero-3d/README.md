@@ -2,7 +2,7 @@
 # company-hero-3d · 公司介绍 Hero 模板
 
 全屏电影感 3D 公司介绍首屏：GPU 粒子星云背景 + 大标题逐行揭示 + 真实 3D 产品点缀。
-`index.html` 为单文件成品（935KB，双击即看，零外部依赖，3D 模型走 R2 外链）。
+`index.html` 为单文件成品（935KB，双击即看，零外部依赖，3D 模型在本地 models/ 目录）。
 
 ## 参考声明（手法学习，代码全部独立重写）
 
@@ -23,7 +23,7 @@
 - **标题揭示**（`src/reveals.js`）：纯 class 驱动。隐藏态 `html.js .rv-txt{transform:translateY(112%)}`，
   显示态 `html.js .rv.is-in .rv-txt{transform:none}` 特异度更高；全程不读写行内 transform；
   6 秒兜底强制显示；与 WebGL 解耦（canvas 挂了标题照样出）。
-- **产品点缀**（`src/product.js`）：GLTFLoader 加载 R2 模型，按包围盒归一化到目标高度；
+- **产品点缀**（`src/product.js`）：GLTFLoader 加载本地 models/ 目录的模型，按包围盒归一化到目标高度；
   入场 scale expo-out 弹一下，之后慢转 + 呼吸浮动 + 鼠标视差（lerp 阻尼）；
   加载失败静默隐藏，版式不受影响。
 - **开场编排**（`src/main.js`）：loader（品牌 + 细进度线）→ 星云先出一帧 → 标题逐行 → 副标题/CTA →
@@ -45,7 +45,7 @@ bash build.sh   # index.src.html -> index.html -> fx-singlefile.py 单文件打�
 ```
 
 `vendor/`：three.module.js（r183）+ GLTFLoader 及依赖（构建时一次性下载 vendor，
-运行时零外部 URL）。模型 URL 打包时保持 R2 外链不动。
+运行时零外部 URL，模型在本地 models/ 目录）。
 
 ## "不像 AI 写的"六项自查
 
@@ -62,8 +62,7 @@ bash build.sh   # index.src.html -> index.html -> fx-singlefile.py 单文件打�
   （studiofreight 式隐身 bug 不存在，有 6 秒兜底）。
 - console 零 JS 报错（多次 headless 运行）。
 - 星云渲染为深空效果（初版过曝已修：雾带 1050→380 粒子、尺寸 24→15、透明度 0.20→0.12）。
-- GLTF 加载管线验证通过（测试模型正常渲染定位）；R2 耳机模型在测试机上因代理
-  `ERR_EMPTY_RESPONSE` 加载失败——代码已静默降级，真机网络正常即可加载。
+- GLTF 加载管线验证通过（测试模型正常渲染定位）。
 - 已知限制：本机 headless Chromium 的 SwiftShader 软件光栅化跑不动
   2780 粒子加色混合（单帧数十秒），交互时序类验证用"隔离页"与"无渲染变体"完成；
   真机 GPU 下为 60fps 场景。
