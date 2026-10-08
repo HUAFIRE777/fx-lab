@@ -1,0 +1,266 @@
+/* 雪线 SNOWLINE —— 滑雪装备落地页
+   配色：冰蓝 #7FCBE8 / 深藏青 #0C2237 / 白 #FFFFFF（三色定死，禁用彩虹渐变） */
+
+:root{
+  --ice:#7FCBE8;
+  --navy:#0C2237;
+  --navy-2:#12293F;
+  --navy-3:#1B3550;
+  --white:#FFFFFF;
+  --ink:rgba(255,255,255,.92);
+  --ink-dim:rgba(255,255,255,.62);
+  --line:rgba(127,203,232,.16);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+[hidden]{display:none!important} /* hidden 显隐兜底：作者样式声明过 display 时仍生效 */
+body{
+  font-family:var(--font);
+  background:var(--navy);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img,svg,canvas{display:block;max-width:100%}
+.wrap{width:min(1180px,92%);margin:0 auto}
+
+/* 噪点颗粒（手工细节） */
+body::after{
+  content:"";position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ---------- 顶部公告 ---------- */
+.announce{
+  background:var(--ice);color:var(--navy);
+  text-align:center;font-size:12.5px;letter-spacing:.08em;font-weight:600;
+  padding:9px 16px;position:relative;z-index:120;
+}
+
+/* ---------- 导航 ---------- */
+.nav{position:sticky;top:0;z-index:110;transition:background .35s var(--ease),border-color .35s,backdrop-filter .35s}
+.nav-inner{width:min(1180px,92%);margin:0 auto;display:flex;align-items:center;gap:28px;height:68px}
+.nav{background:transparent;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(12,34,55,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:.06em;color:var(--white)}
+.logo-mark{width:28px;height:28px;color:var(--ice)}
+.logo-word{display:flex;flex-direction:column;line-height:1.05}
+.logo-word i{font-style:normal;font-size:10px;letter-spacing:.34em;color:var(--ice);font-weight:600;margin-top:2px}
+.menu{display:flex;gap:30px;margin-left:12px}
+.menu a{font-size:15px;color:var(--ink-dim);position:relative;padding:6px 0;transition:color .25s}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--ice);border-radius:2px;transition:width .3s var(--ease)}
+.menu a:hover{color:var(--white)}
+.menu a:hover::after{width:100%}
+.nav-actions{margin-left:auto}
+.burger{display:none;flex-direction:column;gap:5px;padding:8px}
+.burger span{width:22px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s var(--ease),opacity .3s}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 30px;border-radius:999px;font-size:15px;font-weight:700;letter-spacing:.04em;
+  transition:transform .28s var(--ease),box-shadow .28s,background .28s,color .28s}
+.btn:active{transform:scale(.96)}
+.btn-ice{background:var(--ice);color:var(--navy)}
+.btn-ice:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(127,203,232,.35)}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.4);color:var(--white)}
+.btn-ghost:hover{border-color:var(--ice);color:var(--ice);transform:translateY(-2px)}
+.btn-sm{padding:9px 20px;font-size:13.5px}
+
+/* ---------- 抽屉 ---------- */
+.drawer-mask{position:fixed;inset:0;background:rgba(4,12,22,.6);opacity:0;pointer-events:none;transition:opacity .3s;z-index:130}
+.drawer-mask.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;left:0;bottom:0;width:min(320px,84vw);background:var(--navy-2);
+  z-index:140;transform:translateX(-102%);transition:transform .42s var(--ease);
+  display:flex;flex-direction:column;padding:24px;border-right:1px solid var(--line)}
+.drawer.open{transform:translateX(0)}
+.drawer-close{align-self:flex-end;font-size:30px;line-height:1;color:var(--ink-dim);padding:4px 8px}
+.drawer-close:hover{color:var(--white)}
+.drawer-links{display:flex;flex-direction:column;margin-top:12px}
+.drawer-links a{font-size:19px;font-weight:700;padding:15px 4px;border-bottom:1px solid var(--line);color:var(--ink)}
+.drawer-links a:active{color:var(--ice)}
+.drawer-cta{margin-top:26px}
+.drawer-foot{margin-top:auto;font-size:12px;color:var(--ink-dim);letter-spacing:.06em}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:calc(100svh - 102px);display:flex;align-items:center;overflow:hidden;margin-top:-68px;padding-top:68px}
+.hero-canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(6,16,30,.55) 100%)}
+.hero-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--navy);z-index:5;transition:opacity .6s}
+.hero-loader span{width:44px;height:44px;border-radius:50%;border:3px solid rgba(127,203,232,.2);border-top-color:var(--ice);animation:spin 1s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-copy{position:relative;z-index:2;width:min(1180px,92%);margin:0 auto;padding:60px 0}
+.hero-kicker{font-size:14px;letter-spacing:.32em;color:var(--ice);font-weight:600;margin-bottom:22px}
+.hero-title{font-size:clamp(48px,8.2vw,118px);line-height:1.14;font-weight:800;letter-spacing:-.01em;color:var(--white);text-shadow:0 4px 40px rgba(6,16,30,.5)}
+.hero-title em{font-style:normal;color:var(--ice)}
+.hero-sub{margin-top:24px;font-size:clamp(15px,2vw,19px);color:var(--ink-dim);letter-spacing:.04em}
+.hero-ctas{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.rl-mask{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.js .rl-line{display:block;transform:translateY(112%)}          /* 等 JS 的隐藏初态 */
+html.hero-in .rl-line{transform:none;transition:none}           /* 完成态覆盖：防 clearProps 后 CSS 兜底接管 */
+.hero-scroll{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;width:26px;height:42px;border:2px solid rgba(255,255,255,.35);border-radius:14px;display:flex;justify-content:center;padding-top:8px}
+.hero-scroll span{width:4px;height:8px;border-radius:4px;background:var(--ice);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+
+/* ---------- 通用区块 ---------- */
+.section{padding:110px 0;position:relative}
+.sec-head{margin-bottom:54px;max-width:640px}
+.sec-kicker{font-size:13px;letter-spacing:.34em;color:var(--ice);font-weight:700;margin-bottom:18px}
+.sec-title{font-size:clamp(32px,4.6vw,56px);line-height:1.28;font-weight:800;letter-spacing:-.01em;color:var(--white)}
+.sec-sub{margin-top:16px;font-size:16px;color:var(--ink-dim);line-height:1.8}
+.reveal{opacity:0;transform:translateY(34px)}
+
+/* ---------- 装备矩阵 ---------- */
+.gear{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%)}
+.cat-block{margin-bottom:72px}
+.cat-block:last-child{margin-bottom:0}
+.cat-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.cat-head h3{font-size:24px;font-weight:800;color:var(--white);letter-spacing:.04em}
+.cat-head h3 span{font-size:13px;color:var(--ink-dim);font-weight:400;letter-spacing:.22em;margin-left:10px}
+.cat-more{font-size:14px;color:var(--ice);letter-spacing:.06em;transition:opacity .25s}
+.cat-more:hover{opacity:.75}
+.grid{display:grid;gap:22px}
+.cards{grid-template-columns:repeat(3,1fr)}
+.card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s,border-color .35s;position:relative}
+.card:hover{transform:translateY(-8px);border-color:rgba(127,203,232,.5);box-shadow:0 24px 50px rgba(0,0,0,.35)}
+.card-art{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:radial-gradient(90% 90% at 50% 30%,rgba(127,203,232,.14),transparent 70%);padding:26px}
+.card-art svg{width:78%;height:100%;transition:transform .4s var(--ease)}
+.card:hover .card-art svg{transform:scale(1.06) rotate(-1.5deg)}
+.card-tag{position:absolute;top:14px;left:14px;font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--navy);background:var(--ice);padding:5px 11px;border-radius:999px}
+.card-body{padding:20px 22px 24px}
+.card-name{font-size:17.5px;font-weight:700;color:var(--white);letter-spacing:.02em}
+.card-desc{margin-top:8px;font-size:13.5px;color:var(--ink-dim);line-height:1.7}
+.card-foot{margin-top:16px;display:flex;align-items:baseline;gap:10px}
+.card-price{font-size:21px;font-weight:800;color:var(--ice);font-variant-numeric:tabular-nums}
+.card-old{font-size:13.5px;color:var(--ink-dim);text-decoration:line-through}
+
+/* ---------- 雪场指南 ---------- */
+.resorts{background:var(--navy-2)}
+.resort-grid{grid-template-columns:repeat(4,1fr)}
+.resort-card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:18px;padding:26px 24px;
+  transition:transform .35s var(--ease),border-color .35s,box-shadow .35s}
+.resort-card:hover{transform:translateY(-8px);border-color:rgba(127,203,232,.5);box-shadow:0 24px 50px rgba(0,0,0,.35)}
+.resort-name{font-size:18px;font-weight:800;color:var(--white)}
+.resort-loc{font-size:12.5px;color:var(--ink-dim);margin-top:4px;letter-spacing:.08em}
+.resort-diff{margin:16px 0 6px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-dim)}
+.dots{display:flex;gap:5px}
+.dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
+.dots i.on{background:var(--ice)}
+.snow-bar{height:7px;border-radius:4px;background:rgba(255,255,255,.1);margin:14px 0 8px;overflow:hidden}
+.snow-bar i{display:block;height:100%;width:0;border-radius:4px;background:var(--ice)}
+.resort-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-dim);margin-top:12px}
+.resort-meta b{color:var(--ink);font-weight:600}
+.resort-cond{margin-top:12px;font-size:12px;color:var(--ice);letter-spacing:.06em}
+.resort-note{margin-top:30px;font-size:12.5px;color:var(--ink-dim);letter-spacing:.04em}
+
+/* ---------- 滑手故事 ---------- */
+.stories{background:linear-gradient(180deg,var(--navy-2),var(--navy))}
+.story-grid{grid-template-columns:repeat(3,1fr)}
+.story{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:18px;padding:32px 28px;position:relative;
+  transition:transform .35s var(--ease),border-color .35s}
+.story:hover{transform:translateY(-6px);border-color:rgba(127,203,232,.5)}
+.story::before{content:"“";position:absolute;top:14px;left:22px;font-size:54px;line-height:1;color:var(--ice);opacity:.5;font-family:serif}
+.story p{font-size:16.5px;line-height:1.9;color:var(--ink);margin-top:18px}
+.story-who{margin-top:22px;display:flex;align-items:center;gap:12px}
+.story-ava{width:44px;height:44px;border-radius:50%;background:var(--ice);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex:none}
+.story-who b{display:block;font-size:14.5px;color:var(--white)}
+.story-who small{font-size:12.5px;color:var(--ink-dim)}
+
+/* ---------- CTA 早鸟券 ---------- */
+.coupon{background:var(--navy);padding-bottom:130px}
+.coupon-card{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+  background:linear-gradient(120deg,var(--navy-3),var(--navy-2));border:1px solid var(--line);
+  border-radius:24px;padding:clamp(32px,5vw,64px);position:relative;overflow:hidden}
+.coupon-card::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(60% 90% at 85% 20%,rgba(127,203,232,.16),transparent 70%)}
+.coupon-kicker{font-size:13px;letter-spacing:.34em;color:var(--ice);font-weight:700;margin-bottom:16px}
+.coupon-title{font-size:clamp(30px,4vw,46px);line-height:1.3;font-weight:800;color:var(--white);letter-spacing:-.01em}
+.coupon-desc{margin-top:14px;color:var(--ink-dim);font-size:15px;line-height:1.8}
+.coupon-form{margin-top:28px;display:flex;gap:12px;max-width:440px}
+.coupon-input{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:999px;
+  padding:13px 22px;font-size:15px;color:var(--white);outline:none;transition:border-color .25s}
+.coupon-input::placeholder{color:var(--ink-dim)}
+.coupon-input:focus{border-color:var(--ice)}
+.coupon-input.err{border-color:#ff8a8a;animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.coupon-tip{margin-top:14px;font-size:13.5px;min-height:20px;color:var(--ice)}
+.coupon-tip.err{color:#ff9a9a}
+.coupon-visual{display:flex;justify-content:center;position:relative;z-index:1}
+.ticket{width:min(320px,100%);background:var(--white);color:var(--navy);border-radius:16px;padding:26px 28px;
+  transform:rotate(3deg);box-shadow:0 30px 60px rgba(0,0,0,.4);transition:transform .4s var(--ease)}
+.coupon-card:hover .ticket{transform:rotate(0deg) scale(1.03)}
+.ticket-top{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.24em;font-weight:700;color:#5a7a94}
+.ticket-value{font-size:56px;font-weight:800;letter-spacing:-.02em;margin:10px 0 4px;font-variant-numeric:tabular-nums}
+.ticket-rule{font-size:12.5px;color:#5a7a94}
+.ticket-code{margin-top:16px;padding-top:14px;border-top:2px dashed #c3d8e4;font-size:15px;font-weight:700;letter-spacing:.14em;color:var(--navy-2)}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#081625;border-top:1px solid var(--line);padding:64px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:36px;padding-bottom:48px}
+.foot-slogan{margin-top:14px;font-size:14px;color:var(--ink-dim);letter-spacing:.06em}
+.socials{display:flex;gap:12px;margin-top:22px}
+.socials a{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);transition:all .3s var(--ease)}
+.socials a svg{width:19px;height:19px}
+.socials a:hover{color:var(--navy);background:var(--ice);border-color:var(--ice);transform:translateY(-3px)}
+.foot-col h4{font-size:13px;letter-spacing:.24em;color:var(--ice);margin-bottom:18px;font-weight:700}
+.foot-col a{display:block;font-size:14.5px;color:var(--ink-dim);padding:7px 0;transition:color .25s}
+.foot-col a:hover{color:var(--white)}
+.foot-contact p{font-size:14.5px;color:var(--ink-dim);padding:7px 0;line-height:1.6}
+.foot-bottom{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.copyright{font-size:12.5px;color:var(--ink-dim);letter-spacing:.04em}
+.legal-links{display:flex;gap:22px}
+.legal-links button{font-size:13px;color:var(--ink-dim);letter-spacing:.06em;transition:color .25s}
+.legal-links button:hover{color:var(--ice)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal-mask{position:fixed;inset:0;background:rgba(4,12,22,.7);opacity:0;pointer-events:none;transition:opacity .3s;z-index:150}
+.modal-mask.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;inset:0;z-index:160;display:flex;align-items:center;justify-content:center;padding:24px;pointer-events:none}
+.modal-box{width:min(620px,100%);max-height:82vh;overflow:auto;background:var(--navy-2);border:1px solid var(--line);
+  border-radius:18px;padding:36px 34px;position:relative;opacity:0;transform:translateY(26px) scale(.98);
+  transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.modal.open{pointer-events:auto}
+.modal.open .modal-box{opacity:1;transform:none}
+.modal-close{position:absolute;top:14px;right:16px;font-size:28px;line-height:1;color:var(--ink-dim);padding:6px 10px;transition:transform .3s var(--ease),color .25s}
+.modal-close:hover{color:var(--white);transform:rotate(90deg)}
+.modal-title{font-size:21px;font-weight:800;color:var(--white);margin-bottom:20px;padding-right:40px}
+.modal-body{font-size:14.5px;line-height:2;color:var(--ink-dim)}
+.modal-body h5{color:var(--ice);font-size:15px;margin:18px 0 6px;letter-spacing:.04em}
+.modal-body h5:first-child{margin-top:0}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1100px){
+  .resort-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .menu{display:none}
+  .burger{display:flex}
+  .nav-actions .btn-sm{padding:8px 16px;font-size:12.5px}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .story-grid{grid-template-columns:1fr}
+  .coupon-card{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .section{padding:80px 0}
+}
+@media (max-width:560px){
+  .hero{min-height:calc(100svh - 96px)}
+  .hero-ctas .btn{flex:1}
+  .cards{grid-template-columns:1fr}
+  .resort-grid{grid-template-columns:1fr}
+  .coupon-form{flex-direction:column}
+  .coupon-form .btn{width:100%}
+  .foot-grid{grid-template-columns:1fr}
+  .foot-bottom{flex-direction:column;align-items:flex-start}
+  .modal{padding:0}
+  .modal-box{border-radius:0;max-height:100vh;height:100%;width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}

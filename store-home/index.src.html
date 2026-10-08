@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONO — 极简服饰</title>
+<meta name="description" content="MONO，只做更少、更好的衣服。2026 秋冬新品上市。">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<div class="announce" id="announce">秋冬新品上市 &nbsp;·&nbsp; 全场满 ¥800 免邮 &nbsp;·&nbsp; 30 天无理由退换</div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="#top" aria-label="MONO 首页">MONO<sup>®</sup></a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#products">男装</a>
+      <a href="#products">女装</a>
+      <a href="#categories">配饰</a>
+      <a href="#products" class="sale">Sale</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchBtn" aria-label="搜索">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+      </button>
+      <button class="icon-btn bag" id="bagBtn" aria-label="购物袋">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="bag-count" id="bagCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-mask" id="drawerMask"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#products">男装</a>
+    <a href="#products">女装</a>
+    <a href="#categories">配饰</a>
+    <a href="#products" class="sale">Sale</a>
+    <a href="#story">品牌故事</a>
+  </nav>
+  <div class="drawer-foot">MONO® · 只做更少、更好的衣服</div>
+</aside>
+
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+    <input id="searchInput" type="text" placeholder="搜一下：卫衣、夹克、托特包……" autocomplete="off">
+    <button class="search-close" id="searchClose" aria-label="关闭搜索">×</button>
+  </div>
+  <p class="search-hint">输入即筛选下方商品，按 Esc 关闭</p>
+</div>
+
+<main id="top">
+
+  <!-- 1. HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <p class="hero-kicker"><span class="rl-mask"><span class="rl-line">2026 秋冬 · 新品上市</span></span></p>
+      <h1 class="hero-title">
+        <span class="rl-mask"><span class="rl-line">穿上，</span></span>
+        <span class="rl-mask"><span class="rl-line">城市的<em>节奏</em>。</span></span>
+      </h1>
+      <p class="hero-sub"><span class="rl-mask"><span class="rl-line">极简廓形，日常可穿。一件，搭所有场合。</span></span></p>
+      <div class="hero-ctas"><span class="rl-mask"><span class="rl-line">
+        <a class="btn btn-primary" href="#products">立即选购</a>
+        <a class="btn btn-ghost" href="#story">看看新品</a>
+      </span></span></div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <svg class="hero-art" viewBox="0 0 600 720">
+        <rect x="60" y="40" width="480" height="640" rx="24" class="hv-bg"/>
+        <circle cx="470" cy="150" r="26" class="hv-accent"/>
+        <g class="hv-garment">
+          <path d="M300 190 C240 190 215 240 215 290 L160 315 C120 335 112 395 132 440 L168 432 C158 395 162 370 172 358 L172 620 L428 620 L428 358 C438 370 442 395 432 432 L468 440 C488 395 480 335 440 315 L385 290 C385 240 360 190 300 190 Z" class="hv-fill"/>
+          <path d="M258 265 C258 225 342 225 342 265 C342 300 258 300 258 265 Z" class="hv-hood"/>
+          <rect x="252" y="470" width="96" height="70" rx="10" class="hv-pocket"/>
+        </g>
+        <rect x="96" y="560" width="180" height="14" rx="7" class="hv-shadow"/>
+        <text x="300" y="700" text-anchor="middle" class="hv-caption">N°01 · 廓形连帽卫衣</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 2. 品类磁贴 -->
+  <section class="section" id="categories">
+    <div class="section-head reveal">
+      <h2>按场景选</h2>
+      <a class="more" href="#products">全部商品 →</a>
+    </div>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <!-- 3. 商品网格 -->
+  <section class="section" id="products">
+    <div class="section-head reveal">
+      <h2>本周热卖</h2>
+      <p class="section-note">8 件单品，每件都经得起天天穿</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="grid-empty" id="gridEmpty" hidden>没有找到匹配的商品，换个关键词试试。</p>
+  </section>
+
+  <!-- 4. 编辑故事横幅 -->
+  <section class="story" id="story">
+    <div class="story-visual" aria-hidden="true">
+      <svg viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice">
+        <rect width="1200" height="520" class="sv-bg"/>
+        <g class="sv-shapes">
+          <rect x="180" y="90" width="200" height="340" rx="8" class="sv-b1"/>
+          <rect x="420" y="160" width="140" height="270" rx="8" class="sv-b2"/>
+          <circle cx="880" cy="200" r="90" class="sv-sun"/>
+          <path d="M700 430 L820 250 L940 430 Z" class="sv-m1"/>
+          <path d="M860 430 L960 290 L1060 430 Z" class="sv-m2"/>
+          <rect x="0" y="430" width="1200" height="90" class="sv-ground"/>
+        </g>
+      </svg>
+    </div>
+    <div class="story-copy reveal">
+      <p class="story-kicker">MONO 编辑部 · 第 12 期</p>
+      <h2>少，但更好。</h2>
+      <p>我们一年只做 36 件单品。砍掉流行款，留下经得起<br>时间考验的版型——穿三年，还和第一天一样挺。</p>
+      <a class="btn btn-light" href="#products">读完整故事</a>
+    </div>
+  </section>
+
+  <!-- 5. 订阅 -->
+  <section class="subscribe reveal" id="subscribe">
+    <h2>先人一步，知道上新</h2>
+    <p>每月一封，只讲新品和穿搭。不打扰，可随时退订。</p>
+    <form class="sub-form" id="subForm">
+      <input type="email" id="subEmail" placeholder="输入你的邮箱地址" required aria-label="邮箱地址">
+      <button class="btn btn-primary" type="submit">订阅</button>
+    </form>
+    <p class="sub-ok" id="subOk" hidden>✓ 已订阅，欢迎加入。下次上新第一个通知你。</p>
+  </section>
+
+  
+
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="f-col f-brand">
+      <div class="logo">MONO<sup>®</sup></div>
+      <p>只做更少、更好的衣服。<br>设计于上海，穿行于每座城市。</p>
+    <div class="f-social" aria-label="关注 MONO">
+      <a href="#top" aria-label="微信" class="soc"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.9 4 3 6.5 3 9.6c0 1.8 1 3.4 2.5 4.4l-.6 2 2.3-1.2c.7.2 1.5.4 2.3.4h.3A5.4 5.4 0 0 1 9.5 4zm9.3 6.2c-2.9 0-5.3 2-5.3 4.5 0 2.4 2.4 4.4 5.3 4.4.6 0 1.2-.1 1.8-.3l1.9 1-.5-1.7c1.1-.8 1.8-1.9 1.8-3.1 0-2.5-2.1-4.8-5-4.8zM8.3 8.4h.1a1 1 0 1 1 0 2h-.1a1 1 0 1 1 0-2zm4.4 0h.1a1 1 0 1 1 0 2h-.1a1 1 0 1 1 0-2zm2.9 5.4h.1a.9.9 0 1 1 0 1.8h-.1a.9.9 0 1 1 0-1.8zm3.6 0h.1a.9.9 0 1 1 0 1.8h-.1a.9.9 0 1 1 0-1.8z"/></svg></a>
+      <a href="#top" aria-label="微博" class="soc"><svg viewBox="0 0 24 24"><path d="M12 8.5c-3.6 0-6.5 2.3-6.5 5.2 0 2.8 2.9 5.1 6.5 5.1 3.5 0 6.4-2.3 6.4-5.1 0-2.9-2.9-5.2-6.4-5.2zm0 8.4c-2 0-3.6-1.4-3.6-3.2s1.6-3.2 3.6-3.2 3.6 1.4 3.6 3.2-1.6 3.2-3.6 3.2zm0-5.2c-1 0-1.8.8-1.8 1.9s.8 1.9 1.8 1.9 1.8-.8 1.8-1.9-.8-1.9-1.8-1.9zM18.9 3l-1.2 1.2c2 1 3.3 2.7 3.6 4.7l1.7-.3c-.4-2.4-1.9-4.4-4.1-5.6zm-2.3 2.3l-1.1 1.1c1.3.7 2.2 1.8 2.4 3.1l1.6-.3c-.3-1.6-1.3-3-2.9-3.9z"/></svg></a>
+      <a href="#top" aria-label="小红书" class="soc"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path fill="#fff" d="M9.2 15.6l1-3.9-1.9-.5.3-1 3.1.8-.2.9 2.6.7-.3 1-1.9-.5-1 3.9-1.7-.5zm4.5-6.4c-.9-.2-1.7.4-1.9 1.3-.2.9.4 1.7 1.3 1.9.9.2 1.7-.4 1.9-1.3.2-.9-.4-1.7-1.3-1.9z"/></svg></a>
+      <a href="#top" aria-label="抖音" class="soc"><svg viewBox="0 0 24 24"><path d="M16.6 3c.4 2.1 1.8 3.6 4 3.9v3.1c-1.5 0-2.9-.5-4-1.3v6.3c0 3.4-2.6 6-6 6-3.3 0-6-2.6-6-6s2.7-6 6-6c.3 0 .7 0 1 .1v3.2c-.3-.1-.7-.2-1-.2-1.6 0-2.9 1.3-2.9 2.9s1.3 2.9 2.9 2.9 2.9-1.3 2.9-2.9V3h3.1z"/></svg></a>
+    </div>
+    </div>
+    <div class="f-col">
+      <h3>购物帮助</h3>
+      <a href="#top">尺码指南</a><a href="#top">配送说明</a><a href="#top">退换政策</a><a href="#top">订单查询</a>
+    </div>
+    <div class="f-col">
+      <h3>关于我们</h3>
+      <a href="#story">品牌故事</a><a href="#top">可持续</a><a href="#top">加入我们</a><a href="#top">媒体合作</a>
+    </div>
+    <div class="f-col">
+      <h3>客户服务</h3>
+      <a href="#top">联系客服</a><a href="#top">门店地址</a><a href="#top">会员计划</a><a href="#top">常见问题</a>
+    </div>
+    <div class="f-col">
+      <h3>关注 MONO</h3>
+      <a href="#top">微信公众号</a><a href="#top">小红书</a><a href="#top">抖音</a><a href="#top">B站</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 <span data-site="organizer"></span> · <span data-site="icp"></span></span>
+    <span class="f-links"><a href="#" data-modal="privacy">隐私政策</a><a href="#" data-modal="terms">服务条款</a><a href="#" data-modal="cookies">Cookie 政策</a><a href="#top">联系我们</a></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+<!-- 法务三件套：模态弹窗（X / 遮罩 / ESC 关闭，打开时锁滚动） -->
+<div class="legal-modal" id="modal-privacy" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="mt-privacy">
+  <div class="lm-box" role="document">
+    <button class="lm-close" type="button" aria-label="关闭">×</button>
+    <h3 id="mt-privacy">隐私政策 <small>更新于 2026 年 1 月</small></h3>
+    <ol>
+      <li><b>收集什么：</b>你在下单时填写的姓名、电话、收货地址，以及支付机构返回的订单支付状态，仅用于订单履约、配送与客服联系，不多收。</li>
+      <li><b>浏览数据：</b>设备型号、访问页面等统计信息用于优化体验，做聚合分析，不关联你的真实身份。</li>
+      <li><b>不卖数据：</b>你的个人信息不会出售、出租给任何第三方；物流、支付等合作方仅在履约必需范围内接触最小化数据。</li>
+      <li><b>你的权利：</b>随时发邮件到客服邮箱，要求查看、更正或删除你的个人信息，我们在 15 个工作日内处理完毕。</li>
+      <li><b>未成年人：</b>未满 14 周岁请在监护人陪同下提供个人信息。</li>
+    </ol>
+  </div>
+</div>
+<div class="legal-modal" id="modal-terms" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="mt-terms">
+  <div class="lm-box" role="document">
+    <button class="lm-close" type="button" aria-label="关闭">×</button>
+    <h3 id="mt-terms">服务条款 <small>更新于 2026 年 1 月</small></h3>
+    <ol>
+      <li><b>价格与库存：</b>页面展示的价格、库存以下单页实时数据为准；如遇标价错误，我们有权取消订单并全额退款。</li>
+      <li><b>退换货：</b>支持 7 天无理由退货（吊牌完整、未经洗涤穿着）；15 天内质量问题免费换货，来回运费我们承担。</li>
+      <li><b>支付安全：</b>支付走持牌第三方支付通道，全程加密传输；我们不存储你的银行卡完整卡号与密码。</li>
+      <li><b>配送说明：</b>48 小时内发出，默认快递包邮；签收时请当面验货，外包装破损可直接拒收。</li>
+      <li><b>不可抗力：</b>因极端天气、政策等不可抗力导致履约延迟或取消，我们会第一时间通知并全额退款。</li>
+    </ol>
+  </div>
+</div>
+<div class="legal-modal" id="modal-cookies" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="mt-cookies">
+  <div class="lm-box" role="document">
+    <button class="lm-close" type="button" aria-label="关闭">×</button>
+    <h3 id="mt-cookies">Cookie 政策 <small>更新于 2026 年 1 月</small></h3>
+    <ol>
+      <li><b>记住偏好：</b>用 Cookie 记住你的语言、购物袋内容等偏好，下次打开更快更顺手。</li>
+      <li><b>统计优化：</b>统计类 Cookie 帮我们看清哪些页面受欢迎，只做聚合分析，不追踪到个人。</li>
+      <li><b>自主控制：</b>你可以在浏览器设置里随时清除或禁用 Cookie；禁用后保持登录、购物袋记忆等功能可能不可用。</li>
+      <li><b>不跨站追踪：</b>我们不使用跨站追踪 Cookie，不会把你的浏览行为提供给广告商。</li>
+    </ol>
+  </div>
+</div>
+
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

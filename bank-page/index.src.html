@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>恒信银行 · 存得稳，借得快，信得过</title>
+<meta name="description" content="恒信银行 —— 存款保险全额保障，3 年期大额存单利率 2.35%，手机银行随手即办。虚构品牌演示模板。">
+<script>document.documentElement.className += ' js';</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态：藏青底 + 金线生长；窗口 load 后淡出；无 JS 由 noscript 兜底隐藏 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-line"><span></span></div>
+  <p>恒信银行 · 正在为您装配页面</p>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- 噪点 + 暗角：全页手工质感 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航：滚动超 24px 变毛玻璃 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="恒信银行首页">
+      <svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true">
+        <path d="M18 4 L30 13 V28 H6 V13 Z" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M13 28 V19 h10 v9" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+      </svg>
+      <span>恒信银行</span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#services">个人金融</a>
+      <a href="#rates">存贷利率</a>
+      <a href="#app">手机银行</a>
+      <a href="#security">安全保障</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="signin" href="#cta">登录</a>
+      <a class="btn btn-gold btn-sm" href="#cta">立即开户</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#services">个人金融</a>
+  <a href="#rates">存贷利率</a>
+  <a href="#app">手机银行</a>
+  <a href="#security">安全保障</a>
+  <div class="drawer-actions">
+    <a class="signin" href="#cta">登录</a>
+    <a class="btn btn-gold" href="#cta">立即开户</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero：藏青底 + 金点缀，利率卡片 ============ -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-ring"></div>
+      <div class="hero-ring ring2"></div>
+    </div>
+    <div class="hero-inner">
+      <a class="badge reveal" href="#rates" data-d="0">
+        <span class="badge-dot"></span>新客专享 · 大额存单利率上浮至 2.35%
+        <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <h1 class="reveal" data-d="1">钱放在恒信<br>稳稳当当</h1>
+      <p class="hero-sub reveal" data-d="2">存款保险全额保障 · 全国 <b>386 万</b>客户共同选择<br class="br-desktop">手机银行转账免手续费，开户最快 5 分钟。</p>
+      <div class="cta-row reveal" data-d="3">
+        <a class="btn btn-gold btn-lg" href="#cta">立即开户</a>
+        <a class="btn btn-outline btn-lg" href="#app">下载手机银行</a>
+      </div>
+      <p class="hero-note reveal" data-d="4">本外币存取免费 · 开户无需排队 · 7×24 小时客服</p>
+
+      <!-- 利率卡片：数字滚动计数器 -->
+      <div class="rate-cards reveal" data-d="5" id="rates">
+        <article class="rate-card">
+          <p class="rate-label">活期存款年利率</p>
+          <p class="rate-value"><span class="counter" data-count="0.15" data-decimals="2">0.00</span><em>%</em></p>
+          <p class="rate-foot">随存随取 · 当日起息</p>
+        </article>
+        <article class="rate-card hot">
+          <p class="rate-tag">新客专享</p>
+          <p class="rate-label">3 年期大额存单</p>
+          <p class="rate-value"><span class="counter" data-count="2.35" data-decimals="2">0.00</span><em>%</em></p>
+          <p class="rate-foot">20 万元起存 · 到期还本付息</p>
+        </article>
+        <article class="rate-card">
+          <p class="rate-label">首套房贷年利率</p>
+          <p class="rate-value"><span class="counter" data-count="3.05" data-decimals="2">0.00</span><em>%</em></p>
+          <p class="rate-foot">LPR-45BP · 等额本息可选</p>
+        </article>
+      </div>
+      <p class="rate-disclaimer reveal" data-d="6">* 利率为年化利率，以网点实际公示为准；存款受《存款保险条例》保护。</p>
+    </div>
+  </section>
+
+  <!-- ============ 业务矩阵：储蓄 / 理财 / 贷款 / 信用卡 ============ -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <p class="kicker reveal">个人金融</p>
+      <h2 class="reveal" data-d="1">存、理、贷、刷<br>一站备齐</h2>
+      <p class="section-sub reveal" data-d="2">四张卡，四种刚需。点进每张卡，都是恒信银行的主力产品线。</p>
+      <div class="svc-grid">
+        <article class="svc-card reveal" data-d="0">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="8" y="16" width="24" height="16" rx="2.5" fill="none" stroke="#B9975B" stroke-width="2.4"/><path d="M8 20.5h24M14 28h6" stroke="#B9975B" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="11" r="4.5" fill="none" stroke="#B9975B" stroke-width="2.4"/></svg>
+          </div>
+          <h3>安心存</h3>
+          <p class="svc-num"><span class="counter" data-count="2.35" data-decimals="2">0.00</span>% <small>3 年期年利率</small></p>
+          <p>定期、通知存款、大额存单全覆盖，提前支取靠档计息，急用钱不心疼。</p>
+          <a class="svc-link" href="#cta">了解详情
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="1">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M6 30 L16 18 L23 24 L34 9" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 9h7v7" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>恒盈理财</h3>
+          <p class="svc-num"><span class="counter" data-count="4.12" data-decimals="2">0.00</span>% <small>近一年年化收益</small></p>
+          <p>R1–R2 稳健型产品为主，每日开放赎回，风险等级写在明处，买得明白。</p>
+          <a class="svc-link" href="#cta">了解详情
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="2">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M7 13h26v14H7z" fill="none" stroke="#B9975B" stroke-width="2.4" rx="2"/><path d="M7 33v-3.5M14 33v-3.5M26 33v-3.5M33 33v-3.5" stroke="#B9975B" stroke-width="2.4" stroke-linecap="round"/><path d="M12 13V8h16v5" fill="none" stroke="#B9975B" stroke-width="2.4"/></svg>
+          </div>
+          <h3>安家贷</h3>
+          <p class="svc-num"><span class="counter" data-count="3.05" data-decimals="2">0.00</span>% <small>首套房贷年利率</small></p>
+          <p>房贷、经营贷、信用贷线上预审，最快当天出额度，提前还款不收违约金。</p>
+          <a class="svc-link" href="#cta">测算额度
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="3">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="6" y="11" width="28" height="19" rx="3" fill="none" stroke="#B9975B" stroke-width="2.4"/><path d="M6 17.5h28" stroke="#B9975B" stroke-width="2.4"/><path d="M11 24h6" stroke="#B9975B" stroke-width="2.4" stroke-linecap="round"/></svg>
+          </div>
+          <h3>恒信信用卡</h3>
+          <p class="svc-num">最长 <span class="counter" data-count="56" data-decimals="0">0</span> <small>天免息期</small></p>
+          <p>首年免年费，餐饮商超 88 折，每月 8 日还款日自动提醒，忘还也有 3 天宽限。</p>
+          <a class="svc-link" href="#cta">立即申请
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 手机银行 App 下载 ============ -->
+  <section class="section appsec" id="app">
+    <div class="wrap app-grid">
+      <div class="app-copy">
+        <p class="kicker reveal">手机银行</p>
+        <h2 class="reveal" data-d="1">银行装进口袋<br>随手即办</h2>
+        <p class="section-sub reveal" data-d="2">转账、理财、还贷、查账单，常用的都在首页。指纹一按，秒进。</p>
+        <ul class="app-feats reveal" data-d="3">
+          <li><b>转账 0 手续费</b>——同行异地、跨行，全部免费</li>
+          <li><b>账单自动分类</b>——餐饮、交通、购物，每月一目了然</li>
+          <li><b>大额转账双重验证</b>——短信 + 刷脸，盗刷先过我们这关</li>
+        </ul>
+        <div class="store-row reveal" data-d="4">
+          <a class="store-btn" href="#cta" aria-label="前往 App Store 下载">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.06-4.4 1.06-.91 0-2.31-1.03-3.8-1-1.95.03-3.75 1.14-4.76 2.88-2.03 3.52-.52 8.74 1.46 11.6.97 1.4 2.12 2.97 3.63 2.91 1.46-.06 2.01-.94 3.77-.94s2.26.94 3.8.91c1.57-.03 2.57-1.42 3.53-2.83 1.11-1.62 1.57-3.19 1.6-3.27-.04-.02-3.07-1.18-3.1-4.7zM14.16 4.06c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z" fill="currentColor"/></svg>
+            <span><small>下载 on the</small>App Store</span>
+          </a>
+          <a class="store-btn" href="#cta" aria-label="前往应用宝下载">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2l8 4.5v9L12 22l-8-6.5v-9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 22V11.5M12 11.5L4 6.5M12 11.5l8-5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+            <span><small>下载</small>应用宝</span>
+          </a>
+        </div>
+        <p class="app-note reveal" data-d="5">4.9 分 · 120 万条评价 · 连续三年获评"最佳手机银行"</p>
+      </div>
+
+      <!-- 手机 mock：纯 CSS 画的手机银行首页 -->
+      <div class="phone reveal" data-d="2" aria-hidden="true">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="ps-greet"><p>早上好，李先生</p><span>尾号 6688</span></div>
+          <div class="ps-balance">
+            <p>总资产（元）</p>
+            <p class="ps-money">286,540.75</p>
+            <p class="ps-yield">昨日收益 +18.62</p>
+          </div>
+          <div class="ps-actions">
+            <span><i></i>转账</span><span><i></i>理财</span><span><i></i>还贷</span><span><i></i>扫一扫</span>
+          </div>
+          <div class="ps-bill">
+            <p>本月支出 <b>12,480</b></p>
+            <div class="ps-bars">
+              <i style="height:72%"></i><i style="height:44%"></i><i style="height:88%"></i><i style="height:58%"></i><i style="height:35%"></i><i style="height:64%"></i><i style="height:50%"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 安全承诺：数字滚动 + 三承诺 ============ -->
+  <section class="section security" id="security">
+    <div class="wrap">
+      <p class="kicker reveal">安全保障</p>
+      <h2 class="reveal" data-d="1">你的每一分钱<br>都有人看守</h2>
+      <p class="section-sub reveal" data-d="2">三道防线，从登录那一刻起全程在线。被盗刷，我们全额赔付。</p>
+      <div class="stat-row reveal" data-d="3">
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="386" data-decimals="0">0</span><em>万</em></p>
+          <p class="stat-label">服务个人客户</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="1.2" data-decimals="1">0.0</span><em>万亿</em></p>
+          <p class="stat-label">累计发放贷款</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="98.6" data-decimals="1">0.0</span><em>%</em></p>
+          <p class="stat-label">客户满意度</p>
+        </div>
+      </div>
+      <div class="sec-grid">
+        <article class="sec-card reveal" data-d="0">
+          <div class="sec-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M20 5l11 4v9c0 7-4.5 12-11 15C13.5 30 9 25 9 18V9z" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/><path d="M15 19l4 4 7-8" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>盗刷全额赔付</h3>
+          <p>经核实为盗刷的交易，72 小时内先行赔付，再追查，不让你垫一分钱。</p>
+        </article>
+        <article class="sec-card reveal" data-d="1">
+          <div class="sec-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="9" y="17" width="22" height="15" rx="3" fill="none" stroke="#B9975B" stroke-width="2.6"/><path d="M13.5 17v-4a6.5 6.5 0 0113 0v4" fill="none" stroke="#B9975B" stroke-width="2.6"/><circle cx="20" cy="24" r="2.2" fill="#B9975B"/></svg>
+          </div>
+          <h3>金融级加密</h3>
+          <p>全链路国密算法加密传输，密码分段存储，内部人员也看不到你的明文。</p>
+        </article>
+        <article class="sec-card reveal" data-d="2">
+          <div class="sec-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="13" fill="none" stroke="#B9975B" stroke-width="2.6"/><path d="M20 12v8l6 4" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round"/><path d="M7 7l5 5M33 7l-5 5" stroke="#B9975B" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>实时交易风控</h3>
+          <p>每一笔转账都在 0.3 秒内过一遍风控模型，异地大额自动触发二次验证。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <div class="cta-panel reveal">
+        <p class="kicker kicker-light">限时优惠</p>
+        <h2>现在开户<br>首年免收账户管理费</h2>
+        <p>手机 5 分钟开好二类户，大额存单新客利率即刻生效。<br class="br-desktop">已有 <b>386 万</b>人和你做了同样的选择。</p>
+        <div class="cta-row">
+          <a class="btn btn-gold btn-lg" href="#top">立即开户</a>
+          <a class="btn btn-outline-light btn-lg" href="#app">先看看手机银行</a>
+        </div>
+        <p class="cta-note">开户需年满 18 周岁并持有有效身份证件 · 详情咨询 955XX</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="恒信银行首页">
+          <svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true">
+            <path d="M18 4 L30 13 V28 H6 V13 Z" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+            <path d="M13 28 V19 h10 v9" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+          </svg>
+          <span>恒信银行</span>
+        </a>
+        <p class="foot-slogan">存得稳，借得快，信得过。</p>
+        <div class="social">
+          <a href="#top" aria-label="官方微信" title="官方微信"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.9 4 3 6.4 3 9.4c0 1.7.9 3.2 2.3 4.2l-.9 2.6 3-1.5c.6.2 1.4.3 2.1.3h.3c-.2-1.9 1.1-4.4 3.2-5.5-1-1-3-1.5-3.5-1.5zM18 9c-3 0-5.5 2-5.5 4.5S15 18 18 18c.6 0 1.2-.1 1.8-.3l2.7 1.3-.8-2.3c1.2-.9 2-2.1 2-3.2C23.5 11 21 9 18 9zM8 7.5h.01M11 7.5h.01M16.5 12h.01M19.5 12h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+          <a href="#top" aria-label="官方微博" title="官方微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.4c-3.9 0-6.6-2.3-6.6-5.3 0-1.5.7-2.8 1.8-3.7-.2 2.6 1.5 5 4.2 5.6 2 .5 4.2-.2 5.3-1.4-.4 2.6-2.2 4.8-4.7 4.8zm9.3-9.6c-.6-.2-1 .2-1.2.7l-.4 1.3c-2.2-.4-4.3.3-5.3 1.6.4-2.2 2.2-3.9 4.6-4.2l1.2 1.1c.4.4 1 .5 1.4.1.4-.5.2-1.2-.3-1.6zm-2-3.3c-4.3-.9-8.6 1-9.9 4.6-.3.9-.5 1.8-.4 2.7.3-3.3 3-5.9 6.5-6.2 2-.2 4 .4 5.4 1.5l-.6-1c-.4-.7-.3-1.4 0-1.6z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="官方抖音" title="官方抖音"><svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.9 3.8 4.5 4v3c-1.7 0-3.2-.5-4.5-1.5v6.6c0 3.4-2.4 5.9-5.7 5.9-3.1 0-5.6-2.4-5.6-5.5 0-3.2 2.6-5.7 6-5.5v3.2c-1.5-.3-2.9.7-2.9 2.3 0 1.4 1.1 2.4 2.5 2.4 1.5 0 2.6-1.1 2.6-2.8V3h3.1z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="官方客服热线" title="客服热线 955XX"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5c.8 2.3 2.7 4.2 5 5L15 13l5 2v4c-6.5 1-14.5-3.5-15-15z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-col" aria-label="产品服务">
+        <h4>产品服务</h4>
+        <a href="#services">个人储蓄</a>
+        <a href="#services">财富管理</a>
+        <a href="#services">个人贷款</a>
+        <a href="#services">信用卡</a>
+      </nav>
+      <nav class="foot-col" aria-label="帮助支持">
+        <h4>帮助支持</h4>
+        <a href="#app">手机银行下载</a>
+        <a href="#security">安全中心</a>
+        <a href="#rates">利率查询</a>
+        <a href="#cta">网点查询</a>
+      </nav>
+      <nav class="foot-col" aria-label="关于恒信">
+        <h4>关于恒信</h4>
+        <a href="#top">银行简介</a>
+        <a href="#top">投资者关系</a>
+        <a href="#top">人才招聘</a>
+        <a href="#top">社会责任</a>
+      </nav>
+      <div class="foot-col" aria-label="法律信息">
+        <h4>法律</h4>
+        <button class="foot-link" data-modal="privacy">隐私政策</button>
+        <button class="foot-link" data-modal="terms">服务条款</button>
+        <button class="foot-link" data-modal="cookie">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-contact">
+      <span>客服热线 <a data-site="phone">955XX</a></span>
+      <span>联系邮箱 <a data-site="email">service@evertrust-bank.cn</a></span>
+      <span>总行地址 <span data-site="address">上海市浦东新区陆家嘴环路 1000 号</span></span>
+    </div>
+    <div class="foot-legal">
+      <p>© 2026 <span data-site="name">恒信银行</span>股份有限公司 · 金融许可证号 HX20260001 · <span data-site="icp">沪ICP备xxxxxx号</span></p>
+      <p class="foot-virtual">本站为虚构品牌「恒信银行」的页面设计模板演示，利率与产品信息均为示例，不构成任何金融建议。</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ 法务三件套弹窗 ============ -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+    </div>
+    <p class="modal-updated" id="modalUpdated"></p>
+    <ol class="modal-points" id="modalPoints"></ol>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

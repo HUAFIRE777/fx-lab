@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AURA X1 — Global Launch</title>
+<meta name="description" content="AURA X1 wireless flagship — global launch countdown.">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/addons/"
+  }
+}
+</script>
+</head>
+<body>
+
+<canvas id="gl"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<div id="loader">
+  <div class="lword">CALIBRATING</div>
+  <div class="ltrack"><div id="loadBar"></div></div>
+  <div id="loadPct">00</div>
+</div>
+
+<header class="topbar">
+  <div class="brand" id="brandName">AURA<sup>®</sup></div>
+  <div id="topRight">X1 FLAGSHIP · GLOBAL LAUNCH</div>
+</header>
+
+<main class="stage">
+  <div id="countdownWrap">
+    <p class="eyebrow" id="eyebrow">GLOBAL LAUNCH IN</p>
+    <div class="clock" id="clock" role="timer" aria-label="countdown"></div>
+    <p class="product-name" id="productName"></p>
+  </div>
+</main>
+
+<footer class="bottombar">
+  <div id="notifyWrap">
+    <form class="notify-form" id="notifyForm">
+      <input id="notifyInput" type="email" autocomplete="email" aria-label="email">
+      <button type="submit">NOTIFY ME</button>
+    </form>
+  </div>
+  <p class="fine" id="finePrint"></p>
+</footer>
+
+<div class="reveal" id="reveal" hidden>
+  <p class="eyebrow" id="revealEyebrow"></p>
+  <h1 id="revealTitle"></h1>
+  <p class="price" id="revealPrice"></p>
+  <a class="cta" id="ctaBtn" href="#"></a>
+</div>
+
+<div id="flash"></div>
+
+<div id="modelError" hidden>
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="#f4f1e8" stroke-width="2">
+    <path d="M14 44 V34 a22 22 0 0 1 44 0 v10"/>
+    <rect x="10" y="40" width="10" height="18" rx="5"/>
+    <rect x="52" y="40" width="10" height="18" rx="5"/>
+  </svg>
+  <p>3D MODEL UNAVAILABLE</p>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

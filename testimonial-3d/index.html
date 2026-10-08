@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab · MIT License — free for commercial use (see LICENSE) -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Words — 3D Testimonial Wall</title>
+<meta name="description" content="A reusable 3D testimonial wall template: depth-stacked review cards, drag to switch, canvas-generated avatars, logo marquee. Original implementation.">
+<style>
+/* huafire3d fx-lab · MIT License — free for commercial use
+ * Design system: warm editorial paper, ink text, single persimmon accent.
+ * Easing token mirrors the JS-free CSS transitions used by the deck.
+ */
+:root {
+  --paper: #f6f1e7;
+  --paper-2: #fffdf8;
+  --ink: #1c1712;
+  --muted: #7d7263;
+  --line: rgba(28, 23, 18, 0.14);
+  --accent: #d95d2b;
+  --accent-deep: #b34a20;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --serif: Georgia, "Times New Roman", "Songti SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* 纸面暖光 + 颗粒：手工感的两个来源 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1100px 520px at 50% -8%, rgba(217, 93, 43, 0.07), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="180" height="180" filter="url(%23n)" opacity="0.55"/></svg>');
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 200;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+.page { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+/* ---------- header ---------- */
+.hero { text-align: center; padding: clamp(72px, 11vh, 132px) 0 clamp(40px, 6vh, 64px); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--line);
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.7rem, 6.4vw, 4.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+h1 em { font-style: italic; color: var(--accent-deep); }
+
+.sub {
+  margin: 22px auto 0;
+  max-width: 54ch;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.6vw, 1.13rem);
+  line-height: 1.7;
+}
+
+/* 入场：只有 JS 成功挂载才隐藏再升起，保证无 JS 时内容可见 */
+.js .reveal { opacity: 0; transform: translateY(26px); }
+.js body.ready .reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+
+/* ---------- 3D stage ---------- */
+.stage { position: relative; outline: none; }
+.stage:focus-visible { box-shadow: 0 0 0 2px var(--accent); border-radius: 24px; }
+
+.viewport {
+  perspective: 1600px;
+  cursor: grab;
+  touch-action: pan-y;
+  padding: clamp(8px, 2vh, 24px) 0;
+}
+.stage.dragging .viewport { cursor: grabbing; }
+.stage.dragging { user-select: none; -webkit-user-select: none; }
+
+.deck {
+  display: grid;
+  place-items: center;
+  /* 注意：不能用 preserve-3d —— 卡片带 filter:blur() 时 Chromium 会把
+     3D 场景压平按 DOM 顺序绘制，导致最后一张卡盖住第一张。
+     用默认 flat，靠 z-index 排序；translateZ/rotateY 仍吃 .viewport 的 perspective。 */
+}
+
+.card {
+  grid-area: 1 / 1;
+  width: min(600px, 88vw);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(28px, 4vw, 44px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -32px rgba(28, 23, 18, 0.28), 0 2px 6px rgba(28, 23, 18, 0.05);
+  transition: transform 0.85s var(--ease), opacity 0.6s ease, filter 0.85s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  will-change: transform, opacity;
+}
+.stage.dragging .card { transition: none; }
+
+/* 卡片顶部一笔浆果色：克制的点睛 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: clamp(28px, 4vw, 44px);
+  width: 46px; height: 3px;
+  background: var(--accent);
+  border-radius: 0 0 3px 3px;
+}
+/* 右下角大引号水印 */
+.card::after {
+  content: "\201D";
+  position: absolute;
+  right: 18px; bottom: -38px;
+  font-family: var(--serif);
+  font-size: 150px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.stars { display: inline-flex; gap: 4px; }
+.star { width: 15px; height: 15px; color: rgba(28, 23, 18, 0.18); }
+.star svg { width: 100%; height: 100%; fill: currentColor; display: block; }
+.star.on { color: var(--accent); }
+.card-index { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--muted); }
+
+.card blockquote {
+  font-family: var(--serif);
+  font-size: clamp(1.12rem, 2.1vw, 1.42rem);
+  line-height: 1.58;
+  letter-spacing: 0.002em;
+}
+.card blockquote::before { content: "\201C"; color: var(--accent-deep); margin-right: 2px; }
+
+.card footer { display: flex; align-items: center; gap: 14px; margin-top: 28px; }
+.avatar {
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  flex: none;
+  -webkit-user-drag: none;
+  box-shadow: 0 4px 12px rgba(28, 23, 18, 0.18);
+}
+.who .name { font-weight: 650; font-size: 15px; }
+.who .role { color: var(--muted); font-size: 13px; margin-top: 3px; }
+
+.card.is-active:hover {
+  border-color: rgba(217, 93, 43, 0.45);
+  box-shadow: 0 38px 70px -32px rgba(28, 23, 18, 0.34), 0 2px 6px rgba(28, 23, 18, 0.05);
+}
+.card img { user-select: none; }
+
+/* 两侧箭头 */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 253, 248, 0.8);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.45s var(--ease), background 0.3s ease, border-color 0.3s ease;
+  z-index: 40;
+}
+.nav svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nav.prev { left: clamp(0px, 2vw, 24px); }
+.nav.next { right: clamp(0px, 2vw, 24px); }
+.nav:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateY(-50%) scale(1.08); }
+.nav:active { transform: translateY(-50%) scale(0.96); }
+.nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- controls ---------- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  margin-top: clamp(18px, 3vh, 30px);
+}
+.dots { display: flex; gap: 8px; }
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 99px;
+  border: none;
+  background: rgba(28, 23, 18, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.5s var(--ease), background 0.3s ease;
+}
+.dot:hover { background: rgba(28, 23, 18, 0.45); }
+.dot.on { width: 30px; background: var(--accent); }
+.dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.progress { width: 110px; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 2px; }
+
+.counter { font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; color: var(--muted); min-width: 64px; }
+
+/* ---------- stats ---------- */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(32px, 7vw, 84px);
+  margin: clamp(44px, 7vh, 72px) auto 0;
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  max-width: 760px;
+  text-align: center;
+}
+.stat .v { font-family: var(--serif); font-size: 30px; }
+.stat .v sup { font-size: 16px; color: var(--accent-deep); }
+.stat .l { margin-top: 6px; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- logo wall ---------- */
+.logos { margin: clamp(56px, 9vh, 96px) 0 0; text-align: center; }
+.logos .cap { font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--muted); margin-bottom: 30px; }
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.track { display: flex; width: max-content; }
+.track.animate { animation: scroll 32s linear infinite; }
+.marquee:hover .track.animate { animation-play-state: paused; }
+@keyframes scroll { to { transform: translateX(-50%); } }
+.group { display: flex; align-items: center; gap: 88px; padding-right: 88px; }
+.wordmark { color: rgba(28, 23, 18, 0.5); white-space: nowrap; transition: color 0.3s ease; cursor: default; }
+.wordmark:hover { color: var(--ink); }
+.wm-spaced { font-size: 13px; font-weight: 700; letter-spacing: 0.34em; }
+.wm-serif { font-family: var(--serif); font-size: 23px; }
+.wm-bold { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.wm-round { font-size: 21px; font-weight: 600; letter-spacing: -0.03em; }
+.wm-serif-it { font-family: var(--serif); font-style: italic; font-size: 22px; }
+.wm-mono { font-family: var(--mono); font-size: 14px; letter-spacing: 0.14em; }
+
+/* ---------- footer ---------- */
+.colophon {
+  text-align: center;
+  padding: clamp(48px, 8vh, 80px) 0 56px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 2;
+}
+.colophon .rule { width: 44px; height: 1px; background: var(--line); margin: 0 auto 20px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 760px) {
+  .nav { display: none; }
+  .card::after { font-size: 110px; bottom: -28px; }
+  .stats { gap: 28px; }
+  .stat .v { font-size: 24px; }
+  .group { gap: 56px; padding-right: 56px; }
+  .progress { width: 70px; }
+}
+
+/* ---------- reduced motion ---------- */
+.reduced .js .reveal, .reduced .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+.reduced .card { transition: none !important; }
+.reduced .track.animate { animation: none; }
+.reduced .dot { transition: none; }
+
+</style>
+<script>document.documentElement.className += " js";document.addEventListener("DOMContentLoaded", function () { requestAnimationFrame(function () { document.body.classList.add("ready"); }); });</script>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow reveal" style="--d:.0s">Client words</p>
+    <h1 class="reveal" style="--d:.08s">Loved by teams<br>who <em>ship</em>.</h1>
+    <p class="sub reveal" style="--d:.16s">Unedited notes from founders, engineers and marketers who put these templates into production — drag the cards, or let them speak for themselves.</p>
+  </header>
+
+  <section class="wall reveal" style="--d:.22s" aria-label="Testimonials">
+    <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Customer testimonials. Use left and right arrow keys to navigate.">
+      <div class="viewport">
+        <div class="deck"><!-- cards injected by src/carousel.js --></div>
+      </div>
+      <button class="nav prev" aria-label="Previous testimonial">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="nav next" aria-label="Next testimonial">
+        <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="controls">
+      <div class="dots" role="tablist" aria-label="Choose testimonial"></div>
+      <div class="progress" aria-hidden="true"><i></i></div>
+      <div class="counter" aria-hidden="true">01 — 06</div>
+    </div>
+  </section>
+
+  <section class="stats reveal" style="--d:.28s" aria-label="Highlights">
+    <div class="stat"><div class="v">4.9<sup>/5</sup></div><div class="l">average rating</div></div>
+    <div class="stat"><div class="v">2,400+</div><div class="l">teams shipping</div></div>
+    <div class="stat"><div class="v">38</div><div class="l">countries</div></div>
+  </section>
+
+  <section class="logos reveal" style="--d:.34s" id="logos" aria-label="Trusted by">
+    <p class="cap">In good company</p>
+    <div class="marquee"><div class="track"><!-- wordmarks injected by src/logos.js --></div></div>
+  </section>
+
+  <footer class="colophon">
+    <div class="rule"></div>
+    A reusable template — edit <span style="font-family:var(--mono)">src/config.js</span> to make it yours.<br>
+    huafire3d fx-lab · MIT License
+  </footer>
+
+</div>
+<script type="module">
+var y={autoplayMs:5500,sidePeek:!0,testimonials:[{quote:"We replaced our homepage hero with their 3D template on a Friday afternoon. By Monday, demo bookings were up 31%. I keep waiting for the catch \u2014 there isn't one.",name:"Maya Chen",role:"Founder",company:"Northwind",rating:5,hue:[16,38]},{quote:"The configurator paid for itself in a week. Customers spin the product, change the finish, and the price updates live. Returns on configured orders dropped by half.",name:"Jonas Weber",role:"Product Lead",company:"Vantage",rating:5,hue:[212,258]},{quote:"I'm picky about motion. Most template animation feels like a screensaver \u2014 this feels considered. The easing, the restraint. Our brand team approved it in one review.",name:"Priya Nair",role:"Design Director",company:"Fieldnote",rating:5,hue:[328,292]},{quote:"Cleanest template code I've bought. One CONFIG object, no dependency soup, and the single-file build actually works offline. I had it in our pipeline within the hour.",name:"Tom Okafor",role:"Frontend Engineer",company:"Kiln",rating:4,hue:[152,192]},{quote:"We A/B tested the testimonial wall against our old logo slider. Time on page went up 42 seconds. Forty-two seconds \u2014 on a testimonials section.",name:"Sofia Marchetti",role:"CMO",company:"Loomly",rating:5,hue:[266,214]},{quote:"We ship client sites with these as the starting point now. It used to take three weeks to reach this level of polish. Now it's the first draft, not the finish line.",name:"Daniel Reyes",role:"Principal",company:"Osmo Studio",rating:5,hue:[22,342]}],logos:[{text:"NORTHWIND",cls:"wm-spaced"},{text:"Vantage",cls:"wm-serif"},{text:"FIELDNOTE",cls:"wm-bold"},{text:"loomly",cls:"wm-round"},{text:"Kiln&Co",cls:"wm-serif-it"},{text:"OSMO",cls:"wm-mono"},{text:"Papertrail",cls:"wm-serif"},{text:"HELIX",cls:"wm-spaced"}],stats:[{value:"4.9",label:"average rating"},{value:"2,400+",label:"teams shipping"},{value:"38",label:"countries"}]};function O(e,r){let c=document.createElement("canvas");c.width=c.height=112;let n=c.getContext("2d"),i=n.createLinearGradient(0,0,112,112);i.addColorStop(0,"hsl("+r[0]+", 40%, 60%)"),i.addColorStop(1,"hsl("+r[1]+", 46%, 42%)"),n.fillStyle=i,n.beginPath(),n.arc(112/2,112/2,112/2,0,Math.PI*2),n.fill();let d=n.createRadialGradient(112*.36,112*.3,112*.05,112*.36,112*.3,112*.55);d.addColorStop(0,"rgba(255,255,255,.28)"),d.addColorStop(1,"rgba(255,255,255,0)"),n.fillStyle=d,n.beginPath(),n.arc(112/2,112/2,112/2,0,Math.PI*2),n.fill();let f=n.createRadialGradient(112/2,112/2,112*.25,112/2,112/2,112/2);f.addColorStop(0,"rgba(0,0,0,0)"),f.addColorStop(1,"rgba(0,0,0,.20)"),n.fillStyle=f,n.beginPath(),n.arc(112/2,112/2,112/2,0,Math.PI*2),n.fill();let u=e.split(/\s+/).map(function(s){return s[0]}).slice(0,2).join("").toUpperCase();return n.fillStyle="rgba(255,255,255,.95)",n.font="600 "+Math.round(112*.34)+"px Georgia, 'Times New Roman', serif",n.textAlign="center",n.textBaseline="middle",n.fillText(u,112/2,112/2+2),c.toDataURL("image/png")}var W='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.7l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.6l-5.8 3.1 1.1-6.5L2.6 9.6l6.5-1z"/></svg>';function X(e){for(var r='<div class="stars" role="img" aria-label="'+e+' out of 5 stars">',m=1;m<=5;m++)r+='<span class="star'+(m<=e?" on":"")+'">'+W+"</span>";return r+"</div>"}function C(e){return(e<10?"0":"")+e}function P(e){var r=e.closest(".wall")||document,m=e.querySelector(".deck"),c=r.querySelector(".dots"),n=r.querySelector(".counter"),i=r.querySelector(".progress i"),d=e.querySelector(".nav.prev"),f=e.querySelector(".nav.next"),u=y.testimonials,s=u.length,A=window.matchMedia("(prefers-reduced-motion: reduce)").matches,S=window.matchMedia("(max-width: 760px)").matches,w=S?{x:88,z:150,ry:13,blur:2.2,fade:.5}:{x:74,z:190,ry:15,blur:1.6,fade:.38},q=u.map(function(t,a){var o=document.createElement("article");return o.className="card",o.setAttribute("aria-hidden","true"),o.innerHTML='<div class="card-top">'+X(t.rating)+'<span class="card-index">'+C(a+1)+" / "+C(s)+"</span></div><blockquote>"+t.quote+'</blockquote><footer><img class="avatar" alt="" src="'+O(t.name,t.hue)+'"><div class="who"><div class="name">'+t.name+'</div><div class="role">'+t.role+" \xB7 "+t.company+"</div></div></footer>",m.appendChild(o),o}),R=u.map(function(t,a){var o=document.createElement("button");return o.className="dot",o.setAttribute("aria-label","Go to testimonial "+(a+1)),o.addEventListener("click",function(){h(a)}),c.appendChild(o),o}),l=0,M=null,p=!1,F=0,x=0,k=!1;function G(t){var a=(t-l)%s;return a>s/2&&(a-=s),a<-s/2&&(a+=s),a}function L(t){t=t||0;for(var a=0;a<s;a++){var o=G(a)+t,v=Math.abs(o),g=q[a],D=v<=2.25,I=Math.round(o)===0&&Math.abs(t)<.5;g.style.opacity=D?String(Math.max(0,1-v*w.fade)):"0",g.style.transform="translateX("+(o*w.x).toFixed(2)+"%) translateZ("+(-v*w.z).toFixed(1)+"px) rotateY("+(o*-w.ry).toFixed(2)+"deg) scale("+(1-v*.07).toFixed(3)+")",g.style.filter=v>.04?"blur("+(v*w.blur).toFixed(1)+"px)":"none",g.style.zIndex=String(30-Math.round(v*10)),g.style.pointerEvents=I&&!p?"auto":"none",g.classList.toggle("is-active",I),g.setAttribute("aria-hidden",I?"false":"true")}R.forEach(function(z,B){z.classList.toggle("on",B===l)}),n.textContent=C(l+1)+" \u2014 "+C(s)}function b(){E(),!(A||!y.autoplayMs)&&(i.style.transition="none",i.style.width="0%",i.offsetWidth,i.style.transition="width "+y.autoplayMs+"ms linear",i.style.width="100%",M=setTimeout(function(){h(l+1)},y.autoplayMs))}function E(){M&&(clearTimeout(M),M=null),i.style.transition="none"}function h(t){l=(t%s+s)%s,L(0),b()}e.addEventListener("pointerdown",function(t){t.target.closest("button")||(p=!0,F=t.clientX,x=0,e.classList.add("dragging"),e.setPointerCapture(t.pointerId),E())}),e.addEventListener("pointermove",function(t){if(p){var a=q[0].offsetWidth||1;x=Math.max(-1.4,Math.min(1.4,(t.clientX-F)/(a*.55))),L(x)}});function N(){p&&(p=!1,e.classList.remove("dragging"),x<-.32?h(l+1):x>.32?h(l-1):(L(0),b()),x=0)}e.addEventListener("pointerup",N),e.addEventListener("pointercancel",N),e.addEventListener("pointerenter",function(){k=!0,E()}),e.addEventListener("pointerleave",function(){k=!1,p||b()}),e.addEventListener("focusin",function(){E()}),e.addEventListener("focusout",function(){p||b()}),document.addEventListener("visibilitychange",function(){document.hidden?E():!k&&!p&&b()}),d.addEventListener("click",function(){h(l-1)}),f.addEventListener("click",function(){h(l+1)}),e.addEventListener("keydown",function(t){t.key==="ArrowLeft"?h(l-1):t.key==="ArrowRight"&&h(l+1)}),window.addEventListener("resize",function(){S=window.matchMedia("(max-width: 760px)").matches,w=S?{x:88,z:150,ry:13,blur:2.2,fade:.5}:{x:74,z:190,ry:15,blur:1.6,fade:.38},L(0)}),L(0),b()}function T(e){var r=e.querySelector(".track"),m=window.matchMedia("(prefers-reduced-motion: reduce)").matches;function c(){var d=document.createElement("div");return d.className="group",d.setAttribute("aria-hidden","false"),y.logos.forEach(function(f){var u=document.createElement("span");u.className="wordmark "+f.cls,u.textContent=f.text,d.appendChild(u)}),d}var n=c();if(r.appendChild(n),!m){var i=c();i.setAttribute("aria-hidden","true"),r.appendChild(i),r.classList.add("animate")}}document.addEventListener("DOMContentLoaded",function(){window.matchMedia("(prefers-reduced-motion: reduce)").matches&&document.documentElement.classList.add("reduced"),P(document.getElementById("stage")),T(document.getElementById("logos"))});
+
+</script>
+</body>
+</html>

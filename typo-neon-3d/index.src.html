@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>疾速 · 林跃 2026 赛季宣言 — typo-neon-3d</title>
+<meta name="description" content="巨型排印 + 单霓虹色 + 3D 点缀。虚构赛车手林跃的赛季宣言页。">
+<style>
+/* ============ typo-neon-3d · 严格双色：#0A0A0A + #D2FF00 ============ */
+:root{
+  --ink:#0A0A0A;
+  --neon:#D2FF00;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--ink);color:var(--neon)}
+body{
+  font-family:var(--font);
+  background:var(--ink);
+  color:var(--neon);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--neon);color:var(--ink)}
+
+/* ---------- 固定层 ---------- */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+#bg canvas{display:block}
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 45%, transparent 52%, rgba(10,10,10,.62) 100%);
+}
+.grain{
+  position:fixed;inset:-50%;width:200%;height:200%;z-index:4;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.824 0 0 0 0 1 0 0 0 0 0 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 0.9s steps(4) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,2%)}100%{transform:translate(0,0)}
+}
+.progress{
+  position:fixed;top:0;left:0;height:2px;width:100%;z-index:20;
+  background:var(--neon);transform-origin:0 50%;transform:scaleX(0);
+  box-shadow:0 0 12px rgba(210,255,0,.8);
+}
+
+/* ---------- 顶栏 ---------- */
+.hdr{
+  position:fixed;top:0;left:0;right:0;z-index:15;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px clamp(20px,4vw,56px);
+  pointer-events:none;
+}
+.hdr .logo{font-weight:900;letter-spacing:.35em;font-size:13px;pointer-events:auto}
+.hdr nav{display:flex;gap:clamp(12px,2.4vw,34px);pointer-events:auto}
+.hdr nav a{
+  color:var(--neon);text-decoration:none;font-size:12px;letter-spacing:.3em;
+  opacity:.55;transition:opacity .4s var(--ease),text-shadow .4s var(--ease);
+}
+.hdr nav a:hover{opacity:1;text-shadow:0 0 14px rgba(210,255,0,.9);animation:breathe 1.8s ease-in-out infinite}
+
+/* ---------- 加载态（仅 JS 生效，无 JS 直接隐藏，保证完成态可达） ---------- */
+.loader{
+  position:fixed;inset:0;z-index:50;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+}
+html:not(.js) .loader{display:none}
+.loader .t{font-size:12px;letter-spacing:.7em;text-indent:.7em;color:rgba(210,255,0,.75);font-weight:700}
+.loader .bar{width:min(300px,58vw);height:2px;background:rgba(210,255,0,.14);overflow:hidden}
+.loader .bar i{display:block;height:100%;width:38%;background:var(--neon);animation:load 1s var(--ease) infinite}
+@keyframes load{0%{transform:translateX(-110%)}100%{transform:translateX(320%)}}
+.js.done .loader{opacity:0;pointer-events:none;transition:opacity .7s var(--ease)}
+
+/* ---------- 主体 ---------- */
+main{position:relative;z-index:5}
+
+/* 首屏：巨型排印 */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(20px,5vw,72px);position:relative;
+}
+.hero .kicker{
+  font-size:12px;letter-spacing:.55em;font-weight:700;margin-bottom:3vh;
+  color:var(--neon);
+}
+.hero .kicker .tag{
+  display:inline-block;border:1px solid rgba(210,255,0,.45);
+  padding:.7em 1.4em;margin-right:1.2em;
+}
+.mega{
+  font-size:clamp(7rem,30vw,24rem);
+  font-weight:900;line-height:.94;letter-spacing:-.05em;
+  user-select:none;
+}
+.mega .mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em;margin-bottom:-.06em}
+.mega .ch{display:inline-block;will-change:transform}
+/* 逐字 clip-path 上场：只在 html.js 下隐藏，保证无 JS 也可达完成态 */
+.js .mega .ch{transform:translateY(112%)}
+.js.done .mega .ch{
+  transform:translateY(0);
+  transition:transform 1.1s var(--ease);
+  transition-delay:calc(var(--i)*110ms + 150ms);
+}
+.mega .ch.hollow{color:transparent;-webkit-text-stroke:clamp(2px,.4vw,6px) var(--neon)}
+.hero .sub{
+  margin-top:4vh;font-size:clamp(1rem,2.2vw,1.5rem);font-weight:700;letter-spacing:.12em;
+  color:rgba(210,255,0,.85);
+}
+.hero .sub .u{border-bottom:2px solid var(--neon);padding-bottom:.15em}
+.js .hero .fade{opacity:0;transform:translateY(26px)}
+.js.done .hero .fade{
+  opacity:1;transform:none;
+  transition:opacity .9s var(--ease),transform .9s var(--ease);
+  transition-delay:calc(var(--i,0)*140ms + 700ms);
+}
+.scrollhint{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.5em;text-indent:.5em;color:rgba(210,255,0,.55);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.scrollhint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--neon),transparent);animation:drop 1.8s var(--ease) infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* 章节：pin 式停留 */
+.chapter{position:relative;height:270vh}
+.pin{
+  position:sticky;top:0;height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(20px,6vw,96px);overflow:hidden;
+}
+.sec-tag{
+  font-family:var(--mono);font-size:12px;letter-spacing:.45em;margin-bottom:4.5vh;
+  color:var(--neon);display:flex;align-items:center;gap:14px;
+}
+.sec-tag::before{content:"";width:34px;height:1px;background:var(--neon)}
+.lines .ln{
+  font-size:clamp(1.9rem,5.6vw,4.6rem);
+  font-weight:900;letter-spacing:-.015em;line-height:1.22;
+  margin:.14em 0;will-change:clip-path,transform;
+}
+/* 导演剪辑式逐行切入：只在 html.js 下隐藏 */
+.js .lines .ln{opacity:0;transform:translateY(64px);clip-path:inset(-12% -4% 112% -4%)}
+.js .lines .ln.on{
+  opacity:1;transform:none;clip-path:inset(-12% -4% -12% -4%);
+  transition:opacity .8s var(--ease),transform 1s var(--ease),clip-path 1s var(--ease);
+  transition-delay:calc(var(--i)*130ms);
+}
+.ln .hl{color:transparent;-webkit-text-stroke:1.5px var(--neon)}
+.ln .ul{border-bottom:.09em solid var(--neon)}
+
+/* 数据章 */
+.stats{display:flex;flex-direction:column;gap:1.2vh}
+.stat{display:flex;align-items:baseline;gap:clamp(14px,3vw,40px);border-top:1px solid rgba(210,255,0,.18);padding:2.2vh 0}
+.stat .num{
+  font-size:clamp(3rem,9.5vw,8rem);font-weight:900;letter-spacing:-.03em;line-height:1;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.stat .num small{font-size:.32em;font-weight:700;letter-spacing:.08em;margin-left:.15em}
+.stat .lbl{font-size:clamp(.85rem,1.8vw,1.15rem);letter-spacing:.28em;color:rgba(210,255,0,.6);font-weight:700}
+
+/* 合作章 CTA */
+.cta-row{margin-top:5vh;display:flex;gap:18px;flex-wrap:wrap}
+.cta{
+  display:inline-block;border:1px solid var(--neon);color:var(--neon);
+  padding:1.05em 2.4em;font-weight:900;letter-spacing:.24em;text-indent:.24em;font-size:14px;
+  text-decoration:none;background:transparent;cursor:pointer;
+  transition:background .45s var(--ease),color .45s var(--ease);
+}
+.cta:hover{background:rgba(210,255,0,.08);animation:breathe 1.6s ease-in-out infinite}
+.cta.solid{background:var(--neon);color:var(--ink)}
+.cta.solid:hover{background:var(--neon);animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{
+  0%,100%{box-shadow:0 0 0 0 rgba(210,255,0,0)}
+  50%{box-shadow:0 0 30px 3px rgba(210,255,0,.5)}
+}
+
+/* 尾 */
+.outro{
+  min-height:62vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:22px;text-align:center;padding:0 6vw;
+}
+.outro .big{font-size:clamp(2.4rem,8vw,6.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.05}
+.outro .note{font-size:12px;letter-spacing:.3em;color:rgba(210,255,0,.45);line-height:2.2}
+
+/* ---------- 移动端 ---------- */
+@media (max-width:640px){
+  .mega{font-size:clamp(5.5rem,34vw,12rem)}
+  .hdr nav a{letter-spacing:.18em}
+  .chapter{height:230vh}
+  .stat{flex-direction:column;gap:6px;align-items:flex-start}
+  .grain{animation:none} /* 移动端停掉噪点位移，省电 */
+}
+@media (prefers-reduced-motion:reduce){
+  .grain{animation:none}
+  .scrollhint::after{animation:none}
+  .loader .bar i{animation-duration:2.2s}
+}
+</style>
+<script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+</script>
+</head>
+<body>
+
+<div id="bg" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="hdr">
+  <div class="logo">LY·26</div>
+  <nav>
+    <a href="#c1">宣言</a><a href="#c2">数据</a><a href="#c3">赛季</a><a href="#c4">合作</a>
+  </nav>
+</header>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="t">暖胎中</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<main>
+  <!-- 首屏 -->
+  <section class="hero" id="top">
+    <div class="kicker fade" style="--i:0"><span class="tag">2026 赛季</span>林跃 · 赛季宣言</div>
+    <h1 class="mega" aria-label="疾速">
+      <span class="mask"><span class="ch" style="--i:0">疾</span></span><span class="mask"><span class="ch hollow" style="--i:1">速</span></span>
+    </h1>
+    <p class="sub fade" style="--i:1">把每一圈，都开成<span class="u">最后一圈</span>。</p>
+    <div class="scrollhint fade" style="--i:2">向下滚动</div>
+  </section>
+
+  <!-- 01 宣言 -->
+  <section class="chapter" id="c1">
+    <div class="pin">
+      <div class="sec-tag">01 / 宣言 MANIFESTO</div>
+      <div class="lines">
+        <p class="ln" style="--i:0">油门焊死在地板上。</p>
+        <p class="ln" style="--i:1">刹车点，是留给<span class="hl">犹豫的人</span>的。</p>
+        <p class="ln" style="--i:2">极限不是墙，</p>
+        <p class="ln" style="--i:3">是<span class="ul">下一圈</span>的起点。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 数据 -->
+  <section class="chapter" id="c2">
+    <div class="pin">
+      <div class="sec-tag">02 / 数据 NUMBERS</div>
+      <div class="lines stats">
+        <div class="ln stat" style="--i:0"><span class="num">312<small>km/h</small></span><span class="lbl">极速</span></div>
+        <div class="ln stat" style="--i:1"><span class="num">1.9<small>s</small></span><span class="lbl">零百加速</span></div>
+        <div class="ln stat" style="--i:2"><span class="num">2.4<small>G</small></span><span class="lbl">最大侧向过载</span></div>
+        <div class="ln stat" style="--i:3"><span class="num">0.08<small>s</small></span><span class="lbl">换挡时间</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 赛季 -->
+  <section class="chapter" id="c3">
+    <div class="pin">
+      <div class="sec-tag">03 / 赛季 SEASON</div>
+      <div class="lines">
+        <p class="ln" style="--i:0"><span class="hl">18 站</span> · 五大洲。</p>
+        <p class="ln" style="--i:1">揭幕战，上海，3 月 15 日。</p>
+        <p class="ln" style="--i:2">收官战，阿布扎比，12 月 6 日。</p>
+        <p class="ln" style="--i:3">目标只有一个：<span class="ul">年度冠军</span>。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 合作 -->
+  <section class="chapter" id="c4">
+    <div class="pin">
+      <div class="sec-tag">04 / 合作 PARTNER</div>
+      <div class="lines">
+        <p class="ln" style="--i:0">你的名字，</p>
+        <p class="ln" style="--i:1">可以出现在<span class="hl">赛车侧箱</span>上。</p>
+        <p class="ln" style="--i:2">和 312km/h 一起，被全世界看见。</p>
+      </div>
+      <div class="cta-row lines">
+        <a class="cta solid ln" style="--i:3" href="#top">成为合作伙伴</a>
+        <a class="cta ln" style="--i:4" href="#top">预约围场见面</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 尾 -->
+  <section class="outro">
+    <p class="big">下一圈，更快。</p>
+    <p class="note">林跃 LIN YUE · 纯虚构人物<br>本页为 typo-neon-3d 设计模板演示 · 双色排印实验</p>
+  </section>
+</main>
+
+<script>
+/* 完成态兜底：与 ESM 模块加载成功与否无关，5 秒必进完成态（loader 隐藏/排印上场） */
+setTimeout(function(){document.documentElement.classList.add('done')},5000);
+</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

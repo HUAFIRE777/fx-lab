@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云枢 CLOUDPivot — 把应用推上云，像推代码一样简单</title>
+<meta name="description" content="云枢 CLOUDPivot：新一代云计算平台。云服务器、容器、函数计算一站式交付，42 秒部署上线，新用户领取 200 元免费额度。">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态：三个呼吸点 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-dots"><span></span><span></span><span></span></div>
+  <p class="loader-text">正在连接云枢控制台…</p>
+</div>
+
+<!-- 全页手工质感：噪点 + 暗角 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="云枢 CLOUDPivot 首页">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M9 22a5.5 5.5 0 0 1-.9-10.92A8 8 0 0 1 23.7 13 4.8 4.8 0 0 1 23 22.5H9z" fill="none" stroke="#35D6E6" stroke-width="2.4" stroke-linejoin="round"/>
+        <circle cx="16" cy="16.5" r="2.2" fill="#35D6E6"/>
+      </svg>
+      <span class="brand-name">云枢<i>CLOUDPivot</i></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#products">产品</a>
+      <a href="#pricing">定价</a>
+      <a href="#docs">文档</a>
+      <a href="#community">社区</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#pricing">查看定价</a>
+      <a class="btn btn-primary" href="#cta">免费试用</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="veil" id="veil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand-name">云枢<i>CLOUDPivot</i></span>
+    <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  </div>
+  <nav class="drawer-menu">
+    <a href="#products">产品</a>
+    <a href="#pricing">定价</a>
+    <a href="#docs">文档</a>
+    <a href="#community">社区</a>
+  </nav>
+  <div class="drawer-cta">
+    <a class="btn btn-primary btn-block" href="#cta">免费试用</a>
+    <a class="btn btn-ghost btn-block" href="#pricing">查看定价</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="badge reveal" data-d="0"><span class="pulse-dot"></span>新区域 cn-shanghai 已上线 · 延迟低至 8ms</p>
+        <h1 class="reveal" data-d="1">把应用推上云，<br>像推代码一样简单。</h1>
+        <p class="hero-sub reveal" data-d="2">云服务器、容器与函数计算一次开通，42 秒完成部署。按秒计费，用多少付多少——第一笔 200 元额度，我们请。</p>
+        <div class="hero-actions reveal" data-d="3">
+          <a class="btn btn-primary btn-lg" href="#cta">免费试用</a>
+          <a class="btn btn-ghost btn-lg" href="#pricing">查看定价</a>
+        </div>
+        <p class="hero-note reveal" data-d="4">200 元新用户体验金 · 无需绑定信用卡 · 随时可注销</p>
+      </div>
+
+      <div class="hero-term reveal" data-d="2">
+        <div class="term" id="term" aria-label="云枢 CLI 演示终端">
+          <div class="term-head">
+            <span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span>
+            <span class="term-title">pivot — 云枢 CLI</span>
+          </div>
+          <div class="term-body" id="termBody"></div>
+        </div>
+        <div class="float-chip chip-a" aria-hidden="true">
+          <b>99.99%</b><span>可用性 SLA</span>
+        </div>
+        <div class="float-chip chip-b" aria-hidden="true">
+          <b>42s</b><span>平均部署耗时</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats reveal" data-d="3">
+      <div class="stat"><b>13</b><span>可用区覆盖</span></div>
+      <div class="stat"><b>40ms</b><span>全球平均延迟</span></div>
+      <div class="stat"><b>280万+</b><span>开发者在用</span></div>
+      <div class="stat"><b>99.99%</b><span>服务可用性</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 产品矩阵 ============ -->
+  <section class="section" id="products">
+    <div class="wrap">
+      <p class="kicker reveal">产品矩阵</p>
+      <h2 class="reveal" data-d="1">四类基础设施，<br class="br-m">一套控制台管完。</h2>
+      <p class="lede reveal" data-d="2">从一台 1 核小实例，到横跨三个可用区的生产集群，云枢用同一套 API 和控制台交付。</p>
+      <div class="cards">
+        <article class="card reveal" data-d="0">
+          <svg class="card-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5" fill="none" stroke="#35D6E6" stroke-width="1.8"/><rect x="3" y="14" width="18" height="6" rx="1.5" fill="none" stroke="#35D6E6" stroke-width="1.8"/><circle cx="7" cy="7" r="1" fill="#35D6E6"/><circle cx="7" cy="17" r="1" fill="#35D6E6"/></svg>
+          <h3>计算</h3>
+          <p>通用型、计算型、内存型实例秒级交付，支持抢占式实例，成本直降七成。</p>
+          <ul class="card-links">
+            <li><a href="#products">云服务器 ECS</a></li>
+            <li><a href="#products">容器服务 CKS</a></li>
+            <li><a href="#products">函数计算 SCF</a></li>
+          </ul>
+        </article>
+        <article class="card reveal" data-d="1">
+          <svg class="card-ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3" fill="none" stroke="#35D6E6" stroke-width="1.8"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6" fill="none" stroke="#35D6E6" stroke-width="1.8"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" fill="none" stroke="#35D6E6" stroke-width="1.8"/></svg>
+          <h3>存储</h3>
+          <p>块存储、对象存储与文件存储统一命名空间，一份数据处处可用。</p>
+          <ul class="card-links">
+            <li><a href="#products">云硬盘 CBS</a></li>
+            <li><a href="#products">对象存储 COS</a></li>
+            <li><a href="#products">文件存储 CFS</a></li>
+          </ul>
+        </article>
+        <article class="card reveal" data-d="2">
+          <svg class="card-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.2" fill="#35D6E6"/><circle cx="4.5" cy="5.5" r="1.6" fill="none" stroke="#35D6E6" stroke-width="1.8"/><circle cx="19.5" cy="5.5" r="1.6" fill="none" stroke="#35D6E6" stroke-width="1.8"/><circle cx="4.5" cy="18.5" r="1.6" fill="none" stroke="#35D6E6" stroke-width="1.8"/><circle cx="19.5" cy="18.5" r="1.6" fill="none" stroke="#35D6E6" stroke-width="1.8"/><path d="M6 6.8 10 10.4M18 6.8 14 10.4M6 17.2 10 13.6M18 17.2 14 13.6" stroke="#35D6E6" stroke-width="1.4"/></svg>
+          <h3>网络</h3>
+          <p>私有网络、负载均衡与全球加速开箱即用，跨可用区内网延迟低于 1ms。</p>
+          <ul class="card-links">
+            <li><a href="#products">私有网络 VPC</a></li>
+            <li><a href="#products">负载均衡 CLB</a></li>
+            <li><a href="#products">全球加速 GA</a></li>
+          </ul>
+        </article>
+        <article class="card reveal" data-d="3">
+          <svg class="card-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v4H4zM4 11h16v4H4zM4 17h16v2.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z" fill="none" stroke="#35D6E6" stroke-width="1.8"/><circle cx="7.5" cy="7" r="1" fill="#35D6E6"/><circle cx="7.5" cy="13" r="1" fill="#35D6E6"/></svg>
+          <h3>数据库</h3>
+          <p>托管 MySQL、PostgreSQL 与 Redis，自动备份、故障秒级切换。</p>
+          <ul class="card-links">
+            <li><a href="#products">云数据库 MySQL</a></li>
+            <li><a href="#products">云数据库 Redis</a></li>
+            <li><a href="#products">时序数据库 CTSDB</a></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 价格计算器 ============ -->
+  <section class="section section-alt" id="pricing">
+    <div class="wrap">
+      <p class="kicker reveal">价格计算器</p>
+      <h2 class="reveal" data-d="1">拖动滑杆，<br class="br-m">价格实时算给你看。</h2>
+      <p class="lede reveal" data-d="2">按秒计费，不足一小时按秒折算。下面是通用型实例的公开价目，生产环境另有包年包月 6 折。</p>
+
+      <div class="calc reveal" data-d="3">
+        <div class="calc-left">
+          <div class="presets" role="group" aria-label="配置预设">
+            <button class="preset" data-preset="starter">入门型</button>
+            <button class="preset active" data-preset="balanced">均衡型</button>
+            <button class="preset" data-preset="performance">性能型</button>
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-head"><label for="sCpu">vCPU</label><output id="oCpu">4 核</output></div>
+            <input type="range" id="sCpu" min="1" max="32" step="1" value="4">
+          </div>
+          <div class="slider-row">
+            <div class="slider-head"><label for="sMem">内存</label><output id="oMem">8 GB</output></div>
+            <input type="range" id="sMem" min="1" max="128" step="1" value="8">
+          </div>
+          <div class="slider-row">
+            <div class="slider-head"><label for="sDisk">SSD 云硬盘</label><output id="oDisk">100 GB</output></div>
+            <input type="range" id="sDisk" min="25" max="2000" step="25" value="100">
+          </div>
+          <div class="slider-row">
+            <div class="slider-head"><label for="sBw">公网带宽</label><output id="oBw">5 TB/月</output></div>
+            <input type="range" id="sBw" min="1" max="50" step="1" value="5">
+          </div>
+        </div>
+
+        <div class="calc-right">
+          <p class="calc-label">预估月账单</p>
+          <p class="calc-price"><span class="calc-cur">¥</span><span id="priceMonth">0</span></p>
+          <p class="calc-hour">约合 ¥<span id="priceHour">0.00</span> / 小时 · 按秒计费</p>
+          <ul class="calc-break" id="calcBreak"></ul>
+          <a class="btn btn-primary btn-block" href="#cta">用这个配置免费试用</a>
+          <p class="calc-fine">以上为公开按量价；包年包月享 6 折，抢占式实例低至 3 折。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 开发者评价 ============ -->
+  <section class="section" id="community">
+    <div class="wrap">
+      <p class="kicker reveal">开发者评价</p>
+      <h2 class="reveal" data-d="1">他们已经把业务<br class="br-m">搬上了云枢。</h2>
+      <div class="quotes">
+        <figure class="quote reveal" data-d="0">
+          <blockquote>“凌晨三点扩容，以前要提工单等半小时。现在一条命令，咖啡还没凉，流量峰值已经过去了。”</blockquote>
+          <figcaption><span class="avatar">陈</span><span class="who"><b>陈默</b><i>后端负责人 · 某生鲜电商</i></span></figcaption>
+        </figure>
+        <figure class="quote reveal" data-d="1">
+          <blockquote>“账单是我见过最清楚的一家。每一分钱都能点开看到底是哪台机器、哪个小时花的，财务再也没找过我。”</blockquote>
+          <figcaption><span class="avatar">林</span><span class="who"><b>林晓</b><i>CTO · 在线教育创业公司</i></span></figcaption>
+        </figure>
+        <figure class="quote reveal" data-d="2">
+          <blockquote>“从注册到第一个 API 跑通只用了 11 分钟，其中 5 分钟是我在找 API Key 藏哪了——文档写得太细反而难找。”</blockquote>
+          <figcaption><span class="avatar">周</span><span class="who"><b>周远</b><i>独立开发者</i></span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 文档入口 ============ -->
+  <section class="section section-alt" id="docs">
+    <div class="wrap">
+      <p class="kicker reveal">文档中心</p>
+      <h2 class="reveal" data-d="1">从第一行命令<br class="br-m">到生产级架构。</h2>
+      <div class="doc-cards">
+        <a class="doc-card reveal" data-d="0" href="#docs">
+          <b>5 分钟快速上手</b>
+          <p>注册、创建第一台云服务器、部署一个 Hello World，全程跟着走。</p>
+          <span class="doc-go">开始阅读 →</span>
+        </a>
+        <a class="doc-card reveal" data-d="1" href="#docs">
+          <b>API 参考文档</b>
+          <p>全量 OpenAPI 定义，支持在线调试，每个接口都带真实请求示例。</p>
+          <span class="doc-go">开始阅读 →</span>
+        </a>
+        <a class="doc-card reveal" data-d="2" href="#docs">
+          <b>架构白皮书</b>
+          <p>多可用区容灾、数据加密与合规体系，一次讲清我们的底盘。</p>
+          <span class="doc-go">开始阅读 →</span>
+        </a>
+        <a class="doc-card reveal" data-d="3" href="#docs">
+          <b>服务状态页</b>
+          <p>过去 90 天各区域可用性公开可查，故障复盘报告全文开放。</p>
+          <span class="doc-go">查看状态 →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section" id="cta">
+    <div class="wrap">
+      <div class="cta-panel reveal">
+        <p class="kicker kicker-light">限时领取</p>
+        <h2>200 元免费额度，<br>现在就开始部署。</h2>
+        <p class="cta-sub">填邮箱即领，有效期 30 天，可用于任意按量产品。到期前 3 天我们会提醒你，不会自动扣费。</p>
+        <form class="cta-form" id="ctaForm" novalidate>
+          <input type="email" id="ctaEmail" placeholder="you@company.com" aria-label="邮箱地址" autocomplete="email">
+          <button class="btn btn-primary btn-lg" type="submit">领取免费额度</button>
+        </form>
+        <p class="cta-msg" id="ctaMsg" role="status"></p>
+        <p class="cta-fine">提交即表示同意我们的<a href="#" data-modal="terms">服务条款</a>与<a href="#" data-modal="privacy">隐私政策</a>。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-name">云枢<i>CLOUDPivot</i></span>
+        <p class="foot-desc">新一代云计算平台，让每一行代码都快速抵达用户。</p>
+        <div class="socials">
+          <a href="#top" aria-label="X"><svg viewBox="0 0 24 24"><path d="M17.5 3h3.1l-6.8 7.8L21.8 21h-6.3l-4.9-6.4L5 21H1.9l7.3-8.3L2.2 3h6.4l4.4 5.9L17.5 3zm-1.1 16.1h1.7L7.7 4.8H5.8l10.6 14.3z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.4 4 2 6.9 2 10.4c0 2 1.1 3.7 2.8 4.9l-.7 2.2 2.5-1.3c.6.2 1.2.3 1.9.3h.4A6.6 6.6 0 0 1 8 14.6c0-1.9 1-3.6 2.6-4.7A8 8 0 0 1 9.5 4zm11.6 8.6c0-2.9-2.9-5.3-6.4-5.3-3.4 0-6.2 2.3-6.2 5.2 0 2.9 2.8 5.3 6.3 5.3.7 0 1.4-.1 2-.3l2.1 1.1-.6-1.9c1.1-1 1.8-2.4 1.8-4.1zM7 9.2c0-.5.4-.9.9-.9s.9.4.9.9-.4.9-.9.9-.9-.4-.9-.9zm4.4 0c0-.5.4-.9.9-.9s.9.4.9.9-.4.9-.9.9-.9-.4-.9-.9zm1.6 3.6c0-.4.3-.7.8-.7.4 0 .7.3.7.7s-.3.8-.7.8c-.5 0-.8-.4-.8-.8zm3.6 0c0-.4.3-.7.8-.7.4 0 .7.3.7.7s-.3.8-.7.8c-.5 0-.8-.4-.8-.8z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C19.2 4.8 12 4.8 12 4.8s-7.2 0-8.8.4c-.9.2-1.6.9-1.8 1.8C1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8 1.6.4 8.8.4 8.8.4s7.2 0 8.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>产品</h4>
+        <a href="#products">云服务器 ECS</a>
+        <a href="#products">容器服务 CKS</a>
+        <a href="#products">函数计算 SCF</a>
+        <a href="#products">对象存储 COS</a>
+      </div>
+      <div class="foot-col">
+        <h4>资源</h4>
+        <a href="#docs">文档中心</a>
+        <a href="#docs">API 参考</a>
+        <a href="#community">开发者社区</a>
+        <a href="#docs">服务状态</a>
+      </div>
+      <div class="foot-col">
+        <h4>公司</h4>
+        <a href="#top">关于我们</a>
+        <a href="#top">加入我们</a>
+        <a href="#top">新闻中心</a>
+        <a href="#top">联系商务</a>
+      </div>
+      <div class="foot-col">
+        <h4>法律</h4>
+        <button class="foot-link" data-modal="privacy">隐私政策</button>
+        <button class="foot-link" data-modal="terms">服务条款</button>
+        <button class="foot-link" data-modal="cookie">Cookie 政策</button>
+      </div>
+      <div class="foot-contact">
+        <h4>联系我们</h4>
+        <p>电话：<a data-site="phone"></a></p>
+        <p>邮箱：<a data-site="email"></a></p>
+        <p>地址：<span data-site="address"></span></p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 <span data-site="name"></span> · <span data-site="icp"></span></p>
+      <p class="foot-sla">全站服务可用性 99.99% · 数据加密存储 · 等保三级认证</p>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-x" id="modalX" aria-label="关闭">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

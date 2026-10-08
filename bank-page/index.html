@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>恒信银行 · 存得稳，借得快，信得过</title>
+<meta name="description" content="恒信银行 —— 存款保险全额保障，3 年期大额存单利率 2.35%，手机银行随手即办。虚构品牌演示模板。">
+<script>document.documentElement.className += ' js';</script>
+<style>
+/* 恒信银行 · 银行金融落地页
+   配色定死三色：藏青 #0A1F44 / 金 #B9975B / 米白 #F8F6F0
+   深浅变化一律走 rgba()，禁用彩虹渐变。 */
+:root{
+  --navy:#0A1F44;
+  --gold:#B9975B;
+  --cream:#F8F6F0;
+  --navy-ink:rgba(10,31,68,.92);
+  --navy-60:rgba(10,31,68,.6);
+  --navy-40:rgba(10,31,68,.4);
+  --navy-12:rgba(10,31,68,.12);
+  --navy-08:rgba(10,31,68,.08);
+  --navy-05:rgba(10,31,68,.05);
+  --gold-ink:#8a6f3f;
+  --gold-soft:rgba(185,151,91,.14);
+  --cream-ink:rgba(248,246,240,.92);
+  --cream-60:rgba(248,246,240,.6);
+  --spring:cubic-bezier(.34,1.45,.44,1);
+  --out:cubic-bezier(.16,.84,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--cream);color:var(--navy-ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block}
+
+/* ---------- 加载态：藏青底 + 金线生长 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:200;background:var(--navy);
+  display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;
+  transition:opacity .6s var(--out),visibility .6s;
+}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-line{width:180px;height:2px;background:rgba(185,151,91,.22);border-radius:2px;overflow:hidden}
+.loader-line span{display:block;height:100%;width:40%;background:var(--gold);border-radius:2px;animation:loadslide 1.1s var(--out) infinite}
+@keyframes loadslide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+.loader p{color:var(--cream-60);font-size:13px;letter-spacing:.12em}
+
+/* ---------- 噪点 + 暗角 ---------- */
+.grain{position:fixed;inset:0;z-index:150;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.04 0 0 0 0 0.12 0 0 0 0 0.27 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
+body::after{content:"";position:fixed;inset:0;z-index:149;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 30%,transparent 62%,rgba(10,31,68,.10) 100%)}
+
+/* ---------- 导航 ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .35s var(--out),box-shadow .35s var(--out),border-color .35s}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 28px;height:68px;display:flex;align-items:center;gap:34px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:.04em;color:var(--cream-ink);transition:color .35s}
+.menu{display:flex;gap:30px;margin-left:14px}
+.menu a{font-size:15px;color:var(--cream-60);transition:color .25s;position:relative}
+.menu a:hover{color:var(--gold)}
+.nav-actions{margin-left:auto;display:flex;align-items:center;gap:18px}
+.signin{font-size:15px;color:var(--cream-60);transition:color .25s}
+.signin:hover{color:var(--gold)}
+.nav.scrolled{background:rgba(248,246,240,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--navy-08);box-shadow:0 6px 24px rgba(10,31,68,.08)}
+.nav.scrolled .logo{color:var(--navy-ink)}
+.nav.scrolled .menu a{color:var(--navy-60)}
+.nav.scrolled .menu a:hover{color:var(--gold-ink)}
+.nav.scrolled .signin{color:var(--navy-60)}
+.nav.scrolled .signin:hover{color:var(--gold-ink)}
+.burger{display:none;flex-direction:column;gap:5px;padding:10px;margin-left:auto}
+.burger span{width:22px;height:2px;background:var(--cream-ink);border-radius:2px;transition:background .35s,transform .3s var(--out)}
+.nav.scrolled .burger span{background:var(--navy-ink)}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ---------- 移动端抽屉 ---------- */
+.drawer-veil{position:fixed;inset:0;z-index:110;background:rgba(10,31,68,.5);opacity:0;visibility:hidden;transition:opacity .3s var(--out),visibility .3s}
+.drawer-veil.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);z-index:111;background:var(--navy);
+  transform:translateX(105%);transition:transform .42s var(--out);padding:96px 30px 30px;display:flex;flex-direction:column;gap:6px}
+.drawer.open{transform:none}
+.drawer a{font-size:18px;color:var(--cream-ink);padding:13px 4px;border-bottom:1px solid rgba(248,246,240,.1)}
+.drawer-actions{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.drawer-actions a{border:0;padding:0}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;border-radius:12px;
+  transition:transform .32s var(--spring),box-shadow .32s var(--out),background .25s,color .25s,border-color .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{box-shadow:0 12px 28px rgba(185,151,91,.42)}
+.btn-outline{border:1.5px solid rgba(248,246,240,.5);color:var(--cream-ink)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-outline-light{border:1.5px solid rgba(10,31,68,.35);color:var(--navy-ink)}
+.btn-outline-light:hover{border-color:var(--navy);transform:translateY(-2px)}
+.btn-lg{padding:15px 34px;font-size:16px}
+.btn-sm{padding:9px 20px;font-size:14px}
+.cta-row{display:flex;gap:16px;flex-wrap:wrap}
+
+/* ---------- 布局 ---------- */
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.section{padding:112px 0}
+.kicker{font-size:13px;letter-spacing:.28em;color:var(--gold-ink);font-weight:700;margin-bottom:18px}
+.kicker-light{color:var(--gold)}
+h2{font-size:clamp(32px,4.6vw,52px);line-height:1.22;letter-spacing:-.01em;font-weight:700}
+.section-sub{margin-top:18px;font-size:17px;color:var(--navy-60);max-width:560px;line-height:1.7}
+.br-desktop{display:inline}
+
+/* ---------- 滚动 reveal：仅 html.js 下隐藏，完成态必可达 ---------- */
+html.js .reveal{opacity:0;transform:translateY(26px)}
+html.js .reveal.is-in{opacity:1;transform:none;transition:opacity .8s var(--out),transform .8s var(--out)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:var(--navy);color:var(--cream-ink);padding:172px 0 96px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-ring{position:absolute;width:640px;height:640px;border:1px solid rgba(185,151,91,.28);border-radius:50%;
+  top:-200px;right:-160px}
+.hero-ring.ring2{width:440px;height:440px;top:-120px;right:-60px;border-color:rgba(185,151,91,.16)}
+.hero::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(58% 44% at 72% 18%,rgba(185,151,91,.14),transparent 70%)}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;padding:0 28px}
+.badge{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;color:var(--gold);
+  border:1px solid rgba(185,151,91,.45);border-radius:999px;padding:9px 18px;background:rgba(185,151,91,.08);margin-bottom:28px}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2s var(--out) infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(185,151,91,.5)}55%{box-shadow:0 0 0 8px rgba(185,151,91,0)}}
+.hero h1{font-size:clamp(46px,7.4vw,88px);line-height:1.14;letter-spacing:-.015em;font-weight:700}
+.hero-sub{margin-top:24px;font-size:18px;line-height:1.75;color:var(--cream-60)}
+.hero-sub b{color:var(--gold);font-weight:700}
+.hero .cta-row{margin-top:36px}
+.hero-note{margin-top:20px;font-size:13.5px;color:rgba(248,246,240,.45);letter-spacing:.04em}
+
+/* 利率卡片 */
+.rate-cards{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rate-card{position:relative;background:rgba(248,246,240,.05);border:1px solid rgba(248,246,240,.14);
+  border-radius:18px;padding:28px 26px;transition:transform .38s var(--spring),box-shadow .38s var(--out),border-color .3s,background .3s}
+.rate-card:hover{transform:translateY(-6px);border-color:rgba(185,151,91,.6);background:rgba(248,246,240,.08);
+  box-shadow:0 22px 48px rgba(0,0,0,.32)}
+.rate-card.hot{border-color:rgba(185,151,91,.65);background:rgba(185,151,91,.1)}
+.rate-tag{position:absolute;top:-13px;left:24px;font-size:12px;font-weight:700;color:var(--navy);
+  background:var(--gold);border-radius:999px;padding:4px 14px;letter-spacing:.06em}
+.rate-label{font-size:14px;color:var(--cream-60);margin-bottom:12px}
+.rate-value{font-size:44px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.rate-value em{font-style:normal;font-size:20px;margin-left:4px;color:rgba(185,151,91,.8)}
+.rate-foot{margin-top:10px;font-size:13px;color:rgba(248,246,240,.5)}
+.rate-disclaimer{margin-top:18px;font-size:12px;color:rgba(248,246,240,.38)}
+
+/* ---------- 业务矩阵 ---------- */
+.services{background:var(--cream)}
+.svc-grid{margin-top:52px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.svc-card{background:#fff;border:1px solid var(--navy-08);border-radius:20px;padding:32px 26px;
+  transition:transform .38s var(--spring),box-shadow .38s var(--out),border-color .3s;display:flex;flex-direction:column}
+.svc-card:hover{transform:translateY(-8px);box-shadow:0 26px 52px rgba(10,31,68,.14);border-color:rgba(185,151,91,.55)}
+.svc-icon{width:52px;height:52px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.svc-icon svg{width:30px;height:30px}
+.svc-card h3{font-size:21px;margin-bottom:10px}
+.svc-num{font-size:15px;color:var(--navy-60);margin-bottom:14px;font-variant-numeric:tabular-nums}
+.svc-num .counter{font-size:26px;font-weight:700;color:var(--gold-ink)}
+.svc-num small{font-size:13px}
+.svc-card>p{font-size:14.5px;line-height:1.75;color:var(--navy-60);flex:1}
+.svc-link{display:inline-flex;align-items:center;gap:6px;margin-top:20px;font-size:14.5px;font-weight:600;color:var(--gold-ink)}
+.svc-link svg{transition:transform .3s var(--spring)}
+.svc-card:hover .svc-link svg{transform:translateX(4px)}
+
+/* ---------- 手机银行 ---------- */
+.appsec{background:#fff;border-top:1px solid var(--navy-08);border-bottom:1px solid var(--navy-08)}
+.app-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}
+.app-feats{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:16px}
+.app-feats li{font-size:15.5px;color:var(--navy-60);line-height:1.6;padding-left:30px;position:relative}
+.app-feats li::before{content:"";position:absolute;left:2px;top:7px;width:14px;height:8px;
+  border-left:2.5px solid var(--gold);border-bottom:2.5px solid var(--gold);transform:rotate(-45deg)}
+.app-feats b{color:var(--navy-ink)}
+.store-row{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+.store-btn{display:inline-flex;align-items:center;gap:12px;background:var(--navy);color:var(--cream-ink);
+  border-radius:14px;padding:12px 22px;transition:transform .32s var(--spring),box-shadow .32s var(--out)}
+.store-btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(10,31,68,.3)}
+.store-btn span{display:flex;flex-direction:column;font-size:16px;font-weight:600;line-height:1.3;text-align:left}
+.store-btn small{font-size:11px;font-weight:400;color:var(--cream-60)}
+.app-note{margin-top:20px;font-size:13px;color:var(--navy-40)}
+
+/* 手机 mock：纯 CSS */
+.phone{width:290px;height:600px;margin:0 auto;background:#101c38;border-radius:44px;padding:14px;
+  box-shadow:0 40px 90px rgba(10,31,68,.28),inset 0 0 0 2px rgba(185,151,91,.35);position:relative}
+.phone-notch{position:absolute;top:26px;left:50%;transform:translateX(-50%);width:110px;height:26px;
+  background:#101c38;border-radius:14px;z-index:2}
+.phone-screen{background:var(--cream);border-radius:32px;height:100%;padding:52px 18px 18px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.ps-greet p{font-size:15px;font-weight:600}
+.ps-greet span{font-size:12px;color:var(--navy-40)}
+.ps-balance{background:var(--navy);border-radius:16px;padding:18px;color:var(--cream-ink)}
+.ps-balance p{font-size:12px;color:var(--cream-60)}
+.ps-money{font-size:27px!important;font-weight:700!important;color:var(--gold)!important;font-variant-numeric:tabular-nums;margin-top:6px}
+.ps-yield{font-size:12px!important;color:#7fd08a!important;margin-top:4px}
+.ps-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ps-actions span{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;color:var(--navy-60)}
+.ps-actions i{width:44px;height:44px;border-radius:14px;background:var(--gold-soft);display:block}
+.ps-bill{background:#fff;border:1px solid var(--navy-08);border-radius:16px;padding:16px}
+.ps-bill p{font-size:13px;color:var(--navy-60)}
+.ps-bill b{font-size:18px;color:var(--navy-ink)}
+.ps-bars{display:flex;align-items:flex-end;gap:8px;height:64px;margin-top:12px}
+.ps-bars i{flex:1;background:var(--gold);border-radius:4px 4px 0 0;min-height:8px}
+
+/* ---------- 安全承诺 ---------- */
+.security{background:var(--navy);color:var(--cream-ink)}
+.security .section-sub{color:var(--cream-60)}
+.stat-row{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  border-top:1px solid rgba(248,246,240,.14);border-bottom:1px solid rgba(248,246,240,.14);padding:36px 0}
+.stat-num{font-size:44px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat-num em{font-style:normal;font-size:18px;margin-left:4px;color:rgba(185,151,91,.8)}
+.stat-label{margin-top:8px;font-size:14px;color:var(--cream-60)}
+.sec-grid{margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sec-card{background:rgba(248,246,240,.05);border:1px solid rgba(248,246,240,.14);border-radius:20px;padding:34px 28px;
+  transition:transform .38s var(--spring),box-shadow .38s var(--out),border-color .3s}
+.sec-card:hover{transform:translateY(-8px);border-color:rgba(185,151,91,.6);box-shadow:0 26px 52px rgba(0,0,0,.3)}
+.sec-icon{width:54px;height:54px;border-radius:50%;border:1.5px solid rgba(185,151,91,.55);
+  display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.sec-icon svg{width:30px;height:30px}
+.sec-card h3{font-size:20px;margin-bottom:12px}
+.sec-card p{font-size:14.5px;line-height:1.75;color:var(--cream-60)}
+
+/* ---------- CTA ---------- */
+.cta{background:var(--cream);padding:112px 0}
+.cta-panel{background:#fff;border:1px solid var(--navy-08);border-radius:28px;padding:80px 40px;text-align:center;
+  position:relative;overflow:hidden}
+.cta-panel::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(52% 60% at 50% 0%,rgba(185,151,91,.16),transparent 72%);pointer-events:none}
+.cta-panel>*{position:relative}
+.cta-panel h2{margin-bottom:20px}
+.cta-panel .section-sub,.cta-panel>p{font-size:17px;color:var(--navy-60);line-height:1.75}
+.cta-panel>p b{color:var(--gold-ink)}
+.cta-panel .cta-row{justify-content:center;margin-top:36px}
+.cta-note{margin-top:22px;font-size:13px;color:var(--navy-40)}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--navy);color:var(--cream-ink);padding:76px 0 34px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:36px}
+.foot-brand .logo{color:var(--cream-ink);margin-bottom:16px}
+.foot-slogan{font-size:14px;color:var(--cream-60);line-height:1.7}
+.social{display:flex;gap:12px;margin-top:22px}
+.social a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(248,246,240,.22);
+  display:flex;align-items:center;justify-content:center;color:var(--cream-60);
+  transition:transform .32s var(--spring),color .25s,border-color .25s}
+.social a:hover{transform:translateY(-3px);color:var(--gold);border-color:var(--gold)}
+.social svg{width:20px;height:20px}
+.foot-col h4{font-size:14px;letter-spacing:.14em;color:var(--gold);margin-bottom:20px;font-weight:700}
+.foot-col a,.foot-link{display:block;font-size:14.5px;color:var(--cream-60);padding:7px 0;transition:color .25s;text-align:left}
+.foot-col a:hover,.foot-link:hover{color:var(--gold)}
+.foot-contact{display:flex;gap:32px;flex-wrap:wrap;margin-top:48px;padding-top:28px;
+  border-top:1px solid rgba(248,246,240,.12);font-size:13.5px;color:var(--cream-60)}
+.foot-contact a{color:var(--gold)}
+.foot-legal{margin-top:20px;font-size:12.5px;color:rgba(248,246,240,.42);line-height:1.8}
+.foot-virtual{color:rgba(248,246,240,.3)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal-veil{position:fixed;inset:0;z-index:160;background:rgba(10,31,68,.62);
+  opacity:0;visibility:hidden;transition:opacity .3s var(--out),visibility .3s}
+.modal-veil.open{opacity:1;visibility:visible}
+.modal{position:fixed;inset:0;z-index:161;display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;visibility:hidden;transition:opacity .3s var(--out),visibility .3s}
+.modal.open{opacity:1;visibility:visible}
+.modal-box{background:var(--cream);color:var(--navy-ink);border-radius:20px;max-width:620px;width:100%;
+  max-height:min(78vh,720px);display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(18px) scale(.98);transition:transform .38s var(--spring);box-shadow:0 40px 90px rgba(0,0,0,.4)}
+.modal.open .modal-box{transform:none}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 0}
+.modal-head h3{font-size:22px}
+.modal-x{width:38px;height:38px;border-radius:50%;font-size:16px;color:var(--navy-60);
+  transition:transform .35s var(--spring),background .25s,color .25s;display:flex;align-items:center;justify-content:center}
+.modal-x:hover{transform:rotate(90deg);background:var(--navy-08);color:var(--navy-ink)}
+.modal-updated{padding:8px 28px 0;font-size:12.5px;color:var(--navy-40)}
+.modal-points{padding:18px 28px 30px;overflow-y:auto;list-style:none;display:flex;flex-direction:column;gap:14px}
+.modal-points li{font-size:14.5px;line-height:1.75;color:var(--navy-60);padding-left:26px;position:relative}
+.modal-points li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.modal-points b{color:var(--navy-ink)}
+body.modal-open{overflow:hidden}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:1020px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .app-grid{gap:44px}
+  .foot-grid{grid-template-columns:1fr 1fr 1fr}
+  .foot-brand{grid-column:1/-1}
+}
+@media(max-width:900px){
+  .menu,.nav-actions{display:none}
+  .burger{display:flex}
+  .rate-cards{grid-template-columns:1fr}
+  .sec-grid{grid-template-columns:1fr}
+  .app-grid{grid-template-columns:1fr}
+  .phone{order:-1}
+}
+@media(max-width:640px){
+  .section{padding:80px 0}
+  .hero{padding:140px 0 72px}
+  .svc-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:1fr;gap:26px}
+  .stat-num{font-size:36px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .cta-panel{padding:56px 24px}
+  .modal{padding:0}
+  .modal-box{max-width:none;width:100%;height:100dvh;max-height:100dvh;border-radius:0}
+  .modal-points{padding-bottom:44px}
+  .br-desktop{display:none}
+  .phone{width:262px;height:548px}
+}
+
+</style>
+</head>
+<body>
+
+<!-- 加载态：藏青底 + 金线生长；窗口 load 后淡出；无 JS 由 noscript 兜底隐藏 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-line"><span></span></div>
+  <p>恒信银行 · 正在为您装配页面</p>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- 噪点 + 暗角：全页手工质感 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航：滚动超 24px 变毛玻璃 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="恒信银行首页">
+      <svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true">
+        <path d="M18 4 L30 13 V28 H6 V13 Z" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M13 28 V19 h10 v9" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+      </svg>
+      <span>恒信银行</span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#services">个人金融</a>
+      <a href="#rates">存贷利率</a>
+      <a href="#app">手机银行</a>
+      <a href="#security">安全保障</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="signin" href="#cta">登录</a>
+      <a class="btn btn-gold btn-sm" href="#cta">立即开户</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#services">个人金融</a>
+  <a href="#rates">存贷利率</a>
+  <a href="#app">手机银行</a>
+  <a href="#security">安全保障</a>
+  <div class="drawer-actions">
+    <a class="signin" href="#cta">登录</a>
+    <a class="btn btn-gold" href="#cta">立即开户</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero：藏青底 + 金点缀，利率卡片 ============ -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-ring"></div>
+      <div class="hero-ring ring2"></div>
+    </div>
+    <div class="hero-inner">
+      <a class="badge reveal" href="#rates" data-d="0">
+        <span class="badge-dot"></span>新客专享 · 大额存单利率上浮至 2.35%
+        <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <h1 class="reveal" data-d="1">钱放在恒信<br>稳稳当当</h1>
+      <p class="hero-sub reveal" data-d="2">存款保险全额保障 · 全国 <b>386 万</b>客户共同选择<br class="br-desktop">手机银行转账免手续费，开户最快 5 分钟。</p>
+      <div class="cta-row reveal" data-d="3">
+        <a class="btn btn-gold btn-lg" href="#cta">立即开户</a>
+        <a class="btn btn-outline btn-lg" href="#app">下载手机银行</a>
+      </div>
+      <p class="hero-note reveal" data-d="4">本外币存取免费 · 开户无需排队 · 7×24 小时客服</p>
+
+      <!-- 利率卡片：数字滚动计数器 -->
+      <div class="rate-cards reveal" data-d="5" id="rates">
+        <article class="rate-card">
+          <p class="rate-label">活期存款年利率</p>
+          <p class="rate-value"><span class="counter" data-count="0.15" data-decimals="2">0.00</span><em>%</em></p>
+          <p class="rate-foot">随存随取 · 当日起息</p>
+        </article>
+        <article class="rate-card hot">
+          <p class="rate-tag">新客专享</p>
+          <p class="rate-label">3 年期大额存单</p>
+          <p class="rate-value"><span class="counter" data-count="2.35" data-decimals="2">0.00</span><em>%</em></p>
+          <p class="rate-foot">20 万元起存 · 到期还本付息</p>
+        </article>
+        <article class="rate-card">
+          <p class="rate-label">首套房贷年利率</p>
+          <p class="rate-value"><span class="counter" data-count="3.05" data-decimals="2">0.00</span><em>%</em></p>
+          <p class="rate-foot">LPR-45BP · 等额本息可选</p>
+        </article>
+      </div>
+      <p class="rate-disclaimer reveal" data-d="6">* 利率为年化利率，以网点实际公示为准；存款受《存款保险条例》保护。</p>
+    </div>
+  </section>
+
+  <!-- ============ 业务矩阵：储蓄 / 理财 / 贷款 / 信用卡 ============ -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <p class="kicker reveal">个人金融</p>
+      <h2 class="reveal" data-d="1">存、理、贷、刷<br>一站备齐</h2>
+      <p class="section-sub reveal" data-d="2">四张卡，四种刚需。点进每张卡，都是恒信银行的主力产品线。</p>
+      <div class="svc-grid">
+        <article class="svc-card reveal" data-d="0">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="8" y="16" width="24" height="16" rx="2.5" fill="none" stroke="#B9975B" stroke-width="2.4"/><path d="M8 20.5h24M14 28h6" stroke="#B9975B" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="11" r="4.5" fill="none" stroke="#B9975B" stroke-width="2.4"/></svg>
+          </div>
+          <h3>安心存</h3>
+          <p class="svc-num"><span class="counter" data-count="2.35" data-decimals="2">0.00</span>% <small>3 年期年利率</small></p>
+          <p>定期、通知存款、大额存单全覆盖，提前支取靠档计息，急用钱不心疼。</p>
+          <a class="svc-link" href="#cta">了解详情
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="1">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M6 30 L16 18 L23 24 L34 9" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 9h7v7" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>恒盈理财</h3>
+          <p class="svc-num"><span class="counter" data-count="4.12" data-decimals="2">0.00</span>% <small>近一年年化收益</small></p>
+          <p>R1–R2 稳健型产品为主，每日开放赎回，风险等级写在明处，买得明白。</p>
+          <a class="svc-link" href="#cta">了解详情
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="2">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M7 13h26v14H7z" fill="none" stroke="#B9975B" stroke-width="2.4" rx="2"/><path d="M7 33v-3.5M14 33v-3.5M26 33v-3.5M33 33v-3.5" stroke="#B9975B" stroke-width="2.4" stroke-linecap="round"/><path d="M12 13V8h16v5" fill="none" stroke="#B9975B" stroke-width="2.4"/></svg>
+          </div>
+          <h3>安家贷</h3>
+          <p class="svc-num"><span class="counter" data-count="3.05" data-decimals="2">0.00</span>% <small>首套房贷年利率</small></p>
+          <p>房贷、经营贷、信用贷线上预审，最快当天出额度，提前还款不收违约金。</p>
+          <a class="svc-link" href="#cta">测算额度
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="3">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="6" y="11" width="28" height="19" rx="3" fill="none" stroke="#B9975B" stroke-width="2.4"/><path d="M6 17.5h28" stroke="#B9975B" stroke-width="2.4"/><path d="M11 24h6" stroke="#B9975B" stroke-width="2.4" stroke-linecap="round"/></svg>
+          </div>
+          <h3>恒信信用卡</h3>
+          <p class="svc-num">最长 <span class="counter" data-count="56" data-decimals="0">0</span> <small>天免息期</small></p>
+          <p>首年免年费，餐饮商超 88 折，每月 8 日还款日自动提醒，忘还也有 3 天宽限。</p>
+          <a class="svc-link" href="#cta">立即申请
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 手机银行 App 下载 ============ -->
+  <section class="section appsec" id="app">
+    <div class="wrap app-grid">
+      <div class="app-copy">
+        <p class="kicker reveal">手机银行</p>
+        <h2 class="reveal" data-d="1">银行装进口袋<br>随手即办</h2>
+        <p class="section-sub reveal" data-d="2">转账、理财、还贷、查账单，常用的都在首页。指纹一按，秒进。</p>
+        <ul class="app-feats reveal" data-d="3">
+          <li><b>转账 0 手续费</b>——同行异地、跨行，全部免费</li>
+          <li><b>账单自动分类</b>——餐饮、交通、购物，每月一目了然</li>
+          <li><b>大额转账双重验证</b>——短信 + 刷脸，盗刷先过我们这关</li>
+        </ul>
+        <div class="store-row reveal" data-d="4">
+          <a class="store-btn" href="#cta" aria-label="前往 App Store 下载">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.06-4.4 1.06-.91 0-2.31-1.03-3.8-1-1.95.03-3.75 1.14-4.76 2.88-2.03 3.52-.52 8.74 1.46 11.6.97 1.4 2.12 2.97 3.63 2.91 1.46-.06 2.01-.94 3.77-.94s2.26.94 3.8.91c1.57-.03 2.57-1.42 3.53-2.83 1.11-1.62 1.57-3.19 1.6-3.27-.04-.02-3.07-1.18-3.1-4.7zM14.16 4.06c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z" fill="currentColor"/></svg>
+            <span><small>下载 on the</small>App Store</span>
+          </a>
+          <a class="store-btn" href="#cta" aria-label="前往应用宝下载">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2l8 4.5v9L12 22l-8-6.5v-9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 22V11.5M12 11.5L4 6.5M12 11.5l8-5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+            <span><small>下载</small>应用宝</span>
+          </a>
+        </div>
+        <p class="app-note reveal" data-d="5">4.9 分 · 120 万条评价 · 连续三年获评"最佳手机银行"</p>
+      </div>
+
+      <!-- 手机 mock：纯 CSS 画的手机银行首页 -->
+      <div class="phone reveal" data-d="2" aria-hidden="true">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="ps-greet"><p>早上好，李先生</p><span>尾号 6688</span></div>
+          <div class="ps-balance">
+            <p>总资产（元）</p>
+            <p class="ps-money">286,540.75</p>
+            <p class="ps-yield">昨日收益 +18.62</p>
+          </div>
+          <div class="ps-actions">
+            <span><i></i>转账</span><span><i></i>理财</span><span><i></i>还贷</span><span><i></i>扫一扫</span>
+          </div>
+          <div class="ps-bill">
+            <p>本月支出 <b>12,480</b></p>
+            <div class="ps-bars">
+              <i style="height:72%"></i><i style="height:44%"></i><i style="height:88%"></i><i style="height:58%"></i><i style="height:35%"></i><i style="height:64%"></i><i style="height:50%"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 安全承诺：数字滚动 + 三承诺 ============ -->
+  <section class="section security" id="security">
+    <div class="wrap">
+      <p class="kicker reveal">安全保障</p>
+      <h2 class="reveal" data-d="1">你的每一分钱<br>都有人看守</h2>
+      <p class="section-sub reveal" data-d="2">三道防线，从登录那一刻起全程在线。被盗刷，我们全额赔付。</p>
+      <div class="stat-row reveal" data-d="3">
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="386" data-decimals="0">0</span><em>万</em></p>
+          <p class="stat-label">服务个人客户</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="1.2" data-decimals="1">0.0</span><em>万亿</em></p>
+          <p class="stat-label">累计发放贷款</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="98.6" data-decimals="1">0.0</span><em>%</em></p>
+          <p class="stat-label">客户满意度</p>
+        </div>
+      </div>
+      <div class="sec-grid">
+        <article class="sec-card reveal" data-d="0">
+          <div class="sec-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M20 5l11 4v9c0 7-4.5 12-11 15C13.5 30 9 25 9 18V9z" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/><path d="M15 19l4 4 7-8" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>盗刷全额赔付</h3>
+          <p>经核实为盗刷的交易，72 小时内先行赔付，再追查，不让你垫一分钱。</p>
+        </article>
+        <article class="sec-card reveal" data-d="1">
+          <div class="sec-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="9" y="17" width="22" height="15" rx="3" fill="none" stroke="#B9975B" stroke-width="2.6"/><path d="M13.5 17v-4a6.5 6.5 0 0113 0v4" fill="none" stroke="#B9975B" stroke-width="2.6"/><circle cx="20" cy="24" r="2.2" fill="#B9975B"/></svg>
+          </div>
+          <h3>金融级加密</h3>
+          <p>全链路国密算法加密传输，密码分段存储，内部人员也看不到你的明文。</p>
+        </article>
+        <article class="sec-card reveal" data-d="2">
+          <div class="sec-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="13" fill="none" stroke="#B9975B" stroke-width="2.6"/><path d="M20 12v8l6 4" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linecap="round"/><path d="M7 7l5 5M33 7l-5 5" stroke="#B9975B" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>实时交易风控</h3>
+          <p>每一笔转账都在 0.3 秒内过一遍风控模型，异地大额自动触发二次验证。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <div class="cta-panel reveal">
+        <p class="kicker kicker-light">限时优惠</p>
+        <h2>现在开户<br>首年免收账户管理费</h2>
+        <p>手机 5 分钟开好二类户，大额存单新客利率即刻生效。<br class="br-desktop">已有 <b>386 万</b>人和你做了同样的选择。</p>
+        <div class="cta-row">
+          <a class="btn btn-gold btn-lg" href="#top">立即开户</a>
+          <a class="btn btn-outline-light btn-lg" href="#app">先看看手机银行</a>
+        </div>
+        <p class="cta-note">开户需年满 18 周岁并持有有效身份证件 · 详情咨询 955XX</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="恒信银行首页">
+          <svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true">
+            <path d="M18 4 L30 13 V28 H6 V13 Z" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+            <path d="M13 28 V19 h10 v9" fill="none" stroke="#B9975B" stroke-width="2.6" stroke-linejoin="round"/>
+          </svg>
+          <span>恒信银行</span>
+        </a>
+        <p class="foot-slogan">存得稳，借得快，信得过。</p>
+        <div class="social">
+          <a href="#top" aria-label="官方微信" title="官方微信"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.9 4 3 6.4 3 9.4c0 1.7.9 3.2 2.3 4.2l-.9 2.6 3-1.5c.6.2 1.4.3 2.1.3h.3c-.2-1.9 1.1-4.4 3.2-5.5-1-1-3-1.5-3.5-1.5zM18 9c-3 0-5.5 2-5.5 4.5S15 18 18 18c.6 0 1.2-.1 1.8-.3l2.7 1.3-.8-2.3c1.2-.9 2-2.1 2-3.2C23.5 11 21 9 18 9zM8 7.5h.01M11 7.5h.01M16.5 12h.01M19.5 12h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+          <a href="#top" aria-label="官方微博" title="官方微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.4c-3.9 0-6.6-2.3-6.6-5.3 0-1.5.7-2.8 1.8-3.7-.2 2.6 1.5 5 4.2 5.6 2 .5 4.2-.2 5.3-1.4-.4 2.6-2.2 4.8-4.7 4.8zm9.3-9.6c-.6-.2-1 .2-1.2.7l-.4 1.3c-2.2-.4-4.3.3-5.3 1.6.4-2.2 2.2-3.9 4.6-4.2l1.2 1.1c.4.4 1 .5 1.4.1.4-.5.2-1.2-.3-1.6zm-2-3.3c-4.3-.9-8.6 1-9.9 4.6-.3.9-.5 1.8-.4 2.7.3-3.3 3-5.9 6.5-6.2 2-.2 4 .4 5.4 1.5l-.6-1c-.4-.7-.3-1.4 0-1.6z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="官方抖音" title="官方抖音"><svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.9 3.8 4.5 4v3c-1.7 0-3.2-.5-4.5-1.5v6.6c0 3.4-2.4 5.9-5.7 5.9-3.1 0-5.6-2.4-5.6-5.5 0-3.2 2.6-5.7 6-5.5v3.2c-1.5-.3-2.9.7-2.9 2.3 0 1.4 1.1 2.4 2.5 2.4 1.5 0 2.6-1.1 2.6-2.8V3h3.1z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="官方客服热线" title="客服热线 955XX"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5c.8 2.3 2.7 4.2 5 5L15 13l5 2v4c-6.5 1-14.5-3.5-15-15z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-col" aria-label="产品服务">
+        <h4>产品服务</h4>
+        <a href="#services">个人储蓄</a>
+        <a href="#services">财富管理</a>
+        <a href="#services">个人贷款</a>
+        <a href="#services">信用卡</a>
+      </nav>
+      <nav class="foot-col" aria-label="帮助支持">
+        <h4>帮助支持</h4>
+        <a href="#app">手机银行下载</a>
+        <a href="#security">安全中心</a>
+        <a href="#rates">利率查询</a>
+        <a href="#cta">网点查询</a>
+      </nav>
+      <nav class="foot-col" aria-label="关于恒信">
+        <h4>关于恒信</h4>
+        <a href="#top">银行简介</a>
+        <a href="#top">投资者关系</a>
+        <a href="#top">人才招聘</a>
+        <a href="#top">社会责任</a>
+      </nav>
+      <div class="foot-col" aria-label="法律信息">
+        <h4>法律</h4>
+        <button class="foot-link" data-modal="privacy">隐私政策</button>
+        <button class="foot-link" data-modal="terms">服务条款</button>
+        <button class="foot-link" data-modal="cookie">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-contact">
+      <span>客服热线 <a data-site="phone">955XX</a></span>
+      <span>联系邮箱 <a data-site="email">service@evertrust-bank.cn</a></span>
+      <span>总行地址 <span data-site="address">上海市浦东新区陆家嘴环路 1000 号</span></span>
+    </div>
+    <div class="foot-legal">
+      <p>© 2026 <span data-site="name">恒信银行</span>股份有限公司 · 金融许可证号 HX20260001 · <span data-site="icp">沪ICP备xxxxxx号</span></p>
+      <p class="foot-virtual">本站为虚构品牌「恒信银行」的页面设计模板演示，利率与产品信息均为示例，不构成任何金融建议。</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ 法务三件套弹窗 ============ -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+    </div>
+    <p class="modal-updated" id="modalUpdated"></p>
+    <ol class="modal-points" id="modalPoints"></ol>
+  </div>
+</div>
+
+<script>
+/* 恒信银行 · 银行金融落地页交互
+   classic script，无第三方依赖，纯原生实现。
+   核心动效体系：数字滚动计数器 + 卡片 hover 上浮（CSS） + 滚动 reveal。 */
+(function () {
+  'use strict';
+
+  /* ============ SITE 配置：买家改这里，一改全改 ============ */
+  var SITE = {
+    name: '恒信银行',
+    address: '上海市浦东新区陆家嘴环路 1000 号',
+    email: 'service@evertrust-bank.cn',
+    phone: '955XX',                 /* 上线后替换为真实客服热线 */
+    icp: '沪ICP备xxxxxx号'          /* 上线后替换为真实备案号 */
+  };
+
+  /* ============ 法务三件套：金融口径真实感通用条款 ============ */
+  var MODAL_DOCS = {
+    privacy: {
+      title: '隐私政策',
+      updated: '最后更新：2026 年 10 月',
+      points: [
+        '<b>我们收集哪些信息。</b>开户与业务办理时依法收集的身份信息（姓名、身份证件、联系方式）、账户信息与交易记录，以及为防范风险记录的设备与登录信息。',
+        '<b>信息用来做什么。</b>用于实名开户、客户尽职调查、反洗钱与反欺诈、交易处理与客户服务。我们不会将你的个人信息出售给任何第三方。',
+        '<b>依法报送。</b>根据监管要求，你的信贷信息会依法报送至金融信用信息基础数据库；涉诉涉案信息按司法机关合法要求提供。',
+        '<b>信息保存多久。</b>交易记录按法律法规要求至少保存 5 年；账户注销后，非法规要求保留的信息将在合理期限内删除或匿名化。',
+        '<b>你的权利。</b>你有权查阅、更正、补充你的个人信息，或在符合法规前提下要求删除；请致电客服热线或前往任一网点办理，我们会在 15 个工作日内答复。',
+        '<b>未成年人保护。</b>不满 18 周岁客户开户须由法定监护人陪同办理；我们不会主动向未成年人营销信贷产品。'
+      ]
+    },
+    terms: {
+      title: '服务条款',
+      updated: '最后更新：2026 年 10 月',
+      points: [
+        '<b>账户实名制。</b>开户须本人持有效身份证件办理，不得出借、出租、出售账户；发现冒用开户的，本行有权立即冻结并报告公安机关。',
+        '<b>挂失与补办。</b>存折、银行卡遗失可先口头挂失，口头挂失 5 日内须补办书面手续，逾期自动失效；挂失生效前已发生的交易由客户承担。',
+        '<b>收费标准。</b>账户管理费、转账手续费、年费等收费项目与标准以网点公示及官网《服务价格目录》为准；调价提前 30 日公告。',
+        '<b>交易限额。</b>为保障资金安全，手机银行默认单日转账限额 50 万元；大额交易须通过短信验证码加刷脸双重验证，可前往网点调整。',
+        '<b>服务中断。</b>系统升级维护提前 48 小时公告；因不可抗力、通信故障导致的服务中断，本行不承担赔偿责任，但会尽力恢复并公告说明。',
+        '<b>争议解决。</b>因本条款产生的争议，双方先协商；协商不成，提交本行总行所在地有管辖权的人民法院诉讼解决。'
+      ]
+    },
+    cookie: {
+      title: 'Cookie 政策',
+      updated: '最后更新：2026 年 10 月',
+      points: [
+        '<b>什么是 Cookie。</b>存储在你设备上的小文本文件，用于记住登录态与偏好设置；按用途分为必要、偏好、统计三类。',
+        '<b>必要 Cookie。</b>维持登录会话、交易安全校验与负载均衡；禁用它们将导致网上银行与手机银行无法正常使用。',
+        '<b>偏好 Cookie。</b>记住你的语言、常用功能入口与字体大小；关闭只会影响个性化体验，不影响核心业务办理。',
+        '<b>统计 Cookie。</b>匿名统计页面访问与功能使用热度，用于优化页面布局；不关联你的身份信息，可在浏览器设置中关闭。',
+        '<b>我们不用第三方广告 Cookie。</b>本行官网不接入任何广告联盟的追踪 Cookie；支付环节的 Cookie 仅用于交易安全。',
+        '<b>如何管理。</b>你可以在浏览器设置中随时查看、清除或禁用 Cookie；首次访问时的提示条可一键仅保留必要 Cookie。'
+      ]
+    }
+  };
+
+  /* ---------- 加载态 ---------- */
+  var loader = document.getElementById('loader');
+  function hideLoader() { if (loader) loader.classList.add('done'); }
+  if (document.readyState === 'complete') hideLoader();
+  else window.addEventListener('load', hideLoader);
+  setTimeout(hideLoader, 4000); /* 兜底：load 迟迟不来也不卡死 */
+
+  /* ---------- 导航滚动毛玻璃 ---------- */
+  var nav = document.getElementById('nav');
+  function onScroll() {
+    if (window.scrollY > 24) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 移动端抽屉 ---------- */
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  var drawerVeil = document.getElementById('drawerVeil');
+  function setDrawer(open) {
+    drawer.classList.toggle('open', open);
+    drawerVeil.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger.addEventListener('click', function () {
+    setDrawer(!drawer.classList.contains('open'));
+  });
+  drawerVeil.addEventListener('click', function () { setDrawer(false); });
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setDrawer(false); });
+  });
+
+  /* ---------- 滚动 reveal：IO + data-d 阶梯 + 4s 安全网 ---------- */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+  function lightUp(el) {
+    var d = parseInt(el.getAttribute('data-d') || '0', 10);
+    el.style.transitionDelay = (d * 90) + 'ms';
+    el.classList.add('is-in');
+  }
+  if (reduceMotion) {
+    revealEls.forEach(function (el) { el.classList.add('is-in'); });
+  } else if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { lightUp(en.target); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.16 });
+    revealEls.forEach(function (el) { io.observe(el); });
+    /* 4 秒安全网：IO 漏报的元素强制点亮 */
+    setTimeout(function () {
+      revealEls.forEach(function (el) {
+        if (!el.classList.contains('is-in')) lightUp(el);
+      });
+    }, 4000);
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  /* ---------- 数字滚动计数器：核心动效 ---------- */
+  function animateCounter(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var dur = 1600, t0 = null;
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); } /* 物理感：快起慢收 */
+    function frame(now) {
+      if (!t0) t0 = now;
+      var p = Math.min((now - t0) / dur, 1);
+      var v = target * easeOutQuart(p);
+      el.textContent = v.toFixed(decimals);
+      if (p < 1) requestAnimationFrame(frame);
+      else el.textContent = target.toFixed(decimals); /* 收尾对齐，避免浮点残差 */
+    }
+    if (reduceMotion) { el.textContent = target.toFixed(decimals); return; }
+    requestAnimationFrame(frame);
+  }
+  var counters = document.querySelectorAll('.counter');
+  if ('IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { animateCounter(en.target); cio.unobserve(en.target); }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function (el) { cio.observe(el); });
+    setTimeout(function () { /* 安全网：未触发的直接定值 */
+      counters.forEach(function (el) {
+        if (el.textContent === '0' || el.textContent === '0.0' || el.textContent === '0.00') {
+          el.textContent = parseFloat(el.getAttribute('data-count')).toFixed(parseInt(el.getAttribute('data-decimals') || '0', 10));
+        }
+      });
+    }, 6000);
+  } else {
+    counters.forEach(animateCounter);
+  }
+
+  /* ---------- SITE 变量渲染 ---------- */
+  document.querySelectorAll('[data-site]').forEach(function (el) {
+    var key = el.getAttribute('data-site');
+    if (SITE[key] == null) return;
+    if (el.tagName === 'A' && key === 'email') el.href = 'mailto:' + SITE.email;
+    if (el.tagName === 'A' && key === 'phone') el.href = 'tel:' + SITE.phone.replace(/\s/g, '');
+    el.textContent = SITE[key];
+  });
+
+  /* ---------- 法务三件套弹窗 ---------- */
+  var modal = document.getElementById('modal');
+  var modalVeil = document.getElementById('modalVeil');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalUpdated = document.getElementById('modalUpdated');
+  var modalPoints = document.getElementById('modalPoints');
+  var modalX = document.getElementById('modalX');
+  var lastTrigger = null;
+
+  function openModal(key, trigger) {
+    var doc = MODAL_DOCS[key];
+    if (!doc) return;
+    lastTrigger = trigger || null;
+    modalTitle.textContent = doc.title;
+    modalUpdated.textContent = doc.updated;
+    modalPoints.innerHTML = doc.points.map(function (p) { return '<li>' + p + '</li>'; }).join('');
+    modal.classList.add('open');
+    modalVeil.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    modalVeil.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    modalX.focus();
+  }
+  function closeModal() {
+    if (!modal.classList.contains('open')) return;
+    modal.classList.remove('open');
+    modalVeil.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    modalVeil.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    if (lastTrigger) lastTrigger.focus();
+  }
+  document.querySelectorAll('[data-modal]').forEach(function (btn) {
+    btn.addEventListener('click', function () { openModal(btn.getAttribute('data-modal'), btn); });
+  });
+  modalX.addEventListener('click', closeModal);
+  modalVeil.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (modal.classList.contains('open')) closeModal();      /* 弹窗优先 */
+      else if (drawer.classList.contains('open')) setDrawer(false);
+    }
+  });
+})();
+
+</script>
+</body>
+</html>

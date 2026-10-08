@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本季精选 · 3D 陈列 — huafire3d fx-lab</title>
+<meta name="description" content="独立站系列页模板：6 件单品 3D 陈列墙，悬停加速旋转，点击查看详情。">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="gl-stage" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="page">
+  <header class="topbar">
+    <div class="brand"><b>HUAFIRE 3D</b><span>fx-lab · collection showcase</span></div>
+    <div class="note">独立站系列页模板</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">2026 秋季系列</div>
+    <h1>本季精选 <em>· 3D 陈列</em></h1>
+    <p>六件单品，件件可转。把鼠标放上去，看看它们的另一面；点进来，360° 细看做工。</p>
+  </section>
+
+  <nav class="filters" id="filters" aria-label="按分类筛选"></nav>
+
+  <main class="grid" id="grid" aria-live="polite"></main>
+
+  <footer class="footer">
+    <span>HUAFIRE 3D · fx-lab 原创模板</span>
+    <span>© <span id="year">2026</span> · 换商品只改 <code>src/config.js</code></span>
+  </footer>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-label="商品详情">
+  <div class="modal-backdrop"></div>
+  <div class="modal-panel">
+    <button class="modal-close" aria-label="关闭详情">×</button>
+    <div class="modal-view" id="modal-view">
+      <span class="drag-tip">拖拽旋转 · 查看细节</span>
+    </div>
+    <div class="modal-info">
+      <div class="cat"></div>
+      <h2></h2>
+      <div class="en"></div>
+      <p class="desc"></p>
+      <div class="price"></div>
+      <div class="modal-actions">
+        <button class="btn primary" data-act="bag" type="button">加入购物袋</button>
+        <button class="btn ghost" data-act="close" type="button">继续逛逛</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

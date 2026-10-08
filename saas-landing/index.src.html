@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northloop · 让每一次协作都快得离谱</title>
+<meta name="description" content="Northloop —— 任务、文档与讨论收进同一块画布的项目协作 SaaS。">
+<script>document.documentElement.className += ' js';</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态：窗口 load 后淡出；无 JS 时由 noscript 兜底隐藏 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark"><span></span><span></span><span></span></div>
+  <p>正在装配工作区…</p>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- 噪点 + 暗角：全页手工质感 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 导航 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Northloop 首页">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+        <path d="M6 26 L16 6 L26 26 Z" fill="none" stroke="#5E6AD2" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="16" cy="19" r="2.6" fill="#fff"/>
+      </svg>
+      <span>Northloop</span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#features">Product</a>
+      <a href="#features">Solutions</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#quote">Docs</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="signin" href="#cta">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="#cta">Get started</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#features">Product</a>
+  <a href="#features">Solutions</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#quote">Docs</a>
+  <div class="drawer-actions">
+    <a class="signin" href="#cta">Sign in</a>
+    <a class="btn btn-primary" href="#cta">Get started</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <a class="badge reveal" href="#features" data-d="0">
+        <span class="badge-dot"></span>New · 自动化规则正式上线
+        <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <h1 class="reveal" data-d="1">让每一次协作<br>都快得离谱</h1>
+      <p class="hero-sub reveal" data-d="2">Northloop 把任务、文档和讨论收进同一块画布。<br class="br-desktop">团队每天省下两小时会议，交付速度翻一倍。</p>
+      <div class="cta-row reveal" data-d="3">
+        <a class="btn btn-primary btn-lg magnetic" href="#cta">免费开始</a>
+        <a class="btn btn-ghost btn-lg" href="#pricing">预约演示</a>
+      </div>
+      <p class="hero-note reveal" data-d="4">免费版不限人数 · 无需信用卡 · 30 秒开通</p>
+
+      <!-- 产品界面 mock：纯 CSS 任务看板，透视倾斜 + 鼠标视差 -->
+      <div class="mock-stage reveal" data-d="5">
+        <div class="mock-glow" aria-hidden="true"></div>
+        <div class="mock" id="mock" aria-label="Northloop 任务看板界面预览">
+          <div class="mock-bar">
+            <span class="traffic"><i></i><i></i><i></i></span>
+            <span class="mock-url">app.northloop.io/board</span>
+            <span class="mock-avatar-stack"><b></b><b></b><b></b></span>
+          </div>
+          <div class="mock-body">
+            <aside class="mock-side">
+              <div class="side-logo"></div>
+              <i class="side-item on"></i><i class="side-item"></i><i class="side-item"></i><i class="side-item"></i>
+            </aside>
+            <div class="mock-cols">
+              <div class="mock-col">
+                <h4>需求池 <em>3</em></h4>
+                <div class="task"><span class="pri p1"></span><p>落地页首屏改版</p><div class="task-meta"><span class="tag">设计</span><span class="due">今天</span></div></div>
+                <div class="task"><span class="pri p2"></span><p>支付回调重试</p><div class="task-meta"><span class="tag">后端</span><span class="due">明天</span></div></div>
+                <div class="task"><span class="pri p3"></span><p>帮助中心英文版</p><div class="task-meta"><span class="tag">内容</span><span class="due">本周</span></div></div>
+              </div>
+              <div class="mock-col">
+                <h4>进行中 <em>2</em></h4>
+                <div class="task doing"><span class="pri p1"></span><p>自动化规则引擎</p>
+                  <div class="progress"><i style="--w:68%"></i></div>
+                  <div class="task-meta"><span class="tag">核心</span><span class="due">68%</span></div></div>
+                <div class="task doing"><span class="pri p2"></span><p>移动端抽屉导航</p>
+                  <div class="progress"><i style="--w:35%"></i></div>
+                  <div class="task-meta"><span class="tag">前端</span><span class="due">35%</span></div></div>
+              </div>
+              <div class="mock-col">
+                <h4>已完成 <em>2</em></h4>
+                <div class="task done"><span class="check on"></span><p>看板拖拽排序</p><div class="task-meta"><span class="tag">前端</span><span class="due">已交付</span></div></div>
+                <div class="task done"><span class="check on"></span><p>周报自动推送</p><div class="task-meta"><span class="tag">增长</span><span class="due">已交付</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 客户 Logo 云 ============ -->
+  <section class="logos">
+    <p class="logos-title reveal">深受 4,000+ 团队信赖</p>
+    <div class="logos-row reveal" data-d="1">
+      <span>星野科技</span><span>云杉资本</span><span>拾光出行</span>
+      <span>白鲸电商</span><span>青梧教育</span><span>墨客工坊</span>
+    </div>
+  </section>
+
+  <!-- ============ 交错功能行 ============ -->
+  <section class="features" id="features">
+
+    <div class="feature">
+      <div class="feature-copy reveal">
+        <span class="feature-kicker">看板</span>
+        <h2>任务，一拖就动</h2>
+        <p>列与列之间随便拖，优先级随手改。全键盘操作，资深用户可以做到手不离键盘开完一场站会。</p>
+        <a class="link-more" href="#cta">看看拖拽演示
+          <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="feature-visual reveal" data-d="1">
+        <div class="fv fv-drag" aria-hidden="true">
+          <div class="fv-col"><i></i><i></i></div>
+          <div class="fv-card">发布 v2.4 <b>▸</b></div>
+          <div class="fv-col"><i></i><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature flip">
+      <div class="feature-copy reveal">
+        <span class="feature-kicker">洞察</span>
+        <h2>进展，自己汇报</h2>
+        <p>燃尽图、阻塞清单、成员负载，每周一早上自动推到群里。开会前先看数据，开会只做决策。</p>
+        <a class="link-more" href="#cta">看看自动周报
+          <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="feature-visual reveal" data-d="1">
+        <div class="fv fv-chart" aria-hidden="true">
+          <svg viewBox="0 0 220 120">
+            <path d="M8 108 C 60 100, 90 70, 130 62 S 190 30, 212 12" fill="none" stroke="#5E6AD2" stroke-width="3" stroke-linecap="round" class="chart-line"/>
+            <path d="M8 108 C 60 100, 90 70, 130 62 S 190 30, 212 12 L212 120 L8 120 Z" fill="#5E6AD2" opacity=".12" class="chart-fill"/>
+            <circle cx="212" cy="12" r="4.5" fill="#fff" class="chart-dot"/>
+          </svg>
+          <div class="fv-bars"><i style="--h:34%"></i><i style="--h:52%"></i><i style="--h:44%"></i><i style="--h:70%"></i><i style="--h:62%"></i><i style="--h:88%"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-copy reveal">
+        <span class="feature-kicker">集成</span>
+        <h2>工具，开箱即连</h2>
+        <p>代码仓库、设计稿、在线文档、IM 通知，50 多个集成点两下就接好。旧数据一键迁入，不丢一条记录。</p>
+        <a class="link-more" href="#cta">浏览集成列表
+          <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="feature-visual reveal" data-d="1">
+        <div class="fv fv-grid" aria-hidden="true">
+          <i>G</i><i>F</i><i>S</i><i>N</i><i>D</i><i>W</i><i class="hot">N</i><i>Z</i><i>T</i>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 评价 ============ -->
+  <section class="quote" id="quote">
+    <blockquote class="reveal">
+      <p>"以前每天早上花一小时对齐进度，现在打开 Northloop 三分钟就够了。Q3 我们团队交付量涨了 40%，会议少了一半。"</p>
+      <footer>
+        <span class="quote-avatar" aria-hidden="true">陈</span>
+        <span class="quote-who"><b>陈默</b><i>拾光出行 · 研发负责人</i></span>
+      </footer>
+    </blockquote>
+  </section>
+
+  <!-- ============ 定价预告 ============ -->
+  <section class="pricing" id="pricing">
+    <div class="section-head reveal">
+      <span class="feature-kicker">定价</span>
+      <h2>先免费，用顺了再付钱</h2>
+      <p>免费版不限人数、不限项目。付费只为更高级的自动化和专属支持。</p>
+    </div>
+    <div class="price-cards">
+      <div class="price-card reveal" data-d="0">
+        <h3>免费版</h3><p class="price"><b>¥0</b></p>
+        <p class="price-desc">小团队先跑起来</p>
+        <ul><li>无限项目与任务</li><li>看板 / 列表双视图</li><li>基础自动化 100 次/月</li></ul>
+        <a class="btn btn-ghost" href="#cta">立即开通</a>
+      </div>
+      <div class="price-card hot reveal" data-d="1">
+        <span class="hot-tag">最受欢迎</span>
+        <h3>专业版</h3><p class="price"><b>¥48</b><i>/人/月</i></p>
+        <p class="price-desc">认真做事的团队之选</p>
+        <ul><li>免费版全部功能</li><li>自动化规则无限次</li><li>燃尽图与负载洞察</li><li>优先客服支持</li></ul>
+        <a class="btn btn-primary" href="#cta">开始 14 天试用</a>
+      </div>
+      <div class="price-card reveal" data-d="2">
+        <h3>企业版</h3><p class="price"><b>定制</b></p>
+        <p class="price-desc">安全与合规一个都不能少</p>
+        <ul><li>专业版全部功能</li><li>SSO / 审计日志</li><li>私有化部署可选</li><li>专属客户成功经理</li></ul>
+        <a class="btn btn-ghost" href="#cta">联系销售</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 大 CTA ============ -->
+  <section class="cta-final" id="cta">
+    <div class="cta-panel reveal">
+      <h2>下一个准时交付的<br>就是你们团队</h2>
+      <p>30 秒开通，旧项目一键迁入。今晚就能用上。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg magnetic" href="#top">免费开始</a>
+        <a class="btn btn-ghost btn-lg" href="#pricing">和销售聊聊</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="logo" href="#top">
+        <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+          <path d="M6 26 L16 6 L26 26 Z" fill="none" stroke="#5E6AD2" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="16" cy="19" r="2.6" fill="#fff"/>
+        </svg>
+        <span>Northloop</span>
+      </a>
+      <p>让每一次协作都快得离谱。</p>
+      <div class="social" aria-label="社交媒体">
+        <a href="#top" aria-label="X" title="X"><svg viewBox="0 0 24 24" width="17" height="17"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L2.8 2h6.4l4.4 5.9L18.9 2zm-1.1 17.8h1.7L7.1 3.9H5.3l12.5 15.9z" fill="currentColor"/></svg></a>
+        <a href="#top" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="17" height="17"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" fill="currentColor"/></svg></a>
+        <a href="#top" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z" fill="currentColor"/></svg></a>
+        <a href="#top" aria-label="微信" title="微信"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 3C3.7 3 1 5.5 1 8.6c0 1.8 1 3.4 2.6 4.4L3 15.5l2.9-1.5c.7.2 1.4.3 2.1.3h.4c-.3-.8-.4-1.7-.4-2.6C8 8.3 11 5.5 14.7 5.2 12.4 3.6 9.9 3 7 3zm2.2 3.2c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm5.6 0c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zM17.5 9c-3.3 0-6 2.3-6 5.1 0 1.6.9 3 2.2 3.9l-.5 2.1 2.4-1.2c.6.2 1.2.2 1.9.2 3.3 0 6-2.3 6-5.1S20.8 9 17.5 9zm-2.3 3.4c.4 0 .8.3.8.8s-.4.8-.8.8-.8-.3-.8-.8.4-.8.8-.8zm4.6 0c.4 0 .8.3.8.8s-.4.8-.8.8-.8-.3-.8-.8.4-.8.8-.8z" fill="currentColor"/></svg></a>
+      </div>
+      <div class="footer-contact">
+        <p data-site="address">北京市朝阳区建国路 88 号 SOHO 现代城 A 座 1206</p>
+        <p><a data-site="email" href="mailto:support@northloop.io">support@northloop.io</a><span class="sep">·</span><a data-site="phone" href="tel:+861088886666">+86 10-8888-6666</a></p>
+      </div>
+    </div>
+    <nav class="footer-cols" aria-label="页脚导航">
+      <div><h4>产品</h4><a href="#features">看板</a><a href="#features">洞察</a><a href="#features">集成</a><a href="#pricing">定价</a></div>
+      <div><h4>解决方案</h4><a href="#features">研发团队</a><a href="#features">市场团队</a><a href="#features">远程协作</a><a href="#features">初创公司</a></div>
+      <div><h4>资源</h4><a href="#quote">客户故事</a><a href="#quote">帮助中心</a><a href="#quote">开发文档</a><a href="#quote">更新日志</a></div>
+      <div><h4>公司</h4><a href="#cta">关于我们</a><a href="#cta">加入我们</a><a href="#cta">媒体资料</a><a href="#cta">联系方式</a></div>
+      <div><h4>法律</h4><button class="flink" data-modal="privacy">隐私政策</button><button class="flink" data-modal="terms">服务条款</button><button class="flink" data-modal="cookie">Cookie 政策</button><a href="#top">安全白皮书</a><a href="#top">合规</a></div>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <span data-site="name">Northloop</span> · <span data-site="icp">京ICP备xxxxxx号</span> · 本页为 fx-lab 模板演示，品牌与文案均为虚构</p>
+  </div>
+</footer>
+
+<!-- ============ 法务弹窗 ============ -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-head">
+    <h3 id="modalTitle"></h3>
+    <button class="modal-x" id="modalX" aria-label="关闭弹窗">
+      <svg viewBox="0 0 14 14" width="14" height="14"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

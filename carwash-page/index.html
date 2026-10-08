@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>净驰 SHINEGO · 专业汽车美容连锁</title>
+<meta name="description" content="净驰 SHINEGO 汽车美容连锁：普洗 39 元起，精洗打蜡、镀晶养护一站式。全国 38 家门店，会员洗车单次低至 25 元。">
+<!-- huafire3d fx-lab · MIT License — free for commercial use (carwash-page) -->
+<style>
+/* 净驰 SHINEGO · carwash-page —— 墨蓝 #0d1b2e / 白 / 柠檬黄 #ffd60a */
+:root{
+  --ink:#0d1b2e;
+  --ink-2:#12263f;
+  --ink-soft:rgba(13,27,46,.72);
+  --paper:#ffffff;
+  --tint:#eef3f8;
+  --y:#ffd60a;
+  --y-ink:#0d1b2e;
+  --line:rgba(13,27,46,.12);
+  --ease:cubic-bezier(.19,1,.22,1);
+  --pop:cubic-bezier(.34,1.3,.44,1);
+  --nav-h:72px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 12px)}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;
+}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+[hidden]{display:none!important}
+
+/* ---------- 排版层级 ---------- */
+.kicker{
+  font-size:12px;letter-spacing:.42em;font-weight:600;color:var(--ink);
+  text-transform:uppercase;margin-bottom:18px;opacity:.6;
+}
+.dark .kicker{color:var(--y);opacity:1}
+.h2{
+  font-size:clamp(30px,4.6vw,52px);line-height:1.25;letter-spacing:.06em;
+  font-weight:800;margin-bottom:14px;
+}
+.lede{font-size:16px;letter-spacing:.04em;color:var(--ink-soft);max-width:620px}
+.dark .lede{color:rgba(255,255,255,.72)}
+.section{padding:110px 0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.dark{background:var(--ink);color:#fff}
+.tint{background:var(--tint)}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-block;padding:13px 30px;border-radius:999px;
+  font-size:15px;font-weight:700;letter-spacing:.12em;
+  transition:transform .35s var(--pop),box-shadow .35s var(--ease),background .3s;
+  white-space:nowrap;
+}
+.btn-y{background:var(--y);color:var(--y-ink)}
+.btn-y:hover{transform:translateY(-3px);box-shadow:0 14px 30px -8px rgba(255,214,10,.55)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{transform:translateY(-3px);box-shadow:0 14px 30px -10px rgba(13,27,46,.5)}
+.btn-ghost{border:2px solid rgba(13,27,46,.28);color:var(--ink)}
+.btn-ghost:hover{transform:translateY(-3px);border-color:var(--ink)}
+.dark .btn-ghost{border-color:rgba(255,255,255,.4);color:#fff}
+.dark .btn-ghost:hover{border-color:var(--y);color:var(--y)}
+.btn-lg{padding:16px 40px;font-size:16px}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:200;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .6s var(--ease),visibility .6s;
+}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-car{width:180px;color:var(--y);animation:carBob 1.6s var(--ease) infinite}
+.loader-car svg{width:100%;height:auto}
+@keyframes carBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.loader-bar{width:180px;height:4px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.loader-bar span{display:block;height:100%;width:40%;border-radius:99px;background:var(--y);animation:loadSlide 1.1s var(--ease) infinite}
+@keyframes loadSlide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+.loader-txt{color:rgba(255,255,255,.75);font-size:14px;letter-spacing:.4em}
+
+/* ---------- 顶部导航 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+  transition:background .4s var(--ease),box-shadow .4s;
+}
+.nav.scrolled{background:rgba(13,27,46,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 30px -12px rgba(0,0,0,.4)}
+.nav-in{max-width:1180px;height:100%;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:34px}
+.brand{display:flex;align-items:center;gap:12px;color:#fff}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:var(--y);display:grid;place-items:center;color:var(--ink)}
+.brand-mark svg{width:24px;height:24px}
+.brand-txt{font-size:21px;font-weight:800;letter-spacing:.18em}
+.brand-txt em{font-style:normal;font-size:11px;letter-spacing:.3em;opacity:.65;display:block;line-height:1;margin-top:2px}
+.menu{display:flex;gap:30px;margin-left:auto}
+.menu a{color:rgba(255,255,255,.85);font-size:15px;letter-spacing:.14em;position:relative;padding:6px 0}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--y);transition:width .35s var(--ease)}
+.menu a:hover::after{width:100%}
+.nav .btn{margin-left:8px}
+.burger{display:none;flex-direction:column;gap:6px;margin-left:auto;padding:10px}
+.burger span{width:26px;height:2.5px;background:#fff;border-radius:2px;transition:transform .35s var(--ease),opacity .3s}
+.burger.open span:nth-child(1){transform:translateY(8.5px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-8.5px) rotate(-45deg)}
+
+/* 移动端抽屉 */
+.drawer{
+  position:fixed;inset:0;z-index:90;background:rgba(13,27,46,.96);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;
+}
+.drawer.open{opacity:1;visibility:visible}
+.drawer-in{display:flex;flex-direction:column;gap:8px;text-align:center}
+.drawer-in a{color:#fff;font-size:26px;font-weight:700;letter-spacing:.2em;padding:14px;opacity:0;transform:translateY(18px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.drawer.open .drawer-in a{opacity:1;transform:none}
+.drawer.open .drawer-in a:nth-child(1){transition-delay:.06s}
+.drawer.open .drawer-in a:nth-child(2){transition-delay:.12s}
+.drawer.open .drawer-in a:nth-child(3){transition-delay:.18s}
+.drawer.open .drawer-in a:nth-child(4){transition-delay:.24s}
+.drawer.open .drawer-in a:nth-child(5){transition-delay:.3s}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100svh;background:var(--ink);color:#fff;
+  display:flex;align-items:center;overflow:hidden;
+}
+.hero-foam{position:absolute;inset:0;width:100%;height:100%}
+.hero-car{position:absolute;right:-4%;bottom:9%;width:min(58vw,640px);color:#fff;opacity:.16;pointer-events:none}
+.hero-car svg{width:100%;height:auto;overflow:visible}
+.shine{
+  position:absolute;top:-20%;bottom:-20%;left:0;width:34%;
+  background:linear-gradient(105deg,transparent 20%,rgba(255,214,10,.5) 50%,transparent 80%);
+  transform:skewX(-18deg);filter:none;
+  animation:sweep 5.2s var(--ease) infinite;
+  mix-blend-mode:screen;
+}
+@keyframes sweep{
+  0%{left:-40%;opacity:0}
+  12%{opacity:1}
+  55%{left:110%;opacity:1}
+  70%,100%{left:110%;opacity:0}
+}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(5,10,20,.55) 100%)}
+.hero-grain{position:absolute;inset:0;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+.hero-in{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:calc(var(--nav-h) + 40px) 28px 90px;width:100%}
+.hero .kicker{color:var(--y);opacity:1}
+.hero h1{
+  font-size:clamp(58px,9.5vw,128px);line-height:1.14;letter-spacing:.1em;
+  font-weight:900;margin:0 0 26px;
+}
+.hero-sub{font-size:clamp(16px,2vw,20px);letter-spacing:.08em;color:rgba(255,255,255,.78);line-height:1.9;margin-bottom:40px}
+.hero-cta{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:44px}
+.hero-cta .btn-ghost{border-color:rgba(255,255,255,.45);color:#fff}
+.hero-cta .btn-ghost:hover{border-color:var(--y);color:var(--y)}
+.hero-badges{list-style:none;display:flex;gap:30px;flex-wrap:wrap}
+.hero-badges li{display:flex;align-items:center;gap:9px;font-size:14px;letter-spacing:.12em;color:rgba(255,255,255,.85)}
+.hero-badges svg{width:19px;height:19px;color:var(--y)}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);width:24px;height:42px;border:2px solid rgba(255,255,255,.4);border-radius:14px;z-index:2}
+.scroll-hint span{display:block;width:4px;height:8px;border-radius:4px;background:var(--y);margin:8px auto 0;animation:hintDrop 1.8s var(--ease) infinite}
+@keyframes hintDrop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(14px);opacity:0}100%{opacity:0}}
+
+/* hero 入场遮罩（完成态带 html.js 前缀，防特异性坑） */
+html.js .hero .rl{overflow:hidden}
+html.js .hero .rl-in{display:inline-block;transform:translateY(112%);opacity:0;
+  transition:transform 1s var(--ease),opacity .8s var(--ease)}
+html.js .hero.enter .rl-in{transform:none;opacity:1}
+html.js .hero.enter .hero-in .rl:nth-child(1) .rl-in{transition-delay:.05s}
+html.js .hero.enter .hero-in .rl:nth-child(2) .rl-in{transition-delay:.18s}
+html.js .hero.enter .hero-in .rl:nth-child(3) .rl-in{transition-delay:.34s}
+html.js .hero.enter .hero-in .rl:nth-child(4) .rl-in{transition-delay:.5s}
+html.js .hero.enter .hero-in .rl:nth-child(5) .rl-in{transition-delay:.66s}
+@media (prefers-reduced-motion:reduce){
+  html.js .hero .rl-in{transform:none;opacity:1;transition:none}
+  .shine,.scroll-hint span,.loader-car,.loader-bar span{animation:none}
+}
+
+/* ---------- 滚动 reveal ---------- */
+html.js .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html.js .reveal{opacity:1;transform:none;transition:none}}
+
+/* ---------- 服务价目 ---------- */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:52px}
+.price-card{
+  position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;
+  padding:40px 34px;display:flex;flex-direction:column;gap:6px;
+  transition:transform .4s var(--pop),box-shadow .4s var(--ease),border-color .3s;
+}
+.price-card:hover{transform:translateY(-8px);box-shadow:0 26px 50px -20px rgba(13,27,46,.28);border-color:var(--ink)}
+.price-card.hot{border:2px solid var(--y);box-shadow:0 20px 44px -18px rgba(255,214,10,.5)}
+.pc-flag{
+  position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+  background:var(--y);color:var(--ink);font-size:13px;font-weight:800;letter-spacing:.2em;
+  padding:6px 20px;border-radius:99px;white-space:nowrap;
+}
+.pc-top{display:flex;flex-direction:column;gap:4px}
+.pc-top svg{width:34px;height:34px;color:var(--ink);margin-bottom:10px}
+.hot .pc-top svg{color:#c79a00}
+.pc-top h3{font-size:24px;letter-spacing:.2em;font-weight:800}
+.pc-en{font-size:11px;letter-spacing:.32em;color:var(--ink-soft)}
+.pc-price{font-size:52px;font-weight:900;letter-spacing:.02em;margin:14px 0 6px}
+.pc-price sup{font-size:22px;font-weight:700;margin-right:4px}
+.pc-price small{font-size:15px;font-weight:500;color:var(--ink-soft);letter-spacing:.1em}
+.pc-list{list-style:none;margin:10px 0 16px;display:flex;flex-direction:column;gap:11px;font-size:15px;letter-spacing:.05em}
+.pc-list li{padding-left:26px;position:relative;color:var(--ink-soft)}
+.pc-list li::before{content:"";position:absolute;left:2px;top:9px;width:9px;height:9px;border-radius:50%;background:var(--y);border:2px solid var(--ink)}
+.pc-time{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-soft);letter-spacing:.1em;margin-bottom:22px}
+.pc-time svg{width:17px;height:17px}
+.price-card .btn{margin-top:auto;text-align:center}
+
+/* ---------- 会员卡 ---------- */
+.mem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:52px}
+.mem-card{
+  position:relative;background:var(--ink-2);border:1px solid rgba(255,255,255,.14);
+  border-radius:22px;padding:42px 36px;display:flex;flex-direction:column;gap:8px;
+  transition:transform .4s var(--pop),box-shadow .4s var(--ease),border-color .3s;
+}
+.mem-card:hover{transform:translateY(-8px);box-shadow:0 26px 50px -18px rgba(0,0,0,.6);border-color:rgba(255,214,10,.6)}
+.mem-card.hot{border:2px solid var(--y)}
+.mem-card h3{font-size:22px;letter-spacing:.24em;font-weight:800}
+.mem-price{font-size:48px;font-weight:900;color:var(--y);letter-spacing:.02em;margin:6px 0 2px}
+.mem-price small{font-size:15px;font-weight:500;color:rgba(255,255,255,.6)}
+.mem-note{font-size:14px;letter-spacing:.08em;color:rgba(255,255,255,.62);margin-bottom:14px}
+.mem-card ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;font-size:15px;letter-spacing:.05em;color:rgba(255,255,255,.85)}
+.mem-card li{display:flex;gap:10px;align-items:flex-start}
+.mem-card li svg{width:17px;height:17px;color:var(--y);flex:none;margin-top:4px}
+.mem-card .btn{margin-top:auto;text-align:center}
+
+/* ---------- 门店 ---------- */
+.chips{display:flex;gap:12px;flex-wrap:wrap;margin:36px 0 30px}
+.chip{
+  padding:10px 24px;border-radius:99px;border:1.5px solid var(--line);
+  font-size:15px;letter-spacing:.16em;font-weight:600;
+  transition:all .3s var(--ease);
+}
+.chip:hover{border-color:var(--ink);transform:translateY(-2px)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.store-card{
+  border:1px solid var(--line);border-radius:18px;padding:28px;
+  transition:transform .4s var(--pop),box-shadow .4s var(--ease);
+  animation:storeIn .5s var(--ease);
+}
+@keyframes storeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.store-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px -18px rgba(13,27,46,.25)}
+.store-card h3{font-size:19px;letter-spacing:.1em;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:9px}
+.store-card h3 svg{width:18px;height:18px;color:#c79a00}
+.store-card p{font-size:14px;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:6px}
+.store-card .st-tag{display:inline-block;margin-top:12px;font-size:12px;letter-spacing:.2em;background:var(--y);color:var(--ink);font-weight:700;padding:5px 14px;border-radius:99px}
+
+/* ---------- 车主评价 ---------- */
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:52px}
+.rev-card{
+  background:#fff;border-radius:20px;padding:36px 32px;
+  transition:transform .4s var(--pop),box-shadow .4s var(--ease);
+}
+.rev-card:hover{transform:translateY(-8px) rotate(-.4deg);box-shadow:0 26px 48px -20px rgba(13,27,46,.25)}
+.rev-stars{display:flex;gap:5px;margin-bottom:20px}
+.rev-stars svg{width:19px;height:19px;color:var(--y)}
+.rev-stars svg.dim{color:rgba(13,27,46,.15)}
+.rev-card blockquote{font-size:16px;letter-spacing:.05em;line-height:1.9;margin-bottom:22px}
+.rev-card figcaption{font-size:13px;letter-spacing:.14em;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:16px}
+
+/* ---------- 预约表单 ---------- */
+.book-in{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+.book .h2{color:#fff}
+.book-copy .kicker{color:var(--y);opacity:1}
+.book-steps{list-style:none;margin:34px 0;display:flex;flex-direction:column;gap:16px}
+.book-steps li{display:flex;align-items:center;gap:16px;font-size:16px;letter-spacing:.12em;color:rgba(255,255,255,.88)}
+.book-steps span{
+  width:34px;height:34px;border-radius:50%;background:var(--y);color:var(--ink);
+  display:grid;place-items:center;font-weight:900;font-size:16px;flex:none;
+}
+.book-phone{font-size:15px;letter-spacing:.1em;color:rgba(255,255,255,.7)}
+.book-phone a{color:var(--y);font-weight:800;font-size:19px;letter-spacing:.06em}
+.book-form{
+  background:#fff;border-radius:24px;padding:44px 40px;
+  display:flex;flex-direction:column;gap:20px;color:var(--ink);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.5);
+}
+.book-form label{display:flex;flex-direction:column;gap:9px;font-size:14px;font-weight:700;letter-spacing:.18em}
+.book-form input,.book-form select{
+  font:inherit;font-weight:400;letter-spacing:.06em;
+  border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;background:#fff;color:var(--ink);
+  transition:border-color .3s,box-shadow .3s;
+}
+.book-form input:focus,.book-form select:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px rgba(255,214,10,.35)}
+.book-form .btn{border:0;margin-top:6px}
+.form-ok{
+  background:rgba(255,214,10,.18);border:1.5px solid var(--y);border-radius:14px;
+  padding:14px 18px;font-size:14px;letter-spacing:.08em;font-weight:600;
+}
+.form-err{
+  background:rgba(200,40,40,.08);border:1.5px solid rgba(200,40,40,.4);border-radius:14px;
+  padding:14px 18px;font-size:14px;letter-spacing:.08em;color:#a02a2a;
+}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#081220;color:rgba(255,255,255,.75);padding:80px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;padding-bottom:56px}
+.foot-brand .brand-txt{color:#fff;margin-bottom:14px}
+.foot-brand p[data-site]{font-size:14px;letter-spacing:.14em;margin-bottom:26px}
+.social{display:flex;gap:14px}
+.social a{
+  width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);
+  display:grid;place-items:center;transition:all .3s var(--ease);
+}
+.social a svg{width:21px;height:21px}
+.social a:hover{border-color:var(--y);color:var(--y);transform:translateY(-4px)}
+.foot-col h4{font-size:14px;letter-spacing:.3em;color:#fff;margin-bottom:20px;font-weight:700}
+.foot-col p{margin-bottom:13px;font-size:14px;letter-spacing:.08em;display:flex;align-items:center;gap:10px}
+.foot-col p svg{width:16px;height:16px;flex:none;color:var(--y)}
+.foot-col a:hover,.legal-link:hover{color:var(--y)}
+.legal-link{font-size:14px;letter-spacing:.08em;text-align:left}
+.foot-base{border-top:1px solid rgba(255,255,255,.1);padding:24px 28px 30px}
+.foot-base p{font-size:13px;letter-spacing:.14em;color:rgba(255,255,255,.45)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal[hidden]{display:none!important}
+.modal-mask{position:absolute;inset:0;background:rgba(8,14,24,.7);backdrop-filter:blur(4px)}
+.modal-box{
+  position:relative;background:#fff;border-radius:22px;max-width:620px;width:100%;
+  max-height:82vh;overflow:auto;padding:48px 46px;
+  animation:modalIn .45s var(--ease);
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
+.modal-x{
+  position:absolute;top:18px;right:20px;width:38px;height:38px;border-radius:50%;
+  font-size:17px;color:var(--ink);transition:all .3s var(--ease);
+}
+.modal-x:hover{background:var(--y);transform:rotate(90deg)}
+.modal-box .kicker{margin-bottom:10px}
+.modal-box h3{font-size:28px;letter-spacing:.14em;font-weight:800;margin-bottom:8px}
+.legal-upd{font-size:13px;color:var(--ink-soft);letter-spacing:.1em;margin-bottom:26px}
+.legal-list{list-style:none;counter-reset:legal;display:flex;flex-direction:column;gap:20px}
+.legal-list li{counter-increment:legal;padding-left:44px;position:relative;font-size:15px;line-height:1.85;letter-spacing:.04em}
+.legal-list li::before{
+  content:counter(legal);position:absolute;left:0;top:2px;
+  width:30px;height:30px;border-radius:50%;background:var(--y);color:var(--ink);
+  font-size:14px;font-weight:800;display:grid;place-items:center;
+}
+.legal-list strong{display:block;font-size:16px;letter-spacing:.1em;margin-bottom:4px}
+body.lock{overflow:hidden}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1000px){
+  .price-grid,.mem-grid,.store-grid,.rev-grid{grid-template-columns:1fr 1fr}
+  .book-in{grid-template-columns:1fr;gap:52px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .menu,.nav .nav-cta{display:none}
+  .burger{display:flex}
+  .hero-car{right:-30%;opacity:.1}
+}
+@media (max-width:640px){
+  .section{padding:78px 0}
+  .price-grid,.mem-grid,.store-grid,.rev-grid{grid-template-columns:1fr}
+  .hero h1{letter-spacing:.06em}
+  .hero-cta .btn{flex:1;text-align:center}
+  .book-form{padding:34px 26px}
+  .modal{padding:0}
+  .modal-box{border-radius:0;max-height:100vh;height:100%;padding:60px 28px 40px}
+  .foot-grid{grid-template-columns:1fr;gap:36px}
+}
+
+</style>
+</head>
+<body>
+
+<!-- SVG 符号库：洗车图标 / 图钉 / 社交 / 勾选 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-spray" viewBox="0 0 48 48">
+    <path d="M10 40c6 0 10-4 10-10V14l-8 2v14c0 3-2 5-5 5z" fill="currentColor"/>
+    <path d="M14 8l18-4 4 6-18 4z" fill="currentColor"/>
+    <circle cx="34" cy="26" r="1.8" fill="currentColor"/><circle cx="40" cy="22" r="1.5" fill="currentColor"/>
+    <circle cx="37" cy="32" r="1.6" fill="currentColor"/><circle cx="42" cy="29" r="1.3" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-shine" viewBox="0 0 48 48">
+    <path d="M24 4l3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="currentColor"/>
+    <path d="M38 28l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="currentColor"/>
+    <path d="M10 30l1.6 5 5 1.6-5 1.6-1.6 5-1.6-5-5-1.6 5-1.6z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-drop" viewBox="0 0 48 48">
+    <path d="M24 5c8 12 13 19 13 27a13 13 0 1 1-26 0c0-8 5-15 13-27z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-card" viewBox="0 0 48 48">
+    <rect x="6" y="12" width="36" height="24" rx="5" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <path d="M6 20h36" stroke="currentColor" stroke-width="3.5"/>
+    <path d="M12 29h10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48">
+    <path d="M24 4a14 14 0 0 0-14 14c0 10 14 26 14 26s14-16 14-26A14 14 0 0 0 24 4z" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <circle cx="24" cy="18" r="5.5" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 48 48">
+    <path d="M9 25l11 11 19-24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <path d="M24 13v11l8 5" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48">
+    <path d="M14 6h8l4 12-6 4a30 30 0 0 0 10 10l4-6 12 4v8c0 2-1.5 3.5-3.5 3.5C24 41.5 6.5 24 6.5 9.5 6.5 7.5 8 6 10 6z" fill="none" stroke="currentColor" stroke-width="3.5" transform="translate(1 0)"/>
+  </symbol>
+  <symbol id="i-wx" viewBox="0 0 48 48">
+    <circle cx="18" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="32" cy="29" r="9" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="14.5" cy="19" r="1.6" fill="currentColor"/><circle cx="21.5" cy="19" r="1.6" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-wb" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M15 32c5-2 7-8 5-13M21 33c7-2 10-10 7-17M28 33c8-3 11-11 8-19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-dy" viewBox="0 0 48 48">
+    <path d="M26 6v20a8 8 0 1 1-8-8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M26 12c1 5 4 8 9 9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-xhs" viewBox="0 0 48 48">
+    <rect x="10" y="10" width="28" height="28" rx="8" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M24 16v13M17.5 22.5L24 29l6.5-6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 48 48">
+    <path d="M24 5l6 12.5 13.5 2-10 9.5 2.5 13.5L24 36l-12 6.5L14.5 29l-10-9.5 13.5-2z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-car" viewBox="0 0 520 220">
+    <path d="M28 158 Q30 138 60 134 L128 128 Q152 88 212 84 L310 84 Q372 88 410 128 L472 134 Q500 138 500 154 L498 162 Q496 168 488 168 L452 168 A32 32 0 0 0 388 168 L148 168 A32 32 0 0 0 84 168 L46 168 Q34 168 30 158 Z" fill="currentColor"/>
+    <path d="M158 122 Q176 96 218 94 L300 94 Q344 96 374 124 L160 124 Z" fill="currentColor" opacity=".35"/>
+  </symbol>
+</svg>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" role="status" aria-label="页面加载中">
+  <div class="loader-car">
+    <svg viewBox="0 0 520 220" aria-hidden="true"><use href="#i-car"/></svg>
+  </div>
+  <div class="loader-bar"><span></span></div>
+  <p class="loader-txt">正在打泡沫…</p>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="净驰 SHINEGO 首页">
+      <span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-drop"/></svg></span>
+      <span class="brand-txt">净驰<em>SHINEGO</em></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#services">服务价目</a>
+      <a href="#member">会员卡</a>
+      <a href="#stores">门店</a>
+      <a href="#reviews">车主说</a>
+    </nav>
+    <a class="btn btn-y nav-cta" href="#book">预约洗车</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-in">
+    <a href="#services">服务价目</a>
+    <a href="#member">会员卡</a>
+    <a href="#stores">门店</a>
+    <a href="#reviews">车主说</a>
+    <a class="btn btn-y" href="#book">预约洗车</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <canvas class="hero-foam" id="foam" aria-hidden="true"></canvas>
+    <div class="hero-car" aria-hidden="true">
+      <svg viewBox="0 0 520 220"><use href="#i-car"/></svg>
+      <div class="shine"></div>
+    </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-in">
+      <p class="kicker rl"><span class="rl-in">汽车美容连锁 · CAR WASH &amp; DETAILING</span></p>
+      <h1 class="rl"><span class="rl-in">洗得干净，<br>看得见。</span></h1>
+      <p class="hero-sub rl"><span class="rl-in">普洗 39 元起，精洗打蜡、镀晶养护一站式。<br class="br-d">全国 38 家门店，会员单次洗车低至 25 元。</span></p>
+      <div class="hero-cta rl">
+        <span class="rl-in">
+          <a class="btn btn-y btn-lg" href="#book">立即预约洗车</a>
+          <a class="btn btn-ghost btn-lg" href="#services">看看价目</a>
+        </span>
+      </div>
+      <ul class="hero-badges rl">
+        <li class="rl-in"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-check"/></svg>全程可视施工</li>
+        <li class="rl-in"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-check"/></svg>环保中性泡沫</li>
+        <li class="rl-in"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-check"/></svg>洗不干净重洗</li>
+      </ul>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- ============ 服务价目 ============ -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <p class="kicker reveal">服务价目 · PRICE</p>
+      <h2 class="h2 reveal">三种洗法，明码标价</h2>
+      <p class="lede reveal">价格全国统一，门店墙上贴的和这里一样。加项现场报价，不加不收钱。</p>
+      <div class="price-grid">
+        <article class="price-card reveal" style="--d:.05s">
+          <div class="pc-top">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-spray"/></svg>
+            <h3>普洗</h3><p class="pc-en">EXPRESS WASH</p>
+          </div>
+          <p class="pc-price"><sup>¥</sup>39<small>/次</small></p>
+          <ul class="pc-list">
+            <li>高压水枪冲洗车身</li>
+            <li>中性泡沫全覆盖</li>
+            <li>轮毂轮胎刷洗</li>
+            <li>内饰吸尘 + 玻璃擦拭</li>
+          </ul>
+          <p class="pc-time"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-clock"/></svg>约 25 分钟</p>
+          <a class="btn btn-dark" href="#book" data-service="普洗">选普洗</a>
+        </article>
+        <article class="price-card hot reveal" style="--d:.15s">
+          <p class="pc-flag">最多人选</p>
+          <div class="pc-top">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-shine"/></svg>
+            <h3>精洗</h3><p class="pc-en">DETAILED WASH</p>
+          </div>
+          <p class="pc-price"><sup>¥</sup>129<small>/次</small></p>
+          <ul class="pc-list">
+            <li>普洗全部项目</li>
+            <li>内饰深度清洁 + 皮革养护</li>
+            <li>柏油铁粉去除</li>
+            <li>手工打蜡（保 3 个月）</li>
+            <li>发动机舱擦拭</li>
+          </ul>
+          <p class="pc-time"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-clock"/></svg>约 90 分钟</p>
+          <a class="btn btn-y" href="#book" data-service="精洗">选精洗</a>
+        </article>
+        <article class="price-card reveal" style="--d:.25s">
+          <div class="pc-top">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-drop"/></svg>
+            <h3>镀晶</h3><p class="pc-en">CERAMIC COATING</p>
+          </div>
+          <p class="pc-price"><sup>¥</sup>1999<small>/整车</small></p>
+          <ul class="pc-list">
+            <li>精洗全部项目</li>
+            <li>漆面抛光还原</li>
+            <li>双层镀晶施工</li>
+            <li>质保 2 年，免费补镀</li>
+          </ul>
+          <p class="pc-time"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-clock"/></svg>约 2 天（含固化）</p>
+          <a class="btn btn-dark" href="#book" data-service="镀晶">选镀晶</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 会员卡 ============ -->
+  <section class="section dark" id="member">
+    <div class="wrap">
+      <p class="kicker reveal">会员卡 · MEMBERSHIP</p>
+      <h2 class="h2 reveal">常洗车，办张卡更划算</h2>
+      <p class="lede reveal">三档卡，全国门店通用。卡没用完可退，退剩余次数的钱，不扣手续费。</p>
+      <div class="mem-grid">
+        <article class="mem-card reveal" style="--d:.05s">
+          <h3>月卡</h3>
+          <p class="mem-price">¥199<small>/月</small></p>
+          <p class="mem-note">普洗不限次 · 适合每天开车上下班</p>
+          <ul>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>普洗不限次数</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>精洗 9 折</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>免预约排队通道</li>
+          </ul>
+          <a class="btn btn-ghost" href="#book" data-service="会员·月卡">办月卡</a>
+        </article>
+        <article class="mem-card hot reveal" style="--d:.15s">
+          <p class="pc-flag">回本最快</p>
+          <h3>季卡</h3>
+          <p class="mem-price">¥499<small>/季</small></p>
+          <p class="mem-note">单次折到 25 元 · 送 1 次精洗</p>
+          <ul>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>普洗不限次数</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>送 1 次精洗（129 元）</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>精洗 8 折 · 镀晶 9 折</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>家人第二辆车半价同享</li>
+          </ul>
+          <a class="btn btn-y" href="#book" data-service="会员·季卡">办季卡</a>
+        </article>
+        <article class="mem-card reveal" style="--d:.25s">
+          <h3>年卡</h3>
+          <p class="mem-price">¥1599<small>/年</small></p>
+          <p class="mem-note">单次折到 18 元 · 送 4 次精洗</p>
+          <ul>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>普洗不限次数</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>送 4 次精洗（516 元）</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>镀晶 85 折 + 优先排期</li>
+          </ul>
+          <a class="btn btn-ghost" href="#book" data-service="会员·年卡">办年卡</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 门店查询 ============ -->
+  <section class="section" id="stores">
+    <div class="wrap">
+      <p class="kicker reveal">门店 · STORES</p>
+      <h2 class="h2 reveal">38 家门店，找离你最近的</h2>
+      <p class="lede reveal">点城市筛选。所有门店 9:00–21:00，全年无休，节假日不打烊。</p>
+      <div class="chips reveal" role="tablist" aria-label="城市筛选" id="cityChips"></div>
+      <div class="store-grid" id="storeGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ 车主评价 ============ -->
+  <section class="section tint" id="reviews">
+    <div class="wrap">
+      <p class="kicker reveal">车主说 · REVIEWS</p>
+      <h2 class="h2 reveal">洗过的人，怎么说</h2>
+      <div class="rev-grid">
+        <figure class="rev-card reveal" style="--d:.05s">
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg>
+          </div>
+          <blockquote>精洗花了快两个小时，师傅把门缝里的泥都抠出来了。打完蜡水珠立在漆面上，值这个价。</blockquote>
+          <figcaption>陈先生 · 特斯拉 Model 3 · 精洗</figcaption>
+        </figure>
+        <figure class="rev-card reveal" style="--d:.15s">
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg>
+          </div>
+          <blockquote>办的季卡，一周洗两次，算下来一次二十多块。门口扫码排队，到店基本不用等。</blockquote>
+          <figcaption>王女士 · 理想 L7 · 季卡会员</figcaption>
+        </figure>
+        <figure class="rev-card reveal" style="--d:.25s">
+          <div class="rev-stars" aria-label="4 星">
+            <svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48" class="dim"><use href="#i-star"/></svg>
+          </div>
+          <blockquote>镀晶做了两天，提车时师傅拿着灯一寸一寸照给我看。就是工位紧张，周末得提前约。</blockquote>
+          <figcaption>刘先生 · 宝马 5 系 · 镀晶</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 预约 CTA ============ -->
+  <section class="section dark book" id="book">
+    <div class="wrap book-in">
+      <div class="book-copy reveal">
+        <p class="kicker">预约洗车 · BOOKING</p>
+        <h2 class="h2">留个车牌，<br>到店不用等。</h2>
+        <p class="lede">提交后 10 分钟内门店电话确认。支持到店付，不收定金。</p>
+        <ul class="book-steps">
+          <li><span>1</span>填车牌和时间</li>
+          <li><span>2</span>门店电话确认</li>
+          <li><span>3</span>到店开洗</li>
+        </ul>
+        <p class="book-phone">着急？直接打 <a data-site="phone" data-site-href="phoneHref" href="#">400-820-XXXX</a></p>
+      </div>
+      <form class="book-form reveal" id="bookForm" novalidate>
+        <label>车牌号
+          <input type="text" name="plate" placeholder="如：沪A·88888" maxlength="10" required>
+        </label>
+        <label>车型
+          <input type="text" name="model" placeholder="如：特斯拉 Model 3" maxlength="30" required>
+        </label>
+        <label>服务项目
+          <select name="service" id="serviceSel" required>
+            <option value="普洗">普洗 ¥39</option>
+            <option value="精洗">精洗 ¥129</option>
+            <option value="镀晶">镀晶 ¥1999</option>
+            <option value="会员·月卡">会员月卡 ¥199</option>
+            <option value="会员·季卡">会员季卡 ¥499</option>
+            <option value="会员·年卡">会员年卡 ¥1599</option>
+          </select>
+        </label>
+        <label>预约时间
+          <input type="datetime-local" name="time" required>
+        </label>
+        <button class="btn btn-y btn-lg" type="submit">提交预约</button>
+        <p class="form-ok" id="formOk" hidden>已收到！门店会在 10 分钟内电话联系你确认。</p>
+        <p class="form-err" id="formErr" hidden>车牌、车型、时间都填一下，我们好安排工位。</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <p class="brand-txt">净驰<em>SHINEGO</em></p>
+      <p data-site="tagline">把每辆车，都当展车洗。</p>
+      <div class="social">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 48 48"><use href="#i-wx"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 48 48"><use href="#i-wb"/></svg></a>
+        <a href="#" aria-label="小红书"><svg viewBox="0 0 48 48"><use href="#i-xhs"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 48 48"><use href="#i-dy"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>联系我们</h4>
+      <p><svg viewBox="0 0 48 48"><use href="#i-phone"/></svg><a data-site="phone" data-site-href="phoneHref" href="#">400-820-XXXX</a></p>
+      <p><svg viewBox="0 0 48 48"><use href="#i-pin"/></svg><span data-site="address">地址占位</span></p>
+      <p><svg viewBox="0 0 48 48"><use href="#i-clock"/></svg><span data-site="hours">营业时间占位</span></p>
+    </div>
+    <div class="foot-col">
+      <h4>快速入口</h4>
+      <p><a href="#services">服务价目</a></p>
+      <p><a href="#member">会员卡</a></p>
+      <p><a href="#stores">门店查询</a></p>
+      <p><a href="#book">预约洗车</a></p>
+    </div>
+    <div class="foot-col">
+      <h4>网站政策</h4>
+      <p><button class="legal-link" data-legal="privacy">隐私政策</button></p>
+      <p><button class="legal-link" data-legal="terms">服务条款</button></p>
+      <p><button class="legal-link" data-legal="cookies">Cookie 政策</button></p>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© <span data-site="year">2026</span> <span data-site="name">净驰 SHINEGO</span> · <span data-site="icp">沪ICP备xxxxxxxxxx号-1</span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <p class="kicker" id="legalEn"></p>
+    <h3 id="legalTitle"></h3>
+    <p class="legal-upd" id="legalUpd"></p>
+    <ol class="legal-list" id="legalList"></ol>
+  </div>
+</div>
+
+<noscript><style>.loader{display:none}.rl-in{transform:none!important;opacity:1!important}</style></noscript>
+<script>
+/* 净驰 SHINEGO · carwash-page —— 零依赖 classic 脚本 */
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= 配置：买家只改这里 ================= */
+  var SITE = {
+    name: '净驰 SHINEGO',
+    tagline: '把每辆车，都当展车洗。',
+    address: '上海市浦东新区张杨路 1888 号',
+    phone: '400-820-6633',
+    phoneHref: 'tel:+864008206633',
+    hours: '营业时间 9:00 – 21:00（全年无休）',
+    icp: '沪ICP备xxxxxxxxxx号-1',
+    year: String(new Date().getFullYear())
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: '隐私政策', en: 'PRIVACY POLICY', updated: '最后更新：2026 年 10 月',
+      points: [
+        ['我们收集什么', '预约洗车、办理会员卡或联系客服时，我们会收集你的车牌号、车型、联系电话和预约时间。这些只用来安排工位和联系你确认。'],
+        ['信息用来做什么', '仅用于预约履约、会员服务和售后回访。不会出售、出租你的个人信息，也不会用于你没同意过的营销。'],
+        ['信息保存多久', '预约记录保存 1 年，到期自动删除；会员信息在你退卡后 30 天内删除。'],
+        ['你的权利', '你可以随时要求查询、更正或删除你的个人信息，也可以要求注销会员卡。客服会在 7 个工作日内处理。'],
+        ['摄像头', '施工区有监控摄像头，用于保障车辆安全。录像保存 30 天，仅安保人员可查看。'],
+        ['未成年人', '我们的服务面向车主本人，未满 18 岁请在监护人陪同下办理会员。']
+      ]
+    },
+    terms: {
+      title: '服务条款', en: 'TERMS OF SERVICE', updated: '最后更新：2026 年 10 月',
+      points: [
+        ['价格', '全部门店执行官网价目，现场加项先报价、你同意了才做。不加项不收钱。'],
+        ['洗不干净重洗', '提车时当面验车，发现没洗干净的地方当场免费重洗；离店后 24 小时内反馈同样有效。'],
+        ['贵重物品', '洗车前请带走车内贵重物品。施工中如有物品遗失，请第一时间告知店长，我们调取监控核实。'],
+        ['会员卡', '会员卡全国门店通用。未用完可退，按剩余次数折算退款，不收手续费，3 个工作日内到账。'],
+        ['镀晶质保', '镀晶质保 2 年，质保期内出现非外力损伤的脱落、失光，免费补镀。'],
+        ['不可抗力', '因极端天气、停水停电等不可抗力导致预约改期，我们会提前电话通知，免费改到你方便的时间。']
+      ]
+    },
+    cookies: {
+      title: 'Cookie 政策', en: 'COOKIE POLICY', updated: '最后更新：2026 年 10 月',
+      points: [
+        ['我们用什么', '本站只用维持页面正常运行所必需的本地存储（如记住你选的城市），不跑第三方广告追踪。'],
+        ['用来做什么', '记住你的城市筛选和表单草稿，让你下次打开不用重选。'],
+        ['保存多久', '本地存储保留 30 天，你清浏览器缓存就清掉了。'],
+        ['你的选择', '你可以在浏览器设置里随时禁用本地存储，页面照常能用，只是每次要重新选城市。'],
+        ['联系我们', '对 Cookie 有疑问，打 400-820-6633 问客服。']
+      ]
+    }
+  };
+
+  var STORES = [
+    { city: '上海', name: '浦东张杨路店', addr: '浦东新区张杨路 1888 号', tag: '旗舰店 · 12 工位' },
+    { city: '上海', name: '闵行莘庄店', addr: '闵行区莘建东路 118 号', tag: '精洗专区' },
+    { city: '上海', name: '静安大宁店', addr: '静安区共和新路 1858 号', tag: '镀晶施工中心' },
+    { city: '北京', name: '朝阳大悦城店', addr: '朝阳区朝阳北路 101 号', tag: '商场店 · 地下 B2' },
+    { city: '北京', name: '海淀中关村店', addr: '海淀区中关村大街 27 号', tag: '8 工位' },
+    { city: '广州', name: '天河城店', addr: '天河区天河路 208 号', tag: '旗舰店 · 12 工位' },
+    { city: '广州', name: '番禺万博店', addr: '番禺区万博二路 79 号', tag: '精洗专区' },
+    { city: '深圳', name: '南山海岸城店', addr: '南山区文心五路 33 号', tag: '商场店 · 地下 B1' },
+    { city: '深圳', name: '福田中心店', addr: '福田区深南大道 6001 号', tag: '镀晶施工中心' },
+    { city: '杭州', name: '西湖银泰店', addr: '上城区延安路 98 号', tag: '商场店 · 地下 B2' },
+    { city: '成都', name: '高新大源店', addr: '高新区大源南二街 88 号', tag: '10 工位' },
+    { city: '成都', name: '武侯双楠店', addr: '武侯区二环路南四段 8 号', tag: '精洗专区' }
+  ];
+  var CITIES = ['全部', '上海', '北京', '广州', '深圳', '杭州', '成都'];
+
+  /* ================= SITE 渲染 ================= */
+  function renderSite() {
+    var els = document.querySelectorAll('[data-site]');
+    for (var i = 0; i < els.length; i++) {
+      var key = els[i].getAttribute('data-site');
+      if (SITE[key] !== undefined) els[i].textContent = SITE[key];
+      var hrefKey = els[i].getAttribute('data-site-href');
+      if (hrefKey && SITE[hrefKey] !== undefined && els[i].tagName === 'A') {
+        els[i].setAttribute('href', SITE[hrefKey]);
+      }
+    }
+  }
+
+  /* ================= 加载态 + hero 入场 ================= */
+  var loader = document.getElementById('loader');
+  var hero = document.getElementById('hero');
+  var entered = false;
+  function enter() {
+    if (entered) return;
+    entered = true;
+    if (loader) loader.classList.add('done');
+    if (hero) hero.classList.add('enter');
+  }
+  window.addEventListener('load', function () { setTimeout(enter, 650); });
+  setTimeout(enter, 4000); /* 4s 兜底 */
+
+  /* ================= 导航毛玻璃 ================= */
+  var nav = document.getElementById('nav');
+  function onScroll() {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ================= 汉堡抽屉 ================= */
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  function setDrawer(open) {
+    burger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.classList.toggle('lock', open);
+  }
+  burger.addEventListener('click', function () {
+    setDrawer(!drawer.classList.contains('open'));
+  });
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setDrawer(false); });
+  });
+
+  /* ================= 滚动 reveal ================= */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ================= 核心动效·泡沫粒子 ================= */
+  var canvas = document.getElementById('foam');
+  if (canvas && !reduce) {
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0, parts = [], running = true;
+    function size() {
+      var r = hero.getBoundingClientRect();
+      W = canvas.width = Math.floor(r.width);
+      H = canvas.height = Math.floor(r.height);
+    }
+    function spawn(init) {
+      var s = 2 + Math.random() * 7;
+      return {
+        x: Math.random() * W,
+        y: init ? Math.random() * H : H + s + 10,
+        r: s,
+        vy: 0.35 + Math.random() * 0.9,
+        sway: 20 + Math.random() * 50,
+        ph: Math.random() * Math.PI * 2,
+        life: 0, maxLife: 500 + Math.random() * 700,
+        a: 0.10 + Math.random() * 0.28
+      };
+    }
+    function init() {
+      size();
+      parts = [];
+      var n = Math.min(90, Math.floor(W / 16));
+      for (var i = 0; i < n; i++) parts.push(spawn(true));
+    }
+    function frame() {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.life++;
+        p.y -= p.vy;
+        var x = p.x + Math.sin(p.ph + p.life / 60) * p.sway * 0.25;
+        var fade = Math.sin(Math.PI * Math.min(1, p.life / p.maxLife));
+        var alpha = p.a * fade;
+        if (alpha <= 0.004 || p.y < -20) { parts[i] = spawn(false); continue; }
+        var g = ctx.createRadialGradient(x, p.y, 0, x, p.y, p.r);
+        g.addColorStop(0, 'rgba(255,255,255,' + alpha.toFixed(3) + ')');
+        g.addColorStop(0.7, 'rgba(255,255,255,' + (alpha * 0.55).toFixed(3) + ')');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+    init();
+    frame();
+    window.addEventListener('resize', init);
+    /* hero 离开视口 / 标签页隐藏时停跑，省电 */
+    new IntersectionObserver(function (en) {
+      var vis = en[0].isIntersecting;
+      if (vis && !running) { running = true; frame(); }
+      else if (!vis) { running = false; }
+    }, { threshold: 0 }).observe(hero);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) running = false;
+      else if (!running) { running = true; frame(); }
+    });
+  }
+
+  /* ================= 门店城市筛选 ================= */
+  var chipsBox = document.getElementById('cityChips');
+  var storeGrid = document.getElementById('storeGrid');
+  var activeCity = '全部';
+  function renderChips() {
+    chipsBox.innerHTML = '';
+    CITIES.forEach(function (c) {
+      var b = document.createElement('button');
+      b.className = 'chip' + (c === activeCity ? ' on' : '');
+      b.textContent = c;
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', c === activeCity ? 'true' : 'false');
+      b.addEventListener('click', function () {
+        activeCity = c;
+        renderChips();
+        renderStores();
+      });
+      chipsBox.appendChild(b);
+    });
+  }
+  function renderStores() {
+    storeGrid.innerHTML = '';
+    STORES.filter(function (s) {
+      return activeCity === '全部' || s.city === activeCity;
+    }).forEach(function (s) {
+      var card = document.createElement('article');
+      card.className = 'store-card';
+      var h = document.createElement('h3');
+      h.innerHTML = '<svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-pin"/></svg>';
+      h.appendChild(document.createTextNode(s.name));
+      var addr = document.createElement('p');
+      addr.textContent = s.addr;
+      var hours = document.createElement('p');
+      hours.textContent = SITE.hours;
+      var tag = document.createElement('span');
+      tag.className = 'st-tag';
+      tag.textContent = s.tag;
+      card.appendChild(h);
+      card.appendChild(addr);
+      card.appendChild(hours);
+      card.appendChild(tag);
+      storeGrid.appendChild(card);
+    });
+  }
+  renderChips();
+  renderStores();
+
+  /* ================= 预约表单 ================= */
+  var form = document.getElementById('bookForm');
+  var okMsg = document.getElementById('formOk');
+  var errMsg = document.getElementById('formErr');
+  var serviceSel = document.getElementById('serviceSel');
+  /* 价目/会员卡的"选X"按钮 → 预填服务下拉 */
+  document.querySelectorAll('[data-service]').forEach(function (btn) {
+    if (btn.tagName !== 'A') return;
+    btn.addEventListener('click', function () {
+      serviceSel.value = btn.getAttribute('data-service');
+    });
+  });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var plate = form.plate.value.trim();
+    var model = form.model.value.trim();
+    var time = form.time.value;
+    if (!plate || !model || !time) {
+      errMsg.hidden = false;
+      okMsg.hidden = true;
+      return;
+    }
+    errMsg.hidden = true;
+    okMsg.hidden = false;
+    okMsg.textContent = '已收到！' + plate + ' · ' + serviceSel.value + '，门店会在 10 分钟内电话联系你确认。';
+    form.querySelector('button[type=submit]').disabled = true;
+  });
+
+  /* ================= 法务弹窗（三通道关闭） ================= */
+  var modal = document.getElementById('legalModal');
+  var legalTitle = document.getElementById('legalTitle');
+  var legalEn = document.getElementById('legalEn');
+  var legalUpd = document.getElementById('legalUpd');
+  var legalList = document.getElementById('legalList');
+  var lastFocus = null;
+  function openLegal(key) {
+    var d = LEGAL[key];
+    if (!d) return;
+    lastFocus = document.activeElement;
+    legalTitle.textContent = d.title;
+    legalEn.textContent = d.en;
+    legalUpd.textContent = d.updated;
+    legalList.innerHTML = '';
+    d.points.forEach(function (pt) {
+      var li = document.createElement('li');
+      var st = document.createElement('strong');
+      st.textContent = pt[0];
+      li.appendChild(st);
+      li.appendChild(document.createTextNode(pt[1]));
+      legalList.appendChild(li);
+    });
+    modal.hidden = false;
+    document.body.classList.add('lock');
+    modal.querySelector('.modal-x').focus();
+  }
+  function closeLegal() {
+    modal.hidden = true;
+    document.body.classList.remove('lock');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-legal]').forEach(function (b) {
+    b.addEventListener('click', function () { openLegal(b.getAttribute('data-legal')); });
+  });
+  modal.querySelectorAll('[data-close]').forEach(function (b) {
+    b.addEventListener('click', closeLegal);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (!modal.hidden) closeLegal();
+      if (drawer.classList.contains('open')) setDrawer(false);
+    }
+  });
+
+  renderSite();
+})();
+
+</script>
+</body>
+</html>

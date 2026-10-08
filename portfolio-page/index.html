@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈维 Wei Chen — 独立设计师作品集</title>
+<meta name="description" content="陈维 Wei Chen，独立设计师。品牌视觉、网页设计与动效，过去八年帮 40 多个品牌把概念做成作品。">
+<script>document.documentElement.classList.add('js-motion')</script>
+<style>
+/* 陈维 Wei Chen — 作品集落地页
+   配色：米白 #F4F1EA / 墨黑 #141414 / 朱砂 #E4572E，三色定死，无彩虹渐变 */
+:root{
+  --paper:#F4F1EA;
+  --ink:#141414;
+  --red:#E4572E;
+  --line:rgba(20,20,20,.14);
+  --ease:cubic-bezier(.16,1,.3,1);        /* 招牌缓动：快出、柔落 */
+  --ease-io:cubic-bezier(.65,0,.35,1);
+  --spring:cubic-bezier(.34,1.4,.64,1);
+  --nav-h:72px;
+  --pad:clamp(20px,4vw,64px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* 纸纹噪点：SVG 湍流内联，零网络请求 */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{background:var(--red);color:var(--paper)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+section{scroll-margin-top:calc(var(--nav-h) + 12px)}
+
+/* ---------- 加载态 ---------- */
+#loader{
+  position:fixed;inset:0;z-index:9500;background:var(--paper);
+  display:flex;flex-direction:column;gap:22px;align-items:center;justify-content:center;
+  transition:opacity .7s var(--ease-io),visibility .7s;
+}
+#loader.done{opacity:0;visibility:hidden}
+.l-name{font-size:22px;font-weight:800;letter-spacing:.12em}
+.l-name span{font-weight:400;color:var(--red);letter-spacing:.06em}
+.l-bar{width:180px;height:2px;background:var(--line);overflow:hidden}
+.l-bar span{display:block;height:100%;background:var(--red);transform-origin:left;transform:scaleX(0);animation:lbar 2.6s var(--ease-io) forwards}
+@keyframes lbar{to{transform:scaleX(1)}}
+
+/* ---------- 导航 ---------- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:8000;transition:background .4s,border-color .4s,backdrop-filter .4s;border-bottom:1px solid transparent}
+#nav.scrolled{background:rgba(244,241,234,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-color:var(--line)}
+.nav-in{height:var(--nav-h);max-width:1440px;margin:0 auto;padding:0 var(--pad);display:flex;align-items:center;gap:32px}
+.brand{font-size:19px;font-weight:800;letter-spacing:.06em;margin-right:auto}
+.brand em{font-style:normal;font-weight:400;font-size:13px;color:var(--red);margin-left:8px;letter-spacing:.04em}
+.links{display:flex;gap:28px}
+.links a{font-size:15px;font-weight:600;position:relative;padding:4px 0}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.links a:hover::after{transform:scaleX(1);transform-origin:left}
+.hire{background:var(--ink);color:var(--paper);font-size:14px;font-weight:700;padding:11px 22px;border-radius:999px;transition:background .3s,transform .25s var(--spring);will-change:transform}
+.hire:hover{background:var(--red)}
+.hire:active{transform:scale(.94)}
+#burger{display:none;flex-direction:column;gap:6px;padding:10px;margin-right:-10px}
+#burger span{display:block;width:26px;height:2px;background:var(--ink);transition:transform .4s var(--ease),opacity .3s}
+#burger.open span:first-child{transform:translateY(4px) rotate(45deg)}
+#burger.open span:last-child{transform:translateY(-4px) rotate(-45deg)}
+
+/* 移动端全屏菜单 */
+#mnav{position:fixed;inset:0;z-index:7900;background:var(--paper);display:flex;align-items:center;padding:0 var(--pad);
+  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s}
+#mnav.open{opacity:1;visibility:visible}
+#mnav nav{display:flex;flex-direction:column;gap:6px;width:100%}
+#mnav a{font-size:clamp(40px,11vw,64px);font-weight:800;letter-spacing:-.01em;padding:10px 0;border-bottom:1px solid var(--line);
+  display:flex;align-items:baseline;gap:14px;transform:translateY(24px);opacity:0;transition:transform .6s var(--ease),opacity .6s}
+#mnav a small{font-size:14px;font-weight:400;color:var(--red)}
+#mnav.open a{transform:none;opacity:1}
+#mnav.open a:nth-child(2){transition-delay:.07s}#mnav.open a:nth-child(3){transition-delay:.14s}#mnav.open a:nth-child(4){transition-delay:.21s}
+#mnav .m-hire{color:var(--red);border-bottom:0}
+
+/* ---------- 通用 ---------- */
+main{display:block}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;max-width:1440px;margin:0 auto;padding:clamp(72px,9vw,128px) var(--pad) clamp(28px,4vw,48px)}
+.sec-head h2{font-size:clamp(30px,4vw,52px);font-weight:800;letter-spacing:-.01em}
+.sec-head h2 small{font-size:.42em;font-weight:400;color:var(--red);margin-left:12px;letter-spacing:.05em}
+.sec-head .count{font-size:14px;font-weight:600;color:var(--ink);opacity:.55;white-space:nowrap}
+
+/* 滚动揭示：只在 .js-motion 下隐藏，无 JS / 降级时全部可见（完成态可达） */
+.js-motion .rv{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.js-motion .rv.in{opacity:1;transform:none}
+
+/* ---------- Hero ---------- */
+.hero{max-width:1440px;margin:0 auto;padding:calc(var(--nav-h) + clamp(48px,7vw,110px)) var(--pad) clamp(48px,6vw,90px)}
+.eyebrow{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:14px;font-weight:600;letter-spacing:.08em;margin-bottom:clamp(20px,3vw,36px)}
+.avail{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.avail i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.statement{font-size:clamp(64px,12.5vw,188px);line-height:1.04;font-weight:800;letter-spacing:-.025em}
+.lm{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em} /* 遮罩：裁掉升起过程 */
+.js-motion .li{display:block;transform:translateY(112%);transition:transform 1.05s var(--ease);transition-delay:var(--d,0s);will-change:transform}
+body.ready .li{transform:none}
+.li.accent{color:var(--red)}
+.sub{margin-top:clamp(24px,3.5vw,44px);font-size:clamp(16px,1.8vw,21px);line-height:1.7;max-width:34em;color:var(--ink);opacity:.78}
+.hero-foot{margin-top:clamp(36px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:22px}
+.cta-line{font-size:15px;font-weight:700;display:inline-flex;gap:10px;align-items:center}
+.cta-line span{color:var(--red);animation:bob 2.4s var(--ease-io) infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.coords{font-size:12px;letter-spacing:.14em;opacity:.45}
+
+/* ---------- 作品网格 ---------- */
+.work{padding-bottom:clamp(20px,3vw,40px)}
+.grid{max-width:1440px;margin:0 auto;padding:0 var(--pad);display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,2.6vw,36px)}
+.card{display:block;grid-column:span 12}
+@media(min-width:900px){.card.s7{grid-column:span 7}.card.s5{grid-column:span 5}}
+.cover{position:relative;overflow:hidden;border-radius:6px;background:var(--line)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(20,20,20,.10) 100%)} /* 同色系暗角，非彩虹 */
+.px{transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.zoom{transition:transform .9s var(--ease)}
+.card:hover .zoom{transform:scale(1.06)}
+.art{display:block;width:100%;height:auto;aspect-ratio:4/3}
+@media(min-width:900px){.card.s7 .art{aspect-ratio:16/10}.card.s5 .art{aspect-ratio:4/3.4}}
+.cover-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--ink);color:var(--paper);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;
+  transform:translateY(102%);transition:transform .55s var(--ease)}
+.card:hover .cover-cap,.card:focus-visible .cover-cap{transform:none}
+.cover-cap span{font-size:18px;font-weight:800}
+.cover-cap b{font-size:13px;font-weight:600;color:var(--red);white-space:nowrap}
+.card-meta{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:16px 4px 8px}
+.card-meta .t{font-size:19px;font-weight:800}
+.card-meta .tag{font-size:13px;opacity:.55;white-space:nowrap}
+
+/* ---------- 服务 ---------- */
+.svc-list{max-width:1440px;margin:0 auto;padding:0 var(--pad);border-top:1px solid var(--line)}
+.svc{position:relative;display:grid;grid-template-columns:72px 1fr 1.2fr 56px;gap:20px;align-items:center;
+  padding:clamp(26px,3.4vw,44px) clamp(12px,2vw,28px);border-bottom:1px solid var(--line);overflow:hidden;isolation:isolate}
+.svc::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);transform:scaleY(0);transform-origin:bottom;transition:transform .5s var(--ease)}
+.svc:hover::before{transform:scaleY(1)}
+.svc>*{transition:color .35s,transform .5s var(--ease)}
+.svc:hover>*{color:var(--paper)}
+.svc:hover .svc-t{transform:translateX(10px)}
+.svc:hover .svc-a{transform:translate(8px,-4px);color:var(--red)}
+.svc-i{font-size:14px;font-weight:700;color:var(--red)}
+.svc-t{font-size:clamp(26px,3.4vw,44px);font-weight:800;letter-spacing:-.01em}
+.svc-d{font-size:15px;line-height:1.7;opacity:.72}
+.svc-a{font-size:26px;text-align:right}
+
+/* ---------- 关于 ---------- */
+.about-grid{max-width:1440px;margin:0 auto;padding:0 var(--pad) clamp(72px,9vw,128px);display:grid;grid-template-columns:minmax(240px,380px) 1fr;gap:clamp(36px,6vw,110px);align-items:center}
+.avatar{position:relative;width:min(78vw,340px);aspect-ratio:1;margin:0 auto}
+.avatar span{position:absolute;border-radius:50%}
+.av-c1{inset:0;border:2px solid var(--ink)}
+.av-c2{inset:12%;border:1px solid var(--ink);opacity:.5}
+.av-c3{inset:26%;background:var(--ink);opacity:.92}
+.av-dot{width:11%;aspect-ratio:1;background:var(--red);right:16%;top:16%;animation:float 5s var(--ease-io) infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.about-txt .lead{font-size:clamp(22px,2.6vw,32px);font-weight:800;margin-bottom:20px}
+.about-txt p+p{margin-top:16px}
+.about-txt p{font-size:16px;line-height:1.85;color:var(--ink);opacity:.82;max-width:36em}
+.stats{list-style:none;display:flex;gap:clamp(28px,5vw,72px);margin-top:36px}
+.stats b{display:block;font-size:clamp(34px,4vw,52px);font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;opacity:.6}
+
+/* ---------- 联系 CTA ---------- */
+.contact{max-width:1440px;margin:0 auto;padding:clamp(90px,12vw,170px) var(--pad);text-align:center;border-top:1px solid var(--line)}
+.contact p:first-child{font-size:clamp(18px,2.2vw,26px);font-weight:600;margin-bottom:18px}
+.email{display:block;width:100%;font-size:clamp(30px,7.6vw,112px);font-weight:800;letter-spacing:-.02em;line-height:1.15;
+  transition:color .35s,letter-spacing .5s var(--ease);word-break:break-all}
+.email:hover{color:var(--red);letter-spacing:0}
+.contact .note{margin-top:22px;font-size:14px;opacity:.55}
+
+/* ---------- 页脚 ---------- */
+footer{max-width:1440px;margin:0 auto;padding:26px var(--pad) 34px;border-top:1px solid var(--line);font-size:13px}
+.f-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.f-row+.f-row{margin-top:14px}
+footer b{font-weight:700}
+#icp{opacity:.55}
+.f-contact{opacity:.65}
+.f-legal{display:flex;gap:20px}
+.f-legal button{font-size:13px;opacity:.65;padding:6px 0;border-bottom:1px solid transparent;transition:opacity .3s,color .3s,border-color .3s}
+.f-legal button:hover{opacity:1;color:var(--red);border-color:var(--red)}
+.social{display:flex;gap:8px}
+.social a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--line);border-radius:50%;transition:border-color .3s,color .3s,transform .3s var(--spring)}
+.social a:hover{color:var(--red);border-color:var(--red);transform:translateY(-3px)}
+#toTop{font-weight:700;padding:8px 0;border-bottom:2px solid var(--red)}
+
+/* ---------- 法务弹窗 ---------- */
+#modal{position:fixed;inset:0;z-index:9400;display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
+#modal.open{opacity:1;visibility:visible}
+.modal-mask{position:absolute;inset:0;background:rgba(20,20,20,.48);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.modal-box{position:relative;background:var(--paper);border-radius:10px;max-width:640px;width:100%;max-height:82vh;overflow:auto;
+  padding:clamp(28px,4vw,48px);transform:translateY(22px) scale(.98);transition:transform .45s var(--ease)}
+#modal.open .modal-box{transform:none}
+.modal-x{position:absolute;top:14px;right:18px;font-size:30px;line-height:1;color:var(--ink);opacity:.6;padding:8px;transition:opacity .3s,color .3s,transform .3s var(--spring)}
+.modal-x:hover{opacity:1;color:var(--red);transform:rotate(90deg)}
+#modalTitle{font-size:24px;font-weight:800;margin-bottom:20px;padding-right:40px}
+#modalBody{font-size:15px;line-height:1.85}
+#modalBody ol{list-style:none;counter-reset:pt}
+#modalBody li{counter-increment:pt;position:relative;padding:10px 0 10px 44px;border-top:1px solid var(--line)}
+#modalBody li::before{content:counter(pt,decimal-leading-zero);position:absolute;left:0;top:12px;font-size:13px;font-weight:800;color:var(--red)}
+#modalBody .doc-date{margin-top:22px;font-size:12px;opacity:.5}
+
+/* ---------- Toast ---------- */
+#toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);z-index:9600;background:var(--ink);color:var(--paper);
+  font-size:14px;font-weight:600;padding:13px 24px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:899px){
+  .links,.hire{display:none}
+  #burger{display:flex}
+  .svc{grid-template-columns:44px 1fr;grid-template-areas:"i t" "i d" "i a";row-gap:8px}
+  .svc-i{grid-area:i}.svc-t{grid-area:t}.svc-d{grid-area:d}.svc-a{grid-area:a;text-align:left}
+  .about-grid{grid-template-columns:1fr}
+  .hero-foot{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:640px){
+  #modal{padding:0}
+  .modal-box{max-width:none;width:100%;height:100%;max-height:none;border-radius:0;padding:76px 24px 40px}
+  .modal-x{top:18px;right:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+  .js-motion .rv{opacity:1;transform:none}
+  .js-motion .li{transform:none}
+  #loader{display:none}
+}
+
+</style>
+</head>
+<body id="top">
+
+<!-- 加载态：JS 驱动，最短展示 800ms，3.5s 硬兜底；无 JS 时由 noscript 隐藏 -->
+<div id="loader" aria-hidden="true">
+  <div class="l-name">陈维 <span>Wei Chen</span></div>
+  <div class="l-bar"><span></span></div>
+</div>
+<noscript><style>#loader{display:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">陈维 <em>Wei Chen</em></a>
+    <nav class="links" aria-label="主导航">
+      <a href="#work">作品</a>
+      <a href="#about">关于</a>
+      <a href="#contact">联系</a>
+    </nav>
+    <a class="hire" href="#contact">Hire me</a>
+    <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- 移动端全屏菜单 -->
+<div id="mnav" aria-hidden="true">
+  <nav>
+    <a href="#work">作品 <small>Works</small></a>
+    <a href="#about">关于 <small>About</small></a>
+    <a href="#contact">联系 <small>Contact</small></a>
+    <a class="m-hire" href="#contact">Hire me</a>
+  </nav>
+</div>
+
+<main>
+  <!-- Hero：宣言式大字，分行遮罩揭示 -->
+  <section class="hero">
+    <p class="eyebrow rv">上海 · 品牌 / 网页 / 动效 <span class="avail"><i></i>2026 下半年档期开放</span></p>
+    <h1 class="statement" aria-label="设计，让好想法被看见。">
+      <span class="lm"><span class="li" style="--d:.05s">设计，</span></span>
+      <span class="lm"><span class="li" style="--d:.16s">让好想法</span></span>
+      <span class="lm"><span class="li accent" style="--d:.27s">被看见。</span></span>
+    </h1>
+    <p class="sub rv" style="--d:.15s">陈维 Wei Chen —— 独立设计师。过去八年，帮 40 多个品牌把概念做成作品。</p>
+    <div class="hero-foot rv" style="--d:.25s">
+      <a class="cta-line" href="#work">看精选作品 <span aria-hidden="true">↓</span></a>
+      <span class="coords">31.23° N, 121.47° E</span>
+    </div>
+  </section>
+
+  <!-- 精选作品 -->
+  <section id="work" class="work">
+    <header class="sec-head rv">
+      <h2>精选作品 <small>Selected Works</small></h2>
+      <span class="count">01 — 06</span>
+    </header>
+    <div class="grid" data-stagger>
+
+      <a class="card s7 rv" href="#contact">
+        <figure class="cover"><div class="px"><div class="zoom">
+          <svg class="art" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="800" height="600" fill="#F4F1EA"/>
+            <circle cx="600" cy="140" r="72" fill="#E4572E"/>
+            <polygon points="0,600 230,290 460,600" fill="#141414"/>
+            <polygon points="300,600 530,250 760,600" fill="#141414" opacity=".82"/>
+            <rect x="120" y="470" width="300" height="6" fill="#141414" opacity=".18"/>
+            <rect x="180" y="500" width="220" height="6" fill="#141414" opacity=".14"/>
+            <rect x="90" y="530" width="260" height="6" fill="#141414" opacity=".10"/>
+            <rect x="64" y="492" width="44" height="44" fill="#E4572E"/>
+          </svg>
+        </div></div>
+        <figcaption class="cover-cap"><span>山外山茶室品牌视觉</span><b>查看案例 →</b></figcaption></figure>
+        <div class="card-meta"><span class="t">山外山茶室品牌视觉</span><span class="tag">品牌视觉 · 2025</span></div>
+      </a>
+
+      <a class="card s5 rv" href="#contact">
+        <figure class="cover"><div class="px"><div class="zoom">
+          <svg class="art" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="800" height="600" fill="#141414"/>
+            <circle cx="400" cy="300" r="150" fill="none" stroke="#E4572E" stroke-width="30"/>
+            <circle cx="400" cy="300" r="96" fill="#141414"/>
+            <circle cx="400" cy="300" r="26" fill="#F4F1EA"/>
+            <g stroke="#E4572E" stroke-width="6">
+              <line x1="400" y1="96" x2="400" y2="130"/><line x1="400" y1="470" x2="400" y2="504"/>
+              <line x1="196" y1="300" x2="230" y2="300"/><line x1="570" y1="300" x2="604" y2="300"/>
+              <line x1="256" y1="156" x2="280" y2="180"/><line x1="520" y1="420" x2="544" y2="444"/>
+              <line x1="544" y1="156" x2="520" y2="180"/><line x1="280" y1="420" x2="256" y2="444"/>
+            </g>
+          </svg>
+        </div></div>
+        <figcaption class="cover-cap"><span>拾光胶片摄影展主视觉</span><b>查看案例 →</b></figcaption></figure>
+        <div class="card-meta"><span class="t">拾光胶片摄影展主视觉</span><span class="tag">展览视觉 · 2024</span></div>
+      </a>
+
+      <a class="card s5 rv" href="#contact">
+        <figure class="cover"><div class="px"><div class="zoom">
+          <svg class="art" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="800" height="600" fill="#F4F1EA"/>
+            <g stroke="#141414" stroke-width="2" opacity=".25">
+              <line x1="80" y1="60" x2="80" y2="540"/><line x1="130" y1="60" x2="130" y2="540"/>
+              <line x1="180" y1="60" x2="180" y2="540"/><line x1="230" y1="60" x2="230" y2="540"/>
+            </g>
+            <path d="M330,600 L330,330 A140,140 0 0 1 610,330 L610,600 Z" fill="#141414"/>
+            <circle cx="480" cy="180" r="26" fill="#E4572E"/>
+            <rect x="660" y="420" width="60" height="10" fill="#E4572E"/>
+            <rect x="660" y="448" width="40" height="10" fill="#141414" opacity=".6"/>
+          </svg>
+        </div></div>
+        <figcaption class="cover-cap"><span>白塔咖啡空间导视系统</span><b>查看案例 →</b></figcaption></figure>
+        <div class="card-meta"><span class="t">白塔咖啡空间导视系统</span><span class="tag">导视系统 · 2025</span></div>
+      </a>
+
+      <a class="card s7 rv" href="#contact">
+        <figure class="cover"><div class="px"><div class="zoom">
+          <svg class="art" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="800" height="600" fill="#141414"/>
+            <g stroke="#F4F1EA" stroke-width="4" opacity=".45">
+              <line x1="120" y1="40" x2="60" y2="300"/><line x1="240" y1="40" x2="180" y2="300"/>
+              <line x1="360" y1="40" x2="300" y2="300"/><line x1="480" y1="40" x2="420" y2="300"/>
+              <line x1="600" y1="40" x2="540" y2="300"/><line x1="720" y1="40" x2="660" y2="300"/>
+            </g>
+            <g fill="none" stroke="#E4572E" stroke-width="10">
+              <path d="M120,470 q80,-70 160,0 t160,0 t160,0"/>
+              <path d="M120,520 q80,-70 160,0 t160,0 t160,0" opacity=".6"/>
+            </g>
+            <circle cx="668" cy="150" r="34" fill="#E4572E"/>
+          </svg>
+        </div></div>
+        <figcaption class="cover-cap"><span>听雨民宿官网设计</span><b>查看案例 →</b></figcaption></figure>
+        <div class="card-meta"><span class="t">听雨民宿官网设计</span><span class="tag">网页设计 · 2024</span></div>
+      </a>
+
+      <a class="card s7 rv" href="#contact">
+        <figure class="cover"><div class="px"><div class="zoom">
+          <svg class="art" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="800" height="600" fill="#F4F1EA"/>
+            <g>
+              <rect x="120" y="180" width="70" height="340" fill="#141414"/>
+              <rect x="210" y="260" width="46" height="260" fill="#141414" opacity=".8"/>
+              <rect x="276" y="140" width="88" height="380" fill="#E4572E"/>
+              <rect x="384" y="300" width="56" height="220" fill="#141414" opacity=".85"/>
+              <rect x="460" y="200" width="70" height="320" fill="#141414"/>
+              <rect x="550" y="340" width="40" height="180" fill="#141414" opacity=".7"/>
+              <rect x="610" y="240" width="64" height="280" fill="#141414" opacity=".9"/>
+            </g>
+            <rect x="120" y="520" width="554" height="8" fill="#141414"/>
+          </svg>
+        </div></div>
+        <figcaption class="cover-cap"><span>未名出版社书籍装帧</span><b>查看案例 →</b></figcaption></figure>
+        <div class="card-meta"><span class="t">未名出版社书籍装帧</span><span class="tag">书籍装帧 · 2023</span></div>
+      </a>
+
+      <a class="card s5 rv" href="#contact">
+        <figure class="cover"><div class="px"><div class="zoom">
+          <svg class="art" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="800" height="600" fill="#F4F1EA"/>
+            <g fill="none" stroke="#141414" stroke-width="3" opacity=".85">
+              <circle cx="400" cy="300" r="60"/><circle cx="400" cy="300" r="110"/>
+              <circle cx="400" cy="300" r="160"/><circle cx="400" cy="300" r="210"/>
+              <circle cx="400" cy="300" r="260" opacity=".5"/>
+            </g>
+            <circle cx="400" cy="300" r="16" fill="#E4572E"/>
+            <circle cx="560" cy="180" r="8" fill="#E4572E" opacity=".7"/>
+          </svg>
+        </div></div>
+        <figcaption class="cover-cap"><span>城市漫步播客视觉包装</span><b>查看案例 →</b></figcaption></figure>
+        <div class="card-meta"><span class="t">城市漫步播客视觉包装</span><span class="tag">视觉包装 · 2025</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- 服务 -->
+  <section id="services" class="services">
+    <header class="sec-head rv">
+      <h2>我能做什么 <small>Services</small></h2>
+      <span class="count">三件事，做到位</span>
+    </header>
+    <div class="svc-list" data-stagger>
+      <a class="svc rv" href="#contact">
+        <span class="svc-i">01</span>
+        <span class="svc-t">品牌视觉</span>
+        <span class="svc-d">Logo、VI 系统、包装与周边——从概念到落地，全案跟完。</span>
+        <span class="svc-a" aria-hidden="true">→</span>
+      </a>
+      <a class="svc rv" href="#contact">
+        <span class="svc-i">02</span>
+        <span class="svc-t">网页设计</span>
+        <span class="svc-d">官网、落地页、作品集站——设计稿到前端还原，一个人闭环。</span>
+        <span class="svc-a" aria-hidden="true">→</span>
+      </a>
+      <a class="svc rv" href="#contact">
+        <span class="svc-i">03</span>
+        <span class="svc-t">动效设计</span>
+        <span class="svc-d">品牌动态化、网页交互动效、短片片头——让静态的东西活起来。</span>
+        <span class="svc-a" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section id="about" class="about">
+    <header class="sec-head rv">
+      <h2>关于我 <small>About</small></h2>
+    </header>
+    <div class="about-grid">
+      <div class="avatar rv" aria-hidden="true">
+        <span class="av-c1"></span><span class="av-c2"></span><span class="av-c3"></span><span class="av-dot"></span>
+      </div>
+      <div class="about-txt">
+        <p class="lead rv">我是陈维，在上海做了八年独立设计。</p>
+        <p class="rv" style="--d:.1s">不追风格，追准确。先把品牌想说什么搞清楚，再决定它长什么样——顺序反了，做出来都是装饰。</p>
+        <p class="rv" style="--d:.18s">合作过的客户从茶室、出版社到科技公司，交付的东西到今天都还在用。这是我觉得最体面的评价。</p>
+        <ul class="stats rv" style="--d:.26s">
+          <li><b>8</b><span>年独立执业</span></li>
+          <li><b>40+</b><span>合作品牌</span></li>
+          <li><b>12</b><span>项设计奖项</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系 CTA -->
+  <section id="contact" class="contact">
+    <p class="rv">有项目想聊聊？</p>
+    <button id="emailBtn" class="email rv" style="--d:.1s" type="button">hello@weichen.work</button>
+    <p class="note rv" style="--d:.2s">点击复制 · 通常 24 小时内回复</p>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer>
+  <div class="f-row">
+    <span>© <b id="yr">2026</b> 陈维 Wei Chen · <span id="icp"></span></span>
+    <span class="f-contact"><span id="fEmail"></span> · <span id="fPhone"></span> · <span id="fCity"></span></span>
+  </div>
+  <div class="f-row">
+    <nav class="f-legal" aria-label="法务信息">
+      <button type="button" data-legal="privacy">隐私政策</button>
+      <button type="button" data-legal="terms">服务条款</button>
+      <button type="button" data-legal="cookies">Cookie 政策</button>
+    </nav>
+    <div class="social" aria-label="社交媒体">
+      <a href="#" aria-label="Behance" title="Behance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><text x="12" y="16.5" text-anchor="middle" font-size="11" font-weight="800" fill="currentColor" stroke="none" font-family="inherit">Bē</text></svg></a>
+      <a href="#" aria-label="Dribbble" title="Dribbble"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M5.5 6.5c4 4.5 8.5 6 13.5 5.5M4 13.5c5-1 10 .5 12.5 5.5M14 3.5c-3 4-5.5 9-6.5 16"/></svg></a>
+      <a href="#" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" aria-label="微信" title="微信"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4C5 4 2 6.8 2 10.2c0 2 1.2 3.7 3 4.8l-.7 2.5 2.8-1.4c.6.2 1.2.2 1.9.2h.5C9.2 14.6 9 13 9 12"/><path d="M15.5 9h-.5C11.7 9 9 11.2 9 14c0 2.8 2.7 5 6 5 .6 0 1.3-.1 1.8-.3l2.7 1.4-.7-2.4c1.7-1 2.7-2.5 2.7-4.2 0-2.6-2.7-4.5-6-4.5z"/></svg></a>
+    </div>
+    <button id="toTop" type="button">回到顶部 ↑</button>
+  </div>
+</footer>
+
+<!-- 法务三件套弹窗：内容由 JS LEGAL 注入；无 JS 时按钮无动作，页脚其余信息正常显示 -->
+<div id="modal" aria-hidden="true">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-x" type="button" data-close aria-label="关闭">×</button>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* 陈维 Wei Chen — 作品集落地页交互
+   纯 vanilla JS，无依赖。所有"隐藏等 JS"的元素都只在 html.js-motion 下隐藏，
+   无 JS 时全部可见；loader 有 3.5s 硬兜底，显示态永远可达。 */
+(function () {
+  "use strict";
+
+  /* ============ SITE 配置：改这里，全站联系信息跟着变 ============ */
+  var SITE = {
+    email: "hello@weichen.work",
+    phone: "+86 138-0000-0000",
+    city: "上海，中国",
+    icp: "沪ICP备00000000号-1（占位，上线前替换）"
+  };
+
+  /* ============ 法务三件套文案（个人站口径，通用模板） ============ */
+  var LEGAL = {
+    privacy: {
+      title: "隐私政策",
+      items: [
+        "本站是个人作品集网站，不设账号系统，不收集身份证、住址等敏感个人信息。",
+        "如果你通过页面邮箱主动联系我，你的邮件地址和信件内容只用来回复沟通，不会转交给任何第三方。",
+        "本站只做最基础的访问计数统计，不画像、不跨站追踪、不卖数据。",
+        "你可以随时来信要求删除你提供过的联系信息，我会在 7 天内处理完毕。",
+        "本政策更新时会在文末注明日期；继续使用本站即表示你已知悉。"
+      ]
+    },
+    terms: {
+      title: "服务条款",
+      items: [
+        "本站展示的作品均为本人原创或经授权展示，版权归本人或原委托方所有，未经许可不得转载商用。",
+        "作品封面为示意性几何图形，非客户真实交付稿；合作案例细节以双方签约文件为准。",
+        "通过邮箱发起的合作邀约不构成合同，项目合作以双方签署的书面协议为准。",
+        "本站内容按“现状”提供，我会尽量保证准确，但不做绝对化承诺。",
+        "如有疑问，直接写邮件给我，看到就会回。"
+      ]
+    },
+    cookies: {
+      title: "Cookie 政策",
+      items: [
+        "本站页面本身不写入任何 Cookie，裸奔式干净。",
+        "如果未来接入访问统计，只会用第一方、匿名的计数型 Cookie，不做广告画像。",
+        "你的浏览器可以随时清除或禁用 Cookie，不影响正常浏览本站。",
+        "点击社交媒体图标跳出去之后，适用对方平台自己的 Cookie 政策。",
+        "政策有变会在本页更新，日期见文末。"
+      ]
+    }
+  };
+  var DOC_DATE = "最后更新：2026-10-05";
+
+  /* ---------- 站点信息渲染（联系 CTA + 页脚引用 SITE） ---------- */
+  function setText(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+  setText("emailBtn", SITE.email);
+  setText("fEmail", SITE.email);
+  setText("fPhone", SITE.phone);
+  setText("fCity", SITE.city);
+  setText("icp", SITE.icp);
+
+  /* ---------- 加载态：先注册兜底，再做别的事 ---------- */
+  var loader = document.getElementById("loader");
+  var t0 = Date.now(), MIN = 800, hidden = false;
+  function finishLoad() {
+    if (hidden) return; hidden = true;
+    var wait = Math.max(0, MIN - (Date.now() - t0));
+    setTimeout(function () {
+      loader.classList.add("done");
+      document.body.classList.add("ready");   /* hero 大字开始升起 */
+      setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 900);
+    }, wait);
+  }
+  if (document.readyState === "complete") finishLoad();
+  else {
+    window.addEventListener("load", finishLoad);
+    setTimeout(finishLoad, 3500);             /* 硬兜底：再慢也放行 */
+  }
+
+  /* ---------- 导航滚动毛玻璃 ---------- */
+  var nav = document.getElementById("nav");
+  function onScroll() { nav.classList.toggle("scrolled", window.scrollY > 24); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 移动端汉堡菜单 ---------- */
+  var burger = document.getElementById("burger");
+  var mnav = document.getElementById("mnav");
+  function setMenu(open) {
+    burger.classList.toggle("open", open);
+    mnav.classList.toggle("open", open);
+    mnav.setAttribute("aria-hidden", open ? "false" : "true");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    burger.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+  burger.addEventListener("click", function () { setMenu(!mnav.classList.contains("open")); });
+  mnav.addEventListener("click", function (e) {
+    if (e.target.closest("a")) setMenu(false);
+  });
+
+  /* ---------- 滚动 stagger 入场 ---------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+
+  /* 同一组容器内按顺序加延迟，形成 stagger */
+  document.querySelectorAll("[data-stagger]").forEach(function (group) {
+    var i = 0;
+    group.querySelectorAll(".rv").forEach(function (el) {
+      el.style.setProperty("--d", (i * 0.09).toFixed(2) + "s"); i++;
+    });
+  });
+
+  var fine = window.matchMedia("(pointer:fine)").matches;
+
+  /* ---------- 作品封面 hover 视差 ---------- */
+  if (fine) {
+    document.querySelectorAll(".card").forEach(function (card) {
+      var px = card.querySelector(".px");
+      card.addEventListener("mousemove", function (ev) {
+        var r = card.getBoundingClientRect();
+        var x = (ev.clientX - r.left) / r.width - 0.5;
+        var y = (ev.clientY - r.top) / r.height - 0.5;
+        px.style.transform = "translate(" + (x * 16).toFixed(1) + "px," + (y * 12).toFixed(1) + "px)";
+      });
+      card.addEventListener("mouseleave", function () { px.style.transform = ""; });
+    });
+
+    /* ---------- Hire me 轻磁吸 ---------- */
+    var hire = document.querySelector(".hire");
+    if (hire) {
+      hire.addEventListener("mousemove", function (ev) {
+        var r = hire.getBoundingClientRect();
+        var x = ev.clientX - r.left - r.width / 2;
+        var y = ev.clientY - r.top - r.height / 2;
+        hire.style.transform = "translate(" + (x * 0.18).toFixed(1) + "px," + (y * 0.3).toFixed(1) + "px)";
+      });
+      hire.addEventListener("mouseleave", function () { hire.style.transform = ""; });
+    }
+  }
+
+  /* ---------- 巨型邮箱：点击复制（地址来自 SITE.email） ---------- */
+  var btn = document.getElementById("emailBtn");
+  var toast = document.getElementById("toast");
+  var tt = null;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(tt);
+    tt = setTimeout(function () { toast.classList.remove("show"); }, 1800);
+  }
+  function copied() { showToast("已复制，去邮箱粘贴吧"); }
+  function fallbackCopy() {
+    var ta = document.createElement("textarea");
+    ta.value = SITE.email;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e) { /* 忽略，走 toast 提示 */ }
+    document.body.removeChild(ta);
+    copied();
+  }
+  btn.addEventListener("click", function () {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(SITE.email).then(copied, fallbackCopy);
+    } else fallbackCopy();
+  });
+
+  /* ---------- 法务三件套弹窗 ---------- */
+  var modal = document.getElementById("modal");
+  var modalTitle = document.getElementById("modalTitle");
+  var modalBody = document.getElementById("modalBody");
+  var lastFocus = null;
+
+  function openModal(key) {
+    var doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    modalTitle.textContent = doc.title;
+    modalBody.innerHTML = "<ol>" + doc.items.map(function (t) {
+      return "<li>" + t + "</li>";
+    }).join("") + '</ol><p class="doc-date">' + DOC_DATE + "</p>";
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";   /* 锁定背景滚动 */
+    var x = modal.querySelector(".modal-x");
+    if (x) x.focus();
+  }
+  function closeModal() {
+    if (!modal.classList.contains("open")) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";          /* 恢复滚动 */
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll("[data-legal]").forEach(function (b) {
+    b.addEventListener("click", function () { openModal(b.getAttribute("data-legal")); });
+  });
+  modal.addEventListener("click", function (e) {
+    if (e.target.closest("[data-close]")) closeModal();   /* 右上 X + 遮罩 */
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeModal();                  /* ESC */
+  });
+
+  /* ---------- 页脚 ---------- */
+  document.getElementById("yr").textContent = String(new Date().getFullYear());
+  document.getElementById("toTop").addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab · lusion-scroll-3d — original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>雾屿 ATELIER · 滚动叙事 3D</title>
+<style>
+:root{
+  --ease: cubic-bezier(0.16,1,0.3,1); /* 签名 easing：全页统一 */
+  --ivory:#F5EFE6;
+  --bronze:#B08D57;
+  --bronze-dim:rgba(176,141,87,.55);
+  --coffee:#1C1410;
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+html.js body{opacity:1}
+body{
+  background:var(--coffee);
+  color:var(--ivory);
+  font-family:var(--serif);
+  opacity:0;
+  transition:opacity 1.2s var(--ease);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* ---------- 3D 画布 ---------- */
+#stage{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#stage canvas{display:block;width:100%;height:100%}
+/* ---------- 氛围叠层 ---------- */
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgba(12,8,5,.55) 100%);
+}
+.grain{
+  position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+/* ---------- 加载态 ---------- */
+#loader{
+  position:fixed;inset:0;z-index:20;background:var(--coffee);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity 1.1s var(--ease), visibility 1.1s;
+}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none}
+#loader .mark{font-size:15px;letter-spacing:.6em;text-indent:.6em;color:var(--bronze)}
+#loader .bar{width:180px;height:1px;background:rgba(245,239,230,.14);position:relative;overflow:hidden}
+#loader .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--bronze);transition:width .4s var(--ease)}
+#loader .pct{font-family:var(--sans);font-size:11px;letter-spacing:.3em;color:rgba(245,239,230,.45)}
+/* ---------- 滚动内容 ---------- */
+.scroll{position:relative;z-index:2}
+.screen{
+  min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(24px,8vw,120px);position:relative;
+}
+.screen.alt{align-items:flex-end;text-align:right}
+.screen.alt .ch-body{margin-left:auto}
+.kicker{
+  font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-indent:.5em;
+  color:var(--bronze);margin-bottom:26px;
+}
+h1.brand{
+  font-size:clamp(44px,9vw,110px);font-weight:500;line-height:1.15;letter-spacing:.12em;
+}
+h1.brand .latin{display:block;font-size:.32em;letter-spacing:.55em;text-indent:.55em;color:var(--bronze);margin-top:14px;font-weight:400}
+.ch-title{
+  font-size:clamp(38px,7vw,84px);font-weight:500;letter-spacing:.18em;line-height:1.25;
+}
+.ch-title .zh{display:inline-block}
+.ch-title .c{display:inline-block;opacity:0;transform:translateY(.45em);filter:blur(6px)}
+.ch-title.lit .c{opacity:1;transform:none;filter:blur(0)}
+.ch-title.lit .c{transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s var(--ease)}
+.ch-en{
+  font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-indent:.5em;
+  color:var(--bronze-dim);margin-top:18px;
+}
+.ch-body{
+  max-width:430px;margin-top:30px;font-size:15px;line-height:2.1;letter-spacing:.06em;
+  color:rgba(245,239,230,.78);
+  opacity:0;transform:translateY(24px);
+  transition:opacity 1.2s var(--ease),transform 1.2s var(--ease);
+}
+.inview .ch-body{opacity:1;transform:none}
+.ch-body em{font-style:normal;color:var(--bronze)}
+.ch-body .notes{margin-top:22px;display:grid;gap:12px}
+.ch-body .note{display:flex;gap:14px;align-items:baseline}
+.ch-body .note b{font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.35em;color:var(--bronze);white-space:nowrap}
+.hero-foot{margin-top:44px;font-family:var(--sans);font-size:11px;letter-spacing:.4em;color:rgba(245,239,230,.4)}
+.scroll-hint{width:1px;height:64px;background:linear-gradient(var(--bronze),transparent);margin:34px auto 0;animation:hint 2.6s var(--ease) infinite}
+@keyframes hint{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* ---------- 侧边进度 ---------- */
+#nav{
+  position:fixed;right:clamp(14px,3vw,34px);top:50%;transform:translateY(-50%);z-index:4;
+  display:flex;flex-direction:column;gap:14px;
+}
+#nav button{
+  width:26px;height:26px;background:none;border:0;cursor:pointer;position:relative;padding:0;
+}
+#nav button::before{
+  content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;
+  background:rgba(245,239,230,.3);transform:translate(-50%,-50%);
+  transition:all .6s var(--ease);
+}
+#nav button.on::before{width:9px;height:9px;background:var(--bronze)}
+#nav button:hover::before{background:var(--ivory)}
+/* ---------- 尾屏 ---------- */
+.finale{align-items:center;text-align:center}
+.finale .buy{
+  margin-top:44px;display:inline-block;padding:16px 58px;border:1px solid var(--bronze-dim);
+  color:var(--ivory);font-family:var(--sans);font-size:13px;letter-spacing:.5em;text-indent:.5em;
+  text-decoration:none;position:relative;overflow:hidden;
+  transition:color .8s var(--ease),border-color .8s var(--ease);
+}
+.finale .buy::after{
+  content:"";position:absolute;inset:0;background:var(--bronze);
+  transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease);z-index:-1;
+}
+.finale .buy:hover{color:var(--coffee);border-color:var(--bronze)}
+.finale .buy:hover::after{transform:scaleX(1)}
+.finale .price{margin-top:26px;font-family:var(--sans);font-size:12px;letter-spacing:.35em;color:var(--bronze)}
+footer{padding:40px 0 54px;text-align:center;font-family:var(--sans);font-size:10px;letter-spacing:.35em;color:rgba(245,239,230,.3)}
+/* ---------- 降级 / 无 JS ---------- */
+@media (prefers-reduced-motion:reduce){
+  .scroll-hint{animation:none}
+  *{transition-duration:.01ms !important}
+}
+@media (max-width:640px){
+  .screen.alt{align-items:flex-start;text-align:left}
+  .screen.alt .ch-body{margin-left:0}
+  #nav{display:none}
+}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+<div id="stage" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div id="loader" role="status" aria-label="加载中">
+  <div class="mark">雾屿</div>
+  <div class="bar"><i id="loadfill"></i></div>
+  <div class="pct" id="loadpct">0%</div>
+</div>
+
+<nav id="nav" aria-label="章节"></nav>
+
+<main class="scroll">
+  <section class="screen" data-ch="0" id="s0">
+    <div>
+      <p class="kicker">香水 · 第一章</p>
+      <h1 class="brand">雾屿<span class="latin">WUYU&nbsp;ATELIER</span></h1>
+      <div class="scroll-hint"></div>
+      <p class="hero-foot">向下滚动 · 进入香气</p>
+    </div>
+  </section>
+
+  <section class="screen" data-ch="1" id="s1">
+    <div>
+      <p class="kicker">CHAPTER 01 · 诞生</p>
+      <h2 class="ch-title"><span class="zh" data-chars>雾从海上来</span></h2>
+      <p class="ch-en">BORN OF SEA MIST</p>
+      <div class="ch-body">
+        <p>调香师在海岛的清晨采下第一缕雾气。<em>一百二十七次</em>试香，只为留住浪拍礁石时，那一秒咸润的清新。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen alt" data-ch="2" id="s2">
+    <div>
+      <p class="kicker">CHAPTER 02 · 香调</p>
+      <h2 class="ch-title"><span class="zh" data-chars>三层香气叙事</span></h2>
+      <p class="ch-en">OLFACTORY NOTES</p>
+      <div class="ch-body">
+        <div class="notes">
+          <div class="note"><b>前调</b><span>柚子与海盐，清冽开场，如浪尖碎光</span></div>
+          <div class="note"><b>中调</b><span>白茶与晚香玉，温柔铺陈，像雾中庭院</span></div>
+          <div class="note"><b>后调</b><span>雪松与龙涎香，沉稳收尾，余温绵长</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-ch="3" id="s3">
+    <div>
+      <p class="kicker">CHAPTER 03 · 工艺</p>
+      <h2 class="ch-title"><span class="zh" data-chars>手工的慢</span></h2>
+      <p class="ch-en">CRAFT &amp; PATIENCE</p>
+      <div class="ch-body">
+        <p>瓶身由老师傅<em>手工吹制</em>，每一只的弧度都略有不同。香精熟成<em>九十天</em>，在橡木桶的静默里学会温柔。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen finale" data-ch="4" id="s4">
+    <div>
+      <p class="kicker">CHAPTER 04 · 拥有</p>
+      <h2 class="ch-title"><span class="zh" data-chars>把雾带回家</span></h2>
+      <p class="ch-en">MAKE IT YOURS</p>
+      <div class="ch-body">
+        <p>限量<em>八百瓶</em>，每一瓶都有独立编号与调香师签名。</p>
+      </div>
+      <a class="buy" href="#s4">预订典藏</a>
+      <p class="price">50ml · 典藏版</p>
+    </div>
+  </section>
+</main>
+
+<footer>雾屿 ATELIER · 原创 3D 叙事模板</footer>
+<script type="module" src="src/main.js"></script>
+<script>/* 完成态可达兜底：模块异常时 8s 后也关闭加载态 */
+setTimeout(function(){var l=document.getElementById('loader');if(l)l.classList.add('done')},8000)</script>
+</body>
+</html>

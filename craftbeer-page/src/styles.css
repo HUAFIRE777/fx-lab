@@ -1,0 +1,417 @@
+/* 麦浪 BREWAVE · craftbeer-page —— 原创样式，零外部依赖 */
+:root{
+  --ink:#171008;        /* 深棕黑 */
+  --ink-2:#221507;       /* 深棕黑·浅一阶（卡片底） */
+  --ink-3:#0f0a05;       /* 深棕黑·深一阶 */
+  --amber:#e09a2b;       /* 琥珀 */
+  --amber-soft:rgba(224,154,43,.14);
+  --amber-line:rgba(224,154,43,.38);
+  --cream:#f3e9d2;       /* 奶油 */
+  --cream-dim:rgba(243,233,210,.66);
+  --cream-faint:rgba(243,233,210,.38);
+  --ease-out:cubic-bezier(.19,1,.22,1);      /* 物理感：快出慢收 */
+  --ease-pop:cubic-bezier(.34,1.4,.64,1);     /* 轻微过冲 */
+  --nav-h:72px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:system-ui,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+::selection{background:var(--amber);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* ---------- 排版层级 ---------- */
+.kicker{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:18px;
+}
+.sec-title{
+  font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;
+  font-size:clamp(1.9rem,3.6vw,2.9rem);
+  letter-spacing:.14em;line-height:1.45;font-weight:600;
+  margin-bottom:14px;
+}
+.sec-lede{color:var(--cream-dim);max-width:620px;font-size:1.02rem;letter-spacing:.04em}
+.section{padding:110px 0;position:relative}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 34px;border-radius:999px;
+  font-size:.98rem;letter-spacing:.18em;font-weight:600;
+  transition:transform .45s var(--ease-pop),box-shadow .45s var(--ease-out),background .3s,border-color .3s;
+  will-change:transform;
+}
+.btn svg{width:18px;height:18px}
+.btn-amber{background:var(--amber);color:var(--ink)}
+.btn-amber:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(224,154,43,.35)}
+.btn-ghost{border:1px solid var(--cream-faint);color:var(--cream)}
+.btn-ghost:hover{transform:translateY(-3px);border-color:var(--amber);color:var(--amber)}
+.btn-sm{padding:11px 24px;font-size:.86rem}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:200;background:var(--ink-3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .6s ease;
+}
+.loader.done{opacity:0;pointer-events:none}
+.loader.gone{display:none}
+.loader-mark svg{width:56px;height:56px;animation:breathe 1.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+.loader-text{letter-spacing:.5em;font-size:.85rem;color:var(--cream-dim);text-indent:.5em}
+.loader-bar{width:180px;height:2px;background:rgba(243,233,210,.14);border-radius:2px;overflow:hidden}
+.loader-bar span{display:block;height:100%;width:40%;background:var(--amber);border-radius:2px;animation:loadslide 1.1s var(--ease-out) infinite}
+@keyframes loadslide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+
+/* ---------- 导航 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+  display:flex;align-items:center;gap:36px;padding:0 32px;
+  transition:background .4s ease,box-shadow .4s ease,backdrop-filter .4s ease;
+}
+.nav.scrolled{
+  background:rgba(23,16,8,.72);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(224,154,43,.18);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:34px;height:34px}
+.brand-word{font-family:"Songti SC","STSong",serif;font-size:1.3rem;letter-spacing:.2em}
+.brand-word em{font-style:normal;font-family:Georgia,serif;font-size:.68rem;letter-spacing:.3em;color:var(--amber);margin-left:10px;vertical-align:2px}
+.nav-links{display:flex;gap:30px;margin-left:auto}
+.nav-links a{font-size:.92rem;letter-spacing:.24em;color:var(--cream-dim);position:relative;padding:6px 2px;transition:color .3s}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--amber);
+  transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-out);
+}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{margin-left:6px}
+.burger{display:none;flex-direction:column;gap:6px;margin-left:auto;padding:10px}
+.burger span{width:26px;height:2px;background:var(--cream);border-radius:2px;transition:transform .35s var(--ease-out),opacity .3s}
+.burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* 移动端抽屉 */
+.drawer{
+  position:fixed;inset:0;z-index:99;background:rgba(15,10,5,.97);
+  display:none;align-items:center;justify-content:center;
+}
+.drawer.open{display:flex}
+.drawer nav{display:flex;flex-direction:column;align-items:center;gap:8px}
+.drawer nav a{
+  font-family:"Songti SC","STSong",serif;font-size:1.7rem;letter-spacing:.4em;text-indent:.4em;
+  padding:12px 20px;color:var(--cream);
+  opacity:0;transform:translateY(18px);
+}
+.drawer.open nav a{animation:drawerIn .7s var(--ease-out) forwards;animation-delay:var(--d,0s)}
+@keyframes drawerIn{to{opacity:1;transform:none}}
+.drawer nav a.btn{font-family:inherit;font-size:1rem;margin-top:14px}
+
+/* ---------- Hero ---------- */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:calc(var(--nav-h) + 40px) 0 70px;position:relative;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-bg::before{ /* 琥珀暖光 */
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(620px 480px at 72% 42%,rgba(224,154,43,.20),transparent 65%),
+    radial-gradient(900px 600px at 15% 90%,rgba(224,154,43,.07),transparent 60%);
+}
+.hero-bg::after{ /* vignette + 噪点 */
+  content:"";position:absolute;inset:0;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.55'/></svg>"),
+    radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(8,5,2,.62) 100%);
+  opacity:.5;
+}
+.hero-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+  max-width:1180px;margin:0 auto;padding:0 28px;width:100%;
+}
+.hero .kicker{margin-bottom:22px}
+.hero-title{
+  font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;
+  font-size:clamp(2.9rem,6.4vw,4.9rem);
+  letter-spacing:.1em;line-height:1.42;font-weight:600;
+  margin-bottom:26px;
+  text-shadow:0 4px 40px rgba(224,154,43,.18);
+}
+/* 遮罩升起入场：隐藏态只在 html.js 下生效 */
+.rl{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.rl-in{display:block}
+html.js .rl-in{transform:translateY(112%)}
+html.js .hero.enter .rl-in{transform:translateY(0);transition:transform 1.1s var(--ease-out)}
+.hero-copy .rl:nth-of-type(2) .rl-in{transition-delay:.08s}
+.hero-copy .rl:nth-of-type(3) .rl-in{transition-delay:.16s}
+.lede{color:var(--cream-dim);font-size:1.08rem;letter-spacing:.05em;max-width:480px;margin-bottom:36px}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px}
+html.js .hero-ctas,html.js .hero-stats{opacity:0;transform:translateY(20px)}
+html.js .hero.enter .hero-ctas{opacity:1;transform:none;transition:opacity .9s ease .5s,transform .9s var(--ease-out) .5s}
+html.js .hero.enter .hero-stats{opacity:1;transform:none;transition:opacity .9s ease .68s,transform .9s var(--ease-out) .68s}
+.hero-stats{display:flex;gap:44px}
+.hero-stats dt{font-size:1.5rem;letter-spacing:.06em;color:var(--cream)}
+.hero-stats dt .count{font-family:Georgia,serif;color:var(--amber);font-size:1.7rem}
+.hero-stats dd{font-size:.82rem;letter-spacing:.3em;color:var(--cream-faint);margin-top:4px}
+
+/* 酒杯主视觉 */
+.hero-visual{display:flex;flex-direction:column;align-items:center;gap:18px}
+.glass-stage{
+  position:relative;width:min(340px,72vw);aspect-ratio:260/400;
+}
+.glass-svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 24px 60px rgba(224,154,43,.22))}
+.bubbles{position:absolute;inset:0;width:100%;height:100%}
+.sheen{ /* 琥珀光泽扫过 */
+  position:absolute;top:6%;bottom:8%;left:30%;width:22%;
+  background:linear-gradient(105deg,transparent,rgba(255,246,225,.20) 45%,rgba(255,246,225,.34) 50%,rgba(255,246,225,.20) 55%,transparent);
+  transform:skewX(-14deg) translateX(-320%);
+  animation:sheen 7s ease-in-out infinite;pointer-events:none;
+}
+@keyframes sheen{0%,58%{transform:skewX(-14deg) translateX(-320%)}88%,100%{transform:skewX(-14deg) translateX(320%)}}
+.glass-cap{font-size:.85rem;letter-spacing:.28em;color:var(--cream-faint)}
+html.js .glass-stage{opacity:0;transform:translateY(30px) scale(.97)}
+html.js .hero.enter .glass-stage{opacity:1;transform:none;transition:opacity 1.1s ease .35s,transform 1.2s var(--ease-out) .35s}
+html.js .glass-cap{opacity:0}
+html.js .hero.enter .glass-cap{opacity:1;transition:opacity 1s ease 1.1s}
+
+.scroll-hint{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:1;
+  font-size:.75rem;letter-spacing:.4em;text-indent:.4em;color:var(--cream-faint);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.scroll-hint span{width:1px;height:44px;background:linear-gradient(var(--amber),transparent);display:block;animation:hintDrop 2.2s var(--ease-out) infinite}
+@keyframes hintDrop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- 滚动 reveal：隐藏态只在 html.js 下 ---------- */
+.reveal{transition:opacity .85s ease,transform .95s var(--ease-out);transition-delay:var(--d,0s)}
+html.js .reveal{opacity:0;transform:translateY(28px)}
+html.js .reveal.in{opacity:1;transform:translateY(0)}
+
+/* ---------- 酒款矩阵 ---------- */
+.beers{background:linear-gradient(var(--ink) 0%,var(--ink-2) 100%)}
+.beer-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px;
+}
+.beer-card{
+  background:rgba(243,233,210,.035);
+  border:1px solid rgba(243,233,210,.10);
+  border-radius:18px;padding:34px 28px 30px;
+  transition:transform .5s var(--ease-pop),border-color .4s,box-shadow .5s var(--ease-out),background .4s;
+}
+.beer-card:hover{
+  transform:translateY(-8px);
+  border-color:var(--amber-line);
+  box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 0 1px rgba(224,154,43,.12);
+  background:rgba(243,233,210,.055);
+}
+.beer-visual{display:flex;justify-content:center;margin-bottom:20px}
+.beer-visual svg{width:52px;height:84px;transition:transform .5s var(--ease-pop)}
+.beer-card:hover .beer-visual svg{transform:rotate(-4deg) translateY(-3px)}
+.beer-card h3{font-family:"Songti SC","STSong",serif;font-size:1.35rem;letter-spacing:.22em;margin-bottom:6px}
+.beer-style{font-size:.8rem;letter-spacing:.3em;color:var(--amber);margin-bottom:14px}
+.beer-tags{display:flex;gap:8px;margin-bottom:14px}
+.beer-tags span{
+  font-size:.75rem;letter-spacing:.12em;color:var(--cream-dim);
+  border:1px solid rgba(243,233,210,.18);border-radius:999px;padding:4px 12px;
+}
+.beer-flavor{font-size:.92rem;letter-spacing:.14em;color:var(--amber);margin-bottom:10px}
+.beer-desc{font-size:.9rem;color:var(--cream-dim);letter-spacing:.03em}
+
+/* ---------- 酿造工艺 ---------- */
+.craft{background:var(--ink-2)}
+.steps{
+  list-style:none;margin-top:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  position:relative;
+}
+.steps::before{
+  content:"";position:absolute;top:34px;left:6%;right:6%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--amber-line) 20%,var(--amber-line) 80%,transparent);
+}
+.step{padding:0 26px;position:relative}
+.step-num{
+  font-family:Georgia,serif;font-size:1rem;letter-spacing:.2em;color:var(--ink);
+  background:var(--amber);width:68px;height:68px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-bottom:26px;
+  box-shadow:0 0 0 8px rgba(224,154,43,.12);
+  transition:transform .5s var(--ease-pop),box-shadow .5s var(--ease-out);
+}
+.step:hover .step-num{transform:scale(1.1);box-shadow:0 0 0 12px rgba(224,154,43,.14)}
+.step h3{font-family:"Songti SC","STSong",serif;font-size:1.3rem;letter-spacing:.3em;margin-bottom:4px}
+.step h3 em{font-style:normal;font-family:Georgia,serif;font-size:.72rem;letter-spacing:.28em;color:var(--amber);display:block;margin-top:8px}
+.step p{color:var(--cream-dim);font-size:.92rem;margin-top:12px}
+
+/* ---------- 风味筛选 ---------- */
+.flavor-tabs{display:flex;gap:12px;flex-wrap:wrap;margin-top:44px}
+.tab{
+  padding:12px 28px;border-radius:999px;border:1px solid rgba(243,233,210,.2);
+  font-size:.92rem;letter-spacing:.26em;color:var(--cream-dim);
+  transition:all .4s var(--ease-out);
+}
+.tab:hover{border-color:var(--amber);color:var(--cream);transform:translateY(-2px)}
+.tab.active{background:var(--amber);border-color:var(--amber);color:var(--ink);font-weight:600}
+.flavor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.flavor-card{
+  text-align:left;background:rgba(243,233,210,.035);border:1px solid rgba(243,233,210,.10);
+  border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;gap:8px;
+  transition:transform .45s var(--ease-pop),border-color .35s,box-shadow .45s var(--ease-out),opacity .4s ease;
+}
+.flavor-card:hover{transform:translateY(-5px);border-color:var(--amber-line);box-shadow:0 16px 36px rgba(0,0,0,.4)}
+.flavor-card.hide{display:none}
+.flavor-name{font-family:"Songti SC","STSong",serif;font-size:1.15rem;letter-spacing:.24em}
+.flavor-meta{font-size:.82rem;letter-spacing:.1em;color:var(--cream-dim)}
+.flavor-empty{margin-top:26px;color:var(--cream-dim);letter-spacing:.08em}
+.flavor-empty[hidden]{display:none}
+
+/* ---------- 门店 ---------- */
+.stores{background:var(--ink-2)}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.store-card{
+  background:rgba(243,233,210,.035);border:1px solid rgba(243,233,210,.10);
+  border-radius:18px;padding:34px 30px;
+  transition:transform .5s var(--ease-pop),border-color .4s,box-shadow .5s var(--ease-out);
+}
+.store-card:hover{transform:translateY(-8px);border-color:var(--amber-line);box-shadow:0 22px 50px rgba(0,0,0,.45)}
+.store-card h3{font-family:"Songti SC","STSong",serif;font-size:1.3rem;letter-spacing:.24em;margin-bottom:20px;color:var(--amber)}
+.store-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.store-card li{display:flex;gap:12px;align-items:flex-start;font-size:.9rem;color:var(--cream-dim);letter-spacing:.04em}
+.store-card li svg{width:17px;height:17px;flex:none;margin-top:4px;color:var(--amber)}
+.store-card li a{border-bottom:1px solid var(--amber-line);transition:color .3s}
+.store-card li a:hover{color:var(--amber)}
+.store-note{font-size:.88rem;color:var(--cream-faint);border-top:1px dashed rgba(243,233,210,.16);padding-top:16px;letter-spacing:.04em}
+
+/* ---------- 会员俱乐部 ---------- */
+.club-panel{
+  background:
+    radial-gradient(560px 320px at 50% 0%,rgba(224,154,43,.16),transparent 70%),
+    var(--ink-3);
+  border:1px solid var(--amber-line);border-radius:26px;
+  padding:70px 60px;text-align:center;
+}
+.club-panel .sec-lede{margin:0 auto}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:48px 0 40px;text-align:left}
+.tier{
+  border:1px solid rgba(243,233,210,.14);border-radius:18px;padding:32px 28px;position:relative;
+  transition:transform .5s var(--ease-pop),border-color .4s,box-shadow .5s var(--ease-out);
+}
+.tier:hover{transform:translateY(-6px);border-color:var(--amber-line);box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.tier-hot{border-color:var(--amber);background:rgba(224,154,43,.06)}
+.tier-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--amber);color:var(--ink);font-size:.75rem;letter-spacing:.3em;text-indent:.3em;
+  padding:5px 18px;border-radius:999px;font-weight:600;white-space:nowrap;
+}
+.tier h3{font-family:"Songti SC","STSong",serif;font-size:1.25rem;letter-spacing:.26em;margin-bottom:8px}
+.tier-price{font-family:Georgia,serif;font-size:1.9rem;color:var(--amber);margin-bottom:18px}
+.tier-price em{font-style:normal;font-size:.85rem;color:var(--cream-dim);font-family:inherit}
+.tier ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.tier li{font-size:.9rem;color:var(--cream-dim);letter-spacing:.06em;padding-left:22px;position:relative}
+.tier li::before{content:"";position:absolute;left:2px;top:.68em;width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.club-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--ink-3);border-top:1px solid rgba(224,154,43,.16);padding:70px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px}
+.footer-brand p{color:var(--cream-dim);font-size:.9rem;margin:18px 0 22px;max-width:300px}
+.social{display:flex;gap:14px}
+.social a{
+  width:42px;height:42px;border:1px solid rgba(243,233,210,.2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--cream-dim);
+  transition:all .4s var(--ease-out);
+}
+.social a svg{width:20px;height:20px}
+.social a:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-3px)}
+.footer h4{font-size:.85rem;letter-spacing:.34em;color:var(--amber);margin-bottom:20px;font-weight:600}
+.footer-nav{display:flex;flex-direction:column;gap:12px}
+.footer-nav a{color:var(--cream-dim);font-size:.9rem;letter-spacing:.1em;transition:color .3s;width:fit-content}
+.footer-nav a:hover{color:var(--amber)}
+.footer-contact p{color:var(--cream-dim);font-size:.9rem;margin-bottom:12px;letter-spacing:.04em}
+.footer-contact a{border-bottom:1px solid var(--amber-line);transition:color .3s}
+.footer-contact a:hover{color:var(--amber)}
+.footer-legal{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.footer-legal button{color:var(--cream-dim);font-size:.9rem;letter-spacing:.1em;border-bottom:1px solid transparent;transition:color .3s,border-color .3s;padding-bottom:2px}
+.footer-legal button:hover{color:var(--amber);border-color:var(--amber-line)}
+.footer-bottom{
+  border-top:1px solid rgba(243,233,210,.1);padding:24px 28px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:.8rem;letter-spacing:.1em;color:var(--cream-faint);
+}
+.drink-note{color:var(--amber)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal[hidden]{display:none}
+.modal-mask{position:absolute;inset:0;background:rgba(8,5,2,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.modal-box{
+  position:relative;max-width:640px;width:100%;max-height:82vh;overflow:auto;
+  background:var(--ink-2);border:1px solid var(--amber-line);border-radius:20px;
+  padding:48px 46px;animation:modalIn .5s var(--ease-out);
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.modal-x{
+  position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(243,233,210,.2);display:flex;align-items:center;justify-content:center;
+  color:var(--cream-dim);transition:all .35s var(--ease-out);
+}
+.modal-x svg{width:16px;height:16px}
+.modal-x:hover{border-color:var(--amber);color:var(--amber);transform:rotate(90deg)}
+.modal-box h3{font-family:"Songti SC","STSong",serif;font-size:1.6rem;letter-spacing:.2em;margin-bottom:6px}
+.legal-updated{font-size:.78rem;letter-spacing:.2em;color:var(--cream-faint);margin-bottom:26px}
+.legal-body h5{font-size:1rem;letter-spacing:.16em;color:var(--amber);margin:22px 0 8px}
+.legal-body h5:first-child{margin-top:0}
+.legal-body p{font-size:.9rem;color:var(--cream-dim);letter-spacing:.03em}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1020px){
+  .beer-grid{grid-template-columns:repeat(2,1fr)}
+  .flavor-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr);gap:44px 0}
+  .steps::before{display:none}
+  .step-num{width:58px;height:58px}
+}
+@media (max-width:920px){
+  .nav{gap:20px;padding:0 20px}
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+  .hero-inner{grid-template-columns:1fr;gap:56px}
+  .hero-visual{order:-1}
+  .glass-stage{width:min(260px,64vw)}
+  .hero-stats{gap:30px}
+  .store-grid{grid-template-columns:1fr}
+  .tier-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}
+  .club-panel{padding:54px 28px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .section{padding:76px 0}
+  .beer-grid{grid-template-columns:1fr}
+  .flavor-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .hero-ctas{flex-direction:column;align-items:stretch}
+  .hero-ctas .btn{flex:none;width:100%;white-space:nowrap;justify-content:center}
+  .scroll-hint{display:none}
+  .modal-box{padding:38px 26px}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column}
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html.js .reveal,html.js .rl-in,html.js .hero-ctas,html.js .hero-stats,
+  html.js .glass-stage,html.js .glass-cap{opacity:1 !important;transform:none !important}
+  .sheen{display:none}
+}

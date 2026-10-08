@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>铁馆 IRONHOUSE · 综合健身工作室 — 流汗，是最便宜的投资</title>
+<meta name="description" content="铁馆 IRONHOUSE 综合健身工作室：器械、团课、私教一次配齐。新手第一课教练手把手带练，免费体验课预约中。">
+<!-- huafire3d fx-lab — original implementation (gym-page) -->
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<noscript><style>
+  .loader{display:none}
+  .reveal,.hero-fade,.rl>span,.plate,.bar-body{opacity:1!important;transform:none!important}
+</style></noscript>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+    <path d="M8 26v12M56 26v12M14 22v20M50 22v20M20 18v28M44 18v28M20 32h24"/>
+  </svg>
+  <div class="loader-bar"><i></i></div>
+  <p>IRONHOUSE</p>
+</div>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="铁馆首页">
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true">
+        <path d="M8 26v12M56 26v12M14 22v20M50 22v20M20 18v28M44 18v28M20 32h24"/>
+      </svg>
+      <span class="brand-name">铁馆<small>IRONHOUSE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#schedule">团课</a>
+      <a href="#coaches">教练</a>
+      <a href="#pricing">价格</a>
+      <a href="#trial">体验</a>
+    </nav>
+    <a class="btn btn-sm" href="#trial">免费体验</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <a href="#schedule">团课</a>
+  <a href="#coaches">教练</a>
+  <a href="#pricing">价格</a>
+  <a href="#trial">体验</a>
+  <a class="btn" href="#trial">免费体验</a>
+</div>
+
+<main id="top">
+
+  <!-- hero -->
+  <section class="hero" data-intro id="hero">
+    <div class="hero-in">
+      <div>
+        <p class="hero-eyebrow hero-fade d1">综合健身工作室 · 铁馆 IRONHOUSE</p>
+        <h1 class="h1" aria-label="流汗，是最便宜的投资。">
+          <span class="rl" aria-hidden="true"><span>流汗，</span></span>
+          <span class="rl" aria-hidden="true"><span>是最便宜的</span></span>
+          <span class="rl" aria-hidden="true"><span><em class="accent" style="font-style:normal">投资。</em></span></span>
+        </h1>
+        <p class="hero-sub hero-fade d2">器械、团课、私教，一次配齐。新手第一课，教练手把手带你上器械——不用怕，谁都是从第一下开始的。</p>
+        <div class="hero-cta hero-fade d2">
+          <a class="btn" href="#trial">免费体验</a>
+          <a class="btn btn-ghost" href="#schedule">查看团课</a>
+        </div>
+        <div class="hero-stats hero-fade d3">
+          <div><b>12 年</b><span>开馆年份</span></div>
+          <div><b>3200+</b><span>在练会员</span></div>
+          <div><b>40+</b><span>每周课时</span></div>
+        </div>
+      </div>
+      <div class="hero-fade d2">
+        <div class="barbell-wrap">
+          <svg class="barbell" viewBox="0 0 420 220" fill="none" aria-hidden="true">
+            <!-- 杠身 -->
+            <g class="bar-body" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round">
+              <path d="M30 110h360"/>
+            </g>
+            <g class="bar-body" stroke="#D4F542" stroke-width="5" stroke-linecap="round">
+              <path d="M150 110h120" stroke-dasharray="8 10"/>
+            </g>
+            <!-- 左片 -->
+            <g class="plate pl p1" stroke="#D4F542" stroke-width="22"><path d="M92 58v104"/></g>
+            <g class="plate pl p2" stroke="#FFFFFF" stroke-width="17"><path d="M124 68v84"/></g>
+            <g class="plate pl p3" stroke="#D4F542" stroke-width="12" opacity=".85"><path d="M150 78v64"/></g>
+            <!-- 右片 -->
+            <g class="plate pr p4" stroke="#D4F542" stroke-width="22"><path d="M328 58v104"/></g>
+            <g class="plate pr p5" stroke="#FFFFFF" stroke-width="17"><path d="M296 68v84"/></g>
+            <g class="plate pr p6" stroke="#D4F542" stroke-width="12" opacity=".85"><path d="M270 78v64"/></g>
+            <!-- 卡箍 -->
+            <g class="bar-body" stroke="#FFFFFF" stroke-width="9"><path d="M62 100v20M358 100v20"/></g>
+          </svg>
+        </div>
+        <p class="hero-cap">IRONHOUSE · EST. 2014</p>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-in" id="ticker">
+        <span>力量 TRAIN</span><span>·</span><span>有氧 CARDIO</span><span>·</span><span>团课 CLASS</span><span>·</span><span>拳击 BOXING</span><span>·</span><span>瑜伽 YOGA</span><span>·</span><span>普拉提 PILATES</span><span>·</span>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span>下滑</span><i></i></div>
+  </section>
+
+  <!-- 团课排期 -->
+  <section class="section schedule" id="schedule">
+    <div class="wrap">
+      <p class="eyebrow reveal">团课排期</p>
+      <h2 class="h2 reveal" style="--d:.08s">这周，想练哪一节？</h2>
+      <p class="sub reveal" style="--d:.16s">每天 6 节团课，点一天看看。强度分三档，新手从一颗星开始，准没错。</p>
+      <div class="days reveal" style="--d:.22s" role="tablist" aria-label="按天查看团课" id="dayTabs"></div>
+      <div class="class-grid" id="classGrid" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- 教练墙 -->
+  <section class="section coaches" id="coaches">
+    <div class="wrap">
+      <p class="eyebrow reveal">教练墙</p>
+      <h2 class="h2 reveal" style="--d:.08s">带你的人，先认识一下</h2>
+      <p class="sub reveal" style="--d:.16s">四位全职教练，都有正经认证。体验课那天，点名约谁都行。</p>
+      <div class="grid">
+        <article class="coach-card reveal" style="--d:0s">
+          <div class="portrait" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect width="200" height="200" fill="#1A1A1A"/>
+              <circle cx="100" cy="78" r="34" fill="#D4F542"/>
+              <path d="M44 200c6-44 30-64 56-64s50 20 56 64z" fill="#FFFFFF"/>
+              <rect x="88" y="30" width="24" height="10" rx="5" fill="#121212" opacity=".25"/>
+            </svg>
+          </div>
+          <div class="coach-info">
+            <h3>陈岩</h3>
+            <p class="spec">力量训练</p>
+            <p class="cert">NSCA-CSCS 体能教练 · 9 年</p>
+            <p class="quote">“第一次练背，建议从划船机开始。”</p>
+          </div>
+        </article>
+        <article class="coach-card reveal" style="--d:.1s">
+          <div class="portrait" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect width="200" height="200" fill="#1A1A1A"/>
+              <circle cx="100" cy="78" r="34" fill="#FFFFFF"/>
+              <path d="M44 200c6-44 30-64 56-64s50 20 56 64z" fill="#D4F542"/>
+              <circle cx="128" cy="52" r="10" fill="#D4F542" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="coach-info">
+            <h3>林晓</h3>
+            <p class="spec">团课 / 有氧</p>
+            <p class="cert">AFAA 团课认证 · 动感单车 6 年</p>
+            <p class="quote">“跟不上节奏就先跟一半，剩下一半下次来拿。”</p>
+          </div>
+        </article>
+        <article class="coach-card reveal" style="--d:.2s">
+          <div class="portrait" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect width="200" height="200" fill="#1A1A1A"/>
+              <rect x="66" y="44" width="68" height="68" rx="18" fill="#D4F542"/>
+              <path d="M44 200c6-44 30-64 56-64s50 20 56 64z" fill="#FFFFFF"/>
+              <path d="M30 150l22-22M170 150l-22-22" stroke="#D4F542" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="coach-info">
+            <h3>阿哲</h3>
+            <p class="spec">拳击 / CrossFit</p>
+            <p class="cert">中国拳击协会 C 级 · 业余赛 12 战</p>
+            <p class="quote">“出拳先别管力气，先把呼吸理顺。”</p>
+          </div>
+        </article>
+        <article class="coach-card reveal" style="--d:.3s">
+          <div class="portrait" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect width="200" height="200" fill="#1A1A1A"/>
+              <circle cx="100" cy="78" r="34" fill="#FFFFFF"/>
+              <path d="M44 200c6-44 30-64 56-64s50 20 56 64z" fill="#D4F542" opacity=".85"/>
+              <path d="M60 60c14-18 66-18 80 0" stroke="#121212" stroke-width="6" fill="none" stroke-linecap="round" opacity=".3"/>
+            </svg>
+          </div>
+          <div class="coach-info">
+            <h3>苏晴</h3>
+            <p class="spec">瑜伽 / 普拉提</p>
+            <p class="cert">RYT-500 瑜伽联盟认证 · 7 年</p>
+            <p class="quote">“呼吸对了，动作就对了一半。”</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 私教价格 -->
+  <section class="section pricing" id="pricing">
+    <div class="wrap">
+      <p class="eyebrow reveal">私教价格</p>
+      <h2 class="h2 reveal" style="--d:.08s">明码标价，不玩套路</h2>
+      <p class="sub reveal" style="--d:.16s">没有“今天不办明天涨价”。三档都在这儿，选适合你的就行。</p>
+      <div class="price-grid">
+        <article class="price-card reveal" style="--d:0s">
+          <p class="pname">单次体验</p>
+          <p class="price">¥88<small> / 次</small></p>
+          <p class="pdesc">先来一次，感受下氛围</p>
+          <ul class="feats">
+            <li>1 节团课或器械体验</li>
+            <li>教练带练 30 分钟</li>
+            <li>淋浴更衣全开</li>
+            <li>体测 + 训练建议一份</li>
+          </ul>
+          <a class="btn btn-ghost" href="#trial">约一次试试</a>
+        </article>
+        <article class="price-card hot reveal" style="--d:.12s">
+          <span class="tag">最多人选</span>
+          <p class="pname">10 次私教卡</p>
+          <p class="price">¥780<small> / 10 次</small></p>
+          <p class="pdesc">折 ¥78 一次，认真练的首选</p>
+          <ul class="feats">
+            <li>一对一私教 10 节</li>
+            <li>专属训练计划，每月更新</li>
+            <li>饮食建议，跟着吃就行</li>
+            <li>有效期 6 个月，慢慢来</li>
+          </ul>
+          <a class="btn" href="#trial">就它了</a>
+        </article>
+        <article class="price-card reveal" style="--d:.24s">
+          <p class="pname">年度全能卡</p>
+          <p class="price">¥3600<small> / 年</small></p>
+          <p class="pdesc">把健身馆当第二个家</p>
+          <ul class="feats">
+            <li>全年器械 + 团课无限次</li>
+            <li>每月 1 节私教，动作纠偏</li>
+            <li>亲友体验券 2 张</li>
+            <li>专属储物柜一年</li>
+          </ul>
+          <a class="btn btn-ghost" href="#trial">办年卡</a>
+        </article>
+      </div>
+      <p class="price-note reveal">以上均为含税价 · 支持分期 · 7 天内无理由可退剩余次数</p>
+    </div>
+  </section>
+
+  <!-- 场馆环境 -->
+  <section class="section facility" id="facility">
+    <div class="wrap">
+      <p class="eyebrow reveal">场馆环境</p>
+      <h2 class="h2 reveal" style="--d:.08s">地方够大，器械够多</h2>
+      <p class="sub reveal" style="--d:.16s">2000 平米，练完直接洗，洗完直接上班。</p>
+      <div class="grid">
+        <article class="fac-card reveal" style="--d:0s">
+          <svg class="icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 20v12M46 20v12M11 16v20M41 16v20M17 12v28M35 12v28M17 26h18"/>
+          </svg>
+          <h3>器械区</h3>
+          <p>悍马器械加自由重量，杠铃片管够。早上七点来，深蹲架不用排队。</p>
+        </article>
+        <article class="fac-card reveal" style="--d:.12s">
+          <svg class="icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+            <circle cx="26" cy="26" r="18"/>
+            <path d="M26 14v12l9 6"/>
+            <path d="M8 44c4-8 10-12 18-12s14 4 18 12"/>
+          </svg>
+          <h3>团课房</h3>
+          <p>每天 6 节团课，音乐灯光拉满。下班直接来，衣服都不用换。</p>
+        </article>
+        <article class="fac-card reveal" style="--d:.24s">
+          <svg class="icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+            <path d="M14 8h24M26 8v8M18 20c0-4 12-4 12 0M14 28c-3 8-3 14 2 18M26 28c-3 8-3 14 2 18M38 28c-3 8-3 14 2 18"/>
+          </svg>
+          <h3>淋浴更衣</h3>
+          <p>24 小时热水，干湿分离。洗完吹干头发，直接去上班。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA 预约 -->
+  <section class="section cta" id="trial">
+    <div class="wrap">
+      <p class="eyebrow reveal">免费体验课</p>
+      <h2 class="h2 reveal" style="--d:.08s">第一节课，我们请。</h2>
+      <p class="sub reveal" style="--d:.16s">留个联系方式，教练 2 小时内联系你约时间。不群发广告，就约这一次课。</p>
+      <div class="cta-grid">
+        <ul class="cta-points reveal" style="--d:.2s">
+          <li><span class="n">1</span><span>填表预约，选你感兴趣的课程方向</span></li>
+          <li><span class="n">2</span><span>教练电话确认时间，告诉你穿什么带什么</span></li>
+          <li><span class="n">3</span><span>到店体验 60 分钟：热身 + 训练 + 拉伸</span></li>
+        </ul>
+        <div class="form-card reveal" style="--d:.28s">
+          <form id="trialForm" novalidate>
+            <h3>预约免费体验课</h3>
+            <p>信息只用于这一次约课，不会转给任何第三方。</p>
+            <div class="field" id="fName">
+              <label for="inName">姓名</label>
+              <input id="inName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name" maxlength="20">
+              <p class="err">请留下你的名字，教练好称呼你</p>
+            </div>
+            <div class="field" id="fPhone">
+              <label for="inPhone">电话</label>
+              <input id="inPhone" name="phone" type="tel" placeholder="11 位手机号码" autocomplete="tel" inputmode="numeric" maxlength="11">
+              <p class="err">手机号好像不对，再检查一下</p>
+            </div>
+            <div class="field">
+              <label for="inCourse">意向课程</label>
+              <select id="inCourse" name="course">
+                <option>力量训练</option>
+                <option>团课体验（单车 / 有氧）</option>
+                <option>拳击燃脂</option>
+                <option>瑜伽 / 普拉提</option>
+                <option>还没想好，先来看看</option>
+              </select>
+            </div>
+            <button class="btn" type="submit">预约免费体验课</button>
+            <p class="form-fine">提交即表示同意我们电话联系你约时间。不群发短信，不卖信息。</p>
+          </form>
+          <div class="form-ok" id="formOk" hidden>
+            <svg class="ok-mark" viewBox="0 0 74 74" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true">
+              <circle cx="37" cy="37" r="33"/>
+              <path d="M24 38l9 9 17-19"/>
+            </svg>
+            <h3 id="okTitle">收到！</h3>
+            <p>教练会在 2 小时内联系你约时间。<br>记得穿双合脚的鞋，提前 15 分钟到。</p>
+            <button class="again" id="againBtn" type="button">再约一节（换个人）</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="铁馆首页">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true" style="width:34px;height:34px;color:var(--lemon)">
+          <path d="M8 26v12M56 26v12M14 22v20M50 22v20M20 18v28M44 18v28M20 32h24"/>
+        </svg>
+        <span class="brand-name">铁馆<small>IRONHOUSE</small></span>
+      </a>
+      <p>综合健身工作室。器械、团课、私教，一次配齐。流汗，是最便宜的投资。</p>
+      <div class="social">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 18c.6-2.4 2.6-4 5-4M16 13a3 3 0 1 0 0-6M14 20c.5-2 2.2-3.4 4.2-3.4"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 13.5c1.8 1.2 4.4.8 5.4-1M9.5 10.8c2.5 1 5.5-.3 6.3-2.6"/></svg></a>
+        <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M10 12h4M10 15.5h4"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.4 2.6 2 4.2 4.5 4.5"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>快速导航</h4>
+      <a href="#schedule">团课排期</a>
+      <a href="#coaches">教练墙</a>
+      <a href="#pricing">私教价格</a>
+      <a href="#trial">免费体验</a>
+    </div>
+    <div class="foot-col">
+      <h4>场馆信息</h4>
+      <ul>
+        <li class="big" data-site="phone">400-666-8888</li>
+        <li data-site="address">朝阳区建国路 88 号铁馆大厦 B1</li>
+        <li data-site="hours">周一至周日 6:30 – 23:00</li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>网站政策</h4>
+      <div class="legal-btns">
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+  </div>
+  <div class="copy">
+    <span data-site="copyright">© 2026 铁馆 IRONHOUSE · 版权所有</span>
+    <span data-site="icp">京ICP备xxxxxxxxxx号-1</span>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" hidden role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="关闭">×</button>
+    <h3 id="legalTitle"></h3>
+    <p class="m-sub" id="legalSub"></p>
+    <ol id="legalList"></ol>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

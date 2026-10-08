@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>锐行 RUSHLINE — 为速度而生 | 跑鞋 · 运动服饰</title>
+<meta name="description" content="锐行 RUSHLINE 运动品牌：碳板竞速跑鞋、城市慢跑系列、专业运动服饰与线下训练课程。">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>#loader{display:none!important}</style></noscript>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');
+/* 保底：main.js 若加载失败，3s 后强制完成态（标题/loader 必可达） */
+setTimeout(function(){document.documentElement.classList.add('intro-done','loaded')},3000);</script>
+
+<!-- 加载态 -->
+<div id="loader" role="status" aria-label="页面加载中">
+  <div class="ld-mark">RUSH<b>LINE</b></div>
+  <div class="ld-bar"><i></i></div>
+  <div class="ld-tip">正在系紧鞋带…</div>
+</div>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="锐行 RUSHLINE 首页">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="#ff4d00"/><path d="M9 22 L15 10 h4 L13 22 Z M17 22 L23 10 h4 L21 22 Z" fill="#0a0a0a"/></svg>
+    RUSH<b>LINE</b>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#new">新品</a>
+    <a href="#gear">装备矩阵</a>
+    <a href="#train">训练课程</a>
+    <a href="#stories">跑者故事</a>
+  </nav>
+  <a class="btn" href="#club">加入会员</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<!-- 移动端抽屉 -->
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#new">新品</a>
+  <a href="#gear">装备矩阵</a>
+  <a href="#train">训练课程</a>
+  <a href="#stories">跑者故事</a>
+  <a class="btn" href="#club">加入会员</a>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<main id="top">
+  <!-- Hero -->
+  <section class="hero">
+    <canvas id="speedlines" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="kicker">锐行 RUSHLINE · 2026 秋冬系列</span>
+        <h1>
+          <span class="rl-mask"><span class="rl-line">RUN</span></span>
+          <span class="rl-mask"><span class="rl-line l2">FASTER.</span></span>
+        </h1>
+        <p class="sub" data-reveal>我们不做"看起来很快"的鞋。<strong>疾影 3 代</strong>全掌碳板 + 氮气中底，实测回弹率 87%——<strong>快，是可以量出来的。</strong></p>
+        <div class="hero-ctas" data-reveal>
+          <a class="btn" href="#new">选购新品</a>
+          <a class="btn ghost" href="#train">预约训练课</a>
+        </div>
+        <div class="hero-stats" data-reveal>
+          <div class="st"><b>87<i>%</i></b><span>中底回弹率</span></div>
+          <div class="st"><b>198<i>g</i></b><span>疾影3单只重量</span></div>
+          <div class="st"><b>120<i>+</i></b><span>线下跑团城市</span></div>
+        </div>
+      </div>
+      <div class="hero-shoe" data-reveal>
+        <div class="tag">疾影 3 · 新品首发</div>
+        <div data-shoe="hero" role="img" aria-label="疾影3代碳板竞速跑鞋"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 跑马灯 -->
+  <div class="marquee" aria-hidden="true"><div class="track" id="mqTrack"></div></div>
+
+  <!-- 新品横滑轮播 -->
+  <section class="section" id="new">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2>本周<em>新品</em>上架</h2>
+        <p>每双鞋都经过 500 公里路测才上架。不合脚，30 天无理由退。</p>
+        <a class="more" href="#gear">查看全部装备 →</a>
+      </div>
+      <div class="rail" id="rail" data-reveal><!-- JS 注入产品卡 --></div>
+    </div>
+  </section>
+
+  <!-- 鞋服翻转矩阵 -->
+  <section class="section" id="gear" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2>装备<em>矩阵</em></h2>
+        <p>悬停翻转，看每件装备的硬参数。跑鞋看回弹，衣服看排汗——不讲虚的。</p>
+      </div>
+      <div class="matrix" id="matrix" data-reveal><!-- JS 注入翻转卡 --></div>
+      <p class="flip-hint" data-reveal>悬停卡片查看详细参数</p>
+    </div>
+  </section>
+
+  <!-- 训练课程 tab -->
+  <section class="section train" id="train">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2>线下<em>训练课</em></h2>
+        <p>全国 120+ 城市，每周 300+ 场免费训练课。会员优先锁位，空位开放给所有人。</p>
+      </div>
+      <div data-reveal>
+        <div class="tabs" id="tabs" role="tablist"><!-- JS 注入 --></div>
+        <div id="panels"><!-- JS 注入 --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 运动员故事墙 -->
+  <section class="section" id="stories">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2>跑者<em>故事</em>墙</h2>
+        <p>他们不是代言人，是和你一样，每周三准时出现在操场的普通人。</p>
+      </div>
+      <div class="stories" id="storiesGrid" data-reveal><!-- JS 注入 --></div>
+    </div>
+  </section>
+
+  <!-- 会员 CTA -->
+  <section class="section" id="club" style="padding-top:0">
+    <div class="wrap">
+      <div class="club" data-reveal>
+        <div class="noise" aria-hidden="true"></div>
+        <div class="club-grid">
+          <div class="club-copy">
+            <h2>加入 RUSH CLUB<br>第一双鞋 8 折</h2>
+            <p>不止于折扣。会员是这个品牌的另一半：新品内测你先穿，城市跑团你组局，产品设计听你的吐槽。</p>
+            <ul class="club-perks">
+              <li><span class="tick"></span>每月新品优先购，不用抢</li>
+              <li><span class="tick"></span>生日月任意装备 7 折</li>
+              <li><span class="tick"></span>线下训练课免费锁位</li>
+              <li><span class="tick"></span>旧鞋回收计划：以旧换新抵 100 元</li>
+            </ul>
+          </div>
+          <div class="club-form">
+            <form id="clubForm" novalidate>
+              <div class="field">
+                <label for="fName">姓名</label>
+                <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name">
+                <div class="msg" id="mName"></div>
+              </div>
+              <div class="field">
+                <label for="fPhone">手机号</label>
+                <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号，用于接收会员码" autocomplete="tel">
+                <div class="msg" id="mPhone"></div>
+              </div>
+              <button class="btn" type="submit" id="clubBtn">领取会员资格</button>
+            </form>
+            <div class="club-done" id="clubDone">
+              <p>欢迎加入，跑者。</p>
+              <div class="code" id="memberCode">RCL-0000</div>
+              <p>会员码已生成，结账时出示即享首单 8 折。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#top"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="#ff4d00"/><path d="M9 22 L15 10 h4 L13 22 Z M17 22 L23 10 h4 L21 22 Z" fill="#0a0a0a"/></svg>RUSH<b>LINE</b></a>
+      <p>为速度而生。锐行专注竞速跑鞋与专业运动服饰，设计、路测、生产全链路自有。</p>
+      <div class="social" aria-label="社交媒体">
+        <a href="#" aria-label="微博" data-soc="weibo"></a>
+        <a href="#" aria-label="微信" data-soc="wechat"></a>
+        <a href="#" aria-label="抖音" data-soc="douyin"></a>
+        <a href="#" aria-label="小红书" data-soc="xiaohongshu"></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>联系我们</h5>
+      <div class="foot-contact">
+        客服热线：<span data-site="phone">400-820-6688</span><br>
+        邮箱：<span data-site="email">hello@rushline.example</span><br>
+        地址：<span data-site="address">上海市杨浦区锐行大厦 8 层</span><br>
+        营业时间：<span data-site="hours">周一至周日 9:00–21:00</span>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>帮助</h5>
+      <a href="#new">尺码指南</a>
+      <a href="#gear">退换政策</a>
+      <a href="#train">门店查询</a>
+      <a href="#club">会员权益</a>
+    </div>
+    <div class="foot-col">
+      <h5>法务</h5>
+      <button class="linklike" data-legal="privacy">隐私政策</button>
+      <button class="linklike" data-legal="terms">服务条款</button>
+      <button class="linklike" data-legal="cookie">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="copy">
+    <span>© <span data-site="year">2026</span> <span data-site="name">锐行 RUSHLINE</span> 版权所有</span>
+    <span data-site="icp">沪ICP备00000000号-0</span>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="mask" data-close></div>
+  <div class="box">
+    <div class="mhead">
+      <h3 id="legalTitle">隐私政策</h3>
+      <button class="x" data-close aria-label="关闭">✕</button>
+    </div>
+    <div class="mbody" id="legalBody"></div>
+    <div class="mfoot">最后更新：2026 年 10 月 · 如有疑问请联系客服</div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · teaser-reveal-3d -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>听澜 One · 新品预告</title>
+<style>
+:root {
+  --bg: #000000;
+  --ink: #ffffff;
+  --red: #e8341c;
+  --ink-dim: rgba(255,255,255,.62);
+  --ink-faint: rgba(255,255,255,.34);
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#gl { position: fixed; inset: 0; z-index: 1; }
+#gl canvas { display: block; width: 100% !important; height: 100% !important; }
+#curtain { position: fixed; inset: 0; z-index: 4; cursor: grab; touch-action: none; }
+
+/* 暗角：手工质感 */
+.vignette {
+  position: fixed; inset: 0; z-index: 5; pointer-events: none;
+  background: radial-gradient(115% 90% at 50% 44%, transparent 52%, rgba(0,0,0,.5) 100%);
+}
+/* 胶片噪点：手工质感 */
+.grain {
+  position: fixed; inset: 0; z-index: 6; pointer-events: none; opacity: .055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* 顶栏 */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 26px 40px; pointer-events: none;
+}
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .34em; }
+.brand small { display: block; margin-top: 6px; font-size: 10px; font-weight: 400; letter-spacing: .3em; color: var(--ink-faint); }
+.teaser-tag {
+  font-size: 11px; letter-spacing: .32em; color: var(--red);
+  border: 1px solid rgba(232,52,28,.45); border-radius: 999px; padding: 8px 18px 8px 21px;
+  background: rgba(232,52,28,.07);
+}
+
+/* 底部：提示 + 倒计时 */
+#hint {
+  position: fixed; z-index: 10; left: 50%; bottom: 46px; transform: translateX(-50%);
+  font-size: 13px; letter-spacing: .26em; color: var(--ink-dim); white-space: nowrap;
+  pointer-events: none;
+  animation: hintPulse 2.6s ease-in-out infinite;
+}
+@keyframes hintPulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+#countdown {
+  position: fixed; z-index: 10; right: 44px; bottom: 40px;
+  font-size: 12px; letter-spacing: .18em; color: var(--ink-faint); pointer-events: none;
+}
+#countdown b { font-size: 26px; font-weight: 800; color: var(--red); letter-spacing: .04em; margin: 0 6px; font-variant-numeric: tabular-nums; }
+#cdUnit { color: var(--ink-dim); }
+
+/* 揭晓区 */
+#reveal {
+  position: fixed; z-index: 10; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 24px; pointer-events: none;
+}
+#reveal > * { pointer-events: none; }
+.r-eyebrow { font-size: 12px; letter-spacing: .4em; color: var(--red); margin-bottom: 20px; }
+#reveal h1 {
+  font-size: clamp(56px, 9vw, 120px); font-weight: 800; letter-spacing: .1em; line-height: 1;
+  text-shadow: 0 0 60px rgba(232,52,28,.35);
+}
+.r-date { margin-top: 22px; font-size: 17px; letter-spacing: .34em; color: var(--ink); }
+.r-date em { font-style: normal; color: var(--red); }
+.r-specs { margin-top: 14px; font-size: 13px; letter-spacing: .12em; color: var(--ink-dim); }
+#reveal form { margin-top: 36px; display: flex; gap: 0; pointer-events: auto; }
+#subEmail {
+  font-family: var(--font); font-size: 14px; color: var(--ink);
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.22); border-right: none;
+  border-radius: 999px 0 0 999px; padding: 14px 22px; width: min(300px, 58vw); outline: none;
+  transition: border-color .2s, background .2s;
+}
+#subEmail::placeholder { color: var(--ink-faint); }
+#subEmail:focus { border-color: var(--red); background: rgba(232,52,28,.06); }
+#subBtn {
+  font-family: var(--font); font-size: 14px; font-weight: 700; letter-spacing: .14em;
+  color: #fff; background: var(--red); border: 1px solid var(--red);
+  border-radius: 0 999px 999px 0; padding: 14px 28px; cursor: pointer;
+  transition: transform .18s var(--ease-out), box-shadow .18s;
+}
+#subBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(232,52,28,.45); }
+#subBtn:active { transform: scale(.97); }
+#subOk { margin-top: 36px; font-size: 14px; letter-spacing: .1em; color: var(--ink); opacity: 0; border-left: 3px solid var(--red); padding-left: 14px; }
+
+/* 加载 */
+#loading {
+  position: fixed; inset: 0; z-index: 30; background: #000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+  transition: opacity .6s ease;
+}
+#loading.done { opacity: 0; pointer-events: none; }
+#loading .l-brand { font-size: 14px; letter-spacing: .5em; font-weight: 700; }
+#loading .l-track { width: 170px; height: 2px; background: rgba(255,255,255,.12); border-radius: 2px; overflow: hidden; }
+#loadBar { display: block; height: 100%; width: 12%; background: var(--red); border-radius: 2px; animation: loadSlide 1.4s ease-in-out infinite; }
+@keyframes loadSlide { 0% { transform: translateX(-170px); } 100% { transform: translateX(170px); } }
+#loading .l-hint { font-size: 10px; letter-spacing: .34em; color: var(--ink-faint); }
+
+@media (max-width: 760px) {
+  .topbar { padding: 18px 22px; }
+  .brand { font-size: 13px; }
+  #countdown { right: 22px; bottom: 30px; }
+  #countdown b { font-size: 20px; }
+  #hint { bottom: 76px; font-size: 12px; letter-spacing: .18em; }
+  #reveal h1 { letter-spacing: .06em; }
+  .r-date { font-size: 14px; letter-spacing: .2em; }
+  #subEmail { padding: 12px 18px; }
+  #subBtn { padding: 12px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="gl"></div>
+<canvas id="curtain"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<header class="topbar">
+  <div class="brand">听澜 HEARLAN<small>声学实验室</small></div>
+  <div class="teaser-tag">新品预告</div>
+</header>
+
+<div id="hint">按住并拖拽，亲手揭开它</div>
+<div id="countdown">距揭晓还有<b id="cdDays">--</b><span id="cdUnit">天后揭晓</span></div>
+
+<section id="reveal" aria-label="新品揭晓">
+  <p class="r-eyebrow">听澜声学 · 首款旗舰降噪耳机</p>
+  <h1>听澜 One</h1>
+  <p class="r-date"><em>2026.11.11</em>&nbsp;&nbsp;全球发布</p>
+  <p class="r-specs">-48dB 自适应降噪 · 40mm 镀铍单元 · 58 小时续航</p>
+  <form id="subForm">
+    <input id="subEmail" type="email" placeholder="留下邮箱，发布当天提醒你" aria-label="邮箱">
+    <button id="subBtn" type="submit">订阅提醒</button>
+  </form>
+  <p id="subOk" role="status"></p>
+</section>
+
+<div id="loading">
+  <div class="l-brand">听澜 HEARLAN</div>
+  <div class="l-track"><span id="loadBar"></span></div>
+  <div class="l-hint">正在准备揭晓</div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

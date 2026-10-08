@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>净驰 SHINEGO · 专业汽车美容连锁</title>
+<meta name="description" content="净驰 SHINEGO 汽车美容连锁：普洗 39 元起，精洗打蜡、镀晶养护一站式。全国 38 家门店，会员洗车单次低至 25 元。">
+<!-- huafire3d fx-lab — original implementation (carwash-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- SVG 符号库：洗车图标 / 图钉 / 社交 / 勾选 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-spray" viewBox="0 0 48 48">
+    <path d="M10 40c6 0 10-4 10-10V14l-8 2v14c0 3-2 5-5 5z" fill="currentColor"/>
+    <path d="M14 8l18-4 4 6-18 4z" fill="currentColor"/>
+    <circle cx="34" cy="26" r="1.8" fill="currentColor"/><circle cx="40" cy="22" r="1.5" fill="currentColor"/>
+    <circle cx="37" cy="32" r="1.6" fill="currentColor"/><circle cx="42" cy="29" r="1.3" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-shine" viewBox="0 0 48 48">
+    <path d="M24 4l3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="currentColor"/>
+    <path d="M38 28l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="currentColor"/>
+    <path d="M10 30l1.6 5 5 1.6-5 1.6-1.6 5-1.6-5-5-1.6 5-1.6z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-drop" viewBox="0 0 48 48">
+    <path d="M24 5c8 12 13 19 13 27a13 13 0 1 1-26 0c0-8 5-15 13-27z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-card" viewBox="0 0 48 48">
+    <rect x="6" y="12" width="36" height="24" rx="5" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <path d="M6 20h36" stroke="currentColor" stroke-width="3.5"/>
+    <path d="M12 29h10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48">
+    <path d="M24 4a14 14 0 0 0-14 14c0 10 14 26 14 26s14-16 14-26A14 14 0 0 0 24 4z" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <circle cx="24" cy="18" r="5.5" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 48 48">
+    <path d="M9 25l11 11 19-24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <path d="M24 13v11l8 5" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48">
+    <path d="M14 6h8l4 12-6 4a30 30 0 0 0 10 10l4-6 12 4v8c0 2-1.5 3.5-3.5 3.5C24 41.5 6.5 24 6.5 9.5 6.5 7.5 8 6 10 6z" fill="none" stroke="currentColor" stroke-width="3.5" transform="translate(1 0)"/>
+  </symbol>
+  <symbol id="i-wx" viewBox="0 0 48 48">
+    <circle cx="18" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="32" cy="29" r="9" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="14.5" cy="19" r="1.6" fill="currentColor"/><circle cx="21.5" cy="19" r="1.6" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-wb" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M15 32c5-2 7-8 5-13M21 33c7-2 10-10 7-17M28 33c8-3 11-11 8-19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-dy" viewBox="0 0 48 48">
+    <path d="M26 6v20a8 8 0 1 1-8-8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M26 12c1 5 4 8 9 9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-xhs" viewBox="0 0 48 48">
+    <rect x="10" y="10" width="28" height="28" rx="8" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M24 16v13M17.5 22.5L24 29l6.5-6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 48 48">
+    <path d="M24 5l6 12.5 13.5 2-10 9.5 2.5 13.5L24 36l-12 6.5L14.5 29l-10-9.5 13.5-2z" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-car" viewBox="0 0 520 220">
+    <path d="M28 158 Q30 138 60 134 L128 128 Q152 88 212 84 L310 84 Q372 88 410 128 L472 134 Q500 138 500 154 L498 162 Q496 168 488 168 L452 168 A32 32 0 0 0 388 168 L148 168 A32 32 0 0 0 84 168 L46 168 Q34 168 30 158 Z" fill="currentColor"/>
+    <path d="M158 122 Q176 96 218 94 L300 94 Q344 96 374 124 L160 124 Z" fill="currentColor" opacity=".35"/>
+  </symbol>
+</svg>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" role="status" aria-label="页面加载中">
+  <div class="loader-car">
+    <svg viewBox="0 0 520 220" aria-hidden="true"><use href="#i-car"/></svg>
+  </div>
+  <div class="loader-bar"><span></span></div>
+  <p class="loader-txt">正在打泡沫…</p>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="净驰 SHINEGO 首页">
+      <span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-drop"/></svg></span>
+      <span class="brand-txt">净驰<em>SHINEGO</em></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#services">服务价目</a>
+      <a href="#member">会员卡</a>
+      <a href="#stores">门店</a>
+      <a href="#reviews">车主说</a>
+    </nav>
+    <a class="btn btn-y nav-cta" href="#book">预约洗车</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-in">
+    <a href="#services">服务价目</a>
+    <a href="#member">会员卡</a>
+    <a href="#stores">门店</a>
+    <a href="#reviews">车主说</a>
+    <a class="btn btn-y" href="#book">预约洗车</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <canvas class="hero-foam" id="foam" aria-hidden="true"></canvas>
+    <div class="hero-car" aria-hidden="true">
+      <svg viewBox="0 0 520 220"><use href="#i-car"/></svg>
+      <div class="shine"></div>
+    </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-in">
+      <p class="kicker rl"><span class="rl-in">汽车美容连锁 · CAR WASH &amp; DETAILING</span></p>
+      <h1 class="rl"><span class="rl-in">洗得干净，<br>看得见。</span></h1>
+      <p class="hero-sub rl"><span class="rl-in">普洗 39 元起，精洗打蜡、镀晶养护一站式。<br class="br-d">全国 38 家门店，会员单次洗车低至 25 元。</span></p>
+      <div class="hero-cta rl">
+        <span class="rl-in">
+          <a class="btn btn-y btn-lg" href="#book">立即预约洗车</a>
+          <a class="btn btn-ghost btn-lg" href="#services">看看价目</a>
+        </span>
+      </div>
+      <ul class="hero-badges rl">
+        <li class="rl-in"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-check"/></svg>全程可视施工</li>
+        <li class="rl-in"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-check"/></svg>环保中性泡沫</li>
+        <li class="rl-in"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-check"/></svg>洗不干净重洗</li>
+      </ul>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- ============ 服务价目 ============ -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <p class="kicker reveal">服务价目 · PRICE</p>
+      <h2 class="h2 reveal">三种洗法，明码标价</h2>
+      <p class="lede reveal">价格全国统一，门店墙上贴的和这里一样。加项现场报价，不加不收钱。</p>
+      <div class="price-grid">
+        <article class="price-card reveal" style="--d:.05s">
+          <div class="pc-top">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-spray"/></svg>
+            <h3>普洗</h3><p class="pc-en">EXPRESS WASH</p>
+          </div>
+          <p class="pc-price"><sup>¥</sup>39<small>/次</small></p>
+          <ul class="pc-list">
+            <li>高压水枪冲洗车身</li>
+            <li>中性泡沫全覆盖</li>
+            <li>轮毂轮胎刷洗</li>
+            <li>内饰吸尘 + 玻璃擦拭</li>
+          </ul>
+          <p class="pc-time"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-clock"/></svg>约 25 分钟</p>
+          <a class="btn btn-dark" href="#book" data-service="普洗">选普洗</a>
+        </article>
+        <article class="price-card hot reveal" style="--d:.15s">
+          <p class="pc-flag">最多人选</p>
+          <div class="pc-top">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-shine"/></svg>
+            <h3>精洗</h3><p class="pc-en">DETAILED WASH</p>
+          </div>
+          <p class="pc-price"><sup>¥</sup>129<small>/次</small></p>
+          <ul class="pc-list">
+            <li>普洗全部项目</li>
+            <li>内饰深度清洁 + 皮革养护</li>
+            <li>柏油铁粉去除</li>
+            <li>手工打蜡（保 3 个月）</li>
+            <li>发动机舱擦拭</li>
+          </ul>
+          <p class="pc-time"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-clock"/></svg>约 90 分钟</p>
+          <a class="btn btn-y" href="#book" data-service="精洗">选精洗</a>
+        </article>
+        <article class="price-card reveal" style="--d:.25s">
+          <div class="pc-top">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-drop"/></svg>
+            <h3>镀晶</h3><p class="pc-en">CERAMIC COATING</p>
+          </div>
+          <p class="pc-price"><sup>¥</sup>1999<small>/整车</small></p>
+          <ul class="pc-list">
+            <li>精洗全部项目</li>
+            <li>漆面抛光还原</li>
+            <li>双层镀晶施工</li>
+            <li>质保 2 年，免费补镀</li>
+          </ul>
+          <p class="pc-time"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-clock"/></svg>约 2 天（含固化）</p>
+          <a class="btn btn-dark" href="#book" data-service="镀晶">选镀晶</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 会员卡 ============ -->
+  <section class="section dark" id="member">
+    <div class="wrap">
+      <p class="kicker reveal">会员卡 · MEMBERSHIP</p>
+      <h2 class="h2 reveal">常洗车，办张卡更划算</h2>
+      <p class="lede reveal">三档卡，全国门店通用。卡没用完可退，退剩余次数的钱，不扣手续费。</p>
+      <div class="mem-grid">
+        <article class="mem-card reveal" style="--d:.05s">
+          <h3>月卡</h3>
+          <p class="mem-price">¥199<small>/月</small></p>
+          <p class="mem-note">普洗不限次 · 适合每天开车上下班</p>
+          <ul>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>普洗不限次数</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>精洗 9 折</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>免预约排队通道</li>
+          </ul>
+          <a class="btn btn-ghost" href="#book" data-service="会员·月卡">办月卡</a>
+        </article>
+        <article class="mem-card hot reveal" style="--d:.15s">
+          <p class="pc-flag">回本最快</p>
+          <h3>季卡</h3>
+          <p class="mem-price">¥499<small>/季</small></p>
+          <p class="mem-note">单次折到 25 元 · 送 1 次精洗</p>
+          <ul>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>普洗不限次数</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>送 1 次精洗（129 元）</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>精洗 8 折 · 镀晶 9 折</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>家人第二辆车半价同享</li>
+          </ul>
+          <a class="btn btn-y" href="#book" data-service="会员·季卡">办季卡</a>
+        </article>
+        <article class="mem-card reveal" style="--d:.25s">
+          <h3>年卡</h3>
+          <p class="mem-price">¥1599<small>/年</small></p>
+          <p class="mem-note">单次折到 18 元 · 送 4 次精洗</p>
+          <ul>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>普洗不限次数</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>送 4 次精洗（516 元）</li>
+            <li><svg viewBox="0 0 48 48"><use href="#i-check"/></svg>镀晶 85 折 + 优先排期</li>
+          </ul>
+          <a class="btn btn-ghost" href="#book" data-service="会员·年卡">办年卡</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 门店查询 ============ -->
+  <section class="section" id="stores">
+    <div class="wrap">
+      <p class="kicker reveal">门店 · STORES</p>
+      <h2 class="h2 reveal">38 家门店，找离你最近的</h2>
+      <p class="lede reveal">点城市筛选。所有门店 9:00–21:00，全年无休，节假日不打烊。</p>
+      <div class="chips reveal" role="tablist" aria-label="城市筛选" id="cityChips"></div>
+      <div class="store-grid" id="storeGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ 车主评价 ============ -->
+  <section class="section tint" id="reviews">
+    <div class="wrap">
+      <p class="kicker reveal">车主说 · REVIEWS</p>
+      <h2 class="h2 reveal">洗过的人，怎么说</h2>
+      <div class="rev-grid">
+        <figure class="rev-card reveal" style="--d:.05s">
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg>
+          </div>
+          <blockquote>精洗花了快两个小时，师傅把门缝里的泥都抠出来了。打完蜡水珠立在漆面上，值这个价。</blockquote>
+          <figcaption>陈先生 · 特斯拉 Model 3 · 精洗</figcaption>
+        </figure>
+        <figure class="rev-card reveal" style="--d:.15s">
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg>
+          </div>
+          <blockquote>办的季卡，一周洗两次，算下来一次二十多块。门口扫码排队，到店基本不用等。</blockquote>
+          <figcaption>王女士 · 理想 L7 · 季卡会员</figcaption>
+        </figure>
+        <figure class="rev-card reveal" style="--d:.25s">
+          <div class="rev-stars" aria-label="4 星">
+            <svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48"><use href="#i-star"/></svg><svg viewBox="0 0 48 48" class="dim"><use href="#i-star"/></svg>
+          </div>
+          <blockquote>镀晶做了两天，提车时师傅拿着灯一寸一寸照给我看。就是工位紧张，周末得提前约。</blockquote>
+          <figcaption>刘先生 · 宝马 5 系 · 镀晶</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 预约 CTA ============ -->
+  <section class="section dark book" id="book">
+    <div class="wrap book-in">
+      <div class="book-copy reveal">
+        <p class="kicker">预约洗车 · BOOKING</p>
+        <h2 class="h2">留个车牌，<br>到店不用等。</h2>
+        <p class="lede">提交后 10 分钟内门店电话确认。支持到店付，不收定金。</p>
+        <ul class="book-steps">
+          <li><span>1</span>填车牌和时间</li>
+          <li><span>2</span>门店电话确认</li>
+          <li><span>3</span>到店开洗</li>
+        </ul>
+        <p class="book-phone">着急？直接打 <a data-site="phone" data-site-href="phoneHref" href="#">400-820-XXXX</a></p>
+      </div>
+      <form class="book-form reveal" id="bookForm" novalidate>
+        <label>车牌号
+          <input type="text" name="plate" placeholder="如：沪A·88888" maxlength="10" required>
+        </label>
+        <label>车型
+          <input type="text" name="model" placeholder="如：特斯拉 Model 3" maxlength="30" required>
+        </label>
+        <label>服务项目
+          <select name="service" id="serviceSel" required>
+            <option value="普洗">普洗 ¥39</option>
+            <option value="精洗">精洗 ¥129</option>
+            <option value="镀晶">镀晶 ¥1999</option>
+            <option value="会员·月卡">会员月卡 ¥199</option>
+            <option value="会员·季卡">会员季卡 ¥499</option>
+            <option value="会员·年卡">会员年卡 ¥1599</option>
+          </select>
+        </label>
+        <label>预约时间
+          <input type="datetime-local" name="time" required>
+        </label>
+        <button class="btn btn-y btn-lg" type="submit">提交预约</button>
+        <p class="form-ok" id="formOk" hidden>已收到！门店会在 10 分钟内电话联系你确认。</p>
+        <p class="form-err" id="formErr" hidden>车牌、车型、时间都填一下，我们好安排工位。</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <p class="brand-txt">净驰<em>SHINEGO</em></p>
+      <p data-site="tagline">把每辆车，都当展车洗。</p>
+      <div class="social">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 48 48"><use href="#i-wx"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 48 48"><use href="#i-wb"/></svg></a>
+        <a href="#" aria-label="小红书"><svg viewBox="0 0 48 48"><use href="#i-xhs"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 48 48"><use href="#i-dy"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>联系我们</h4>
+      <p><svg viewBox="0 0 48 48"><use href="#i-phone"/></svg><a data-site="phone" data-site-href="phoneHref" href="#">400-820-XXXX</a></p>
+      <p><svg viewBox="0 0 48 48"><use href="#i-pin"/></svg><span data-site="address">地址占位</span></p>
+      <p><svg viewBox="0 0 48 48"><use href="#i-clock"/></svg><span data-site="hours">营业时间占位</span></p>
+    </div>
+    <div class="foot-col">
+      <h4>快速入口</h4>
+      <p><a href="#services">服务价目</a></p>
+      <p><a href="#member">会员卡</a></p>
+      <p><a href="#stores">门店查询</a></p>
+      <p><a href="#book">预约洗车</a></p>
+    </div>
+    <div class="foot-col">
+      <h4>网站政策</h4>
+      <p><button class="legal-link" data-legal="privacy">隐私政策</button></p>
+      <p><button class="legal-link" data-legal="terms">服务条款</button></p>
+      <p><button class="legal-link" data-legal="cookies">Cookie 政策</button></p>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© <span data-site="year">2026</span> <span data-site="name">净驰 SHINEGO</span> · <span data-site="icp">沪ICP备xxxxxxxxxx号-1</span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <p class="kicker" id="legalEn"></p>
+    <h3 id="legalTitle"></h3>
+    <p class="legal-upd" id="legalUpd"></p>
+    <ol class="legal-list" id="legalList"></ol>
+  </div>
+</div>
+
+<noscript><style>.loader{display:none}.rl-in{transform:none!important;opacity:1!important}</style></noscript>
+<script src="src/main.js"></script>
+</body>
+</html>

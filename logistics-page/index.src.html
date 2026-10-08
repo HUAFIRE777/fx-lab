@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>驰运 SWIFTLINE · 寄得快，查得到，到得准</title>
+<meta name="description" content="驰运 SWIFTLINE —— 快递、快运、冷链、国际一单到底。虚构品牌演示模板。">
+<script>document.documentElement.className += ' js';</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态：藏青底 + 橙线生长；window load 后淡出；3.5s 兜底；无 JS 由 noscript 隐藏 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-line"><span></span></div>
+  <p>驰运 SWIFTLINE · 正在为您装配页面</p>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- 噪点 + 暗角：全页手工质感 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航：滚动超 24px 透明→毛玻璃 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="驰运 SWIFTLINE 首页">
+      <svg viewBox="0 0 40 36" width="32" height="28" aria-hidden="true">
+        <path d="M4 26 L16 6 H24 L12 26 Z" fill="currentColor" opacity=".92"/>
+        <path d="M16 26 L28 6 H36 L24 26 Z" fill="currentColor" opacity=".55"/>
+        <path d="M28 30 h8" stroke="#F56600" stroke-width="3.4" stroke-linecap="round"/>
+      </svg>
+      <span>驰运<em>SWIFTLINE</em></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#track">运单查询</a>
+      <a href="#services">服务产品</a>
+      <a href="#promise">时效承诺</a>
+      <a href="#outlets">网点查询</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="signin" href="#cta">登录</a>
+      <a class="btn btn-orange btn-sm" href="#cta">立即寄件</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#track">运单查询</a>
+  <a href="#services">服务产品</a>
+  <a href="#promise">时效承诺</a>
+  <a href="#outlets">网点查询</a>
+  <div class="drawer-actions">
+    <a class="signin" href="#cta">登录</a>
+    <a class="btn btn-orange" href="#cta">立即寄件</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero：运单查询演示 + SVG 路线动画 ============ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <a class="badge reveal" href="#promise" data-d="0">
+          <span class="badge-dot"></span>准点率 98.7% · 连续三年时效口碑第一
+          <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <h1 class="reveal" data-d="1">寄得快，查得到<br>到得准<span class="h1-dot">。</span></h1>
+        <p class="hero-sub reveal" data-d="2">快递、快运、冷链、国际，一单到底。运单节点分钟级更新，<br class="br-desktop">晚到先赔，不扯皮。</p>
+
+        <!-- 运单查询演示（核心动效） -->
+        <div class="track reveal" data-d="3" id="track">
+          <div class="track-bar">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 8h12v9H4zM16 11h4l2 3v3h-6" fill="none" stroke="#F56600" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/><circle cx="8" cy="18.5" r="1.8" fill="none" stroke="#F56600" stroke-width="1.9"/><circle cx="18" cy="18.5" r="1.8" fill="none" stroke="#F56600" stroke-width="1.9"/></svg>
+            <input id="trackInput" type="text" inputmode="numeric" maxlength="18"
+                   value="SW882134065701" placeholder="输入运单号，如 SW882134065701"
+                   aria-label="运单号">
+            <button class="btn btn-orange" id="trackBtn" type="button">查询</button>
+          </div>
+          <p class="track-hint">演示数据 · 试试点「查询」，看这票件正在哪条路上</p>
+
+          <div class="track-result" id="trackResult" aria-hidden="true">
+            <div class="tr-head">
+              <div>
+                <p class="tr-no" id="trNo">SW882134065701</p>
+                <p class="tr-route">深圳福田 → 北京大兴 · 标准快递</p>
+              </div>
+              <span class="tr-status" id="trStatus">运输中</span>
+            </div>
+            <div class="tr-progress"><span id="trBar"></span></div>
+            <ol class="tr-timeline" id="trTimeline">
+              <li><i></i><div><b>已揽收</b><p>深圳福田营业部 · 10-04 09:12</p></div></li>
+              <li><i></i><div><b>干线发车</b><p>深圳 → 郑州航空港 · 10-04 18:40</p></div></li>
+              <li><i></i><div><b>到达中转</b><p>郑州航空港分拨中心 · 10-05 06:03</p></div></li>
+              <li><i></i><div><b>干线发车</b><p>郑州 → 北京 · 10-05 07:55</p></div></li>
+              <li class="active"><i></i><div><b>运输中</b><p>预计今日 14:00 前到达北京大兴分拨</p></div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- SVG 路线路径动画：深圳 → 郑州 → 北京 -->
+      <div class="hero-map reveal" data-d="2" aria-hidden="true">
+        <svg viewBox="0 0 560 420" id="routeSvg">
+          <defs>
+            <radialGradient id="mapGlow" cx="50%" cy="42%" r="65%">
+              <stop offset="0%" stop-color="#F56600" stop-opacity=".16"/>
+              <stop offset="100%" stop-color="#F56600" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="560" height="420" fill="url(#mapGlow)"/>
+          <g class="map-grid" stroke="#ffffff" stroke-opacity=".05">
+            <path d="M0 70H560M0 140H560M0 210H560M0 280H560M0 350H560"/>
+            <path d="M80 0V420M160 0V420M240 0V420M320 0V420M400 0V420M480 0V420"/>
+          </g>
+          <path class="route-bg" d="M118 322 C 200 300, 250 250, 300 190 S 420 110, 452 84"
+                fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width="2.5"/>
+          <path class="route-dash" id="routeDash" d="M118 322 C 200 300, 250 250, 300 190 S 420 110, 452 84"
+                fill="none" stroke="#F56600" stroke-width="2.5" stroke-linecap="round"/>
+          <g class="cities">
+            <g class="city"><circle cx="118" cy="322" r="7"/><text x="118" y="350">深圳</text></g>
+            <g class="city"><circle cx="300" cy="190" r="7"/><text x="300" y="218">郑州</text></g>
+            <g class="city"><circle cx="452" cy="84" r="7"/><text x="452" y="112">北京</text></g>
+            <g class="city minor"><circle cx="205" cy="265" r="4"/><text x="205" y="287">广州</text></g>
+            <g class="city minor"><circle cx="378" cy="138" r="4"/><text x="378" y="160">石家庄</text></g>
+            <g class="city minor"><circle cx="500" cy="220" r="4"/><text x="500" y="242">济南</text></g>
+          </g>
+          <g id="parcelDot" class="parcel">
+            <circle r="9" fill="#F56600" opacity=".28"/>
+            <circle r="4.5" fill="#F56600"/>
+            <path d="M-14 0 L-22 -6 M-14 0 L-22 6" stroke="#F56600" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <p class="map-note">干线 SW-K503 · 在途车辆实时位置（演示）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 服务矩阵：快递 / 快运 / 冷链 / 国际 ============ -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <p class="kicker reveal">服务产品</p>
+      <h2 class="reveal" data-d="1">四种寄法<br>总有一种合你意</h2>
+      <p class="section-sub reveal" data-d="2">从一封文件到一车冷链，价格写在明处，下单前先看时效。</p>
+      <div class="svc-grid">
+        <article class="svc-card reveal" data-d="0">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M5 14h17v13H5zM22 18h8l5 4v5h-13" fill="none" stroke="#F56600" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="11" cy="30" r="2.6" fill="none" stroke="#F56600" stroke-width="2.4"/><circle cx="29" cy="30" r="2.6" fill="none" stroke="#F56600" stroke-width="2.4"/></svg>
+          </div>
+          <h3>标准快递</h3>
+          <p class="svc-tag">省内次日达 · 覆盖 92%</p>
+          <p>今天寄，明天到。文件、小件、电商退货都顺手，江浙沪皖今发明至。</p>
+          <a class="svc-link" href="#cta">查看价格
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="1">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="6" y="12" width="28" height="14" rx="2" fill="none" stroke="#F56600" stroke-width="2.4"/><path d="M6 19h28M11 31h4M25 31h4" stroke="#F56600" stroke-width="2.4" stroke-linecap="round"/><path d="M13 12v14M27 12v14" stroke="#F56600" stroke-width="1.4" opacity=".6"/></svg>
+          </div>
+          <h3>快运零担</h3>
+          <p class="svc-tag">10kg 起 · 按公斤计费</p>
+          <p>家具、家电、装修建材，大件也便宜。上门取件免费，送货上楼可选。</p>
+          <a class="svc-link" href="#cta">查看价格
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="2">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M20 4v32M12 10l16 20M28 10L12 30M20 4l-3 4M20 4l3 4M20 36l-3-4M20 36l3-4" stroke="#F56600" stroke-width="2.2" stroke-linecap="round"/><circle cx="20" cy="20" r="4" fill="none" stroke="#F56600" stroke-width="2.2"/></svg>
+          </div>
+          <h3>冷链专线</h3>
+          <p class="svc-tag">-25℃ ~ 15℃ 全程温控</p>
+          <p>生鲜、医药专车专线，温度异常自动告警，全程温度曲线随单可查。</p>
+          <a class="svc-link" href="#cta">查看价格
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="svc-card reveal" data-d="3">
+          <div class="svc-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="#F56600" stroke-width="2.4"/><path d="M6 20h28M20 6c-5 5-5 23 0 28M20 6c5 5 5 23 0 28" fill="none" stroke="#F56600" stroke-width="1.6"/></svg>
+          </div>
+          <h3>国际速运</h3>
+          <p class="svc-tag">220+ 国家和地区</p>
+          <p>欧美主要城市 3–5 天，关税预付、清关进度一单可查，丢件按申报价赔。</p>
+          <a class="svc-link" href="#cta">查看价格
+            <svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 时效承诺数据带 ============ -->
+  <section class="section promise" id="promise">
+    <div class="wrap">
+      <p class="kicker reveal">时效承诺</p>
+      <h2 class="reveal" data-d="1">说到，就要做到<br>晚到先赔</h2>
+      <p class="section-sub reveal" data-d="2">承诺时效写进运单，超时自动赔付运费，不用你打电话吵。</p>
+      <div class="stat-row reveal" data-d="3">
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="98.7" data-decimals="1">0.0</span><em>%</em></p>
+          <p class="stat-label">全网准点率</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="1200" data-decimals="0">0</span><em>万</em></p>
+          <p class="stat-label">日均处理单量</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="32000" data-decimals="0">0</span><em>+</em></p>
+          <p class="stat-label">营业网点</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span class="counter" data-count="2800" data-decimals="0">0</span><em>+</em></p>
+          <p class="stat-label">覆盖区县</p>
+        </div>
+      </div>
+      <div class="promise-grid">
+        <article class="promise-card reveal" data-d="0">
+          <h3>超时自动赔</h3>
+          <p>承诺时效超时 2 小时以上，运费自动退回原支付账户，3 个工作日内到账。</p>
+        </article>
+        <article class="promise-card reveal" data-d="1">
+          <h3>丢损先行赔</h3>
+          <p>保价快件按声明价值全额赔，未保价最高赔 7 倍运费，核实后 72 小时到账。</p>
+        </article>
+        <article class="promise-card reveal" data-d="2">
+          <h3>客服 15 秒接</h3>
+          <p>95011 人工客服平均 15 秒接通，投诉 24 小时内必有处理结论回复。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 网点查询 ============ -->
+  <section class="section outlets" id="outlets">
+    <div class="wrap outlet-grid">
+      <div class="outlet-copy">
+        <p class="kicker reveal">网点查询</p>
+        <h2 class="reveal" data-d="1">家门口的驰运<br>一搜就有</h2>
+        <p class="section-sub reveal" data-d="2">输入城市名，看看附近的营业部和自寄点。营业时间、电话一次给全。</p>
+        <div class="outlet-search reveal" data-d="3">
+          <input id="outletInput" type="text" maxlength="12" value="深圳"
+                 placeholder="输入城市名，如 深圳" aria-label="城市名">
+          <button class="btn btn-orange" id="outletBtn" type="button">查找网点</button>
+        </div>
+        <p class="outlet-hint reveal" data-d="4">演示数据 · 网点信息以 95011 客服确认为准</p>
+      </div>
+      <div class="outlet-list reveal" data-d="2" id="outletList" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <div class="cta-panel reveal">
+        <p class="kicker kicker-light">新客福利</p>
+        <h2>现在寄件<br>首单立减 8 元</h2>
+        <p>微信扫码下单，快递员 1 小时内上门。<br class="br-desktop">首单 8 元券自动到账，寄文件也用得上。</p>
+        <div class="cta-row">
+          <a class="btn btn-orange btn-lg" href="#track">扫码下单</a>
+          <a class="btn btn-outline-light btn-lg" href="#outlets">查附近网点</a>
+        </div>
+        <p class="cta-note">下单咨询 <a data-site="phone">95011</a> · 7×24 小时</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="驰运 SWIFTLINE 首页">
+          <svg viewBox="0 0 40 36" width="32" height="28" aria-hidden="true">
+            <path d="M4 26 L16 6 H24 L12 26 Z" fill="currentColor" opacity=".92"/>
+            <path d="M16 26 L28 6 H36 L24 26 Z" fill="currentColor" opacity=".55"/>
+            <path d="M28 30 h8" stroke="#F56600" stroke-width="3.4" stroke-linecap="round"/>
+          </svg>
+          <span>驰运<em>SWIFTLINE</em></span>
+        </a>
+        <p class="foot-slogan">寄得快，查得到，到得准。</p>
+        <div class="social">
+          <a href="#top" aria-label="官方微信" title="官方微信"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.9 4 3 6.4 3 9.4c0 1.7.9 3.2 2.3 4.2l-.9 2.6 3-1.5c.6.2 1.4.3 2.1.3h.3c-.2-1.9 1.1-4.4 3.2-5.5-1-1-3-1.5-3.5-1.5zM18 9c-3 0-5.5 2-5.5 4.5S15 18 18 18c.6 0 1.2-.1 1.8-.3l2.7 1.3-.8-2.3c1.2-.9 2-2.1 2-3.2C23.5 11 21 9 18 9zM8 7.5h.01M11 7.5h.01M16.5 12h.01M19.5 12h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+          <a href="#top" aria-label="官方微博" title="官方微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.4c-3.9 0-6.6-2.3-6.6-5.3 0-1.5.7-2.8 1.8-3.7-.2 2.6 1.5 5 4.2 5.6 2 .5 4.2-.2 5.3-1.4-.4 2.6-2.2 4.8-4.7 4.8zm9.3-9.6c-.6-.2-1 .2-1.2.7l-.4 1.3c-2.2-.4-4.3.3-5.3 1.6.4-2.2 2.2-3.9 4.6-4.2l1.2 1.1c.4.4 1 .5 1.4.1.4-.5.2-1.2-.3-1.6zm-2-3.3c-4.3-.9-8.6 1-9.9 4.6-.3.9-.5 1.8-.4 2.7.3-3.3 3-5.9 6.5-6.2 2-.2 4 .4 5.4 1.5l-.6-1c-.4-.7-.3-1.4 0-1.6z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="官方抖音" title="官方抖音"><svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.9 3.8 4.5 4v3c-1.7 0-3.2-.5-4.5-1.5v6.6c0 3.4-2.4 5.9-5.7 5.9-3.1 0-5.6-2.4-5.6-5.5 0-3.2 2.6-5.7 6-5.5v3.2c-1.5-.3-2.9.7-2.9 2.3 0 1.4 1.1 2.4 2.5 2.4 1.5 0 2.6-1.1 2.6-2.8V3h3.1z" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="客服热线" title="客服热线 95011"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5c.8 2.3 2.7 4.2 5 5L15 13l5 2v4c-6.5 1-14.5-3.5-15-15z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-col" aria-label="服务产品">
+        <h4>服务产品</h4>
+        <a href="#services">标准快递</a>
+        <a href="#services">快运零担</a>
+        <a href="#services">冷链专线</a>
+        <a href="#services">国际速运</a>
+      </nav>
+      <nav class="foot-col" aria-label="帮助支持">
+        <h4>帮助支持</h4>
+        <a href="#track">运单查询</a>
+        <a href="#outlets">网点查询</a>
+        <a href="#promise">时效承诺</a>
+        <a href="#cta">价格查询</a>
+      </nav>
+      <nav class="foot-col" aria-label="关于驰运">
+        <h4>关于驰运</h4>
+        <a href="#top">公司简介</a>
+        <a href="#top">加入我们</a>
+        <a href="#top">投资者关系</a>
+        <a href="#top">新闻中心</a>
+      </nav>
+      <div class="foot-col" aria-label="法律信息">
+        <h4>法律</h4>
+        <button class="foot-link" data-modal="privacy">隐私政策</button>
+        <button class="foot-link" data-modal="terms">服务条款</button>
+        <button class="foot-link" data-modal="cookie">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-contact">
+      <span>客服热线 <a data-site="phone">95011</a></span>
+      <span>联系邮箱 <a data-site="email">service@swiftline.cn</a></span>
+      <span>公司地址 <span data-site="address">上海市青浦区华新镇华志路 1688 号</span></span>
+    </div>
+    <div class="foot-legal">
+      <p>© 2026 <span data-site="name">驰运速运有限公司</span> · <span data-site="icp">沪ICP备xxxxxx号</span></p>
+      <p class="foot-virtual">本站为虚构品牌「驰运 SWIFTLINE」的页面设计模板演示，运单、网点与价格信息均为示例，不构成服务承诺。</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ 法务三件套弹窗 ============ -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+    </div>
+    <p class="modal-updated" id="modalUpdated"></p>
+    <ol class="modal-points" id="modalPoints"></ol>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

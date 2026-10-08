@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦浪 BREWAVE · 精酿啤酒</title>
+<meta name="description" content="麦浪 BREWAVE 精酿啤酒：六款常备酒款、四步酿造工艺、三家城市门店。把秋天，倒进杯子里。">
+<!-- huafire3d fx-lab · MIT License — free for commercial use (craftbeer-page) -->
+<style>
+/* 麦浪 BREWAVE · craftbeer-page —— 原创样式，零外部依赖 */
+:root{
+  --ink:#171008;        /* 深棕黑 */
+  --ink-2:#221507;       /* 深棕黑·浅一阶（卡片底） */
+  --ink-3:#0f0a05;       /* 深棕黑·深一阶 */
+  --amber:#e09a2b;       /* 琥珀 */
+  --amber-soft:rgba(224,154,43,.14);
+  --amber-line:rgba(224,154,43,.38);
+  --cream:#f3e9d2;       /* 奶油 */
+  --cream-dim:rgba(243,233,210,.66);
+  --cream-faint:rgba(243,233,210,.38);
+  --ease-out:cubic-bezier(.19,1,.22,1);      /* 物理感：快出慢收 */
+  --ease-pop:cubic-bezier(.34,1.4,.64,1);     /* 轻微过冲 */
+  --nav-h:72px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:system-ui,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+::selection{background:var(--amber);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* ---------- 排版层级 ---------- */
+.kicker{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:18px;
+}
+.sec-title{
+  font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;
+  font-size:clamp(1.9rem,3.6vw,2.9rem);
+  letter-spacing:.14em;line-height:1.45;font-weight:600;
+  margin-bottom:14px;
+}
+.sec-lede{color:var(--cream-dim);max-width:620px;font-size:1.02rem;letter-spacing:.04em}
+.section{padding:110px 0;position:relative}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 34px;border-radius:999px;
+  font-size:.98rem;letter-spacing:.18em;font-weight:600;
+  transition:transform .45s var(--ease-pop),box-shadow .45s var(--ease-out),background .3s,border-color .3s;
+  will-change:transform;
+}
+.btn svg{width:18px;height:18px}
+.btn-amber{background:var(--amber);color:var(--ink)}
+.btn-amber:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(224,154,43,.35)}
+.btn-ghost{border:1px solid var(--cream-faint);color:var(--cream)}
+.btn-ghost:hover{transform:translateY(-3px);border-color:var(--amber);color:var(--amber)}
+.btn-sm{padding:11px 24px;font-size:.86rem}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:200;background:var(--ink-3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .6s ease;
+}
+.loader.done{opacity:0;pointer-events:none}
+.loader.gone{display:none}
+.loader-mark svg{width:56px;height:56px;animation:breathe 1.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+.loader-text{letter-spacing:.5em;font-size:.85rem;color:var(--cream-dim);text-indent:.5em}
+.loader-bar{width:180px;height:2px;background:rgba(243,233,210,.14);border-radius:2px;overflow:hidden}
+.loader-bar span{display:block;height:100%;width:40%;background:var(--amber);border-radius:2px;animation:loadslide 1.1s var(--ease-out) infinite}
+@keyframes loadslide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+
+/* ---------- 导航 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+  display:flex;align-items:center;gap:36px;padding:0 32px;
+  transition:background .4s ease,box-shadow .4s ease,backdrop-filter .4s ease;
+}
+.nav.scrolled{
+  background:rgba(23,16,8,.72);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(224,154,43,.18);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:34px;height:34px}
+.brand-word{font-family:"Songti SC","STSong",serif;font-size:1.3rem;letter-spacing:.2em}
+.brand-word em{font-style:normal;font-family:Georgia,serif;font-size:.68rem;letter-spacing:.3em;color:var(--amber);margin-left:10px;vertical-align:2px}
+.nav-links{display:flex;gap:30px;margin-left:auto}
+.nav-links a{font-size:.92rem;letter-spacing:.24em;color:var(--cream-dim);position:relative;padding:6px 2px;transition:color .3s}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--amber);
+  transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-out);
+}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{margin-left:6px}
+.burger{display:none;flex-direction:column;gap:6px;margin-left:auto;padding:10px}
+.burger span{width:26px;height:2px;background:var(--cream);border-radius:2px;transition:transform .35s var(--ease-out),opacity .3s}
+.burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* 移动端抽屉 */
+.drawer{
+  position:fixed;inset:0;z-index:99;background:rgba(15,10,5,.97);
+  display:none;align-items:center;justify-content:center;
+}
+.drawer.open{display:flex}
+.drawer nav{display:flex;flex-direction:column;align-items:center;gap:8px}
+.drawer nav a{
+  font-family:"Songti SC","STSong",serif;font-size:1.7rem;letter-spacing:.4em;text-indent:.4em;
+  padding:12px 20px;color:var(--cream);
+  opacity:0;transform:translateY(18px);
+}
+.drawer.open nav a{animation:drawerIn .7s var(--ease-out) forwards;animation-delay:var(--d,0s)}
+@keyframes drawerIn{to{opacity:1;transform:none}}
+.drawer nav a.btn{font-family:inherit;font-size:1rem;margin-top:14px}
+
+/* ---------- Hero ---------- */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:calc(var(--nav-h) + 40px) 0 70px;position:relative;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-bg::before{ /* 琥珀暖光 */
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(620px 480px at 72% 42%,rgba(224,154,43,.20),transparent 65%),
+    radial-gradient(900px 600px at 15% 90%,rgba(224,154,43,.07),transparent 60%);
+}
+.hero-bg::after{ /* vignette + 噪点 */
+  content:"";position:absolute;inset:0;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.55'/></svg>"),
+    radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(8,5,2,.62) 100%);
+  opacity:.5;
+}
+.hero-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+  max-width:1180px;margin:0 auto;padding:0 28px;width:100%;
+}
+.hero .kicker{margin-bottom:22px}
+.hero-title{
+  font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;
+  font-size:clamp(2.9rem,6.4vw,4.9rem);
+  letter-spacing:.1em;line-height:1.42;font-weight:600;
+  margin-bottom:26px;
+  text-shadow:0 4px 40px rgba(224,154,43,.18);
+}
+/* 遮罩升起入场：隐藏态只在 html.js 下生效 */
+.rl{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.rl-in{display:block}
+html.js .rl-in{transform:translateY(112%)}
+html.js .hero.enter .rl-in{transform:translateY(0);transition:transform 1.1s var(--ease-out)}
+.hero-copy .rl:nth-of-type(2) .rl-in{transition-delay:.08s}
+.hero-copy .rl:nth-of-type(3) .rl-in{transition-delay:.16s}
+.lede{color:var(--cream-dim);font-size:1.08rem;letter-spacing:.05em;max-width:480px;margin-bottom:36px}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px}
+html.js .hero-ctas,html.js .hero-stats{opacity:0;transform:translateY(20px)}
+html.js .hero.enter .hero-ctas{opacity:1;transform:none;transition:opacity .9s ease .5s,transform .9s var(--ease-out) .5s}
+html.js .hero.enter .hero-stats{opacity:1;transform:none;transition:opacity .9s ease .68s,transform .9s var(--ease-out) .68s}
+.hero-stats{display:flex;gap:44px}
+.hero-stats dt{font-size:1.5rem;letter-spacing:.06em;color:var(--cream)}
+.hero-stats dt .count{font-family:Georgia,serif;color:var(--amber);font-size:1.7rem}
+.hero-stats dd{font-size:.82rem;letter-spacing:.3em;color:var(--cream-faint);margin-top:4px}
+
+/* 酒杯主视觉 */
+.hero-visual{display:flex;flex-direction:column;align-items:center;gap:18px}
+.glass-stage{
+  position:relative;width:min(340px,72vw);aspect-ratio:260/400;
+}
+.glass-svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 24px 60px rgba(224,154,43,.22))}
+.bubbles{position:absolute;inset:0;width:100%;height:100%}
+.sheen{ /* 琥珀光泽扫过 */
+  position:absolute;top:6%;bottom:8%;left:30%;width:22%;
+  background:linear-gradient(105deg,transparent,rgba(255,246,225,.20) 45%,rgba(255,246,225,.34) 50%,rgba(255,246,225,.20) 55%,transparent);
+  transform:skewX(-14deg) translateX(-320%);
+  animation:sheen 7s ease-in-out infinite;pointer-events:none;
+}
+@keyframes sheen{0%,58%{transform:skewX(-14deg) translateX(-320%)}88%,100%{transform:skewX(-14deg) translateX(320%)}}
+.glass-cap{font-size:.85rem;letter-spacing:.28em;color:var(--cream-faint)}
+html.js .glass-stage{opacity:0;transform:translateY(30px) scale(.97)}
+html.js .hero.enter .glass-stage{opacity:1;transform:none;transition:opacity 1.1s ease .35s,transform 1.2s var(--ease-out) .35s}
+html.js .glass-cap{opacity:0}
+html.js .hero.enter .glass-cap{opacity:1;transition:opacity 1s ease 1.1s}
+
+.scroll-hint{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:1;
+  font-size:.75rem;letter-spacing:.4em;text-indent:.4em;color:var(--cream-faint);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.scroll-hint span{width:1px;height:44px;background:linear-gradient(var(--amber),transparent);display:block;animation:hintDrop 2.2s var(--ease-out) infinite}
+@keyframes hintDrop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- 滚动 reveal：隐藏态只在 html.js 下 ---------- */
+.reveal{transition:opacity .85s ease,transform .95s var(--ease-out);transition-delay:var(--d,0s)}
+html.js .reveal{opacity:0;transform:translateY(28px)}
+html.js .reveal.in{opacity:1;transform:translateY(0)}
+
+/* ---------- 酒款矩阵 ---------- */
+.beers{background:linear-gradient(var(--ink) 0%,var(--ink-2) 100%)}
+.beer-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px;
+}
+.beer-card{
+  background:rgba(243,233,210,.035);
+  border:1px solid rgba(243,233,210,.10);
+  border-radius:18px;padding:34px 28px 30px;
+  transition:transform .5s var(--ease-pop),border-color .4s,box-shadow .5s var(--ease-out),background .4s;
+}
+.beer-card:hover{
+  transform:translateY(-8px);
+  border-color:var(--amber-line);
+  box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 0 1px rgba(224,154,43,.12);
+  background:rgba(243,233,210,.055);
+}
+.beer-visual{display:flex;justify-content:center;margin-bottom:20px}
+.beer-visual svg{width:52px;height:84px;transition:transform .5s var(--ease-pop)}
+.beer-card:hover .beer-visual svg{transform:rotate(-4deg) translateY(-3px)}
+.beer-card h3{font-family:"Songti SC","STSong",serif;font-size:1.35rem;letter-spacing:.22em;margin-bottom:6px}
+.beer-style{font-size:.8rem;letter-spacing:.3em;color:var(--amber);margin-bottom:14px}
+.beer-tags{display:flex;gap:8px;margin-bottom:14px}
+.beer-tags span{
+  font-size:.75rem;letter-spacing:.12em;color:var(--cream-dim);
+  border:1px solid rgba(243,233,210,.18);border-radius:999px;padding:4px 12px;
+}
+.beer-flavor{font-size:.92rem;letter-spacing:.14em;color:var(--amber);margin-bottom:10px}
+.beer-desc{font-size:.9rem;color:var(--cream-dim);letter-spacing:.03em}
+
+/* ---------- 酿造工艺 ---------- */
+.craft{background:var(--ink-2)}
+.steps{
+  list-style:none;margin-top:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  position:relative;
+}
+.steps::before{
+  content:"";position:absolute;top:34px;left:6%;right:6%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--amber-line) 20%,var(--amber-line) 80%,transparent);
+}
+.step{padding:0 26px;position:relative}
+.step-num{
+  font-family:Georgia,serif;font-size:1rem;letter-spacing:.2em;color:var(--ink);
+  background:var(--amber);width:68px;height:68px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-bottom:26px;
+  box-shadow:0 0 0 8px rgba(224,154,43,.12);
+  transition:transform .5s var(--ease-pop),box-shadow .5s var(--ease-out);
+}
+.step:hover .step-num{transform:scale(1.1);box-shadow:0 0 0 12px rgba(224,154,43,.14)}
+.step h3{font-family:"Songti SC","STSong",serif;font-size:1.3rem;letter-spacing:.3em;margin-bottom:4px}
+.step h3 em{font-style:normal;font-family:Georgia,serif;font-size:.72rem;letter-spacing:.28em;color:var(--amber);display:block;margin-top:8px}
+.step p{color:var(--cream-dim);font-size:.92rem;margin-top:12px}
+
+/* ---------- 风味筛选 ---------- */
+.flavor-tabs{display:flex;gap:12px;flex-wrap:wrap;margin-top:44px}
+.tab{
+  padding:12px 28px;border-radius:999px;border:1px solid rgba(243,233,210,.2);
+  font-size:.92rem;letter-spacing:.26em;color:var(--cream-dim);
+  transition:all .4s var(--ease-out);
+}
+.tab:hover{border-color:var(--amber);color:var(--cream);transform:translateY(-2px)}
+.tab.active{background:var(--amber);border-color:var(--amber);color:var(--ink);font-weight:600}
+.flavor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.flavor-card{
+  text-align:left;background:rgba(243,233,210,.035);border:1px solid rgba(243,233,210,.10);
+  border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;gap:8px;
+  transition:transform .45s var(--ease-pop),border-color .35s,box-shadow .45s var(--ease-out),opacity .4s ease;
+}
+.flavor-card:hover{transform:translateY(-5px);border-color:var(--amber-line);box-shadow:0 16px 36px rgba(0,0,0,.4)}
+.flavor-card.hide{display:none}
+.flavor-name{font-family:"Songti SC","STSong",serif;font-size:1.15rem;letter-spacing:.24em}
+.flavor-meta{font-size:.82rem;letter-spacing:.1em;color:var(--cream-dim)}
+.flavor-empty{margin-top:26px;color:var(--cream-dim);letter-spacing:.08em}
+.flavor-empty[hidden]{display:none}
+
+/* ---------- 门店 ---------- */
+.stores{background:var(--ink-2)}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.store-card{
+  background:rgba(243,233,210,.035);border:1px solid rgba(243,233,210,.10);
+  border-radius:18px;padding:34px 30px;
+  transition:transform .5s var(--ease-pop),border-color .4s,box-shadow .5s var(--ease-out);
+}
+.store-card:hover{transform:translateY(-8px);border-color:var(--amber-line);box-shadow:0 22px 50px rgba(0,0,0,.45)}
+.store-card h3{font-family:"Songti SC","STSong",serif;font-size:1.3rem;letter-spacing:.24em;margin-bottom:20px;color:var(--amber)}
+.store-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.store-card li{display:flex;gap:12px;align-items:flex-start;font-size:.9rem;color:var(--cream-dim);letter-spacing:.04em}
+.store-card li svg{width:17px;height:17px;flex:none;margin-top:4px;color:var(--amber)}
+.store-card li a{border-bottom:1px solid var(--amber-line);transition:color .3s}
+.store-card li a:hover{color:var(--amber)}
+.store-note{font-size:.88rem;color:var(--cream-faint);border-top:1px dashed rgba(243,233,210,.16);padding-top:16px;letter-spacing:.04em}
+
+/* ---------- 会员俱乐部 ---------- */
+.club-panel{
+  background:
+    radial-gradient(560px 320px at 50% 0%,rgba(224,154,43,.16),transparent 70%),
+    var(--ink-3);
+  border:1px solid var(--amber-line);border-radius:26px;
+  padding:70px 60px;text-align:center;
+}
+.club-panel .sec-lede{margin:0 auto}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:48px 0 40px;text-align:left}
+.tier{
+  border:1px solid rgba(243,233,210,.14);border-radius:18px;padding:32px 28px;position:relative;
+  transition:transform .5s var(--ease-pop),border-color .4s,box-shadow .5s var(--ease-out);
+}
+.tier:hover{transform:translateY(-6px);border-color:var(--amber-line);box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.tier-hot{border-color:var(--amber);background:rgba(224,154,43,.06)}
+.tier-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--amber);color:var(--ink);font-size:.75rem;letter-spacing:.3em;text-indent:.3em;
+  padding:5px 18px;border-radius:999px;font-weight:600;white-space:nowrap;
+}
+.tier h3{font-family:"Songti SC","STSong",serif;font-size:1.25rem;letter-spacing:.26em;margin-bottom:8px}
+.tier-price{font-family:Georgia,serif;font-size:1.9rem;color:var(--amber);margin-bottom:18px}
+.tier-price em{font-style:normal;font-size:.85rem;color:var(--cream-dim);font-family:inherit}
+.tier ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.tier li{font-size:.9rem;color:var(--cream-dim);letter-spacing:.06em;padding-left:22px;position:relative}
+.tier li::before{content:"";position:absolute;left:2px;top:.68em;width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.club-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--ink-3);border-top:1px solid rgba(224,154,43,.16);padding:70px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px}
+.footer-brand p{color:var(--cream-dim);font-size:.9rem;margin:18px 0 22px;max-width:300px}
+.social{display:flex;gap:14px}
+.social a{
+  width:42px;height:42px;border:1px solid rgba(243,233,210,.2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--cream-dim);
+  transition:all .4s var(--ease-out);
+}
+.social a svg{width:20px;height:20px}
+.social a:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-3px)}
+.footer h4{font-size:.85rem;letter-spacing:.34em;color:var(--amber);margin-bottom:20px;font-weight:600}
+.footer-nav{display:flex;flex-direction:column;gap:12px}
+.footer-nav a{color:var(--cream-dim);font-size:.9rem;letter-spacing:.1em;transition:color .3s;width:fit-content}
+.footer-nav a:hover{color:var(--amber)}
+.footer-contact p{color:var(--cream-dim);font-size:.9rem;margin-bottom:12px;letter-spacing:.04em}
+.footer-contact a{border-bottom:1px solid var(--amber-line);transition:color .3s}
+.footer-contact a:hover{color:var(--amber)}
+.footer-legal{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.footer-legal button{color:var(--cream-dim);font-size:.9rem;letter-spacing:.1em;border-bottom:1px solid transparent;transition:color .3s,border-color .3s;padding-bottom:2px}
+.footer-legal button:hover{color:var(--amber);border-color:var(--amber-line)}
+.footer-bottom{
+  border-top:1px solid rgba(243,233,210,.1);padding:24px 28px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:.8rem;letter-spacing:.1em;color:var(--cream-faint);
+}
+.drink-note{color:var(--amber)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal[hidden]{display:none}
+.modal-mask{position:absolute;inset:0;background:rgba(8,5,2,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.modal-box{
+  position:relative;max-width:640px;width:100%;max-height:82vh;overflow:auto;
+  background:var(--ink-2);border:1px solid var(--amber-line);border-radius:20px;
+  padding:48px 46px;animation:modalIn .5s var(--ease-out);
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.modal-x{
+  position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(243,233,210,.2);display:flex;align-items:center;justify-content:center;
+  color:var(--cream-dim);transition:all .35s var(--ease-out);
+}
+.modal-x svg{width:16px;height:16px}
+.modal-x:hover{border-color:var(--amber);color:var(--amber);transform:rotate(90deg)}
+.modal-box h3{font-family:"Songti SC","STSong",serif;font-size:1.6rem;letter-spacing:.2em;margin-bottom:6px}
+.legal-updated{font-size:.78rem;letter-spacing:.2em;color:var(--cream-faint);margin-bottom:26px}
+.legal-body h5{font-size:1rem;letter-spacing:.16em;color:var(--amber);margin:22px 0 8px}
+.legal-body h5:first-child{margin-top:0}
+.legal-body p{font-size:.9rem;color:var(--cream-dim);letter-spacing:.03em}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1020px){
+  .beer-grid{grid-template-columns:repeat(2,1fr)}
+  .flavor-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr);gap:44px 0}
+  .steps::before{display:none}
+  .step-num{width:58px;height:58px}
+}
+@media (max-width:920px){
+  .nav{gap:20px;padding:0 20px}
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+  .hero-inner{grid-template-columns:1fr;gap:56px}
+  .hero-visual{order:-1}
+  .glass-stage{width:min(260px,64vw)}
+  .hero-stats{gap:30px}
+  .store-grid{grid-template-columns:1fr}
+  .tier-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}
+  .club-panel{padding:54px 28px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .section{padding:76px 0}
+  .beer-grid{grid-template-columns:1fr}
+  .flavor-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .hero-ctas{flex-direction:column;align-items:stretch}
+  .hero-ctas .btn{flex:none;width:100%;white-space:nowrap;justify-content:center}
+  .scroll-hint{display:none}
+  .modal-box{padding:38px 26px}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column}
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html.js .reveal,html.js .rl-in,html.js .hero-ctas,html.js .hero-stats,
+  html.js .glass-stage,html.js .glass-cap{opacity:1 !important;transform:none !important}
+  .sheen{display:none}
+}
+
+</style>
+</head>
+<body id="top">
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#logo-wheat"/></svg>
+  </div>
+  <p class="loader-text">正在醒酒…</p>
+  <div class="loader-bar"><span></span></div>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- SVG 符号库：全部原创手绘 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-wheat" viewBox="0 0 40 40">
+    <path d="M20 36 V14" stroke="#e09a2b" stroke-width="2.4" stroke-linecap="round"/>
+    <g fill="#e09a2b">
+      <ellipse cx="20" cy="8" rx="3.4" ry="5"/>
+      <ellipse cx="13.5" cy="13" rx="3" ry="4.4" transform="rotate(-32 13.5 13)"/>
+      <ellipse cx="26.5" cy="13" rx="3" ry="4.4" transform="rotate(32 26.5 13)"/>
+      <ellipse cx="13.5" cy="21" rx="3" ry="4.4" transform="rotate(-32 13.5 21)"/>
+      <ellipse cx="26.5" cy="21" rx="3" ry="4.4" transform="rotate(32 26.5 21)"/>
+      <ellipse cx="14.5" cy="29" rx="2.8" ry="4" transform="rotate(-32 14.5 29)"/>
+      <ellipse cx="25.5" cy="29" rx="2.8" ry="4" transform="rotate(32 25.5 29)"/>
+    </g>
+  </symbol>
+  <symbol id="mini-glass" viewBox="0 0 60 96">
+    <path d="M17 22 L22.5 72 Q23.5 82 30 82 Q36.5 82 37.5 72 L43 22 Z" fill="currentColor" opacity=".94"/>
+    <rect x="14" y="10" width="32" height="14" rx="7" fill="#f3e9d2"/>
+    <circle cx="24" cy="14" r="3" fill="#fffdf6" opacity=".8"/>
+    <circle cx="35" cy="16" r="2.4" fill="#fffdf6" opacity=".8"/>
+    <path d="M17 22 L22.5 72 Q23.5 82 30 82 Q36.5 82 37.5 72 L43 22" fill="none" stroke="#f3e9d2" stroke-opacity=".65" stroke-width="3" stroke-linecap="round"/>
+    <path d="M23 34 L25.5 62" stroke="#ffffff" stroke-opacity=".35" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-pin" viewBox="0 0 24 24">
+    <path d="M12 21.5 C7 15.5 4.5 12 4.5 8.8 C4.5 4.9 7.9 2 12 2 C16.1 2 19.5 4.9 19.5 8.8 C19.5 12 17 15.5 12 21.5 Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="12" cy="8.8" r="2.6" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-phone" viewBox="0 0 24 24">
+    <path d="M6.8 3.5 C5 3.5 3.8 4.9 4.1 6.7 C5.4 13.4 10.6 18.6 17.3 19.9 C19.1 20.2 20.5 19 20.5 17.2 L20.5 15.4 C20.5 14.6 20 13.9 19.3 13.6 L16.4 12.4 C15.7 12.1 14.9 12.3 14.4 12.9 L13.4 14 C11 13.1 9 11 8.1 8.6 L9.2 7.6 C9.8 7.1 10 6.3 9.7 5.6 L8.5 2.7 C8.2 2 7.5 1.5 6.8 1.5 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" transform="translate(0 2)"/>
+  </symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 7.4 V12 L15.4 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-arrow" viewBox="0 0 24 24">
+    <path d="M4 12 H19 M13 6 L19 12 L13 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-chat" viewBox="0 0 24 24">
+    <path d="M4 6.5 C4 4 6.2 2.5 9 2.5 H15 C17.8 2.5 20 4 20 6.5 V11 C20 13.5 17.8 15 15 15 H12.5 L8.8 18.4 C8.4 18.8 7.8 18.5 7.8 17.9 V15 H9 C6.2 15 4 13.5 4 11 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <circle cx="9.4" cy="8.8" r="1.1" fill="currentColor"/>
+    <circle cx="14.6" cy="8.8" r="1.1" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-cam" viewBox="0 0 24 24">
+    <rect x="3.5" y="7" width="17" height="12.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="12" cy="13.2" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M9 7 L10.4 4.5 H13.6 L15 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24">
+    <rect x="3.5" y="4.5" width="17" height="15" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M10.4 9.2 L15.4 12 L10.4 14.8 Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="麦浪首页">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo-wheat"/></svg>
+    <span class="brand-word">麦浪<em>BREWAVE</em></span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#beers">酒款</a>
+    <a href="#craft">酿造</a>
+    <a href="#flavor">风味</a>
+    <a href="#stores">门店</a>
+    <a href="#club">俱乐部</a>
+  </nav>
+  <a class="btn btn-amber btn-sm nav-cta" href="#club">到店品鉴</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#beers" style="--d:.05s">酒款</a>
+    <a href="#craft" style="--d:.11s">酿造</a>
+    <a href="#flavor" style="--d:.17s">风味</a>
+    <a href="#stores" style="--d:.23s">门店</a>
+    <a href="#club" style="--d:.29s">俱乐部</a>
+    <a class="btn btn-amber" href="#club" style="--d:.37s">到店品鉴</a>
+  </nav>
+</div>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="kicker"><span class="rl"><span class="rl-in">BREWAVE CRAFT BREWING · EST. 2019</span></span></p>
+        <h1 class="hero-title">
+          <span class="rl"><span class="rl-in">把秋天，</span></span>
+          <span class="rl"><span class="rl-in">倒进杯子里。</span></span>
+        </h1>
+        <p class="lede"><span class="rl"><span class="rl-in">第一口，是刚割下的麦香。麦浪在城市里酿了七年，</span></span>
+        <span class="rl"><span class="rl-in">只做一件事：让精酿回到"好喝"本身。</span></span></p>
+        <div class="hero-ctas">
+          <a class="btn btn-amber" href="#beers">认识我们的酒<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#stores">找一家门店</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt><span class="count" data-count="18">0</span> 款</dt><dd>在酿酒款</dd></div>
+          <div><dt><span class="count" data-count="3">0</span> 家</dt><dd>城市门店</dd></div>
+          <div><dt><span class="count" data-count="12000">0</span>+</dt><dd>俱乐部会员</dd></div>
+        </dl>
+      </div>
+      <div class="hero-visual">
+        <div class="glass-stage" id="glassStage">
+          <canvas class="bubbles" id="bubbles" aria-hidden="true"></canvas>
+          <svg class="glass-svg" viewBox="0 0 260 400" role="img" aria-label="一杯琥珀色的麦浪精酿，气泡正在上升">
+            <defs>
+              <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f2b94b"/>
+                <stop offset=".55" stop-color="#e09a2b"/>
+                <stop offset="1" stop-color="#8a4d12"/>
+              </linearGradient>
+              <linearGradient id="glassEdge" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#f3e9d2" stop-opacity=".26"/>
+                <stop offset=".5" stop-color="#f3e9d2" stop-opacity=".04"/>
+                <stop offset="1" stop-color="#f3e9d2" stop-opacity=".2"/>
+              </linearGradient>
+              <clipPath id="bowlClip">
+                <path d="M78 44 C84 132 96 202 108 258 C112 282 118 294 130 294 C142 294 148 282 152 258 C164 202 176 132 182 44 Z"/>
+              </clipPath>
+            </defs>
+            <g clip-path="url(#bowlClip)">
+              <rect x="60" y="88" width="140" height="230" fill="url(#amber)"/>
+              <rect x="60" y="88" width="140" height="230" fill="url(#glassEdge)"/>
+              <ellipse cx="130" cy="272" rx="36" ry="34" fill="#6e3a0c" opacity=".38"/>
+            </g>
+            <path d="M78 44 C84 132 96 202 108 258 C112 282 118 294 130 294 C142 294 148 282 152 258 C164 202 176 132 182 44" fill="none" stroke="#f3e9d2" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+            <ellipse cx="130" cy="44" rx="52" ry="10" fill="none" stroke="#f3e9d2" stroke-opacity=".5" stroke-width="5"/>
+            <g fill="#f3e9d2">
+              <ellipse cx="102" cy="70" rx="21" ry="14"/>
+              <ellipse cx="130" cy="62" rx="25" ry="17"/>
+              <ellipse cx="158" cy="70" rx="20" ry="13"/>
+              <ellipse cx="117" cy="51" rx="14" ry="10" opacity=".95"/>
+              <ellipse cx="144" cy="51" rx="12" ry="9" opacity=".95"/>
+            </g>
+            <g fill="#fffdf6" opacity=".8">
+              <circle cx="110" cy="63" r="4"/><circle cx="138" cy="57" r="5"/><circle cx="152" cy="67" r="3"/>
+            </g>
+            <path d="M94 94 C98 152 104 212 112 252" stroke="#ffffff" stroke-opacity=".22" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <rect x="126" y="294" width="8" height="62" fill="#f3e9d2" opacity=".35"/>
+            <ellipse cx="130" cy="364" rx="40" ry="10" fill="none" stroke="#f3e9d2" stroke-opacity=".45" stroke-width="5"/>
+            <ellipse cx="130" cy="370" rx="70" ry="14" fill="#e09a2b" opacity=".13"/>
+          </svg>
+          <div class="sheen" aria-hidden="true"></div>
+        </div>
+        <p class="glass-cap">本季主打 · 麦浪 IPA —— 柑橘与松针的香气</p>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#beers" aria-label="向下滚动到酒款">向下滚动<span></span></a>
+  </section>
+
+  <!-- 酒款矩阵 -->
+  <section class="section beers" id="beers">
+    <div class="wrap">
+      <p class="kicker reveal">THE LINEUP · 酒款矩阵</p>
+      <h2 class="sec-title reveal" style="--d:.06s">常备六款，各有脾气</h2>
+      <p class="sec-lede reveal" style="--d:.12s">从 3.8 度到 9 度，从清亮到浓黑。每一款都标了酒精度和苦度，照着自己的口味点，错不了。</p>
+      <div class="beer-grid">
+        <article class="beer-card reveal" style="--d:.05s">
+          <div class="beer-visual" style="color:#e09a2b">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>麦浪 IPA</h3>
+          <p class="beer-style">美式 IPA</p>
+          <div class="beer-tags"><span>ABV 6.2%</span><span>IBU 65</span></div>
+          <p class="beer-flavor">柑橘 · 松针 · 柚子皮</p>
+          <p class="beer-desc">开瓶像走进柑橘园。柚子皮的苦收得干净，松针的香留在鼻腔，喝完想再点一杯。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.11s">
+          <div class="beer-visual" style="color:#3a1d0c">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>熏风世涛</h3>
+          <p class="beer-style">帝国世涛</p>
+          <div class="beer-tags"><span>ABV 9.0%</span><span>IBU 40</span></div>
+          <p class="beer-flavor">烘焙麦芽 · 黑巧克力 · 现磨咖啡</p>
+          <p class="beer-desc">像一块 85% 的黑巧在舌头上化开。冬天抱着它，就不想出门了。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.17s">
+          <div class="beer-visual" style="color:#f0c969">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>白桦小麦</h3>
+          <p class="beer-style">德式小麦</p>
+          <div class="beer-tags"><span>ABV 5.0%</span><span>IBU 12</span></div>
+          <p class="beer-flavor">香蕉 · 丁香 · 刚出炉的面包</p>
+          <p class="beer-desc">德式酵母的老手艺：香蕉和丁香自己长出来，没加一滴香精。云朵一样的泡沫，配早午餐正好。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.23s">
+          <div class="beer-visual" style="color:#a85f1e">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>焦糖棕艾</h3>
+          <p class="beer-style">英式棕色艾尔</p>
+          <div class="beer-tags"><span>ABV 5.4%</span><span>IBU 28</span></div>
+          <p class="beer-flavor">烤坚果 · 焦糖 · 饼干</p>
+          <p class="beer-desc">烤坚果混着焦糖的香气，饼干一样的麦芽底。是不赶时间的酒，适合慢慢聊。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.29s">
+          <div class="beer-visual" style="color:#c65b6e">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>野莓酸啤</h3>
+          <p class="beer-style">柏林酸小麦</p>
+          <div class="beer-tags"><span>ABV 3.8%</span><span>IBU 8</span></div>
+          <p class="beer-flavor">树莓 · 酸樱桃 · 乳酸的清亮</p>
+          <p class="beer-desc">树莓的酸爽脆，乳酸收得清清亮亮。3.8 度，夏天第一杯，开胃又解渴。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.35s">
+          <div class="beer-visual" style="color:#f2a93b">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>双倍朦胧</h3>
+          <p class="beer-style">Hazy 双倍 IPA</p>
+          <div class="beer-tags"><span>ABV 8.0%</span><span>IBU 55</span></div>
+          <p class="beer-flavor">芒果 · 百香果 · 燕麦的顺滑</p>
+          <p class="beer-desc">像喝下一杯果汁：芒果和百香果扑面，燕麦让口感滑得不像 8 度。小心，它后劲不小。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 酿造工艺 -->
+  <section class="section craft" id="craft">
+    <div class="wrap">
+      <p class="kicker reveal">HOW WE BREW · 酿造</p>
+      <h2 class="sec-title reveal" style="--d:.06s">从麦田到酒杯，四步</h2>
+      <p class="sec-lede reveal" style="--d:.12s">没有捷径。每一批酒都走完这四步，少一步都不出厂。</p>
+      <ol class="steps">
+        <li class="step reveal" style="--d:.05s">
+          <span class="step-num">01</span>
+          <h3>糖化 <em>MASH</em></h3>
+          <p>63–72°C 分段保温，把麦芽里的淀粉变成可发酵的糖。糖化好不好，一口就喝得出来。</p>
+        </li>
+        <li class="step reveal" style="--d:.13s">
+          <span class="step-num">02</span>
+          <h3>煮沸 <em>BOIL</em></h3>
+          <p>90 分钟滚沸，分三次投酒花。苦味、香气，都在这口大锅里定下来。</p>
+        </li>
+        <li class="step reveal" style="--d:.21s">
+          <span class="step-num">03</span>
+          <h3>发酵 <em>FERMENT</em></h3>
+          <p>酵母接管一切。艾尔 20°C 七天，拉格 10°C 三周。我们只等，不催。</p>
+        </li>
+        <li class="step reveal" style="--d:.29s">
+          <span class="step-num">04</span>
+          <h3>熟成 <em>CONDITION</em></h3>
+          <p>进罐冷熟成，风味慢慢圆回来。好喝的东西，都值得多等两周。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 风味筛选 -->
+  <section class="section flavor" id="flavor">
+    <div class="wrap">
+      <p class="kicker reveal">FIND YOUR POUR · 风味</p>
+      <h2 class="sec-title reveal" style="--d:.06s">按今晚的心情选</h2>
+      <p class="sec-lede reveal" style="--d:.12s">不知道喝什么？先选一种感觉，剩下的交给我们。</p>
+      <div class="flavor-tabs reveal" style="--d:.16s" role="tablist" aria-label="风味筛选">
+        <button class="tab active" data-filter="all" role="tab" aria-selected="true">全部</button>
+        <button class="tab" data-filter="fruit" role="tab" aria-selected="false">果香四溢</button>
+        <button class="tab" data-filter="dark" role="tab" aria-selected="false">深烘浓郁</button>
+        <button class="tab" data-filter="fresh" role="tab" aria-selected="false">清爽易饮</button>
+      </div>
+      <div class="flavor-grid reveal" style="--d:.2s" id="flavorGrid">
+        <button class="flavor-card" data-cats="fruit">
+          <span class="flavor-name">麦浪 IPA</span>
+          <span class="flavor-meta">ABV 6.2% · 柑橘 / 松针 / 柚子皮</span>
+        </button>
+        <button class="flavor-card" data-cats="dark">
+          <span class="flavor-name">熏风世涛</span>
+          <span class="flavor-meta">ABV 9.0% · 烘焙麦芽 / 黑巧 / 咖啡</span>
+        </button>
+        <button class="flavor-card" data-cats="fruit fresh">
+          <span class="flavor-name">白桦小麦</span>
+          <span class="flavor-meta">ABV 5.0% · 香蕉 / 丁香 / 面包香</span>
+        </button>
+        <button class="flavor-card" data-cats="dark">
+          <span class="flavor-name">焦糖棕艾</span>
+          <span class="flavor-meta">ABV 5.4% · 烤坚果 / 焦糖 / 饼干</span>
+        </button>
+        <button class="flavor-card" data-cats="fruit fresh">
+          <span class="flavor-name">野莓酸啤</span>
+          <span class="flavor-meta">ABV 3.8% · 树莓 / 酸樱桃 / 乳酸清亮</span>
+        </button>
+        <button class="flavor-card" data-cats="fruit">
+          <span class="flavor-name">双倍朦胧</span>
+          <span class="flavor-meta">ABV 8.0% · 芒果 / 百香果 / 燕麦顺滑</span>
+        </button>
+      </div>
+      <p class="flavor-empty" id="flavorEmpty" hidden>这个心情暂时没有对应的酒——去门店问问酿酒师，他有私藏。</p>
+    </div>
+  </section>
+
+  <!-- 门店 -->
+  <section class="section stores" id="stores">
+    <div class="wrap">
+      <p class="kicker reveal">TAPROOMS · 门店</p>
+      <h2 class="sec-title reveal" style="--d:.06s">三家店，都在城里</h2>
+      <p class="sec-lede reveal" style="--d:.12s">16 个酒头轮换，酿酒师每周都在其中一家。来之前可以打个电话，问问今天有什么新酒。</p>
+      <div class="store-grid">
+        <article class="store-card reveal" style="--d:.05s">
+          <h3>麦浪 · 梧桐店</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"/></svg>上海市徐汇区武康路 280 号 1 楼</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-phone"/></svg><a href="tel:+862164723390">021-6472-3390</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-clock"/></svg>17:00 – 次日 1:00</li>
+          </ul>
+          <p class="store-note">梧桐树下的老洋房，16 个酒头，露台能看晚霞。</p>
+        </article>
+        <article class="store-card reveal" style="--d:.13s">
+          <h3>麦浪 · 江畔店</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"/></svg>上海市浦东新区滨江大道 1888 号</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-phone"/></svg><a href="tel:+862158762210">021-5876-2210</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-clock"/></svg>12:00 – 24:00</li>
+          </ul>
+          <p class="store-note">正对江景的落地窗，配餐做得最认真的一家。</p>
+        </article>
+        <article class="store-card reveal" style="--d:.21s">
+          <h3>麦浪 · 老厂房店</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"/></svg>上海市杨浦区隆昌路 640 号</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-phone"/></svg><a href="tel:+862165678812">021-6567-8812</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-clock"/></svg>15:00 – 次日 2:00</li>
+          </ul>
+          <p class="store-note">百年啤酒厂旧址，酿酒设备就摆在大厅里。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 会员俱乐部 CTA -->
+  <section class="section club" id="club">
+    <div class="wrap">
+      <div class="club-panel reveal">
+        <p class="kicker">THE CLUB · 会员俱乐部</p>
+        <h2 class="sec-title">好酒，值得一个身份</h2>
+        <p class="sec-lede">加入麦浪俱乐部，新品永远比别人早喝到，会员价天天有。随时退，不玩套路。</p>
+        <div class="tier-grid">
+          <div class="tier">
+            <h3>麦客</h3>
+            <p class="tier-price">免费入会</p>
+            <ul>
+              <li>生日当月送一杯</li>
+              <li>新品首发通知</li>
+              <li>会员价 9.5 折</li>
+            </ul>
+          </div>
+          <div class="tier tier-hot">
+            <p class="tier-badge">最多人选</p>
+            <h3>麦浪会员</h3>
+            <p class="tier-price">¥299<em> / 年</em></p>
+            <ul>
+              <li>全年 9 折</li>
+              <li>每月一款会员专属</li>
+              <li>酿造开放日优先报名</li>
+            </ul>
+          </div>
+          <div class="tier">
+            <h3>酿酒师之友</h3>
+            <p class="tier-price">¥1299<em> / 年</em></p>
+            <ul>
+              <li>专属橡木桶藏酒</li>
+              <li>一年两次共酿</li>
+              <li>名字刻上酒墙</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-ctas">
+          <a class="btn btn-amber" href="#top">加入会员</a>
+          <a class="btn btn-ghost" href="#stores">预约到店品鉴</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top" aria-label="麦浪首页">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo-wheat"/></svg>
+        <span class="brand-word">麦浪<em>BREWAVE</em></span>
+      </a>
+      <p>城市里的精酿酒厂。七年，六款常备，三家门店，只为倒好每一杯。</p>
+      <div class="social">
+        <a href="#top" aria-label="微信公众号"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chat"/></svg></a>
+        <a href="#top" aria-label="小红书"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-cam"/></svg></a>
+        <a href="#top" aria-label="视频号"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-play"/></svg></a>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <h4>探索</h4>
+      <a href="#beers">酒款矩阵</a>
+      <a href="#craft">酿造工艺</a>
+      <a href="#flavor">风味筛选</a>
+      <a href="#stores">门店</a>
+      <a href="#club">会员俱乐部</a>
+    </nav>
+    <div class="footer-contact">
+      <h4>联系</h4>
+      <p data-site="address"></p>
+      <p><a data-site-href="phone" data-site="phone"></a></p>
+      <p><a data-site-href="email" data-site="email"></a></p>
+      <p data-site="hours"></p>
+    </div>
+    <div class="footer-legal">
+      <h4>网站政策</h4>
+      <button data-legal="privacy">隐私政策</button>
+      <button data-legal="terms">服务条款</button>
+      <button data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · <span data-site="icp"></span></p>
+    <p class="drink-note">理性饮酒 · 未满 18 岁请勿饮酒 · 酒后请勿驾车</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" hidden role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box" role="document">
+    <button class="modal-x" id="legalClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"/></svg>
+    </button>
+    <p class="kicker" id="legalEn"></p>
+    <h3 id="legalTitle"></h3>
+    <p class="legal-updated" id="legalUpdated"></p>
+    <div class="legal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 麦浪 BREWAVE · craftbeer-page —— 零依赖 classic 脚本
+   动效：CSS transition 承接入场（.hero.enter），JS 只负责加类/交互/数据渲染 */
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= 配置：买家只改这里 ================= */
+  var SITE = {
+    name: '麦浪 BREWAVE',
+    tagline: '把秋天，倒进杯子里。',
+    address: '上海市杨浦区隆昌路 640 号（老厂房店 · 酿酒厂）',
+    phone: '021-6567-8812',
+    email: 'cheers@brewave.club',
+    hours: '各门店营业时间见门店区 · 酒厂参观需预约',
+    icp: '沪ICP备2026000000号-1',
+    year: String(new Date().getFullYear())
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: '隐私政策', en: 'PRIVACY POLICY', updated: '最后更新：2026 年 10 月',
+      points: [
+        ['我们收集什么', '加入会员、在门店预约品鉴或联系我们时，我们会收集你的手机号、称呼和到店记录，只用来安排品鉴和会员服务。'],
+        ['信息用来做什么', '仅用于会员权益、新品通知和到店预约确认。不会出售、出租你的个人信息。'],
+        ['信息保存多久', '会员信息在你退会后 30 天内删除；到店预约记录保存 1 年。'],
+        ['你的权利', '你可以随时要求查询、更正或删除你的个人信息，也可以随时退会，客服 7 个工作日内处理。'],
+        ['未成年人', '我们的会员与到店品鉴仅面向年满 18 岁的成年人，未满 18 岁请勿注册，门店会查验身份证件。']
+      ]
+    },
+    terms: {
+      title: '服务条款', en: 'TERMS OF SERVICE', updated: '最后更新：2026 年 10 月',
+      points: [
+        ['理性饮酒', '请理性饮酒，未满 18 岁请勿饮酒，酒后请勿驾车。各门店备有代驾叫车服务。'],
+        ['会员权益', '会员价与专属酒款以门店公示为准；会员可随时退会，按剩余天数折算退款，不收手续费。'],
+        ['预约品鉴', '到店品鉴建议提前 1 天预约；包场与共酿活动以实际报名确认为准，名额有限。'],
+        ['酒款供应', '酒款为季节性酿造，部分酒款售完即止，以门店当日酒单为准。'],
+        ['不可抗力', '因极端天气等不可抗力导致门店临时调整营业时间，我们会提前在公众号公告。']
+      ]
+    },
+    cookies: {
+      title: 'Cookie 政策', en: 'COOKIE POLICY', updated: '最后更新：2026 年 10 月',
+      points: [
+        ['我们用什么', '本站只用维持页面正常运行所必需的本地存储（如记住你选的风味筛选），不跑第三方广告追踪。'],
+        ['用来做什么', '记住你的风味偏好和浏览状态，让你下次打开不用重选。'],
+        ['保存多久', '本地存储保留 30 天，清除浏览器缓存即清除。'],
+        ['你的选择', '你可以在浏览器设置里随时禁用本地存储，页面照常能用。']
+      ]
+    }
+  };
+
+  /* ================= SITE 渲染 ================= */
+  function renderSite() {
+    var els = document.querySelectorAll('[data-site]');
+    for (var i = 0; i < els.length; i++) {
+      var key = els[i].getAttribute('data-site');
+      var hrefKey = els[i].getAttribute('data-site-href');
+      if (SITE[key] !== undefined) els[i].textContent = SITE[key];
+      if (hrefKey && SITE[hrefKey]) {
+        var v = SITE[hrefKey];
+        els[i].setAttribute('href', hrefKey === 'phone' ? 'tel:' + v.replace(/-/g, '') : 'mailto:' + v);
+      }
+    }
+  }
+  renderSite();
+
+  /* ================= 加载态（完成态必达） ================= */
+  var loader = document.getElementById('loader');
+  var loaderDone = false;
+  function releaseLoader() {
+    if (loaderDone) return;
+    loaderDone = true;
+    loader.classList.add('done');
+    setTimeout(function () { loader.classList.add('gone'); }, 600);
+    /* loader 淡出即触发 hero 入场 */
+    setTimeout(function () {
+      document.getElementById('hero').classList.add('enter');
+    }, reduce ? 0 : 250);
+  }
+  if (document.readyState === 'complete') setTimeout(releaseLoader, 700);
+  else window.addEventListener('load', function () { setTimeout(releaseLoader, 700); });
+  setTimeout(releaseLoader, 3500); /* 兜底：3.5s 必放行 */
+
+  /* ================= 滚动 reveal ================= */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(function (el) { io.observe(el); });
+    /* 4s 安全网：IO 漏报兜底 */
+    setTimeout(function () {
+      revealEls.forEach(function (el) { el.classList.add('in'); });
+    }, 4000);
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ================= 数字滚动（easeOutCubic） ================= */
+  function countUp(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    var t0 = null, dur = 1600;
+    function tick(t) {
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US');
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    if (reduce) { el.textContent = target.toLocaleString('en-US'); return; }
+    requestAnimationFrame(tick);
+  }
+  var statIO = ('IntersectionObserver' in window)
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { countUp(e.target); statIO.unobserve(e.target); }
+        });
+      }, { threshold: 0.5 })
+    : null;
+  document.querySelectorAll('.count').forEach(function (el) {
+    if (statIO) statIO.observe(el);
+    else countUp(el);
+  });
+
+  /* ================= 导航毛玻璃 ================= */
+  var nav = document.getElementById('nav');
+  function onScrollNav() { nav.classList.toggle('scrolled', window.scrollY > 24); }
+  window.addEventListener('scroll', onScrollNav, { passive: true });
+  onScrollNav();
+
+  /* ================= 移动端抽屉 ================= */
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  function setDrawer(open) {
+    burger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setDrawer(false); });
+  });
+
+  /* ================= 锚点平滑滚动（JS 驱动） ================= */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      var id = a.getAttribute('href');
+      if (id.length < 2) return;
+      var t = document.querySelector(id);
+      if (!t) return;
+      ev.preventDefault();
+      setDrawer(false);
+      if (reduce) t.scrollIntoView();
+      else t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* ================= 风味筛选 tab ================= */
+  var tabs = document.querySelectorAll('.flavor-tabs .tab');
+  var cards = document.querySelectorAll('.flavor-card');
+  var empty = document.getElementById('flavorEmpty');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      var f = tab.getAttribute('data-filter');
+      var shown = 0;
+      cards.forEach(function (c) {
+        var cats = (c.getAttribute('data-cats') || '').split(' ');
+        var hit = f === 'all' || cats.indexOf(f) !== -1;
+        c.classList.toggle('hide', !hit);
+        if (hit) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
+  });
+
+  /* ================= 法务弹窗（三通道关闭） ================= */
+  var modal = document.getElementById('legalModal');
+  var mTitle = document.getElementById('legalTitle');
+  var mEn = document.getElementById('legalEn');
+  var mUpd = document.getElementById('legalUpdated');
+  var mBody = document.getElementById('legalBody');
+  var lastFocus = null;
+  function openLegal(key) {
+    var doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    mTitle.textContent = doc.title;
+    mEn.textContent = doc.en;
+    mUpd.textContent = doc.updated;
+    mBody.innerHTML = doc.points.map(function (p) {
+      return '<h4>' + p[0].replace(/</g, '&lt;') + '</h4><p>' +
+        p[1].replace(/</g, '&lt;') + '</p>';
+    }).join('');
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('legalClose').focus();
+  }
+  function closeLegal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-legal]').forEach(function (b) {
+    b.addEventListener('click', function () { openLegal(b.getAttribute('data-legal')); });
+  });
+  modal.querySelectorAll('[data-close]').forEach(function (b) {
+    b.addEventListener('click', closeLegal);
+  });
+  document.getElementById('legalClose').addEventListener('click', closeLegal);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (!modal.hidden) closeLegal();
+      if (drawer.classList.contains('open')) setDrawer(false);
+    }
+  });
+
+  /* ================= 酒杯气泡粒子 ================= */
+  var canvas = document.getElementById('bubbles');
+  if (canvas && !reduce) {
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0, parts = [];
+    function size() {
+      var r = canvas.parentElement.getBoundingClientRect();
+      W = canvas.width = Math.floor(r.width);
+      H = canvas.height = Math.floor(r.height);
+    }
+    function spawn(init) {
+      return {
+        x: W * 0.28 + Math.random() * W * 0.44,
+        y: init ? Math.random() * H : H * 0.92,
+        r: 1.5 + Math.random() * 4,
+        vy: 0.4 + Math.random() * 0.9,
+        ph: Math.random() * Math.PI * 2,
+        sway: 6 + Math.random() * 14,
+        a: 0.12 + Math.random() * 0.3
+      };
+    }
+    function init() {
+      size();
+      parts = [];
+      var n = Math.min(46, Math.floor(W / 9));
+      for (var i = 0; i < n; i++) parts.push(spawn(true));
+    }
+    var running = true;
+    function frame(t) {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.y -= p.vy;
+        p.ph += 0.02;
+        var x = p.x + Math.sin(p.ph) * p.sway * 0.3;
+        if (p.y < H * 0.16) { parts[i] = spawn(false); continue; }
+        ctx.beginPath();
+        ctx.arc(x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(243,233,210,' + p.a.toFixed(2) + ')';
+        ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+    init();
+    window.addEventListener('resize', init);
+    requestAnimationFrame(frame);
+    /* 酒杯离开视口时停跑 */
+    new IntersectionObserver(function (en) {
+      var vis = en[0].isIntersecting;
+      if (vis && !running) { running = true; requestAnimationFrame(frame); }
+      else if (!vis) running = false;
+    }, { threshold: 0 }).observe(canvas);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) running = false;
+      else if (!running) { running = true; requestAnimationFrame(frame); }
+    });
+  }
+})();
+
+</script>
+</body>
+</html>

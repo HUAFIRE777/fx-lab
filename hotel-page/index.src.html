@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云汀度假酒店 · 滨湖而居</title>
+<meta name="description" content="云汀度假酒店，滨湖而建，228 间湖景客房，800 米私家湖岸线。推开窗，湖面比床先醒。">
+<!-- huafire3d fx-lab — original implementation (hotel-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="#C8A96A" stroke-width="1.5"/>
+      <path d="M10 27 q7 -6 14 0 t14 0" fill="none" stroke="#C8A96A" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M12 32 q6 -5 12 0 t12 0" fill="none" stroke="#C8A96A" stroke-width="1.2" stroke-linecap="round" opacity=".6"/>
+    </svg>
+    <p class="loader-word">云汀</p>
+  </div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#top" aria-label="云汀度假酒店 首页">
+    <svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M10 27 q7 -6 14 0 t14 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 32 q6 -5 12 0 t12 0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
+    </svg>
+    <span class="nav-logo-text">云汀度假酒店</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#rooms">房型</a>
+    <a href="#facilities">设施</a>
+    <a href="#reviews">住客评价</a>
+    <a href="#location">交通</a>
+  </nav>
+  <div class="nav-right">
+    <a class="btn btn-gold btn-sm" href="#booking">立即预订</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="菜单">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#rooms">房型</a>
+    <a href="#facilities">设施</a>
+    <a href="#reviews">住客评价</a>
+    <a href="#location">交通</a>
+    <a href="#booking" class="drawer-cta">立即预订</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- hero -->
+  <section class="hero">
+    <canvas class="hero-lake" id="lake" aria-hidden="true"></canvas>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow" data-hero>滨湖度假 · 隐于烟波之上</p>
+      <h1 class="hero-title" data-hero>云汀度假酒店</h1>
+      <p class="hero-sub" data-hero>推开窗，湖面比床先醒。</p>
+      <p class="hero-meta" data-hero>228 间湖景客房 · 800 米私家湖岸线</p>
+
+      <!-- 预订引擎条 -->
+      <form class="booking" id="booking" aria-label="预订查询">
+        <div class="booking-field">
+          <label for="inDate">入住日期</label>
+          <input type="date" id="inDate" name="in" required>
+        </div>
+        <div class="booking-field">
+          <label for="outDate">离店日期</label>
+          <input type="date" id="outDate" name="out" required>
+        </div>
+        <div class="booking-field">
+          <label for="roomType">房型</label>
+          <select id="roomType" name="room">
+            <option value="湖景大床房">湖景大床房</option>
+            <option value="行政套房">行政套房</option>
+            <option value="独栋别墅">独栋别墅</option>
+          </select>
+        </div>
+        <button class="btn btn-gold booking-go" type="submit">查询房态</button>
+        <p class="booking-result" id="bookingResult" role="status"></p>
+      </form>
+    </div>
+    <a class="hero-scroll" href="#rooms" aria-label="向下滚动">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- 房型 -->
+  <section class="section" id="rooms">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-dark" data-reveal>住进风景里</p>
+      <h2 class="sec-title" data-reveal>三档房型，各有各的湖</h2>
+      <p class="sec-sub" data-reveal>所有房型都朝湖。区别只在于，你想离湖多近。</p>
+      <div class="room-grid">
+        <article class="room-card" data-reveal>
+          <div class="room-visual v-lake">
+            <svg viewBox="0 0 400 220" aria-hidden="true">
+              <rect x="60" y="30" width="280" height="120" rx="6" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <line x1="200" y1="30" x2="200" y2="150" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M70 165 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 182 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+            </svg>
+            <span class="room-badge">最受欢迎</span>
+          </div>
+          <div class="room-body">
+            <h3>湖景大床房</h3>
+            <p class="room-line">面朝湖，躺平看云走。</p>
+            <p class="room-price"><strong>¥1,288</strong><span> 起 / 晚</span></p>
+            <ul class="room-tags">
+              <li>180° 湖景落地窗</li><li>双人早餐</li><li>免费停车</li><li>24h 免费取消</li>
+            </ul>
+            <p class="room-spec">42㎡ · 大床 1.8m · 可住 2 人</p>
+            <button class="btn btn-outline room-book" data-room="湖景大床房">预订此房型</button>
+          </div>
+        </article>
+        <article class="room-card" data-reveal>
+          <div class="room-visual v-suite">
+            <svg viewBox="0 0 400 220" aria-hidden="true">
+              <rect x="60" y="30" width="280" height="120" rx="6" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <line x1="200" y1="30" x2="200" y2="150" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <circle cx="200" cy="90" r="26" fill="none" stroke="#C8A96A" stroke-width="3"/>
+              <path d="M70 165 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 182 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="room-body">
+            <h3>行政套房</h3>
+            <p class="room-line">把客厅搬到湖边。</p>
+            <p class="room-price"><strong>¥2,388</strong><span> 起 / 晚</span></p>
+            <ul class="room-tags">
+              <li>行政酒廊</li><li>双卫干湿分离</li><li>免费洗衣</li><li>延迟退房至 14:00</li>
+            </ul>
+            <p class="room-spec">86㎡ · 一室一厅 · 可住 3 人</p>
+            <button class="btn btn-outline room-book" data-room="行政套房">预订此房型</button>
+          </div>
+        </article>
+        <article class="room-card" data-reveal>
+          <div class="room-visual v-villa">
+            <svg viewBox="0 0 400 220" aria-hidden="true">
+              <path d="M120 130 L200 70 L280 130" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round" opacity=".85"/>
+              <rect x="150" y="110" width="100" height="50" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M70 178 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 194 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+            </svg>
+            <span class="room-badge">仅 6 栋</span>
+          </div>
+          <div class="room-body">
+            <h3>独栋别墅</h3>
+            <p class="room-line">一栋房子，一片湖。</p>
+            <p class="room-price"><strong>¥5,888</strong><span> 起 / 晚</span></p>
+            <ul class="room-tags">
+              <li>私人泳池</li><li>专属管家</li><li>私家码头</li><li>双人 SPA 一次</li>
+            </ul>
+            <p class="room-spec">320㎡ · 三室两厅 · 可住 6 人</p>
+            <button class="btn btn-outline room-book" data-room="独栋别墅">预订此房型</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 设施画廊 -->
+  <section class="section section-tint" id="facilities">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-dark" data-reveal>不出酒店，玩一天</p>
+      <h2 class="sec-title" data-reveal>设施，是第二位房东</h2>
+      <p class="sec-sub" data-reveal>泳池、餐厅、SPA、亲子乐园，住客全部免费或住客价。</p>
+      <div class="fac-grid">
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-pool">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <path d="M40 120 q60 -28 120 0 t120 0 t80 0" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".8"/>
+              <path d="M40 150 q60 -28 120 0 t120 0 t80 0" fill="none" stroke="#C8A96A" stroke-width="3" opacity=".8"/>
+              <path d="M40 180 q60 -28 120 0 t120 0 t80 0" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".45"/>
+              <circle cx="300" cy="60" r="22" fill="none" stroke="#C8A96A" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>无边际泳池</h3>
+            <p>游出去的那一秒，湖和池分不清。</p>
+            <p class="fac-time">06:30–22:00 · 恒温 28℃</p>
+          </div>
+        </article>
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-dine">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <ellipse cx="200" cy="150" rx="90" ry="26" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M160 120 q40 -34 80 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <line x1="120" y1="70" x2="150" y2="105" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+              <line x1="280" y1="70" x2="250" y2="105" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>湖畔餐厅</h3>
+            <p>当天的鱼，不隔夜。</p>
+            <p class="fac-time">早餐 07:00–10:30 · 正餐 11:30–21:00</p>
+          </div>
+        </article>
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-spa">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <path d="M170 200 q-14 -50 6 -80 q16 -24 4 -52" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+              <path d="M205 200 q-14 -50 6 -80 q16 -24 4 -52" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+              <path d="M240 200 q-14 -50 6 -80 q16 -24 4 -52" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+              <ellipse cx="205" cy="212" rx="80" ry="12" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>云汀 SPA</h3>
+            <p>按完这一个钟，肩膀会谢你。</p>
+            <p class="fac-time">10:00–22:00 · 需提前预约</p>
+          </div>
+        </article>
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-kids">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <rect x="110" y="90" width="180" height="110" rx="10" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M110 140 L70 200 M290 140 L330 200" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+              <circle cx="200" cy="65" r="18" fill="none" stroke="#C8A96A" stroke-width="3"/>
+              <path d="M150 165 q50 -22 100 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>亲子乐园</h3>
+            <p>孩子放电，大人充电。</p>
+            <p class="fac-time">09:00–18:00 · 适合 3–12 岁</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 住客评价 -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-dark" data-reveal>他们住过之后说</p>
+      <h2 class="sec-title" data-reveal>住客评价</h2>
+      <p class="sec-score" data-reveal><strong>4.9</strong> 分 · 2,314 条住客评价</p>
+      <div class="rev-grid">
+        <figure class="rev-card" data-reveal>
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#C8A96A"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.5 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/><path d="M32 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L32 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M54 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L54 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M76 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L76 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M98 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L98 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z" transform="translate(-8 0)"/></g></svg>
+          </div>
+          <blockquote>带父母来的，湖景房早上真能听见水声。早餐的鱼片粥，老爷子连吃了三天。</blockquote>
+          <figcaption>陈女士 · 家庭出游 · 2026 年 9 月</figcaption>
+        </figure>
+        <figure class="rev-card" data-reveal>
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#C8A96A"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.5 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/><path d="M32 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L32 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M54 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L54 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M76 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L76 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M98 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L98 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z" transform="translate(-8 0)"/></g></svg>
+          </div>
+          <blockquote>出差顺路住一晚，结果多续了两天。行政酒廊的夜景，谈事都变顺了。</blockquote>
+          <figcaption>王先生 · 商务出差 · 2026 年 8 月</figcaption>
+        </figure>
+        <figure class="rev-card" data-reveal>
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#C8A96A"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.5 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/><path d="M32 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L32 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M54 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L54 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M76 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L76 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M98 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L98 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z" transform="translate(-8 0)"/></g></svg>
+          </div>
+          <blockquote>别墅的私人泳池值回票价，管家连烧烤架都支好了。孩子说明年还要来。</blockquote>
+          <figcaption>李女士 · 亲子度假 · 2026 年 7 月</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 交通位置 -->
+  <section class="section section-tint" id="location">
+    <div class="wrap loc-wrap" data-reveal>
+      <p class="eyebrow eyebrow-dark">怎么来</p>
+      <h2 class="sec-title">交通位置</h2>
+      <p class="loc-line">酒店临湖而建，出门就是 800 米私家湖岸线。</p>
+      <ul class="loc-list">
+        <li><span class="loc-dot"></span>湖滨高铁站 — 车程约 18 分钟</li>
+        <li><span class="loc-dot"></span>市中心 — 车程约 25 分钟</li>
+        <li><span class="loc-dot"></span>国际机场 — 车程约 40 分钟</li>
+        <li><span class="loc-dot"></span>湖畔古镇 — 车程约 10 分钟</li>
+      </ul>
+      <p class="loc-note">需要接送？致电 <a data-site-href="phone" data-site="phone"></a>，礼宾部提前帮你安排好车。</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="wrap cta-inner" data-reveal>
+      <p class="eyebrow">会员直订</p>
+      <h2 class="cta-title">多一晚，不如少花钱</h2>
+      <p class="cta-sub">留个手机号，880 元新客券包发你，官网直订直接抵。</p>
+      <form class="cta-form" id="couponForm" novalidate>
+        <input type="tel" id="couponPhone" inputmode="numeric" maxlength="11" placeholder="请输入手机号" aria-label="手机号" autocomplete="tel">
+        <button class="btn btn-gold" type="submit">领取优惠券</button>
+      </form>
+      <p class="cta-hint" id="couponHint" role="status"></p>
+      <p class="cta-fine">提交即代表同意接收酒店优惠短信，可随时退订。</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <p class="footer-logo">云汀度假酒店</p>
+      <p class="footer-desc">滨湖而居的一家度假酒店。228 间湖景客房，800 米私家湖岸线，离湖最近的那几扇窗，都在这儿。</p>
+      <div class="social">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.5h8M12 8.5v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 14c1.5 2 8.5 2 10-1M9 10.5c2.5-1.5 6-1 7.5 1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24" width="20" height="20"><rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 4c.5 3 2.5 4.5 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-nav">
+      <p class="footer-h">快速导航</p>
+      <a href="#rooms">房型</a>
+      <a href="#facilities">设施</a>
+      <a href="#reviews">住客评价</a>
+      <a href="#booking">预订查询</a>
+    </div>
+    <div class="footer-contact">
+      <p class="footer-h">联系我们</p>
+      <p>电话：<a data-site-href="phone" data-site="phone"></a></p>
+      <p>地址：<span data-site="address"></span></p>
+    </div>
+    <div class="footer-legal">
+      <p class="footer-h">网站政策</p>
+      <button class="legal-link" data-legal="privacy">隐私政策</button>
+      <button class="legal-link" data-legal="terms">服务条款</button>
+      <button class="legal-link" data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · <span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-backdrop" id="legalBackdrop"></div>
+  <div class="modal-box">
+    <button class="modal-close" id="legalClose" aria-label="关闭">×</button>
+    <h3 class="modal-title" id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

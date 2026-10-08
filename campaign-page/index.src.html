@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · campaign-page -->
+<!-- 城市夜跑节 2026 · 营销活动页模板（商用级） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>城市夜跑节 2026 · 11月8日 滨江公园</title>
+<meta name="description" content="第五届城市夜跑节，2026年11月8日 19:00 滨江公园起跑。5K 欢乐跑 / 10K 竞速组 / 半程马拉松，三档组别，总有一档适合你。">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+
+<!-- 加载态：仅 JS 生效时显示，无 JS 时直接呈现内容 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-brand">城市夜跑节<span>2026</span></div>
+    <div class="loader-bar"><i id="loaderBar"></i></div>
+    <div class="loader-tip">正在点亮赛道…</div>
+  </div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ============ 导航栏 ============ -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="回到顶部">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <span class="brand-name">城市夜跑节<em>2026</em></span>
+  </a>
+  <nav class="nav-links" aria-label="页面导航">
+    <a href="#stats">数据</a>
+    <a href="#divisions">组别</a>
+    <a href="#quotes">评价</a>
+    <a href="#countdown">倒计时</a>
+  </nav>
+  <a class="btn btn-accent btn-sm nav-cta" href="#signup">立即报名</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#stats">数据</a>
+    <a href="#divisions">组别</a>
+    <a href="#quotes">评价</a>
+    <a href="#countdown">倒计时</a>
+    <a href="#signup" class="drawer-cta">立即报名</a>
+  </nav>
+</div>
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-ghost" data-speed="0.35" aria-hidden="true">2026</div>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <svg class="hero-route" data-speed="0.15" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+      <path class="route-line" d="M -20 170 C 180 130, 300 190, 500 130 S 820 60, 1020 130 S 1300 190, 1460 110" fill="none"/>
+      <g class="route-pts">
+        <circle cx="120" cy="152" r="5"/><text x="120" y="185">起点</text>
+        <circle cx="500" cy="130" r="5"/><text x="500" y="163">5K</text>
+        <circle cx="880" cy="98" r="5"/><text x="880" y="131">10K</text>
+        <circle cx="1300" cy="160" r="5"/><text x="1300" y="193">终点</text>
+      </g>
+    </svg>
+    <div class="hero-inner" data-speed="-0.06">
+      <p class="eyebrow hero-rise">第五届 · 滨江公园</p>
+      <h1 class="mega" id="megaTitle">城市夜跑节</h1>
+      <p class="hero-en hero-rise">CITY NIGHT RUN · BINJIANG PARK</p>
+      <p class="hero-date hero-rise"><strong>11 月 8 日（周六）</strong>19:00 起跑</p>
+      <div class="hero-cta hero-rise">
+        <a class="btn btn-accent btn-lg" href="#signup">立即报名</a>
+        <a class="btn btn-ghost btn-lg" href="#divisions">查看组别</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><span>向下滚动</span><i></i></div>
+  </section>
+
+  <!-- ============ 数据故事卡 ============ -->
+  <section class="section stats" id="stats">
+    <div class="wrap">
+      <p class="kicker reveal">BY THE NUMBERS</p>
+      <h2 class="sec-title reveal" data-delay="80">这座城市，<span class="hl">越夜越热</span></h2>
+      <p class="sec-sub reveal" data-delay="140">数字不会说谎——去年赛道上的每一公里，都是今年回来的理由。</p>
+      <div class="stat-grid">
+        <article class="stat reveal" data-delay="0">
+          <div class="stat-num"><span data-count="12480">0</span></div>
+          <div class="stat-label">人已报名</div>
+          <div class="stat-note">报名通道开启第 21 天</div>
+        </article>
+        <article class="stat reveal" data-delay="90">
+          <div class="stat-num"><span data-count="32">0</span></div>
+          <div class="stat-label">城市联动</div>
+          <div class="stat-note">分会场同步起跑</div>
+        </article>
+        <article class="stat reveal" data-delay="180">
+          <div class="stat-num"><span data-count="96">0</span><em>%</em></div>
+          <div class="stat-label">完赛率</div>
+          <div class="stat-note">2025 届官方统计</div>
+        </article>
+        <article class="stat reveal" data-delay="270">
+          <div class="stat-num"><span data-count="320">0</span><em>+</em></div>
+          <div class="stat-label">志愿者保障</div>
+          <div class="stat-note">每 2 公里一个补给站</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 赛程 / 组别 ============ -->
+  <section class="section divisions" id="divisions">
+    <div class="wrap">
+      <p class="kicker reveal">RACE DIVISIONS</p>
+      <h2 class="sec-title reveal" data-delay="80">三档组别，<span class="hl">总有一档适合你</span></h2>
+      <p class="sec-sub reveal" data-delay="140">第一次夜跑选 5K，想冲成绩选 10K，老炮直接半马。报名费含荧光装备包。</p>
+      <div class="div-grid">
+        <article class="div-card reveal" data-delay="0">
+          <div class="div-tag">入门 · 无门槛</div>
+          <h3>5K 欢乐跑</h3>
+          <div class="div-price"><span>¥</span>59</div>
+          <ul>
+            <li>5 公里滨江夜景赛道</li>
+            <li>荧光装备包（手环+T恤）</li>
+            <li>完赛奖牌 + 电子证书</li>
+            <li>关门时间 1.5 小时</li>
+          </ul>
+          <button class="btn btn-ghost btn-block pick-div" data-div="5k">选 5K 报名</button>
+        </article>
+        <article class="div-card featured reveal" data-delay="120">
+          <div class="div-badge">最受欢迎</div>
+          <div class="div-tag">进阶 · 计时排名</div>
+          <h3>10K 竞速组</h3>
+          <div class="div-price"><span>¥</span>99</div>
+          <ul>
+            <li>一次性计时芯片</li>
+            <li>分组出发，前 100 名纪念衫</li>
+            <li>PB 补给站 + 赛道摄影</li>
+            <li>关门时间 2 小时</li>
+          </ul>
+          <button class="btn btn-accent btn-block pick-div" data-div="10k">选 10K 报名</button>
+        </article>
+        <article class="div-card reveal" data-delay="240">
+          <div class="div-tag">硬核 · 老炮专场</div>
+          <h3>半程马拉松</h3>
+          <div class="div-price"><span>¥</span>159</div>
+          <ul>
+            <li>21.0975 公里标准赛道</li>
+            <li>专业配速员全程领跑</li>
+            <li>完赛卫衣 + 赛后拉伸区</li>
+            <li>关门时间 3 小时</li>
+          </ul>
+          <button class="btn btn-ghost btn-block pick-div" data-div="half">选半马报名</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 参赛者评价 ============ -->
+  <section class="section quotes" id="quotes">
+    <div class="wrap">
+      <p class="kicker reveal">RUNNERS SAY</p>
+      <h2 class="sec-title reveal" data-delay="80">他们跑完，<span class="hl">是这么说的</span></h2>
+      <div class="quote-grid">
+        <figure class="quote reveal" data-delay="0">
+          <svg class="qmark" viewBox="0 0 32 24" aria-hidden="true"><path d="M0 24V13.7C0 5.8 4.6.7 12.2 0l1.5 4.4C8.9 5.6 6.6 8.4 6.4 12H12v12H0zm20 0V13.7C20 5.8 24.6.7 32.2 0l-1.5 4.4c.9-.2-4.1 1.2-4.3 7.6H32v12H20z" transform="translate(0,0) scale(1,-1) translate(0,-24)" fill="currentColor" opacity=".9"/></svg>
+          <blockquote>去年第一次跑 10K，冲过终点时两边全是喊加油的陌生人，值了。</blockquote>
+          <figcaption><strong>陈默</strong><span>2025 届 · 10K 完赛</span></figcaption>
+        </figure>
+        <figure class="quote reveal" data-delay="120">
+          <svg class="qmark" viewBox="0 0 32 24" aria-hidden="true"><path d="M0 24V13.7C0 5.8 4.6.7 12.2 0l1.5 4.4C8.9 5.6 6.6 8.4 6.4 12H12v12H0zm20 0V13.7C20 5.8 24.6.7 32.2 0l-1.5 4.4c.9-.2-4.1 1.2-4.3 7.6H32v12H20z" transform="translate(0,0) scale(1,-1) translate(0,-24)" fill="currentColor" opacity=".9"/></svg>
+          <blockquote>带着女儿跑的 5K，她全程举着荧光棒，比我先冲线。</blockquote>
+          <figcaption><strong>林晓</strong><span>2024 届 · 亲子组</span></figcaption>
+        </figure>
+        <figure class="quote reveal" data-delay="240">
+          <svg class="qmark" viewBox="0 0 32 24" aria-hidden="true"><path d="M0 24V13.7C0 5.8 4.6.7 12.2 0l1.5 4.4C8.9 5.6 6.6 8.4 6.4 12H12v12H0zm20 0V13.7C20 5.8 24.6.7 32.2 0l-1.5 4.4c.9-.2-4.1 1.2-4.3 7.6H32v12H20z" transform="translate(0,0) scale(1,-1) translate(0,-24)" fill="currentColor" opacity=".9"/></svg>
+          <blockquote>半马最后三公里，志愿者追着递水喊"就剩一个弯"——我记到现在。</blockquote>
+          <figcaption><strong>老周</strong><span>三届半马老兵</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 倒计时 ============ -->
+  <section class="section countdown" id="countdown">
+    <div class="wrap">
+      <p class="kicker reveal">COUNTDOWN</p>
+      <h2 class="sec-title reveal" data-delay="80">距离起跑，<span class="hl">还有</span></h2>
+      <div class="clock reveal" data-delay="160" role="timer" aria-label="距离起跑倒计时">
+        <div class="flip" id="f-days">
+          <div class="half top"><span>00</span></div>
+          <div class="half bot"><span>00</span></div>
+          <div class="half flap-top"><span>00</span></div>
+          <div class="half flap-bot"><span>00</span></div>
+          <div class="flip-label">天</div>
+        </div>
+        <div class="colon" aria-hidden="true">:</div>
+        <div class="flip" id="f-hours">
+          <div class="half top"><span>00</span></div>
+          <div class="half bot"><span>00</span></div>
+          <div class="half flap-top"><span>00</span></div>
+          <div class="half flap-bot"><span>00</span></div>
+          <div class="flip-label">时</div>
+        </div>
+        <div class="colon" aria-hidden="true">:</div>
+        <div class="flip" id="f-mins">
+          <div class="half top"><span>00</span></div>
+          <div class="half bot"><span>00</span></div>
+          <div class="half flap-top"><span>00</span></div>
+          <div class="half flap-bot"><span>00</span></div>
+          <div class="flip-label">分</div>
+        </div>
+        <div class="colon" aria-hidden="true">:</div>
+        <div class="flip" id="f-secs">
+          <div class="half top"><span>00</span></div>
+          <div class="half bot"><span>00</span></div>
+          <div class="half flap-top"><span>00</span></div>
+          <div class="half flap-bot"><span>00</span></div>
+          <div class="flip-label">秒</div>
+        </div>
+      </div>
+      <p class="clock-note reveal" data-delay="220" id="clockNote">11 月 8 日 19:00 · 滨江公园南广场，准时鸣枪</p>
+    </div>
+  </section>
+
+  <!-- ============ 报名 CTA ============ -->
+  <section class="section signup" id="signup">
+    <div class="wrap">
+      <div class="signup-panel reveal">
+        <div class="signup-glow" aria-hidden="true"></div>
+        <p class="kicker">SIGN UP</p>
+        <h2>11 月 8 日，<span class="hl">滨江公园见。</span></h2>
+        <p class="signup-sub">早鸟价 10 月 20 日截止 · 总名额 15000 人，报满即止</p>
+        <form class="signup-form" id="signupForm" novalidate>
+          <div class="field">
+            <label for="fName">姓名</label>
+            <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name" maxlength="20">
+          </div>
+          <div class="field">
+            <label for="fPhone">手机号</label>
+            <input id="fPhone" name="phone" type="tel" placeholder="用于接收参赛短信" autocomplete="tel" inputmode="numeric" maxlength="11">
+          </div>
+          <div class="field">
+            <label for="fDiv">组别</label>
+            <select id="fDiv" name="division">
+              <option value="5k">5K 欢乐跑 · ¥59</option>
+              <option value="10k" selected>10K 竞速组 · ¥99</option>
+              <option value="half">半程马拉松 · ¥159</option>
+            </select>
+          </div>
+          <p class="form-err" id="formErr" role="alert"></p>
+          <button class="btn btn-accent btn-lg btn-block" type="submit">提交报名</button>
+          <p class="form-note">提交即视为同意《参赛健康承诺书》 · 报名成功后短信发送参赛号</p>
+        </form>
+        <div class="signup-ok" id="signupOk" hidden>
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M20 33.5 28.5 42 44 24" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>报名成功！</h3>
+          <p id="okText">11 月 8 日 19:00，滨江公园见。</p>
+          <p class="ok-no">参赛号 <strong id="okNo">NR2026-00000</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 法务三件套 ============ -->
+  <section class="section legal" id="legal">
+    <div class="wrap">
+      <p class="kicker reveal">LEGAL</p>
+      <h2 class="sec-title reveal" data-delay="80">报名之前，<span class="hl">先把丑话说前头</span></h2>
+      <p class="sec-sub reveal" data-delay="140">三件事一次讲清楚：你的信息怎么用、赛道照片怎么拍、退赛了钱怎么退。</p>
+      <div class="legal-org reveal" data-delay="200" aria-label="主办方信息">
+        <div class="legal-org-item"><span>主办方</span><strong id="legalOrg">城市夜跑节组委会</strong></div>
+        <div class="legal-org-item"><span>联系地址</span><strong id="legalAddr"></strong></div>
+        <div class="legal-org-item"><span>联系电话</span><strong id="legalPhone"></strong></div>
+        <div class="legal-org-item"><span>联系邮箱</span><strong id="legalMail"></strong></div>
+      </div>
+      <div class="legal-tabs reveal" data-delay="260" role="tablist" aria-label="法务文档">
+        <button type="button" class="legal-tab active" role="tab" aria-selected="true" data-tab="privacy" id="tab-privacy" aria-controls="panel-privacy">隐私政策</button>
+        <button type="button" class="legal-tab" role="tab" aria-selected="false" data-tab="terms" id="tab-terms" aria-controls="panel-terms">服务条款</button>
+        <button type="button" class="legal-tab" role="tab" aria-selected="false" data-tab="cookies" id="tab-cookies" aria-controls="panel-cookies">Cookie 政策</button>
+      </div>
+      <div class="legal-panels reveal" data-delay="320">
+        <article class="legal-panel active" role="tabpanel" id="panel-privacy" aria-labelledby="tab-privacy" tabindex="0">
+          <h3>隐私政策</h3>
+          <ol>
+            <li>报名只收三样：姓名、手机号、组别。姓名用来喊你检录，手机号收参赛短信和紧急通知，组别决定出发批次和装备包规格。领装备包带身份证件原件，工作人员只看一眼核对，不记、不留存。</li>
+            <li>你的姓名和手机号只用于本届城市夜跑节：报名确认、装备领取提醒、鸣枪时间变更。赛事结束后 12 个月内彻底删除，不发广告短信、不卖数据、不给任何第三方。</li>
+            <li>本页只做第一方的匿名访问计数（比如哪个组别被看得最多），不画像、不跨站追踪、不关联你的报名信息。关掉 Cookie 或 JS，页面照常能看，报名照常能用。</li>
+            <li>你有权随时要求查看、更正或删除我们留存的报名信息，写邮件到上面的联系邮箱，组委会 7 天内处理完并回执确认。</li>
+            <li>政策更新直接改在本页，文末注明日期；你继续报名，就表示已知悉最新版本。</li>
+          </ol>
+          <p class="doc-date">最后更新：2026-10-05</p>
+        </article>
+        <article class="legal-panel" role="tabpanel" id="panel-terms" aria-labelledby="tab-terms" tabindex="0">
+          <h3>服务条款</h3>
+          <ol>
+            <li>报名即视为你承诺身体状况适合所报组别：5K 能轻松跑完全程再报，10K 和半马建议有过正式完赛记录。隐瞒伤病参赛，风险自己担；赛道医疗点只做应急处置，不做诊断。</li>
+            <li>退赛退款看时间：10 月 25 日前申请全额退款；之后不退，但名额可转让一次（买卖双方都要实名验证后过户）；因恶劣天气组委会熔断赛事，报名费全额原路退还。</li>
+            <li>赛道摄影会拍到你：照片可能用在官网、官方公众号和合作媒体的赛事报道里，报名即视为肖像授权。不想被拍，提前写邮件告诉我们，摄影团队会尽量避开你。</li>
+            <li>迟到 15 分钟未出发、替跑、抄近道，按弃赛处理，报名费不退；赛道禁止轮滑、自行车和宠物，工作人员有权请你离场。</li>
+            <li>条款解释权归城市夜跑节组委会，但有事好商量：上面的电话和邮箱都在，看到会回。</li>
+          </ol>
+          <p class="doc-date">最后更新：2026-10-05</p>
+        </article>
+        <article class="legal-panel" role="tabpanel" id="panel-cookies" aria-labelledby="tab-cookies" tabindex="0">
+          <h3>Cookie 政策</h3>
+          <ol>
+            <li>本页面只写一个第一方 Cookie：记住你上次选的组别，下次报名不用重选。30 天过期，不传服务器、不记名字。</li>
+            <li>访问计数是匿名的，只统计"多少人看了 10K 组别"这类总数，不存你的姓名和手机号，不和报名数据打通。</li>
+            <li>你可以在浏览器设置里随时清除或禁用 Cookie：禁用后只是"记住组别"失效，报名、倒计时、翻牌动效照常用。</li>
+            <li>你点了页面上的社交媒体图标跳转出去，之后就归对方平台的 Cookie 政策管了，和我们没关系。</li>
+          </ol>
+          <p class="doc-date">最后更新：2026-10-05</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚（含活动规则） ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="rules">
+      <div class="rule reveal">
+        <h4>参赛须知</h4>
+        <ul>
+          <li>年满 12 周岁方可报名；12–17 岁需监护人陪同参赛</li>
+          <li>报名即视为同意《参赛健康承诺书》，量力而行</li>
+          <li>领取装备包须携带身份证件原件</li>
+        </ul>
+      </div>
+      <div class="rule reveal" data-delay="90">
+        <h4>检录与关门</h4>
+        <ul>
+          <li>11 月 8 日 17:30 开始检录，19:00 准时鸣枪</li>
+          <li>5K 关门 1.5 小时 / 10K 关门 2 小时 / 半马关门 3 小时</li>
+          <li>迟到 15 分钟未出发者视为弃赛，不退费</li>
+        </ul>
+      </div>
+      <div class="rule reveal" data-delay="180">
+        <h4>安全保障</h4>
+        <ul>
+          <li>赛道设 6 处医疗点、每 2 公里一个补给站</li>
+          <li>遇恶劣天气组委会有权熔断赛事，全额退费</li>
+          <li>赛道禁止轮滑、自行车及宠物进入</li>
+        </ul>
+      </div>
+      <div class="rule reveal" data-delay="270">
+        <h4>退改政策</h4>
+        <ul>
+          <li>10 月 25 日前可申请全额退款</li>
+          <li>之后可转让名额一次，需双方实名验证</li>
+          <li>赛事取消则全额原路退还报名费</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-mid">
+      <nav class="foot-legal" aria-label="法务信息">
+        <a href="#legal" data-legal-tab="privacy">隐私政策</a>
+        <a href="#legal" data-legal-tab="terms">服务条款</a>
+        <a href="#legal" data-legal-tab="cookies">Cookie 政策</a>
+      </nav>
+      <div class="social" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号（占位，上线替换真实链接）" title="微信">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3.5C6 3.5 3.2 5.9 3.2 8.9c0 1.7 1 3.2 2.5 4.1l-.5 2.7 2.9-1.4c.4.1.9.2 1.4.2"/><path d="M15.2 8c-3.1 0-5.7 2.2-5.7 4.9 0 1.6.9 3 2.3 3.8l-.4 2.3 2.5-1.3c.4.1.9.2 1.3.2 3.2 0 5.7-2.2 5.7-4.9S18.4 8 15.2 8z"/><circle cx="7.6" cy="8.6" r=".9" fill="currentColor" stroke="none"/><circle cx="11" cy="8.6" r=".9" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="微博（占位，上线替换真实链接）" title="微博">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M4.6 13.2c2.2-3.6 12.6-3.6 14.8 0"/><circle cx="12" cy="10.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="抖音（占位，上线替换真实链接）" title="抖音">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 17.5V6.8L19 4.5v10.5"/><circle cx="6.8" cy="17.5" r="2.7"/><circle cx="16.3" cy="15" r="2.7"/></svg>
+        </a>
+        <a href="#" aria-label="小红书（占位，上线替换真实链接）" title="小红书">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M12 8.3c-1.2-1-2.7-1.5-4.2-1.3v7.2c1.5-.2 3 .3 4.2 1.3 1.2-1 2.7-1.5 4.2-1.3V6.8c-1.5-.2-3 .3-4.2 1.5z"/><path d="M12 8.3v9.4"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="foot-brand">城市夜跑节<em>2026</em></div>
+      <nav class="foot-links" aria-label="页脚链接">
+        <a href="#top">联系我们</a>
+        <a href="#top">志愿者招募</a>
+        <a href="#top">商务合作</a>
+      </nav>
+      <p class="copy">© 2026 <span id="copyOrg">城市夜跑节组委会</span> · <span id="icp">京ICP备xxxxxx号</span> · 本页为活动模板演示</p>
+    </div>
+  </div>
+</footer>
+
+<script src="src/main.js"></script>
+</body>
+</html>

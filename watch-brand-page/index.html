@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玖时 JIU TIME · 为时间立传</title>
+<meta name="description" content="玖时 JIU TIME —— 曜 / 辰 / 溯三大腕表系列。327 道工序，72 小时动力储备，预约线下品鉴。">
+<style>
+/* 玖时 JIU TIME · watch-brand-page —— 原创样式
+   三色：墨黑 #0d0d0f / 金 #c8a45e / 象牙 #f5efe3（深金 #8a6d3f 仅为金在浅底上的描边变体） */
+:root{
+  --ink:#0d0d0f;
+  --ink2:#141416;
+  --gold:#c8a45e;
+  --gold-lt:#e9d9ae;
+  --gold-dk:#8a6d3f;
+  --ivory:#f5efe3;
+  --mut:#8f8574;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--ivory);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px;line-height:1.9;letter-spacing:.06em;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block;max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* 纸纹噪点 */
+.grain{position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:.055;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* 加载态 */
+.loader{position:fixed;inset:0;z-index:3000;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .8s var(--ease),visibility .8s;}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-mark{font-family:"Songti SC","STSong","SimSun",serif;font-size:44px;letter-spacing:.5em;
+  text-indent:.5em;color:var(--gold-lt)}
+.loader-line{width:180px;height:1px;background:#2a2a2e;overflow:hidden}
+.loader-line span{display:block;height:100%;width:40%;background:var(--gold);
+  animation:loadslide 1.1s var(--ease) infinite}
+@keyframes loadslide{from{transform:translateX(-100%)}to{transform:translateX(280%)}}
+.loader-en{font-size:11px;letter-spacing:.5em;text-indent:.5em;color:var(--mut)}
+
+/* 导航 */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;gap:36px;padding:20px 40px;
+  transition:background .5s var(--ease),padding .5s var(--ease),border-color .5s;}
+.nav.scrolled{background:rgba(13,13,15,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  padding:12px 40px;border-bottom:1px solid rgba(200,164,94,.28)}
+.brand{display:flex;flex-direction:column;line-height:1.2}
+.brand-cn{font-family:"Songti SC","STSong","SimSun",serif;font-size:22px;letter-spacing:.4em;color:var(--gold-lt)}
+.brand-en{font-size:10px;letter-spacing:.42em;color:var(--mut)}
+.nav-links{display:flex;gap:34px;margin-left:auto}
+.nav-links a{font-size:14px;letter-spacing:.3em;color:var(--ivory);position:relative;padding:6px 2px;opacity:.85}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{transform:scaleX(1)}
+.btn-gold{display:inline-block;background:var(--gold);color:var(--ink);font-weight:600;
+  font-size:14px;letter-spacing:.28em;text-indent:.28em;padding:13px 34px;border-radius:2px;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease),background .3s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,164,94,.28);background:var(--gold-lt)}
+.btn-ghost{display:inline-block;border:1px solid rgba(200,164,94,.55);color:var(--gold-lt);
+  font-size:14px;letter-spacing:.28em;text-indent:.28em;padding:12px 32px;border-radius:2px;
+  transition:transform .5s var(--ease),background .3s,border-color .3s}
+.btn-ghost:hover{transform:translateY(-2px);background:rgba(200,164,94,.1);border-color:var(--gold)}
+.nav-cta{margin-left:8px}
+.burger{display:none;flex-direction:column;gap:6px;margin-left:auto;padding:8px}
+.burger span{width:26px;height:2px;background:var(--gold-lt);transition:.35s var(--ease)}
+
+/* 抽屉 */
+.scrim{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.6)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(340px,84vw);z-index:1600;
+  background:#111114;border-left:1px solid rgba(200,164,94,.3);
+  transform:translateX(105%);transition:transform .55s var(--ease);
+  display:flex;flex-direction:column;padding:88px 40px 40px;gap:8px}
+.drawer.open{transform:translateX(0)}
+.drawer-x{position:absolute;top:22px;right:28px;font-size:30px;color:var(--gold-lt);line-height:1}
+.drawer-links{display:flex;flex-direction:column}
+.drawer-links a{font-size:19px;letter-spacing:.4em;padding:16px 0;border-bottom:1px solid #222;color:var(--ivory)}
+.drawer-cta{margin-top:28px;text-align:center}
+.drawer-en{margin-top:auto;font-size:10px;letter-spacing:.4em;color:var(--mut)}
+
+/* 通用区块 */
+section{position:relative;padding:130px 0}
+.eyebrow{font-size:12px;letter-spacing:.55em;text-indent:.1em;color:var(--gold);margin-bottom:26px}
+.sec-title{font-family:"Songti SC","STSong","SimSun",serif;font-weight:400;
+  font-size:clamp(30px,4.4vw,52px);letter-spacing:.18em;line-height:1.6;margin-bottom:18px;color:var(--ivory)}
+.sec-sub{color:var(--mut);letter-spacing:.14em;max-width:640px;margin-bottom:54px}
+
+/* 入场 */
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal[data-i="1"]{transition-delay:.12s}
+.js .reveal[data-i="2"]{transition-delay:.24s}
+.js .reveal[data-i="3"]{transition-delay:.36s}
+.js .reveal[data-i="4"]{transition-delay:.48s}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 90% 75% at 50% 42%,transparent 40%,rgba(0,0,0,.62) 100%)}
+.hero-inner{position:relative;width:100%;max-width:1180px;margin:0 auto;padding:0 32px;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.hero-title{font-family:"Songti SC","STSong","SimSun",serif;font-weight:400;
+  font-size:clamp(56px,7.6vw,104px);letter-spacing:.24em;line-height:1.5;margin:6px 0 30px;color:var(--ivory)}
+.rl-mask{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.js .rl-mask>span{display:block;transform:translateY(112%);transition:transform 1.15s var(--ease)}
+.js .rl-mask:nth-child(2)>span{transition-delay:.18s}
+.js [data-hero].is-in .rl-mask>span{transform:translateY(0)}
+/* 完成态覆盖：清掉位移兜底，防止任何残留 transform 接管 */
+.js [data-hero].is-in .rl-mask>span{transform:none}
+.hero-sub{color:var(--mut);letter-spacing:.12em;margin-bottom:42px}
+.hero-ctas{display:flex;gap:18px;flex-wrap:wrap}
+.hero-watch{display:flex;flex-direction:column;align-items:center;gap:18px}
+.watch-svg{width:min(430px,78vw);height:auto;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.watch-svg.sm{width:min(360px,72vw)}
+.watch-note{font-size:12px;letter-spacing:.32em;color:var(--mut)}
+/* 金色光泽扫过：整页唯一主视觉动效 */
+.sheen{animation:sheen 7s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes sheen{
+  0%,58%{transform:translateX(-300px)}
+  88%,100%{transform:translateX(620px)}
+}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  width:1px;height:56px;background:rgba(200,164,94,.25);overflow:hidden}
+.scroll-hint span{display:block;width:100%;height:22px;background:var(--gold);
+  animation:hint 2.2s var(--ease) infinite}
+@keyframes hint{from{transform:translateY(-24px)}to{transform:translateY(60px)}}
+
+/* 系列 */
+.series{background:var(--ink2)}
+.tabs{display:flex;gap:14px;margin-bottom:56px;flex-wrap:wrap}
+.tab{border:1px solid #33333a;color:var(--mut);font-size:15px;letter-spacing:.3em;
+  padding:12px 30px;border-radius:2px;transition:.4s var(--ease)}
+.tab:hover{border-color:var(--gold);color:var(--gold-lt);transform:translateY(-2px)}
+.tab.on{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600}
+.model-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
+.model-watch{display:flex;justify-content:center}
+.model-en{font-size:12px;letter-spacing:.55em;color:var(--gold);margin-bottom:14px}
+.model-name{font-family:"Songti SC","STSong","SimSun",serif;font-weight:400;
+  font-size:clamp(30px,3.6vw,44px);letter-spacing:.2em;margin-bottom:18px}
+.model-desc{color:var(--mut);letter-spacing:.1em;margin-bottom:30px;max-width:480px}
+.spec-list{list-style:none;margin-bottom:30px;border-top:1px solid #26262b}
+.spec-list li{display:flex;justify-content:space-between;gap:20px;padding:13px 2px;
+  border-bottom:1px solid #26262b;font-size:14px;letter-spacing:.14em}
+.spec-list li b{color:var(--gold-lt);font-weight:500}
+.spec-list li span{color:var(--mut);text-align:right}
+.model-price{margin-bottom:34px}
+.model-price span{font-family:"Songti SC","STSong","SimSun",serif;font-size:34px;
+  letter-spacing:.1em;color:var(--gold-lt)}
+.model-price em{font-style:normal;font-size:13px;color:var(--mut);margin-left:12px;letter-spacing:.2em}
+
+/* 工艺 */
+.craft{background:var(--ink)}
+.craft-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%,transparent 45%,rgba(0,0,0,.55) 100%)}
+.craft-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:80px;align-items:start}
+.craft-copy p{color:#b9b0a0;letter-spacing:.1em;margin-bottom:22px;max-width:560px}
+.craft-copy .sec-title{color:var(--ivory)}
+.craft-stats{display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(200,164,94,.3)}
+.stat{padding:34px 4px;border-bottom:1px solid rgba(200,164,94,.3);display:flex;flex-direction:column;gap:8px}
+.stat b{font-family:"Songti SC","STSong","SimSun",serif;font-weight:400;font-size:56px;
+  color:var(--gold-lt);letter-spacing:.08em;line-height:1.2}
+.stat span{font-size:13px;letter-spacing:.34em;color:var(--mut)}
+
+/* 机芯放大区 */
+.movement{background:var(--ink2)}
+.plate-wrap{position:relative;max-width:860px;margin:0 auto;cursor:crosshair}
+.plate{width:100%;height:auto;border-radius:14px}
+#gears .gear{transform-box:fill-box;transform-origin:center;animation:spin 24s linear infinite}
+#gears .gear.rev{animation:spinrev 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinrev{to{transform:rotate(-360deg)}}
+.lens{position:absolute;width:190px;height:190px;border-radius:50%;overflow:hidden;
+  border:2px solid var(--gold);box-shadow:0 18px 50px rgba(0,0,0,.65),inset 0 0 30px rgba(0,0,0,.4);
+  pointer-events:none;transform:translate(-50%,-50%);background:var(--ink);z-index:5}
+.lens-inner{position:absolute;top:0;left:0}
+.lens-inner svg{width:auto;max-width:none}
+.mv-points{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+  max-width:960px;margin:56px auto 0}
+.mv-points li{border-top:1px solid rgba(200,164,94,.35);padding-top:20px}
+.mv-points b{display:block;font-size:17px;letter-spacing:.3em;color:var(--gold-lt);
+  font-weight:500;margin-bottom:10px}
+.mv-points span{font-size:14px;color:var(--mut);letter-spacing:.08em}
+
+/* 预约 */
+.visit{background:var(--ink)}
+.visit-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(200,164,94,.06),transparent 70%)}
+.visit-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.visit-note{color:var(--gold);letter-spacing:.14em}
+.visit-form{background:#111114;border:1px solid rgba(200,164,94,.3);border-radius:6px;
+  padding:44px 40px;display:flex;flex-direction:column;gap:20px}
+.visit-form label{display:flex;flex-direction:column;gap:10px;font-size:13px;
+  letter-spacing:.3em;color:var(--mut)}
+.visit-form input,.visit-form select{background:#0b0b0d;border:1px solid #2c2c31;color:var(--ivory);
+  font-size:15px;letter-spacing:.1em;padding:14px 16px;border-radius:2px;font-family:inherit;
+  transition:border-color .3s}
+.visit-form input:focus,.visit-form select:focus{outline:none;border-color:var(--gold)}
+.visit-form select{appearance:none}
+.form-err{font-size:13px;letter-spacing:.14em;color:#e08a8a}
+.form-ok{border:1px solid rgba(200,164,94,.5);background:rgba(200,164,94,.08);
+  padding:18px 20px;border-radius:2px;font-size:14px;letter-spacing:.1em;color:var(--gold-lt)}
+.form-ok b{margin-right:8px}
+
+/* 门店 / 服务 */
+.stores{background:var(--ink2);padding:110px 0}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:54px}
+.store{border:1px solid #2b2b30;border-radius:4px;padding:34px 30px;display:flex;
+  flex-direction:column;gap:10px;transition:.5s var(--ease)}
+.store:hover{transform:translateY(-6px);border-color:rgba(200,164,94,.6);
+  box-shadow:0 18px 44px rgba(0,0,0,.45)}
+.store b{font-size:18px;letter-spacing:.22em;color:var(--gold-lt);font-weight:500}
+.store span{font-size:13px;letter-spacing:.12em;color:var(--mut)}
+.service{padding:110px 0}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:54px}
+.svc{border-top:1px solid rgba(200,164,94,.35);padding-top:22px;transition:.5s var(--ease)}
+.svc:hover{transform:translateY(-4px)}
+.svc b{display:block;font-size:16px;letter-spacing:.28em;color:var(--gold-lt);
+  font-weight:500;margin-bottom:10px}
+.svc span{font-size:13px;color:var(--mut);letter-spacing:.08em}
+
+/* 页脚 */
+.footer{background:#0a0a0c;border-top:1px solid rgba(200,164,94,.25);padding:80px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1.2fr 1fr;gap:48px;padding-bottom:56px}
+.foot-brand .brand-cn{font-size:26px}
+.foot-desc{margin:18px 0 24px;font-size:13px;color:var(--mut);letter-spacing:.12em}
+.social{display:flex;gap:14px}
+.social a{width:42px;height:42px;border:1px solid #33333a;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--mut);
+  transition:.45s var(--ease)}
+.social a svg{width:20px;height:20px}
+.social a:hover{color:var(--ink);background:var(--gold);border-color:var(--gold);transform:translateY(-3px)}
+.foot-nav,.foot-contact,.foot-legal{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.foot-grid b{font-size:13px;letter-spacing:.4em;color:var(--gold);font-weight:500;margin-bottom:6px}
+.foot-nav a,.foot-contact a,.foot-contact span{font-size:14px;letter-spacing:.14em;color:var(--mut)}
+.foot-nav a:hover,.foot-contact a:hover{color:var(--gold-lt)}
+.foot-legal button{font-size:14px;letter-spacing:.14em;color:var(--mut);padding:0}
+.foot-legal button:hover{color:var(--gold-lt)}
+.copy-row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  border-top:1px solid #1e1e22;padding:26px 32px;font-size:12px;letter-spacing:.18em;color:#5d574c}
+.copy-row a{color:#5d574c}
+.copy-row a:hover{color:var(--gold-lt)}
+
+/* 法务弹窗 */
+.modal-scrim{position:fixed;inset:0;z-index:2500;background:rgba(0,0,0,.7)}
+.modal{position:fixed;inset:0;z-index:2600;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal-card{position:relative;background:#141417;border:1px solid rgba(200,164,94,.4);
+  border-radius:8px;max-width:640px;width:100%;max-height:82vh;overflow:auto;padding:48px 46px;
+  animation:modalin .5s var(--ease)}
+@keyframes modalin{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.modal-x{position:absolute;top:16px;right:22px;font-size:28px;color:var(--mut);line-height:1}
+.modal-x:hover{color:var(--gold-lt)}
+.modal-card h3{font-family:"Songti SC","STSong","SimSun",serif;font-weight:400;font-size:26px;
+  letter-spacing:.24em;color:var(--gold-lt);margin-bottom:26px}
+.modal-list{padding-left:22px;display:flex;flex-direction:column;gap:16px}
+.modal-list li{font-size:14px;letter-spacing:.08em;color:#b9b0a0;line-height:2}
+.modal-list li::marker{color:var(--gold)}
+
+/* 移动端 */
+@media (max-width:960px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+  .hero-inner{grid-template-columns:1fr;gap:48px;text-align:center}
+  .hero-copy .eyebrow{text-align:center}
+  .hero-ctas{justify-content:center}
+  .model-grid,.craft-grid,.visit-grid{grid-template-columns:1fr;gap:48px}
+  .mv-points{grid-template-columns:1fr}
+  .store-grid{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  section{padding:96px 0}
+  .lens{display:none !important}
+}
+@media (max-width:600px){
+  .wrap{padding:0 22px}
+  .nav{padding:16px 22px}
+  .nav.scrolled{padding:10px 22px}
+  .svc-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .visit-form{padding:32px 26px}
+  .modal-card{padding:36px 28px}
+}
+
+/* 减弱动态 */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .js .reveal{opacity:1;transform:none}
+  .js .rl-mask>span{transform:none}
+  html{scroll-behavior:auto}
+}
+
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">玖时</div>
+  <div class="loader-line"><span></span></div>
+  <div class="loader-en">JIU TIME · EST. 2016</div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="玖时首页">
+    <span class="brand-cn">玖时</span>
+    <span class="brand-en">JIU TIME</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#series">系列</a>
+    <a href="#craft">工艺</a>
+    <a href="#stores">门店</a>
+    <a href="#service">服务</a>
+  </nav>
+  <a class="btn-gold nav-cta" href="#visit">预约品鉴</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="移动端菜单">
+  <button class="drawer-x" id="drawerX" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#series">系列</a>
+    <a href="#craft">工艺</a>
+    <a href="#stores">门店</a>
+    <a href="#service">服务</a>
+  </nav>
+  <a class="btn-gold drawer-cta" href="#visit">预约品鉴</a>
+  <div class="drawer-en">JIU TIME · EST. 2016</div>
+</aside>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" data-hero id="hero">
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">JIU TIME · EST. 2016</p>
+        <h1 class="hero-title">
+          <span class="rl-mask"><span>为时间</span></span>
+          <span class="rl-mask"><span>立传</span></span>
+        </h1>
+        <p class="hero-sub reveal" data-i="1">玖时机芯工作室出品。327 道工序，一枚机芯只认一双手。<br>72 小时动力储备，走时日差 -2/+4 秒。</p>
+        <div class="hero-ctas reveal" data-i="2">
+          <a class="btn-gold" href="#visit">预约品鉴</a>
+          <a class="btn-ghost" href="#series">浏览系列</a>
+        </div>
+      </div>
+      <div class="hero-watch reveal" data-i="1" aria-label="玖时腕表示意：指针实时走动">
+        <svg class="watch-svg" viewBox="0 0 400 400" role="img" aria-label="表盘指针实时走动">
+          <defs>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f0d998"/>
+              <stop offset=".45" stop-color="#a07c3f"/>
+              <stop offset=".75" stop-color="#e6c877"/>
+              <stop offset="1" stop-color="#8a6d3f"/>
+            </linearGradient>
+            <radialGradient id="dialGrad" cx=".5" cy=".42" r=".75">
+              <stop offset="0" stop-color="#2a2a2e"/>
+              <stop offset=".7" stop-color="#141416"/>
+              <stop offset="1" stop-color="#0b0b0d"/>
+            </radialGradient>
+            <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity=".14"/>
+              <stop offset=".5" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="1" stop-color="#ffffff" stop-opacity=".06"/>
+            </linearGradient>
+            <clipPath id="dialClip"><circle cx="200" cy="200" r="163"/></clipPath>
+          </defs>
+          <circle cx="200" cy="200" r="196" fill="#0a0a0c"/>
+          <circle cx="200" cy="200" r="196" fill="none" stroke="url(#goldGrad)" stroke-width="5"/>
+          <circle cx="200" cy="200" r="180" fill="none" stroke="#c8a45e" stroke-width="11"
+                  stroke-dasharray="3 15.42" opacity=".85"/>
+          <circle cx="200" cy="200" r="163" fill="url(#dialGrad)"/>
+          <circle cx="200" cy="200" r="152" fill="none" stroke="#c8a45e" stroke-width="1.4"
+                  stroke-dasharray="1 14.94" opacity=".55"/>
+          <circle cx="200" cy="200" r="150" fill="none" stroke="#c8a45e" stroke-width="13"
+                  stroke-dasharray="21 57.56" opacity=".9"/>
+          <g id="heroMarkers"></g>
+          <text x="200" y="146" text-anchor="middle" fill="#e9d9ae" font-size="30"
+                letter-spacing="14" font-family="'Songti SC','STSong','SimSun',serif">玖时</text>
+          <text x="200" y="170" text-anchor="middle" fill="#c8a45e" font-size="11"
+                letter-spacing="6">JIU TIME</text>
+          <text x="200" y="262" text-anchor="middle" fill="#8f8574" font-size="10"
+                letter-spacing="3">AUTOMATIC · 72H</text>
+          <g id="handHour"><rect x="195" y="128" width="10" height="92" rx="5" fill="#e9d9ae"/><rect x="197.5" y="205" width="5" height="26" rx="2.5" fill="#e9d9ae"/></g>
+          <g id="handMin"><rect x="196.5" y="92" width="7" height="128" rx="3.5" fill="#e9d9ae"/><rect x="198" y="205" width="4" height="30" rx="2" fill="#e9d9ae"/></g>
+          <g id="handSec"><rect x="198.8" y="70" width="2.4" height="152" fill="#c8a45e"/><circle cx="200" cy="246" r="9" fill="none" stroke="#c8a45e" stroke-width="2.4"/></g>
+          <circle cx="200" cy="200" r="11" fill="url(#goldGrad)"/>
+          <circle cx="200" cy="200" r="4" fill="#0b0b0d"/>
+          <circle cx="200" cy="200" r="163" fill="url(#glassGrad)"/>
+          <g clip-path="url(#dialClip)">
+            <g class="sheen"><rect x="170" y="20" width="92" height="360" fill="#fff7e0" opacity=".16" transform="skewX(-18)"/></g>
+          </g>
+        </svg>
+        <p class="watch-note">指针为实时走时 · 与你此刻同步</p>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- ============ 系列 ============ -->
+  <section class="series" id="series">
+    <div class="wrap">
+      <p class="eyebrow reveal">COLLECTIONS</p>
+      <h2 class="sec-title reveal" data-i="1">三个系列，一种固执</h2>
+      <p class="sec-sub reveal" data-i="2">同一枚 Cal.JT-9001 机芯，三种盘面性格。点一点，看它换上另一副面孔。</p>
+      <div class="tabs reveal" data-i="2" role="tablist" aria-label="腕表系列切换">
+        <button class="tab on" role="tab" aria-selected="true" data-model="obsidian">曜 · 曜黑</button>
+        <button class="tab" role="tab" aria-selected="false" data-model="dawn">辰 · 晨曦</button>
+        <button class="tab" role="tab" aria-selected="false" data-model="gilt">溯 · 鎏金</button>
+      </div>
+      <div class="model-grid">
+        <div class="model-watch reveal" data-i="2">
+          <svg class="watch-svg sm" viewBox="0 0 400 400" role="img" aria-label="所选表款盘面预览">
+            <circle cx="200" cy="200" r="196" fill="#0a0a0c"/>
+            <circle cx="200" cy="200" r="196" fill="none" stroke="url(#goldGrad)" stroke-width="5"/>
+            <circle cx="200" cy="200" r="163" id="modelDial" fill="#141416"/>
+            <circle cx="200" cy="200" r="150" fill="none" stroke="#c8a45e" stroke-width="13"
+                    stroke-dasharray="21 57.56" opacity=".9"/>
+            <g id="modelMarkers"></g>
+            <text x="200" y="146" text-anchor="middle" fill="#e9d9ae" font-size="30"
+                  letter-spacing="14" font-family="'Songti SC','STSong','SimSun',serif">玖时</text>
+            <text x="200" y="170" text-anchor="middle" fill="#c8a45e" font-size="11" letter-spacing="6">JIU TIME</text>
+            <g id="mHandHour"><rect x="195" y="128" width="10" height="92" rx="5" fill="#e9d9ae"/></g>
+            <g id="mHandMin"><rect x="196.5" y="92" width="7" height="128" rx="3.5" fill="#e9d9ae"/></g>
+            <circle cx="200" cy="200" r="11" fill="url(#goldGrad)"/>
+            <circle cx="200" cy="200" r="163" fill="url(#glassGrad)"/>
+          </svg>
+        </div>
+        <div class="model-info reveal" data-i="3">
+          <p class="model-en" id="modelEn">OBSIDIAN</p>
+          <h3 class="model-name" id="modelName">曜 · 曜黑</h3>
+          <p class="model-desc" id="modelDesc">黑得发亮的盘面，是给夜里赶路的人准备的。夜光刻度吸饱白天的光，凌晨三点依然清晰。</p>
+          <ul class="spec-list" id="specList"></ul>
+          <p class="model-price"><span id="modelPrice">¥58,800</span><em>起 · 含税</em></p>
+          <a class="btn-ghost" href="#visit">预约试戴这一款</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 工艺 ============ -->
+  <section class="craft" id="craft">
+    <div class="craft-vignette" aria-hidden="true"></div>
+    <div class="wrap craft-grid">
+      <div class="craft-copy">
+        <p class="eyebrow reveal">SAVOIR-FAIRE</p>
+        <h2 class="sec-title reveal" data-i="1">慢，是我们的生产方式</h2>
+        <p class="reveal" data-i="2">一枚机芯，要经过 327 道工序。打磨夹板的日内瓦纹，老师傅一坐就是一下午——机器做得出形状，做不出那种深浅不一的光。</p>
+        <p class="reveal" data-i="3">我们不追产量。工作室一年只出三千枚，每一枚的摆轮上，都刻着装配师傅名字的缩写。出了问题，你知道该找谁；戴得顺手，你也知道该谢谁。</p>
+        <p class="reveal" data-i="4">表壳的每一道倒角，都用木质抛光轮手工推亮。拿在手里不割手，看着有光，这就是我们的验收标准。</p>
+      </div>
+      <div class="craft-stats">
+        <div class="stat reveal" data-i="2"><b><span class="count" data-to="327">0</span></b><span>道全手工工序</span></div>
+        <div class="stat reveal" data-i="3"><b><span class="count" data-to="21600">0</span></b><span>次 / 小时振频</span></div>
+        <div class="stat reveal" data-i="4"><b><span class="count" data-to="72">0</span></b><span>小时动力储备</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 机芯放大区 ============ -->
+  <section class="movement" id="movement">
+    <div class="wrap">
+      <p class="eyebrow reveal">CALIBRE JT-9001</p>
+      <h2 class="sec-title reveal" data-i="1">把机芯放大给你看</h2>
+      <p class="sec-sub reveal" data-i="2">鼠标移上去，放大镜会跟着你走。那些发丝一样的倒角抛光，藏不住。</p>
+      <div class="plate-wrap reveal" data-i="3" id="plateWrap">
+        <svg class="plate" id="plateSvg" viewBox="0 0 600 420" role="img" aria-label="JT-9001 机芯夹板与齿轮示意">
+          <rect x="8" y="8" width="584" height="404" rx="26" fill="#101013" stroke="#3a3325" stroke-width="2"/>
+          <g id="geneva" opacity=".5"></g>
+          <path d="M60 90 Q150 40 260 70 T470 60 L540 120 Q500 220 540 320 L430 372 Q300 340 180 372 L62 318 Q100 220 60 90 Z"
+                fill="#17171b" stroke="#c8a45e" stroke-width="2.5"/>
+          <g id="gears"></g>
+          <g id="screws"></g>
+          <circle cx="468" cy="120" r="16" fill="none" stroke="#c8a45e" stroke-width="3"/>
+          <circle cx="468" cy="120" r="7" fill="#c8a45e" opacity=".85"/>
+          <text x="300" y="396" text-anchor="middle" fill="#8f8574" font-size="13" letter-spacing="5">CAL.JT-9001 · 27 JEWELS · 手工倒角</text>
+        </svg>
+        <div class="lens" id="lens" hidden aria-hidden="true"><div class="lens-inner" id="lensInner"></div></div>
+      </div>
+      <ul class="mv-points">
+        <li class="reveal" data-i="1"><b>日内瓦纹</b><span>夹板上的波浪纹，一道一道手工推出来，方向必须一致。</span></li>
+        <li class="reveal" data-i="2"><b>倒角抛光</b><span>每个零件边缘 45° 倒角，抛到能照见人影才算完。</span></li>
+        <li class="reveal" data-i="3"><b>蓝钢螺丝</b><span>加热到 290℃ 烧出的矢车菊蓝，拧花一颗就整组重来。</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 预约 CTA ============ -->
+  <section class="visit" id="visit">
+    <div class="visit-vignette" aria-hidden="true"></div>
+    <div class="wrap visit-grid">
+      <div class="visit-copy">
+        <p class="eyebrow reveal">PRIVATE VIEWING</p>
+        <h2 class="sec-title reveal" data-i="1">来店里，亲手摸一摸</h2>
+        <p class="reveal" data-i="2">图片看不出倒角的光。预约一次线下品鉴，顾问给你留 60 分钟，一对一，表随便上手。</p>
+        <p class="reveal visit-note" data-i="3">到店即赠《机芯装配手稿》复刻版一份。</p>
+      </div>
+      <form class="visit-form reveal" data-i="3" id="visitForm" novalidate>
+        <label>姓名<input type="text" name="name" placeholder="怎么称呼你" autocomplete="name"></label>
+        <label>电话<input type="tel" name="phone" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric"></label>
+        <label>意向门店
+          <select name="store">
+            <option>上海 · 恒隆广场店</option>
+            <option>北京 · SKP 店</option>
+            <option>广州 · 太古汇店</option>
+          </select>
+        </label>
+        <p class="form-err" id="formErr" hidden></p>
+        <button class="btn-gold" type="submit">提交预约</button>
+        <div class="form-ok" id="formOk" hidden>
+          <b>收到。</b><span id="formOkText">顾问将在 24 小时内与你联系，确认到店时间。</span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ 门店 / 服务 ============ -->
+  <section class="stores" id="stores">
+    <div class="wrap">
+      <p class="eyebrow reveal">BOUTIQUES</p>
+      <h2 class="sec-title reveal" data-i="1">三家门店，都在市中心</h2>
+      <div class="store-grid">
+        <div class="store reveal" data-i="1"><b>上海 · 恒隆广场店</b><span>静安区南京西路 1266 号 2 座 1 层</span><span>10:00 – 22:00</span></div>
+        <div class="store reveal" data-i="2"><b>北京 · SKP 店</b><span>朝阳区建国路 87 号 B1 层</span><span>10:00 – 22:00</span></div>
+        <div class="store reveal" data-i="3"><b>广州 · 太古汇店</b><span>天河区天河路 383 号 1 层</span><span>10:00 – 22:00</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="service" id="service">
+    <div class="wrap">
+      <p class="eyebrow reveal">CARE</p>
+      <h2 class="sec-title reveal" data-i="1">买完，才是服务的开始</h2>
+      <div class="svc-grid">
+        <div class="svc reveal" data-i="1"><b>五年保修</b><span>机芯五年，表壳表带两年，人为损坏只收工费。</span></div>
+        <div class="svc reveal" data-i="2"><b>终身免费保养</b><span>每年一次全面清洗、检测走时、抛光翻新。</span></div>
+        <div class="svc reveal" data-i="3"><b>以旧换新</b><span>老表主换购新款，按当年估价抵扣，不玩套路。</span></div>
+        <div class="svc reveal" data-i="4"><b>全球联保</b><span>带出国不用慌，合作服务中心 40+ 城市覆盖。</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <p class="brand-cn">玖时</p>
+      <p class="brand-en">JIU TIME</p>
+      <p class="foot-desc">为时间立传。<br>2016 年创立于上海，一年只做三千枚表。</p>
+      <div class="social">
+        <a href="#" aria-label="微信" title="微信"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 0 1 3.4-2.6h.2A3.6 3.6 0 0 1 16 12c0 2-1.7 3.6-3.9 3.6h-.5L9 18v-2.6A3.5 3.5 0 0 1 9 11zM4 7.5A3.5 3.5 0 0 1 7.5 4h.3A3.6 3.6 0 0 1 11.4 7.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8.4" cy="11" r=".9" fill="currentColor"/><circle cx="12.4" cy="11" r=".9" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 13.2c.6-2.6 2.6-4.4 5-4.4 1.9 0 3.4 1 4 2.4M9 16.4c1.5.9 3.9.7 5.4-.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="15.6" cy="10.4" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12.5l2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><path d="M14 4v9.5a3.75 3.75 0 1 1-3.75-3.75" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 4c.4 2.6 2 4.2 4.6 4.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="页脚导航">
+      <b>探索</b>
+      <a href="#series">腕表系列</a>
+      <a href="#craft">制表工艺</a>
+      <a href="#movement">机芯细节</a>
+      <a href="#visit">预约品鉴</a>
+    </nav>
+    <div class="foot-contact">
+      <b>联系</b>
+      <a id="footPhone" href="tel:4008202016">400-820-2016</a>
+      <span id="footAddr">上海市静安区南京西路 1266 号恒隆广场 2 座 8 层</span>
+      <a id="footMail" href="mailto:service@jiutime.cn">service@jiutime.cn</a>
+    </div>
+    <div class="foot-legal">
+      <b>法务</b>
+      <button data-legal="privacy">隐私政策</button>
+      <button data-legal="terms">服务条款</button>
+      <button data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap copy-row">
+    <span>© <span id="footYear">2026</span> <span id="footName">玖时表业有限公司</span> · 版权所有</span>
+    <a id="footIcp" href="#" rel="nofollow">沪ICP备2026166600号-2</a>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-scrim" id="modalScrim" hidden></div>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <button class="modal-x" id="modalX" aria-label="关闭">×</button>
+    <h3 id="modalTitle"></h3>
+    <ol class="modal-list" id="modalList"></ol>
+  </div>
+</div>
+
+<script>
+/* 玖时 JIU TIME · watch-brand-page —— 原创脚本（无外部库）
+   配置区在顶部：SITE / LEGAL / MODELS / CFG，买家只改这里。 */
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+
+  /* ============ 配置 ============ */
+  var SITE = {
+    name: "玖时表业有限公司",
+    phone: "400-820-2016",
+    phoneHref: "tel:4008202016",
+    address: "上海市静安区南京西路 1266 号恒隆广场 2 座 8 层",
+    email: "service@jiutime.cn",
+    icp: "沪ICP备2026166600号-2",
+    year: "2026"
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: "隐私政策",
+      points: [
+        "我们只收集你主动留下的预约信息：姓名、电话、意向门店，不多要一项。",
+        "这些信息仅用于预约确认与到店接待，不出售、不出租、不提供给任何第三方做营销。",
+        "你在店内试戴时拍摄的照片或视频，未经你书面同意，不会出现在任何公开渠道。",
+        "你随时可以打官方电话要求查看、更正或删除你的个人信息，我们在 7 个工作日内处理完。",
+        "网站不做跨站追踪，不接第三方广告统计，Cookie 只用来记住你的浏览偏好。"
+      ]
+    },
+    terms: {
+      title: "服务条款",
+      points: [
+        "预约品鉴成功后，顾问会在 24 小时内与你确认到店时间，每位客人享有 60 分钟一对一接待。",
+        "机芯保修五年，表壳表带保修两年；人为损坏的维修只收工费，不收品牌溢价。",
+        "官网标价为含税人民币参考价，门店实际售价以当日金价为准，顾问下单前会逐项跟你确认。",
+        "终身免费保养每年可预约一次，含清洗、走时检测与抛光翻新，需提前 3 天预约。",
+        "以旧换新按专业机构当年估价抵扣，估价单会当面给你看，不玩暗箱。"
+      ]
+    },
+    cookies: {
+      title: "Cookie 政策",
+      points: [
+        "我们用 Cookie 记住你的偏好，比如上次看到哪个系列，方便下次接着看。",
+        "匿名的访问统计帮我们知道哪些页面更受欢迎，以此改进内容，不关联你的身份。",
+        "你可以在浏览器设置里随时清除或禁用 Cookie，禁用后网站照常浏览，只是偏好记不住。",
+        "我们不使用第三方广告 Cookie，不做跨站画像与精准投放。",
+        "继续使用本网站，即表示你理解并接受以上 Cookie 使用方式。"
+      ]
+    }
+  };
+
+  var MODELS = {
+    obsidian: {
+      en: "OBSIDIAN", name: "曜 · 曜黑", dial: "#141416", marker: "#c8a45e",
+      desc: "黑得发亮的盘面，是给夜里赶路的人准备的。夜光刻度吸饱白天的光，凌晨三点依然清晰。",
+      price: "¥58,800",
+      specs: [["表径", "41 mm"], ["机芯", "Cal.JT-9001 自动上链"], ["动力储备", "72 小时"],
+              ["振频", "21,600 次 / 小时"], ["防水", "10 ATM"], ["表带", "黑色橡胶 / 精钢链"]]
+    },
+    dawn: {
+      en: "DAWN", name: "辰 · 晨曦", dial: "#f2ecdd", marker: "#8a6d3f",
+      desc: "象牙白盘面，温润不抢戏。配棕色小牛皮表带，见客户时衬衫袖口露出来刚刚好。",
+      price: "¥52,800",
+      specs: [["表径", "39 mm"], ["机芯", "Cal.JT-9001 自动上链"], ["动力储备", "72 小时"],
+              ["振频", "21,600 次 / 小时"], ["防水", "5 ATM"], ["表带", "棕色小牛皮"]]
+    },
+    gilt: {
+      en: "GILT", name: "溯 · 鎏金", dial: "#b08d4a", marker: "#2e2313",
+      desc: "整块盘面做了鎏金处理，光一转，纹路就跟着走。适合那些已经不需要向任何人证明什么的人。",
+      price: "¥76,800",
+      specs: [["表径", "41 mm"], ["机芯", "Cal.JT-9002 月相"], ["动力储备", "120 小时"],
+              ["振频", "28,800 次 / 小时"], ["防水", "5 ATM"], ["表带", "金色米兰尼斯"]]
+    }
+  };
+
+  var CFG = {
+    navOffset: 40,        // 导航毛玻璃触发距离 px
+    loaderMin: 900,       // 加载态最短展示 ms
+    loaderMax: 4000,      // 加载态兜底放行 ms（完成态必达）
+    lensScale: 2.5,       // 机芯放大镜倍数
+    countDur: 1500        // 数字滚动时长 ms
+  };
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function $(id) { return document.getElementById(id); }
+
+  /* ============ 页脚 SITE 注入（一改全改） ============ */
+  (function injectSite() {
+    var p = $("footPhone"); if (p) { p.textContent = SITE.phone; p.href = SITE.phoneHref; }
+    var a = $("footAddr"); if (a) a.textContent = SITE.address;
+    var m = $("footMail"); if (m) { m.textContent = SITE.email; m.href = "mailto:" + SITE.email; }
+    var n = $("footName"); if (n) n.textContent = SITE.name;
+    var y = $("footYear"); if (y) y.textContent = SITE.year;
+    var icp = $("footIcp"); if (icp) icp.textContent = SITE.icp;
+  })();
+
+  /* ============ 加载态 + hero 入场 ============ */
+  var loaderDone = false;
+  function finishLoad() {
+    if (loaderDone) return;
+    loaderDone = true;
+    $("loader").classList.add("done");
+    var hero = document.querySelector("[data-hero]");
+    if (hero) hero.classList.add("is-in");
+  }
+  var t0 = Date.now();
+  window.addEventListener("load", function () {
+    var wait = Math.max(0, CFG.loaderMin - (Date.now() - t0));
+    setTimeout(finishLoad, wait);
+  });
+  setTimeout(finishLoad, CFG.loaderMax); // 兜底：完成态必达
+
+  /* ============ 表盘刻度生成 ============ */
+  function buildMarkers(gid, color) {
+    var g = $(gid);
+    if (!g) return;
+    var ns = "http://www.w3.org/2000/svg";
+    g.innerHTML = "";
+    for (var i = 0; i < 12; i++) {
+      var r = document.createElementNS(ns, "rect");
+      r.setAttribute("x", "194"); r.setAttribute("y", "62");
+      r.setAttribute("width", "12"); r.setAttribute("height", "30");
+      r.setAttribute("rx", "2"); r.setAttribute("fill", color);
+      r.setAttribute("transform", "rotate(" + (i * 30) + " 200 200)");
+      g.appendChild(r);
+    }
+  }
+  buildMarkers("heroMarkers", "#c8a45e");
+  buildMarkers("modelMarkers", "#c8a45e");
+
+  /* ============ 实时走时 ============ */
+  function setHands(prefix, d) {
+    var h = d.getHours() % 12 + d.getMinutes() / 60;
+    var m = d.getMinutes() + d.getSeconds() / 60;
+    var s = d.getSeconds() + d.getMilliseconds() / 1000;
+    var hh = $(prefix + "Hour"), mm = $(prefix + "Min"), ss = $(prefix + "Sec");
+    if (hh) hh.setAttribute("transform", "rotate(" + (h * 30) + " 200 200)");
+    if (mm) mm.setAttribute("transform", "rotate(" + (m * 6) + " 200 200)");
+    if (ss) ss.setAttribute("transform", "rotate(" + (s * 6) + " 200 200)");
+  }
+  if (reduceMotion) {
+    setHands("hand", new Date());
+  } else {
+    (function tick() {
+      setHands("hand", new Date());
+      requestAnimationFrame(tick);
+    })();
+  }
+  // 系列预览表固定在 10:08:42（广告表经典时刻）
+  (function () {
+    var d = new Date(); d.setHours(10, 8, 42, 0);
+    setHands("mHand", d);
+  })();
+
+  /* ============ 导航 ============ */
+  var nav = $("nav");
+  function onScroll() {
+    nav.classList.toggle("scrolled", window.scrollY > CFG.navOffset);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ============ 移动端抽屉 ============ */
+  var burger = $("burger"), drawer = $("drawer"), scrim = $("scrim");
+  function openDrawer() {
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden", "false");
+    scrim.hidden = false;
+    burger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+  function closeDrawer() {
+    drawer.classList.remove("open");
+    drawer.setAttribute("aria-hidden", "true");
+    scrim.hidden = true;
+    burger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+  burger.addEventListener("click", function () {
+    drawer.classList.contains("open") ? closeDrawer() : openDrawer();
+  });
+  $("drawerX").addEventListener("click", closeDrawer);
+  scrim.addEventListener("click", closeDrawer);
+  drawer.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", closeDrawer);
+  });
+
+  /* ============ 系列切换 ============ */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function selectModel(key) {
+    var M = MODELS[key];
+    if (!M) return;
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-model") === key;
+      t.classList.toggle("on", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    $("modelDial").setAttribute("fill", M.dial);
+    buildMarkers("modelMarkers", M.marker);
+    $("modelEn").textContent = M.en;
+    $("modelName").textContent = M.name;
+    $("modelDesc").textContent = M.desc;
+    $("modelPrice").textContent = M.price;
+    var ul = $("specList");
+    ul.innerHTML = "";
+    M.specs.forEach(function (s) {
+      var li = document.createElement("li");
+      var b = document.createElement("b"); b.textContent = s[0];
+      var sp = document.createElement("span"); sp.textContent = s[1];
+      li.appendChild(b); li.appendChild(sp);
+      ul.appendChild(li);
+    });
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () { selectModel(t.getAttribute("data-model")); });
+  });
+  selectModel("obsidian");
+
+  /* ============ 滚动入场 ============ */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { io.observe(el); });
+    // 安全网：4 秒后还没点亮的，一律点亮（防 IO 漏报）
+    setTimeout(function () {
+      document.querySelectorAll(".reveal:not(.in)").forEach(function (el) { el.classList.add("in"); });
+    }, 4000);
+  } else {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ============ 数字滚动 ============ */
+  function countUp(el) {
+    var to = parseInt(el.getAttribute("data-to"), 10) || 0;
+    if (reduceMotion) { el.textContent = to.toLocaleString("en-US"); return; }
+    var start = null;
+    function frame(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / CFG.countDur);
+      var e = 1 - Math.pow(1 - p, 4); // easeOutQuart
+      el.textContent = Math.round(to * e).toLocaleString("en-US");
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  var counters = document.querySelectorAll(".count");
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { countUp(e.target); cio.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function (el) { cio.observe(el); });
+  } else {
+    counters.forEach(countUp);
+  }
+
+  /* ============ 机芯图：日内瓦纹 + 齿轮 + 螺丝 ============ */
+  (function buildMovement() {
+    var ns = "http://www.w3.org/2000/svg";
+    var gg = $("gears"), sc = $("screws"), gv = $("geneva");
+    if (!gg || !sc || !gv) return;
+
+    // 日内瓦波浪纹（装饰底纹）
+    for (var i = 0; i < 9; i++) {
+      var w = document.createElementNS(ns, "path");
+      w.setAttribute("d", "M40 " + (60 + i * 38) + " Q 180 " + (30 + i * 38) + " 320 " + (60 + i * 38) +
+        " T 560 " + (60 + i * 38));
+      w.setAttribute("fill", "none");
+      w.setAttribute("stroke", "#c8a45e");
+      w.setAttribute("stroke-width", "7");
+      w.setAttribute("opacity", ".1");
+      gv.appendChild(w);
+    }
+
+    function gear(cx, cy, r, teeth, rev) {
+      var g = document.createElementNS(ns, "g");
+      g.setAttribute("class", "gear" + (rev ? " rev" : ""));
+      var pts = [];
+      for (var i = 0; i < teeth * 2; i++) {
+        var a = (i / (teeth * 2)) * Math.PI * 2;
+        var rr = (i % 2 === 0) ? r : r * 0.88;
+        pts.push((cx + rr * Math.cos(a)).toFixed(1) + "," + (cy + rr * Math.sin(a)).toFixed(1));
+      }
+      var poly = document.createElementNS(ns, "polygon");
+      poly.setAttribute("points", pts.join(" "));
+      poly.setAttribute("fill", "#1e1e23");
+      poly.setAttribute("stroke", "#c8a45e");
+      poly.setAttribute("stroke-width", "2.5");
+      g.appendChild(poly);
+      for (var s = 0; s < 4; s++) {
+        var sp = document.createElementNS(ns, "rect");
+        sp.setAttribute("x", (cx - 5).toFixed(1)); sp.setAttribute("y", (cy - r * 0.8).toFixed(1));
+        sp.setAttribute("width", "10"); sp.setAttribute("height", (r * 1.6).toFixed(1));
+        sp.setAttribute("rx", "5"); sp.setAttribute("fill", "#c8a45e"); sp.setAttribute("opacity", ".75");
+        sp.setAttribute("transform", "rotate(" + (s * 45) + " " + cx + " " + cy + ")");
+        g.appendChild(sp);
+      }
+      var hub = document.createElementNS(ns, "circle");
+      hub.setAttribute("cx", cx); hub.setAttribute("cy", cy);
+      hub.setAttribute("r", (r * 0.22).toFixed(1));
+      hub.setAttribute("fill", "#0d0d0f");
+      hub.setAttribute("stroke", "#c8a45e"); hub.setAttribute("stroke-width", "2.5");
+      g.appendChild(hub);
+      gg.appendChild(g);
+    }
+    gear(170, 170, 62, 18, false);
+    gear(300, 130, 40, 14, true);
+    gear(400, 230, 52, 16, false);
+    gear(240, 290, 34, 12, true);
+    gear(470, 320, 26, 10, false);
+
+    function screw(cx, cy) {
+      var c = document.createElementNS(ns, "circle");
+      c.setAttribute("cx", cx); c.setAttribute("cy", cy); c.setAttribute("r", "11");
+      c.setAttribute("fill", "#232328");
+      c.setAttribute("stroke", "#c8a45e"); c.setAttribute("stroke-width", "2");
+      sc.appendChild(c);
+      var slot = document.createElementNS(ns, "line");
+      slot.setAttribute("x1", cx - 7); slot.setAttribute("y1", cy);
+      slot.setAttribute("x2", cx + 7); slot.setAttribute("y2", cy);
+      slot.setAttribute("stroke", "#c8a45e"); slot.setAttribute("stroke-width", "2.4");
+      slot.setAttribute("transform", "rotate(" + ((cx * 7 + cy * 13) % 90) + " " + cx + " " + cy + ")");
+      sc.appendChild(slot);
+    }
+    screw(96, 130); screw(268, 76); screw(508, 176); screw(150, 330); screw(360, 348);
+  })();
+
+  /* ============ 放大镜 ============ */
+  (function lens() {
+    var wrap = $("plateWrap"), lensEl = $("lens"), inner = $("lensInner");
+    var plate = $("plateSvg");
+    if (!wrap || !lensEl || !inner || !plate) return;
+    if (window.matchMedia("(hover: none)").matches) return; // 触屏不启用
+    var R = 95, S = CFG.lensScale, clone = null;
+    function ensureClone() {
+      if (clone) return;
+      clone = plate.cloneNode(true);
+      clone.querySelectorAll("[id]").forEach(function (n) { n.removeAttribute("id"); });
+      inner.appendChild(clone);
+    }
+    wrap.addEventListener("mouseenter", function () {
+      ensureClone();
+      var w = plate.getBoundingClientRect().width;
+      clone.setAttribute("width", w * S);
+      clone.setAttribute("height", (w * S * 420 / 600).toFixed(1));
+      lensEl.hidden = false;
+    });
+    wrap.addEventListener("mousemove", function (ev) {
+      var r = plate.getBoundingClientRect();
+      var x = ev.clientX - r.left, y = ev.clientY - r.top;
+      var wr = wrap.getBoundingClientRect();
+      lensEl.style.left = (ev.clientX - wr.left) + "px";
+      lensEl.style.top = (ev.clientY - wr.top) + "px";
+      inner.style.transform = "translate(" + (-(x * S - R)) + "px," + (-(y * S - R)) + "px)";
+    });
+    wrap.addEventListener("mouseleave", function () { lensEl.hidden = true; });
+  })();
+
+  /* ============ 预约表单 ============ */
+  (function form() {
+    var f = $("visitForm");
+    if (!f) return;
+    var err = $("formErr"), ok = $("formOk");
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var name = f.name.value.trim();
+      var phone = f.phone.value.trim();
+      var store = f.store.value;
+      err.hidden = true; ok.hidden = true;
+      if (!name) {
+        err.textContent = "请留下你的称呼，顾问好知道怎么叫你。";
+        err.hidden = false; f.name.focus(); return;
+      }
+      if (!/^1\d{10}$/.test(phone)) {
+        err.textContent = "手机号好像不对，请检查一下 11 位数字。";
+        err.hidden = false; f.phone.focus(); return;
+      }
+      $("formOkText").textContent = "谢谢" + name + "，" + store +
+        "的顾问将在 24 小时内与你联系，确认到店时间。";
+      ok.hidden = false;
+      f.querySelectorAll("input,select,button[type=submit]").forEach(function (el) {
+        el.disabled = true;
+      });
+    });
+  })();
+
+  /* ============ 法务弹窗 ============ */
+  var modal = $("modal"), mScrim = $("modalScrim");
+  function openLegal(key) {
+    var L = LEGAL[key];
+    if (!L) return;
+    $("modalTitle").textContent = L.title;
+    var ol = $("modalList");
+    ol.innerHTML = "";
+    L.points.forEach(function (p) {
+      var li = document.createElement("li");
+      li.textContent = p;
+      ol.appendChild(li);
+    });
+    modal.hidden = false;
+    mScrim.hidden = false;
+    document.body.style.overflow = "hidden";
+    $("modalX").focus();
+  }
+  function closeLegal() {
+    modal.hidden = true;
+    mScrim.hidden = true;
+    document.body.style.overflow = "";
+  }
+  document.querySelectorAll("[data-legal]").forEach(function (b) {
+    b.addEventListener("click", function () { openLegal(b.getAttribute("data-legal")); });
+  });
+  $("modalX").addEventListener("click", closeLegal);
+  mScrim.addEventListener("click", closeLegal);
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && !modal.hidden) closeLegal();
+    if (ev.key === "Escape" && drawer.classList.contains("open")) closeDrawer();
+  });
+})();
+
+</script>
+</body>
+</html>

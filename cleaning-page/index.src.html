@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>净屋 JINGWU · 把打扫交给我们 — 同城家政</title>
+<meta name="description" content="净屋 JINGWU，同城家政服务：日常保洁、深度保洁、月嫂、维修、搬家。明码标价，服务者实名认证，在线预约，免费上门评估。">
+<!-- huafire3d fx-lab — original implementation (cleaning-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">净</div>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-tip">正在打扫页面…</p>
+</div>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.line-in{transform:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="净屋首页">
+      <span class="brand-mark">净</span>
+      <span class="brand-name">净屋<small>JINGWU · 同城家政</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#services">服务</a>
+      <a href="#price">价格</a>
+      <a href="#reviews">评价</a>
+      <a href="#about">关于</a>
+    </nav>
+    <a class="btn btn-green btn-sm nav-book" href="#book">立即预约</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav>
+    <a href="#services">服务</a>
+    <a href="#price">价格</a>
+    <a href="#reviews">评价</a>
+    <a href="#about">关于</a>
+    <a href="#book" class="m-book">立即预约</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-in">
+      <div class="hero-copy">
+        <p class="kicker reveal">同城家政 · 明码标价</p>
+        <h1 class="hero-title">
+          <span class="line"><span class="line-in">把打扫这件事</span></span>
+          <span class="line"><span class="line-in">交给<em>净屋</em>吧。</span></span>
+        </h1>
+        <p class="hero-sub reveal">日常保洁、深度开荒、月嫂、维修、搬家——服务者实名认证，下单后两小时内响应。您验收满意再付款。</p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-green btn-lg" href="#book">预约上门</a>
+          <a class="btn btn-ghost btn-lg" href="#price">看看价格</a>
+        </div>
+        <dl class="hero-stats reveal">
+          <div><dt>32,400+</dt><dd>累计服务单</dd></div>
+          <div><dt>4.9<span class="star">分</span></dt><dd>用户综合评分</dd></div>
+          <div><dt>2 小时</dt><dd>下单响应时限</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-art reveal">
+        <figure class="room-card" id="roomCard" aria-label="净屋上门保洁前后示意">
+          <svg class="room" viewBox="0 0 480 380" role="img" aria-label="干净的客厅：擦拭扫光划过，灰尘消失">
+            <defs>
+              <clipPath id="roomClip"><rect x="8" y="8" width="464" height="364" rx="18"/></clipPath>
+              <linearGradient id="wipeGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+                <stop offset=".5" stop-color="#fff" stop-opacity=".85"/>
+                <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g clip-path="url(#roomClip)">
+              <!-- 墙与地 -->
+              <rect x="8" y="8" width="464" height="240" fill="#EDE8DA"/>
+              <rect x="8" y="248" width="464" height="124" fill="#DFD6C2"/>
+              <rect x="8" y="248" width="464" height="6" fill="#CBC0A8"/>
+              <!-- 窗与光 -->
+              <g id="windowG">
+                <rect x="52" y="46" width="120" height="120" rx="6" fill="#F7F4EC"/>
+                <rect x="52" y="46" width="120" height="120" rx="6" fill="none" stroke="#1E4D3B" stroke-width="5"/>
+                <line x1="112" y1="46" x2="112" y2="166" stroke="#1E4D3B" stroke-width="4"/>
+                <line x1="52" y1="106" x2="172" y2="106" stroke="#1E4D3B" stroke-width="4"/>
+                <g id="rays" opacity=".5">
+                  <polygon points="172,66 300,120 300,150 172,96" fill="#FFF7DE"/>
+                  <polygon points="172,106 330,190 330,224 172,140" fill="#FFF7DE" opacity=".7"/>
+                </g>
+              </g>
+              <!-- 挂画 -->
+              <rect x="330" y="60" width="90" height="70" rx="4" fill="#1E4D3B"/>
+              <rect x="340" y="70" width="70" height="50" rx="2" fill="#F7F4EC"/>
+              <path d="M346 116 q18 -22 36 0 q18 -22 28 -6" fill="none" stroke="#1E4D3B" stroke-width="4" stroke-linecap="round"/>
+              <!-- 沙发 -->
+              <g id="sofa">
+                <rect x="230" y="190" width="190" height="70" rx="16" fill="#1E4D3B"/>
+                <rect x="230" y="176" width="190" height="40" rx="14" fill="#2A5C47"/>
+                <rect x="218" y="200" width="22" height="60" rx="10" fill="#2A5C47"/>
+                <rect x="410" y="200" width="22" height="60" rx="10" fill="#2A5C47"/>
+                <rect x="252" y="160" width="64" height="46" rx="10" fill="#3B6E57"/>
+                <rect x="326" y="160" width="64" height="46" rx="10" fill="#3B6E57"/>
+                <rect x="244" y="260" width="10" height="16" fill="#1B1A17"/>
+                <rect x="398" y="260" width="10" height="16" fill="#1B1A17"/>
+              </g>
+              <!-- 地毯与茶几 -->
+              <ellipse cx="150" cy="318" rx="110" ry="26" fill="#1E4D3B" opacity=".14"/>
+              <ellipse cx="150" cy="318" rx="78" ry="17" fill="#1E4D3B" opacity=".12"/>
+              <g id="table">
+                <rect x="120" y="276" width="120" height="14" rx="7" fill="#8A6B4A"/>
+                <rect x="132" y="290" width="10" height="30" fill="#6E5439"/>
+                <rect x="218" y="290" width="10" height="30" fill="#6E5439"/>
+                <rect x="158" y="258" width="44" height="20" rx="6" fill="#1E4D3B" opacity=".8"/>
+              </g>
+              <!-- 灰尘污渍（会被擦掉） -->
+              <g id="grime" fill="#7A6A4F">
+                <ellipse class="gr" cx="150" cy="322" rx="26" ry="9" opacity=".28"/>
+                <ellipse class="gr" cx="330" cy="300" rx="20" ry="7" opacity=".24"/>
+                <ellipse class="gr" cx="250" cy="160" rx="14" ry="6" opacity=".22"/>
+                <ellipse class="gr" cx="96" cy="240" rx="16" ry="6" opacity=".2"/>
+              </g>
+              <!-- 浮尘 -->
+              <g id="dust" fill="#B9AC8E">
+                <circle class="mo" cx="200" cy="200" r="2.4"/>
+                <circle class="mo" cx="270" cy="150" r="1.8"/>
+                <circle class="mo" cx="340" cy="220" r="2.2"/>
+                <circle class="mo" cx="120" cy="170" r="1.6"/>
+                <circle class="mo" cx="380" cy="120" r="2"/>
+              </g>
+              <!-- 擦拭扫光 -->
+              <g id="wipe" opacity="0">
+                <rect x="-60" y="-40" width="90" height="460" fill="url(#wipeGrad)" transform="rotate(12 0 200)"/>
+                <rect x="-24" y="-40" width="16" height="460" fill="#1E4D3B" opacity=".9" transform="rotate(12 0 200)"/>
+              </g>
+              <!-- 闪光星 -->
+              <g id="sparkles" fill="#1E4D3B" opacity="0">
+                <path class="spk" d="M150 250 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 z"/>
+                <path class="spk" d="M330 240 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z"/>
+                <path class="spk" d="M250 300 l3.5 10 10 3.5 -10 3.5 -3.5 10 -3.5 -10 -10 -3.5 10 -3.5 z"/>
+                <path class="spk" d="M96 300 l2.6 8 8 2.6 -8 2.6 -2.6 8 -2.6 -8 -8 -2.6 8 -2.6 z"/>
+              </g>
+            </g>
+            <rect x="8" y="8" width="464" height="364" rx="18" fill="none" stroke="#1E4D3B" stroke-width="2" opacity=".25"/>
+          </svg>
+          <figcaption class="room-tag">
+            <span class="tag-dot" id="roomDot"></span>
+            <span id="roomLabel">擦拭中…</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#services" aria-label="向下滚动"><i></i></a>
+  </section>
+
+  <!-- ============ 服务品类 ============ -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <p class="kicker reveal">服务品类</p>
+      <h2 class="h2 reveal">家里的大事小情，<br>都有一位净屋人管。</h2>
+      <p class="lead reveal">四类服务，全部实名认证、持证上岗。下单前可看服务者档案与真实评价。</p>
+      <div class="svc-grid">
+        <article class="svc-card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M10 22 24 10l14 12" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 20v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V20" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 13l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z" fill="currentColor"/></svg>
+          </div>
+          <h3>日常保洁</h3>
+          <p>客厅、卧室、厨房、卫生间全屋打扫，擦窗、换床单、垃圾清运都包含。</p>
+          <p class="svc-from">45 元/小时起 · 2 小时起约</p>
+          <a class="svc-go" href="#book" data-svc="日常保洁">约这位服务 →</a>
+        </article>
+        <article class="svc-card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><circle cx="24" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M10 40c0-8 6-13 14-13s14 5 14 13" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><path d="M24 26c-2.5-3.2-7-4-7-4s.6 4.6 3.2 6.4C22 29.8 24 31 24 31s2-1.2 3.8-2.6c2.6-1.8 3.2-6.4 3.2-6.4s-4.5.8-7 4z" fill="currentColor"/></svg>
+          </div>
+          <h3>月嫂育儿</h3>
+          <p>持证月嫂与育儿嫂，产褥护理、新生儿照护、辅食添加，签约前可面试。</p>
+          <p class="svc-from">8800 元/月起 · 26 天制</p>
+          <a class="svc-go" href="#book" data-svc="月嫂育儿">约这位服务 →</a>
+        </article>
+        <article class="svc-card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M30 8a8 8 0 0 0-9.6 12L8 32.4 15.6 40 28 27.6A8 8 0 0 0 40 18l-5.5 5.5-4.5-4.5L35.5 13.5 30 8z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>维修安装</h3>
+          <p>水电、灯具、卫浴、家具组装，小修小补也上门。配件按实价另计，先报价后动工。</p>
+          <p class="svc-from">50 元上门费 · 配件实价</p>
+          <a class="svc-go" href="#book" data-svc="维修安装">约这位服务 →</a>
+        </article>
+        <article class="svc-card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><rect x="8" y="14" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M28 20h6l6 6v8H28z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="38" r="3" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="32" cy="38" r="3" fill="none" stroke="currentColor" stroke-width="3.5"/></svg>
+          </div>
+          <h3>搬家搬运</h3>
+          <p>同城搬家、公司搬迁，大件拆装、打包材料、楼层搬运，一车师傅全包。</p>
+          <p class="svc-from">300 元/车起 · 含 2 名师傅</p>
+          <a class="svc-go" href="#book" data-svc="搬家搬运">约这位服务 →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 预约表单 ============ -->
+  <section class="section book" id="book">
+    <div class="wrap book-in">
+      <div class="book-copy">
+        <p class="kicker reveal">在线预约</p>
+        <h2 class="h2 reveal">三步约好，<br>师傅准时敲门。</h2>
+        <ol class="book-steps reveal">
+          <li><b data-n="1">选服务</b><span>品类、日期、时间段</span></li>
+          <li><b data-n="2">留地址</b><span>小区楼栋，师傅按址上门</span></li>
+          <li><b data-n="3">等确认</b><span>2 小时内电话确认，超时免单</span></li>
+        </ol>
+        <p class="book-note reveal">下单不收钱。服务者上门后先确认总价，您点头才开工。</p>
+      </div>
+      <form class="book-form reveal" id="bookForm" novalidate>
+        <div class="field">
+          <label for="fSvc">服务类型</label>
+          <select id="fSvc" name="svc" required>
+            <option value="">请选择服务</option>
+            <option>日常保洁</option>
+            <option>深度保洁</option>
+            <option>开荒保洁</option>
+            <option>月嫂育儿</option>
+            <option>维修安装</option>
+            <option>搬家搬运</option>
+          </select>
+          <p class="err" hidden>请选择一项服务</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">上门日期</label>
+            <input type="date" id="fDate" name="date" required>
+            <p class="err" hidden>请选择上门日期</p>
+          </div>
+          <div class="field">
+            <label for="fTime">时间段</label>
+            <select id="fTime" name="time" required>
+              <option value="">请选择</option>
+              <option>08:00–10:00</option>
+              <option>10:00–12:00</option>
+              <option>13:00–15:00</option>
+              <option>15:00–17:00</option>
+              <option>17:00–19:00</option>
+            </select>
+            <p class="err" hidden>请选择时间段</p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fAddr">服务地址</label>
+          <input type="text" id="fAddr" name="addr" placeholder="例：梧桐小区 3 栋 2 单元 1502" autocomplete="street-address" required>
+          <p class="err" hidden>请填写详细地址，方便师傅找到您</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fName">称呼</label>
+            <input type="text" id="fName" name="name" placeholder="例：王女士" autocomplete="name" required>
+            <p class="err" hidden>请留下您的称呼</p>
+          </div>
+          <div class="field">
+            <label for="fPhone">手机</label>
+            <input type="tel" id="fPhone" name="phone" placeholder="11 位手机号" inputmode="numeric" autocomplete="tel" required>
+            <p class="err" hidden>请填写正确的 11 位手机号</p>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-green btn-lg btn-block" id="bookBtn">
+          <span class="btn-label">提交预约</span>
+          <span class="btn-spin" hidden aria-hidden="true"></span>
+        </button>
+        <p class="form-tip">提交即表示同意我们的<a href="#" data-legal="terms">服务条款</a>与<a href="#" data-legal="privacy">隐私政策</a>。</p>
+      </form>
+      <div class="book-done" id="bookDone" hidden>
+        <div class="done-check" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="4"/><path d="M20 33l8 8 16-18" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>预约已收到</h3>
+        <p class="done-no">预约单号 <b id="doneNo">JW-0000</b></p>
+        <p class="done-desc" id="doneDesc">我们将在 2 小时内致电确认，请保持手机畅通。</p>
+        <button class="btn btn-ghost" id="bookAgain">再约一单</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 价格透明 ============ -->
+  <section class="section" id="price">
+    <div class="wrap">
+      <p class="kicker reveal">价格透明</p>
+      <h2 class="h2 reveal">多少钱，<br>下单前就讲清楚。</h2>
+      <p class="lead reveal">明码标价，服务者上门先确认总价再开工。以下为全城统一价，节假日不加价。</p>
+      <div class="price-grid">
+        <div class="price-card reveal">
+          <h3>日常保洁</h3>
+          <p class="price"><b>45</b> 元/小时</p>
+          <ul><li>2 小时起约</li><li>全屋打扫 + 垃圾清运</li><li>自带工具耗材</li></ul>
+        </div>
+        <div class="price-card hot reveal">
+          <p class="hot-tag">约得最多</p>
+          <h3>深度保洁</h3>
+          <p class="price"><b>8</b> 元/㎡</p>
+          <ul><li>80 ㎡起约</li><li>含油烟机、玻璃、死角</li><li>完工逐项验收</li></ul>
+        </div>
+        <div class="price-card reveal">
+          <h3>开荒保洁</h3>
+          <p class="price"><b>10</b> 元/㎡</p>
+          <ul><li>装修后首次开荒</li><li>除胶、除尘、地面养护</li><li>大型设备进场</li></ul>
+        </div>
+        <div class="price-card reveal">
+          <h3>月嫂育儿</h3>
+          <p class="price"><b>8800</b> 元/月</p>
+          <ul><li>26 天工作制</li><li>持证上岗，可面试</li><li>不满意 7 天可换</li></ul>
+        </div>
+        <div class="price-card reveal">
+          <h3>维修安装</h3>
+          <p class="price"><b>50</b> 元上门</p>
+          <ul><li>上门费抵维修费</li><li>配件按实价另计</li><li>先报价，后动工</li></ul>
+        </div>
+        <div class="price-card reveal">
+          <h3>搬家搬运</h3>
+          <p class="price"><b>300</b> 元/车</p>
+          <ul><li>含 2 名师傅</li><li>大件拆装免费</li><li>楼层费提前告知</li></ul>
+        </div>
+      </div>
+      <p class="price-foot reveal">承诺：服务中途不加价、不推销。如遇临时增项，师傅会先报价、您确认后再做。</p>
+    </div>
+  </section>
+
+  <!-- ============ 评价墙 ============ -->
+  <section class="section reviews" id="reviews">
+    <div class="wrap">
+      <p class="kicker reveal">服务者评价</p>
+      <h2 class="h2 reveal">他们先把活儿干好，<br>用户才愿意说话。</h2>
+      <p class="lead reveal">以下评价来自完单后的真实回访，服务者姓名与星级公开，可追溯。</p>
+      <div class="rev-grid">
+        <figure class="rev-card reveal">
+          <div class="rev-stars" aria-label="5 星">★★★★★</div>
+          <blockquote>「李阿姨把厨房油污一点点抠干净，灶台亮得能照人。两个孩子都说家里变香了。」</blockquote>
+          <figcaption><b>陈女士</b><span>朝阳区 · 深度保洁 · 服务者 李桂芳</span></figcaption>
+        </figure>
+        <figure class="rev-card reveal">
+          <div class="rev-stars" aria-label="5 星">★★★★★</div>
+          <blockquote>「月嫂张姐带娃很有一套，夜奶、拍嗝、脐带护理样样稳。我月子里睡了个整觉。」</blockquote>
+          <figcaption><b>刘女士</b><span>海淀区 · 月嫂 · 服务者 张秀兰</span></figcaption>
+        </figure>
+        <figure class="rev-card reveal">
+          <div class="rev-stars" aria-label="5 星">★★★★★</div>
+          <blockquote>「卫生间漏水，师傅上门先查原因再报价，换了个角阀只收了配件钱，实在。」</blockquote>
+          <figcaption><b>赵先生</b><span>丰台区 · 维修安装 · 服务者 王建国</span></figcaption>
+        </figure>
+        <figure class="rev-card reveal">
+          <div class="rev-stars" aria-label="5 星">★★★★★</div>
+          <blockquote>「搬家三个人两小时搞定，钢琴和鱼缸都包得严严实实，一件没磕碰。」</blockquote>
+          <figcaption><b>孙女士</b><span>西城区 · 搬家搬运 · 服务者 刘志强团队</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 关于 ============ -->
+  <section class="section about" id="about">
+    <div class="wrap about-in">
+      <div class="about-copy">
+        <p class="kicker reveal">关于净屋</p>
+        <h2 class="h2 reveal">我们只做一件事：<br>让家一直干净。</h2>
+        <p class="reveal">净屋成立于 2019 年，是同城直营家政团队。服务者全部实名认证、背景审查、岗前培训 120 小时；每单购买家政责任险，物品损坏先行赔付。</p>
+        <p class="reveal">我们不做中介抽成——服务者拿走订单金额的 85%，剩下 15% 用来做培训、保险和客服。所以他们愿意把活儿干细，您也用得放心。</p>
+        <div class="about-badges reveal">
+          <span>实名认证</span><span>背景审查</span><span>责任险</span><span>先行赔付</span>
+        </div>
+      </div>
+      <div class="about-card reveal" aria-hidden="true">
+        <div class="about-num">7<span>年</span></div>
+        <p>只做家政，不接别的活儿</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="wrap cta-in reveal">
+      <p class="kicker kicker-light">免费上门评估</p>
+      <h2>拿不准约哪种？<br>我们先上门看一眼。</h2>
+      <p>深度保洁、开荒、搬家——师傅免费上门看现场，当面出方案和总价。不合适，您一分钱不用花。</p>
+      <div class="cta-row">
+        <a class="btn btn-cream btn-lg" href="#book">约免费评估</a>
+        <a class="cta-phone" data-site-href="phone" href="#"><span data-site="phone">400-000-0000</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="净屋首页">
+        <span class="brand-mark">净</span>
+        <span class="brand-name">净屋<small>JINGWU · 同城家政</small></span>
+      </a>
+      <p>同城直营家政，明码标价，验收满意再付款。</p>
+      <div class="social" aria-label="社交媒体">
+        <a href="#" aria-label="微信" title="微信"><svg viewBox="0 0 24 24"><path d="M8 12a3.5 3.5 0 0 1 3.4-3.5h1.2A3.5 3.5 0 0 1 16 12a3.5 3.5 0 0 1-3.4 3.5H12l-2.4 2v-2H8A3.5 3.5 0 0 1 8 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10.6" cy="12" r="1" fill="currentColor"/><circle cx="13.4" cy="12" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 13.5c1.8 1 4.4 1 6.4-.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="10.5" r="1.1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><rect x="7" y="6" width="10" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.5h4M10 12.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="14" cy="5.5" r="1.4" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="页脚导航">
+      <b>快速入口</b>
+      <a href="#services">服务品类</a>
+      <a href="#price">价格透明</a>
+      <a href="#reviews">用户评价</a>
+      <a href="#book">在线预约</a>
+    </nav>
+    <div class="foot-contact">
+      <b>联系我们</b>
+      <p>电话 <a data-site-href="phone" href="#"><span data-site="phone">400-000-0000</span></a></p>
+      <p>邮箱 <a data-site-href="email" href="#"><span data-site="email">hi@example.com</span></a></p>
+      <p>地址 <span data-site="address">示例地址</span></p>
+      <p>服务时间 <span data-site="hours">8:00–20:00</span></p>
+    </div>
+    <div class="foot-legal">
+      <b>网站政策</b>
+      <button type="button" data-legal="privacy">隐私政策</button>
+      <button type="button" data-legal="terms">服务条款</button>
+      <button type="button" data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© <span data-site="year">2026</span> <span data-site="name">净屋 JINGWU</span> ｜ <span data-site="icp">京ICP备xxxxxxxxxx号-1</span></p>
+    <p class="foot-stamp">huafire3d fx-lab — original implementation</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" id="legalX" aria-label="关闭">✕</button>
+    <h3 id="legalTitle">政策</h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

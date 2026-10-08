@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山外山 · 山野料理 — 杭州</title>
+<meta name="description" content="山外山 · 山野料理，杭州龙井村口十二张桌。山野之味，当季而食。人均￥680。">
+<!-- huafire3d fx-lab — original implementation (restaurant-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">山</div>
+  <div class="loader-bar"><i></i></div>
+</div>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="山外山首页">
+      <span class="brand-mark">山</span>
+      <span class="brand-name">山外山<small>山野料理 · 杭州</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#story">关于</a>
+      <a href="#dishes">菜单</a>
+      <a href="#chef">主厨</a>
+      <a href="#visit">地址</a>
+    </nav>
+    <a class="btn btn-clay btn-sm nav-book" href="#reserve">预订座位</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav>
+    <a href="#story">关于</a>
+    <a href="#dishes">菜单</a>
+    <a href="#chef">主厨</a>
+    <a href="#visit">地址</a>
+    <a class="btn btn-clay" href="#reserve">预订座位</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- 全屏氛围 hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="kb"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-grain"></div>
+    </div>
+    <div class="hero-inner">
+      <p class="eyebrow rl"><span class="rl-line"><span style="--d:.05s">杭州 · 山野料理 · 人均 ￥680</span></span></p>
+      <h1 class="rl"><span class="rl-line"><span style="--d:.15s">山外山</span></span></h1>
+      <p class="tagline rl"><span class="rl-line"><span style="--d:.28s">山野之味，当季而食</span></span></p>
+      <div class="hero-cta">
+        <a class="btn btn-clay" href="#reserve">预订座位</a>
+        <a class="btn btn-ghost" href="#dishes">看看菜单</a>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#story" aria-label="向下滚动浏览"><i></i><span>往下看</span></a>
+  </section>
+
+  <!-- 关于 + 主厨寄语 -->
+  <section class="story" id="story">
+    <div class="wrap">
+      <p class="kicker reveal">关于</p>
+      <h2 class="sec-title reveal">开在龙井村口，<br>菜单跟着山走</h2>
+      <p class="story-lead reveal">一间小院，十二张桌。春天吃笋，秋天吃菌，冬天煨一锅汤。我们不追新奇，只把当季的东西，用炭火和耐心做到位。</p>
+      <div class="chef" id="chef">
+        <div class="chef-avatar reveal" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="96" fill="none" stroke="#C1502E" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="82" fill="#1C1A17"/>
+            <path d="M45 128 L78 74 L96 104 L114 66 L155 128 Z" fill="none" stroke="#FAF6EF" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="100" cy="52" r="7" fill="#C1502E"/>
+            <path d="M60 142 h80" stroke="#C1502E" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <blockquote class="chef-quote reveal">
+          <p>“做菜跟爬山一样，急不得。火候到了，味道自己会走出来。”</p>
+          <footer>陈默 <span>主厨 · 十八年灶台</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 招牌菜 -->
+  <section class="dishes" id="dishes">
+    <div class="wrap">
+      <p class="kicker reveal">菜单</p>
+      <h2 class="sec-title reveal">四道招牌，<br>点的人最多</h2>
+      <div class="dish-grid">
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <circle cx="100" cy="100" r="64" fill="#38302a"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#57504a" stroke-width="1"/>
+              <ellipse cx="92" cy="100" rx="34" ry="13" fill="#4a3b2c"/>
+              <path d="M124 100 l22 -13 v26 z" fill="#4a3b2c"/>
+              <circle cx="80" cy="97" r="2.4" fill="#FAF6EF"/>
+              <path d="M64 92 q10 -6 20 -2 M64 108 q10 6 20 2" stroke="#C1502E" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">壹</span>
+            <div class="dish-top"><h3>炭烤青鱼干</h3><span class="price">￥128</span></div>
+            <p>千岛湖青鱼，炭火慢烤两刻钟，外皮焦香，肉质紧实。</p>
+          </div>
+        </article>
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <circle cx="100" cy="100" r="64" fill="#38302a"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#57504a" stroke-width="1"/>
+              <path d="M78 118 q-6 -26 16 -34 q20 -7 26 10 q-16 -4 -24 6 q-8 10 -4 22 q-8 2 -14 -4z" fill="#c98a5a"/>
+              <path d="M112 128 q10 -22 -8 -32 q14 2 18 14 q3 10 -2 20z" fill="#d89c6c"/>
+              <circle cx="70" cy="76" r="5" fill="#7a8b4f"/>
+              <circle cx="132" cy="80" r="4" fill="#7a8b4f"/>
+              <circle cx="118" cy="66" r="3" fill="#93a45e"/>
+              <circle cx="84" cy="66" r="3" fill="#93a45e"/>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">贰</span>
+            <div class="dish-top"><h3>龙井炒虾仁</h3><span class="price">￥168</span></div>
+            <p>明前龙井入菜，河虾仁清甜，茶香不夺鲜。</p>
+          </div>
+        </article>
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <path d="M48 108 a52 52 0 0 0 104 0 z" fill="#38302a"/>
+              <ellipse cx="100" cy="108" rx="52" ry="12" fill="#57504a"/>
+              <ellipse cx="100" cy="106" rx="44" ry="9" fill="#8a6f4d"/>
+              <circle cx="88" cy="104" r="5" fill="#4a3b2c"/>
+              <circle cx="106" cy="108" r="6" fill="#4a3b2c"/>
+              <circle cx="118" cy="103" r="4" fill="#4a3b2c"/>
+              <g class="steam" stroke="#FAF6EF" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55">
+                <path d="M84 84 q4 -8 0 -16 q-4 -8 0 -16"/>
+                <path d="M100 86 q4 -8 0 -16 q-4 -8 0 -16"/>
+                <path d="M116 84 q4 -8 0 -16 q-4 -8 0 -16"/>
+              </g>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">叁</span>
+            <div class="dish-top"><h3>山菌土鸡汤</h3><span class="price">￥98</span></div>
+            <p>松茸配走地鸡，文火吊三小时，汤清味厚。</p>
+          </div>
+        </article>
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <circle cx="100" cy="100" r="64" fill="#38302a"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#57504a" stroke-width="1"/>
+              <g fill="#d9c49a">
+                <circle cx="82" cy="96" r="17"/>
+                <circle cx="116" cy="92" r="17"/>
+                <circle cx="100" cy="120" r="17"/>
+              </g>
+              <g fill="#38302a">
+                <circle cx="76" cy="92" r="2.6"/><circle cx="88" cy="96" r="2.6"/><circle cx="82" cy="104" r="2.6"/>
+                <circle cx="110" cy="88" r="2.6"/><circle cx="122" cy="92" r="2.6"/><circle cx="116" cy="100" r="2.6"/>
+                <circle cx="94" cy="116" r="2.6"/><circle cx="106" cy="120" r="2.6"/><circle cx="100" cy="128" r="2.6"/>
+              </g>
+              <circle cx="134" cy="120" r="4" fill="#C1502E"/>
+              <circle cx="66" cy="122" r="3" fill="#C1502E"/>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">肆</span>
+            <div class="dish-top"><h3>桂花糖藕</h3><span class="price">￥68</span></div>
+            <p>西湖藕酿糯米，桂花蜜收汁，甜而不腻。</p>
+          </div>
+        </article>
+
+      </div>
+      <p class="menu-note reveal">完整菜单到店看，当季菜每月换。时价海鲜以当日黑板为准。</p>
+    </div>
+  </section>
+
+  <!-- 营业信息三栏 -->
+  <section class="visit" id="visit">
+    <div class="wrap">
+      <p class="kicker reveal">到店</p>
+      <h2 class="sec-title reveal">先记下这三行</h2>
+      <div class="visit-grid">
+        <div class="visit-col reveal">
+          <h3>营业时间</h3>
+          <p>周二至周日<br>午市 11:30 – 14:00<br>晚市 17:30 – 21:30</p>
+          <p class="muted">周一闭店谢客</p>
+        </div>
+        <div class="visit-col reveal">
+          <h3>地址</h3>
+          <p>杭州市西湖区<br>龙井路 88 号<br>龙井村口，青石巷里</p>
+          <p class="muted">地铁3号线龙井站 · 步行8分钟</p>
+        </div>
+        <div class="visit-col reveal">
+          <h3>电话</h3>
+          <p class="big"><a data-site-href="phoneHref" data-site="phone" href="tel:057188886666">0571-8888-6666</a></p>
+          <p class="muted">预订请提前一日<br>8 人以上包间请电话确认</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 食客评价 -->
+  <section class="reviews" id="reviews">
+    <div class="wrap">
+      <p class="kicker reveal">食客说</p>
+      <h2 class="sec-title reveal">他们吃完是这么讲的</h2>
+      <div class="review-grid">
+        <figure class="review reveal">
+          <blockquote>“鱼干烤得恰到好处，配一碗白饭，能吃出山里的炭火气。”</blockquote>
+          <figcaption>大众点评食客 · 11月</figcaption>
+        </figure>
+        <figure class="review reveal">
+          <blockquote>“环境清，菜也清。龙井虾仁是这几年吃过最对的一道。”</blockquote>
+          <figcaption>美团食客 · 10月</figcaption>
+        </figure>
+        <figure class="review reveal">
+          <blockquote>“带父母来的，土鸡汤一上桌，老父亲连喝了三碗。”</blockquote>
+          <figcaption>小红书食客 · 9月</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预订 CTA -->
+  <section class="reserve" id="reserve">
+    <div class="wrap">
+      <p class="kicker kicker-dark reveal">预订</p>
+      <h2 class="reserve-title reveal">今晚，山里见。</h2>
+      <p class="reserve-sub reveal">十二张桌，先到先得。电话预订最快。</p>
+      <a class="reserve-phone reveal" data-site-href="phoneHref" data-site="phone" href="tel:057188886666">0571-8888-6666</a>
+      <p class="reserve-note reveal">周二至周日 · 请提前一日预订 · 周一闭店谢客</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-mark">山</span>
+        <p><span data-site="name">山外山 · 山野料理</span><br><span data-site="address">杭州市西湖区龙井路 88 号</span><br><a data-site-href="mailtoHref" data-site="email" href="mailto:yuding@shanwaishan.com">yuding@shanwaishan.com</a></p>
+      </div>
+      <nav class="foot-links" aria-label="页脚导航">
+        <a href="#story">关于</a>
+        <a href="#dishes">菜单</a>
+        <a href="#chef">主厨</a>
+        <a href="#visit">地址</a>
+      </nav>
+      <div class="foot-contact">
+        <p>预订电话</p>
+        <a data-site-href="phoneHref" data-site="phone" href="tel:057188886666">0571-8888-6666</a>
+        <p class="foot-hours" data-site="hours">周二至周日 · 请提前一日预订</p>
+        <div class="socials" aria-label="社交媒体">
+          <a href="#" aria-label="微信公众号"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.4 4 2 6.9 2 10.5c0 2 1.1 3.8 2.8 5l-.7 2.5 2.9-1.5c.8.2 1.6.4 2.5.4h.3A8.6 8.6 0 0 1 9 14.6C9 11.5 11.9 9 15.5 9h.4C15.3 6.1 12.7 4 9.5 4zM7 9.5a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6zm6 0a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"/><path d="M15.4 10.5c-3.4 0-6.1 2.3-6.1 5.2 0 1.6.9 3 2.2 3.9l-.5 2 2.3-1.2c.6.2 1.3.3 2.1.3 3.4 0 6.1-2.3 6.1-5.2s-2.7-5-6.1-5zm-1.9 3.4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3.8 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg></a>
+          <a href="#" aria-label="微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.9c-4.5-.4-7.9-3.3-7.9-7.2 0-4 3.9-7.2 8.7-7.2 2.3 0 4.3.8 5.8 2.1l-1.8 1.5c-1-.9-2.4-1.4-4-1.4-3.4 0-6.2 2.3-6.2 5s2.8 5 6.2 5c1.5 0 2.9-.5 3.9-1.3l1.9 1.4c-1.6 1.2-3.9 2.1-6.6 2.1zm9.9-8.9c-.3-.1-.8-.2-1.2 0-.5.2-.8.7-.7 1.2.1.4.5.8 1 .9.4.1.9 0 1.2-.4.3-.4.4-.9.2-1.3-.1-.2-.3-.3-.5-.4zm-1.2-2.1c-.6-.2-1.4-.2-2 .2-.7.4-1.1 1.1-1 1.9l1.4.3c0-.4.2-.7.5-.9.3-.2.7-.2 1-.1l.1-1.4zm3.1-.9c-1-.4-2.3-.4-3.3.3-1.1.7-1.7 1.9-1.5 3.1l1.5.3c-.1-.8.3-1.6 1-2 .7-.4 1.5-.4 2.2-.1l.1-1.6z"/></svg></a>
+          <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24"><path d="M17.5 3H6.5A3.5 3.5 0 0 0 3 6.5v11A3.5 3.5 0 0 0 6.5 21h11a3.5 3.5 0 0 0 3.5-3.5v-11A3.5 3.5 0 0 0 17.5 3zM8.6 15.1l3.1-4.7-2.6-3.6h2.4l1.5 2.2 1.5-2.2h2.4l-2.6 3.6 3.1 4.7h-2.5l-1.9-2.9-1.9 2.9H8.6z"/></svg></a>
+          <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M16.6 3c.4 2.1 1.8 3.6 4 3.9v3c-1.6 0-3-.5-4-1.4v6.6c0 3.6-2.6 6.1-6 6.1-3.2 0-5.6-2.4-5.6-5.5 0-3.2 2.6-5.6 6-5.4v3.1c-1.6-.3-3 .8-3 2.3 0 1.4 1.1 2.5 2.6 2.5 1.6 0 2.8-1.2 2.8-3V3h3.2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <div class="legal-links" aria-label="法务政策">
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span id="copyrightLine">© 2026 山外山 · 山野料理 ｜ 京ICP备xxxxxxxxxx号-1</span>
+      <span>本页为网站模板演示</span>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-overlay" id="legalModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <button class="modal-close" id="legalClose" aria-label="关闭弹窗">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <p class="kicker" id="legalKicker">网站政策</p>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>发展历程 · 3D 时间线 — huafire3d fx-lab</title>
+<!--
+  huafire3d fx-lab — original implementation
+  公司介绍「发展历程」页：纵向滚动驱动的发光进度线 + 左右交替 3D 翻转卡片
+  + sticky 年份导航 + 里程碑 3D 程序化图标。全部代码原创，仅学习通用时间线
+  叙事手法（交错版式/进度线/大年份描边字）。事件数据见 src/config.js。
+-->
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-kicker" id="heroKicker">OUR JOURNEY</p>
+    <h1 class="hero-title" id="heroTitle">发展历程</h1>
+    <p class="hero-sub" id="heroSub"></p>
+  </div>
+  <div class="scroll-hint" aria-hidden="true"><span></span></div>
+</header>
+
+<nav class="yearnav" aria-label="年份导航">
+  <div class="yn-inner">
+    <span class="yn-brand" id="ynBrand"></span>
+    <div class="yn-pills" id="ynPills"></div>
+  </div>
+</nav>
+
+<main class="timeline" id="timeline">
+  <div class="tl-rail" aria-hidden="true">
+    <div class="rail-track"></div>
+    <div class="rail-fill" id="railFill"></div>
+  </div>
+  <div class="tl-events" id="tlEvents"></div>
+</main>
+
+<footer class="outro">
+  <p class="outro-line">下一个十年，继续。</p>
+  <p class="outro-small" id="outroSmall"></p>
+</footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

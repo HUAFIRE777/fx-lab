@@ -1,0 +1,108 @@
+/* huafire3d fx-lab — original implementation · timeline-lesson-3d
+ * 深黑 / 金 / 米白三色。MasterClass 课程章节条手法自学（可拖拽章节轴 +
+ * 当前章节卡片），代码全部重写。注意：3D 层叠不用 preserve-3d + blur。
+ */
+:root {
+  --bg: #0E0E12;
+  --gold: #C9A86A;
+  --gold-dim: rgba(201,168,106,.4);
+  --gold-faint: rgba(201,168,106,.16);
+  --cream: #F5F1E6;
+  --cream-dim: rgba(245,241,230,.6);
+  --cream-faint: rgba(245,241,230,.32);
+  --line: rgba(201,168,106,.18);
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; }
+body {
+  font-family: var(--font);
+  color: var(--cream);
+  background:
+    radial-gradient(90vmin 55vmin at 50% -10%, rgba(201,168,106,.10), transparent 70%),
+    radial-gradient(70vmin 45vmin at 50% 115%, rgba(201,168,106,.06), transparent 70%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.vignette { position: fixed; inset: 0; z-index: 40; pointer-events: none;
+  background: radial-gradient(125% 100% at 50% 42%, transparent 58%, rgba(0,0,0,.55) 100%); }
+.grain { position: fixed; inset: 0; z-index: 41; pointer-events: none; opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* 加载态 */
+.loader { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column;
+  gap: 14px; align-items: center; justify-content: center; background: var(--bg);
+  transition: opacity .5s var(--ease-out), visibility .5s; }
+.lpulse { width: 14px; height: 14px; border-radius: 50%; background: var(--gold);
+  animation: lp 1s ease-in-out infinite; box-shadow: 0 0 24px rgba(201,168,106,.6); }
+@keyframes lp { 50% { transform: scale(1.6); opacity: .5; } }
+.loader p { font-size: 13px; letter-spacing: .28em; color: var(--cream-faint); }
+body.loaded .loader { opacity: 0; visibility: hidden; }
+
+/* 入场隐藏守卫 */
+html.js .reveal { opacity: 0; transform: translateY(22px); }
+html.js body.loaded .reveal { opacity: 1; transform: none; transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+html.js #tlCanvas.reveal { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal { opacity: 1; transform: none; }
+  .lpulse { animation: none; }
+}
+
+/* 顶栏 */
+.topbar { display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 40px; position: relative; z-index: 10; }
+.brand b { font-size: 17px; font-weight: 800; letter-spacing: .22em; color: var(--cream); }
+.brand small { display: block; margin-top: 3px; font-size: 10px; letter-spacing: .3em; color: var(--gold); font-weight: 700; }
+.chapcount { text-align: right; }
+.chapcount span { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: .06em; color: var(--gold); }
+.chapcount label { display: block; font-size: 10px; letter-spacing: .3em; color: var(--cream-faint); margin-top: 2px; }
+.top-progress { height: 2px; background: rgba(201,168,106,.12); position: relative; z-index: 10; }
+.top-progress i { display: block; height: 100%; width: 16.6%; background: linear-gradient(90deg, rgba(201,168,106,.4), var(--gold));
+  transition: width .6s var(--ease-out); box-shadow: 0 0 12px rgba(201,168,106,.5); }
+
+/* 舞台 */
+.stage { position: relative; }
+#tlCanvas { display: block; width: 100%; height: 46vh; min-height: 300px; cursor: grab; touch-action: none; }
+#tlCanvas.grabbing { cursor: grabbing; }
+.hint { text-align: center; font-size: 12px; letter-spacing: .24em; color: var(--cream-faint); padding: 6px 0 0; }
+
+/* 章节卡片（上浮） */
+.card-wrap { max-width: 720px; margin: 18px auto 0; padding: 0 24px; position: relative; z-index: 10; }
+.card { background: rgba(22,22,28,.82); border: 1px solid var(--line); border-radius: 20px;
+  padding: 34px 38px; backdrop-filter: blur(10px);
+  box-shadow: 0 30px 70px -30px rgba(0,0,0,.7), inset 0 1px 0 rgba(245,241,230,.06); }
+.kick { font-size: 12px; font-weight: 800; letter-spacing: .3em; color: var(--gold); }
+.ctitle { margin-top: 10px; font-size: clamp(24px, 3.4vw, 32px); font-weight: 800; letter-spacing: .04em; }
+.cbody { margin-top: 12px; font-size: 15.5px; line-height: 2; color: var(--cream-dim); }
+.cmeta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+.cmeta span { font-size: 12px; letter-spacing: .08em; padding: 7px 14px; border-radius: 999px;
+  background: var(--gold-faint); color: var(--gold); font-weight: 700; }
+.cmeta span.st { background: transparent; border: 1px solid var(--gold-dim); }
+.cfoot { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.cbtn { font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: .06em;
+  padding: 11px 20px; border-radius: 12px; border: 1px solid var(--line); background: transparent;
+  color: var(--cream); cursor: pointer; transition: all .22s var(--ease-out); }
+.cbtn:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--gold); color: var(--gold); }
+.cbtn:disabled { opacity: .3; cursor: default; }
+.cbtn.primary { background: var(--gold); border-color: var(--gold); color: #0E0E12; }
+.cbtn.primary:hover:not(:disabled) { color: #0E0E12; box-shadow: 0 10px 24px -8px rgba(201,168,106,.55); }
+.cdots { display: flex; gap: 8px; }
+.cdots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(245,241,230,.18); cursor: pointer; transition: all .25s; }
+.cdots i.done { background: var(--gold); opacity: .55; }
+.cdots i.on { background: var(--gold); transform: scale(1.5); box-shadow: 0 0 10px rgba(201,168,106,.6); }
+
+.foot { text-align: center; padding: 30px 20px 26px; font-size: 11px; letter-spacing: .2em; color: var(--cream-faint); }
+
+/* 无 WebGL 退化：canvas 隐藏，卡片照常可用 */
+body.nogl #tlCanvas, body.nogl .hint { display: none; }
+body.nogl .card-wrap { margin-top: 40px; }
+
+@media (max-width: 860px) {
+  .topbar { padding: 16px 20px; }
+  #tlCanvas { height: 38vh; min-height: 240px; }
+  .card { padding: 26px 24px; }
+  .cfoot { flex-wrap: wrap; }
+}

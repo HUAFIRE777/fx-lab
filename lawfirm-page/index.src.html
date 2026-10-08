@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>衡信律师事务所 · 以专业，守护商业的确定性</title>
+<meta name="description" content="衡信律师事务所——综合性商事律所。创立于2004年，200余位律师，业务覆盖公司并购、争议解决、知识产权等八大领域。">
+<script>document.documentElement.className += ' js';</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态：window load 后淡出；无 JS 时 noscript 兜底隐藏 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-seal"><span>衡</span></div>
+  <p>衡信律师事务所</p>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- 噪点 + 暗角：全页手工质感 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="衡信律师事务所 首页">
+      <svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true">
+        <rect x="4" y="4" width="32" height="32" rx="2" fill="none" stroke="#B9975B" stroke-width="2.5"/>
+        <text x="20" y="27.5" text-anchor="middle" font-size="17" fill="#B9975B" font-family="Songti SC, STSong, serif">衡</text>
+      </svg>
+      <span class="logo-word">衡信<em>律师事务所</em></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#practice">业务领域</a>
+      <a href="#team">律师团队</a>
+      <a href="#cases">典型案例</a>
+      <a href="#contact">咨询</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-gold btn-sm" href="#contact">免费咨询</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端导航" aria-hidden="true">
+  <nav>
+    <a href="#practice">业务领域</a>
+    <a href="#team">律师团队</a>
+    <a href="#cases">典型案例</a>
+    <a href="#contact">咨询</a>
+  </nav>
+  <a class="btn btn-gold btn-block" href="#contact">免费咨询</a>
+  <p class="drawer-foot" data-site-line>全国免费咨询热线 · <span data-site="phone"></span></p>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero" aria-label="律所主张">
+    <div class="hero-watermark" aria-hidden="true">衡</div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-badge" data-hero><span class="dot"></span>创立于 2004 · 沪 · 京 · 深 三地办公室</p>
+        <h1 class="hero-title" data-hero>
+          <span class="line"><span class="line-in">以专业，</span></span>
+          <span class="line"><span class="line-in">守护商业的确定性。</span></span>
+        </h1>
+        <p class="hero-sub" data-hero>二十二年执业 · 200 余位律师 · 累计服务 3200 家企业客户</p>
+        <div class="hero-ctas" data-hero>
+          <a class="btn btn-gold btn-lg" href="#contact">免费咨询</a>
+          <a class="btn btn-ghost-light btn-lg" href="#practice">业务领域</a>
+        </div>
+        <p class="hero-note" data-hero>首次咨询免费 · 严格保密 · 2 小时内响应</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <!-- 纯 SVG 天平线稿：入场时描画 -->
+        <svg id="scaleSvg" viewBox="0 0 320 380" width="100%" height="100%">
+          <g fill="none" stroke="#B9975B" stroke-width="2" stroke-linecap="round">
+            <path class="draw" d="M160 40 v240"/>
+            <path class="draw" d="M160 70 h-105 M160 70 h105"/>
+            <path class="draw" d="M55 70 l-32 70 M55 70 l32 70 M23 140 h64"/>
+            <path class="draw" d="M265 70 l-32 70 M265 70 l32 70 M233 140 h64"/>
+            <path class="draw" d="M120 330 h80"/>
+            <path class="draw" d="M140 280 h40 l-20 -14 z" stroke-width="0" fill="#B9975B" opacity=".85"/>
+            <circle class="draw" cx="160" cy="40" r="7"/>
+          </g>
+          <g class="hero-ticks" stroke="#B9975B" stroke-width="1" opacity=".5">
+            <line x1="60" y1="300" x2="60" y2="330"/><line x1="100" y1="300" x2="100" y2="330"/>
+            <line x1="220" y1="300" x2="220" y2="330"/><line x1="260" y1="300" x2="260" y2="330"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#practice" aria-label="向下滚动"><span></span></a>
+  </section>
+
+  <!-- ============ 业务领域矩阵 ============ -->
+  <section class="section practice" id="practice" aria-label="业务领域">
+    <div class="wrap">
+      <p class="eyebrow reveal">业务领域</p>
+      <h2 class="section-title reveal">八个领域，一种标准</h2>
+      <p class="section-sub reveal">每个领域都有合伙人亲自带队。从第一次见面起，您对接的永远是能拍板的人。</p>
+      <div class="practice-grid">
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">01</span>
+          <h3>公司并购</h3>
+          <p>这起并购谈了十一个月，交割只用了一天。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">02</span>
+          <h3>争议解决</h3>
+          <p>开庭前夜，我们又把证据链走了第三遍。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">03</span>
+          <h3>知识产权</h3>
+          <p>您的技术路线图，我们比竞品先读懂。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">04</span>
+          <h3>劳动与人力</h3>
+          <p>裁员方案里最难写的，是体面二字。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">05</span>
+          <h3>银行与金融</h3>
+          <p>监管问询函来之前，答案已经备好。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">06</span>
+          <h3>房地产与建设工程</h3>
+          <p>工地上的每一张签证，都经得起审计。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">07</span>
+          <h3>合规与反腐败</h3>
+          <p>最好的危机公关，是从不发生危机。</p>
+        </article>
+        <article class="practice-card reveal" data-tilt>
+          <span class="p-num">08</span>
+          <h3>家族财富传承</h3>
+          <p>三代人的安排，一次谈透，不留隐患。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 律师团队 ============ -->
+  <section class="section team" id="team" aria-label="律师团队">
+    <div class="wrap">
+      <p class="eyebrow reveal">律师团队</p>
+      <h2 class="section-title reveal">办案子的，是这些人</h2>
+      <p class="section-sub reveal">四位创始合伙人，平均执业十八年。您的案子不会转包给实习生。</p>
+      <div class="team-grid">
+        <article class="member reveal">
+          <div class="avatar" aria-hidden="true"><span>陈</span></div>
+          <h3>陈衡</h3>
+          <p class="role">创始合伙人 · 争议解决</p>
+          <p class="bio">经手标的超百亿的诉讼，一句废话也不想听。</p>
+        </article>
+        <article class="member reveal">
+          <div class="avatar" aria-hidden="true"><span>赵</span></div>
+          <h3>赵知行</h3>
+          <p class="role">管理合伙人 · 公司并购</p>
+          <p class="bio">谈判桌上最冷静的人，交割日最准时的人。</p>
+        </article>
+        <article class="member reveal">
+          <div class="avatar" aria-hidden="true"><span>林</span></div>
+          <h3>林语书</h3>
+          <p class="role">合伙人 · 知识产权</p>
+          <p class="bio">前工程师，看专利说明书比看合同快。</p>
+        </article>
+        <article class="member reveal">
+          <div class="avatar" aria-hidden="true"><span>周</span></div>
+          <h3>周正</h3>
+          <p class="role">合伙人 · 劳动与合规</p>
+          <p class="bio">相信好制度比好律师更能保护一家公司。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 典型案例数据带 ============ -->
+  <section class="section stats" id="cases" aria-label="典型案例">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-light reveal">典型案例</p>
+      <h2 class="section-title title-light reveal">数字，是最短的自我介绍</h2>
+      <div class="stats-row">
+        <div class="stat reveal">
+          <p class="stat-num"><span data-count="92" data-suffix="%">0%</span></p>
+          <p class="stat-label">近五年商事案件胜诉率</p>
+        </div>
+        <div class="stat reveal">
+          <p class="stat-num"><span data-count="186" data-suffix=" 亿">0 亿</span></p>
+          <p class="stat-label">累计经办案件标的额</p>
+        </div>
+        <div class="stat reveal">
+          <p class="stat-num"><span data-count="3200" data-suffix="+">0+</span></p>
+          <p class="stat-label">累计服务企业客户</p>
+        </div>
+      </div>
+      <div class="cases-list reveal">
+        <div class="case-row"><span class="case-tag">并购</span><p>某新能源车企 42 亿跨境收购，全程 11 个月零监管障碍交割。</p></div>
+        <div class="case-row"><span class="case-tag">诉讼</span><p>上市公司 18 亿合同纠纷二审改判，对方撤回全部诉请。</p></div>
+        <div class="case-row"><span class="case-tag">知产</span><p>芯片企业专利无效连环战，核心专利全部维持有效。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 荣誉与排名 ============ -->
+  <section class="section honors" aria-label="荣誉与排名">
+    <div class="wrap">
+      <p class="eyebrow reveal">荣誉与排名</p>
+      <h2 class="section-title reveal">同行给的评价，我们收下</h2>
+      <ul class="honor-list">
+        <li class="reveal"><span class="h-year">2021–2026</span><p>连续六年入选《商法》杂志"卓越律所大奖"公司并购领域</p></li>
+        <li class="reveal"><span class="h-year">2025</span><p>ALB 中国法律大奖"年度争议解决律师事务所"</p></li>
+        <li class="reveal"><span class="h-year">2024</span><p>钱伯斯大中华区指南公司/商事领域第一等推荐</p></li>
+        <li class="reveal"><span class="h-year">2023</span><p>司法部"全国优秀律师事务所"称号</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 免费咨询 CTA ============ -->
+  <section class="section contact" id="contact" aria-label="免费咨询">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <p class="eyebrow eyebrow-light reveal">免费咨询</p>
+        <h2 class="section-title title-light reveal">先聊聊，再决定<br>要不要委托我们。</h2>
+        <p class="contact-sub reveal">留下联系方式，值班律师将在 <strong>2 小时内</strong>回电（工作日 9:00–18:00）。第一次咨询不收费、不推销。</p>
+        <ul class="contact-points">
+          <li class="reveal">严格保密：咨询内容受律师保密义务保护</li>
+          <li class="reveal">对口律师：按咨询事项直接分配领域合伙人</li>
+          <li class="reveal">明确报价：委托前书面确认费用，无隐性收费</li>
+        </ul>
+      </div>
+      <div class="form-card reveal" id="formCard">
+        <form id="consultForm" novalidate>
+          <label class="field">
+            <span>您的姓名</span>
+            <input type="text" name="name" id="fName" placeholder="怎么称呼您" autocomplete="name">
+          </label>
+          <label class="field">
+            <span>联系电话</span>
+            <input type="tel" name="phone" id="fPhone" placeholder="11 位手机号码" autocomplete="tel" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>咨询事项</span>
+            <select name="topic" id="fTopic">
+              <option value="">请选择事项分类</option>
+              <option>公司并购</option>
+              <option>争议解决（诉讼/仲裁）</option>
+              <option>知识产权</option>
+              <option>劳动与人力</option>
+              <option>银行与金融</option>
+              <option>房地产与建设工程</option>
+              <option>合规与反腐败</option>
+              <option>家族财富传承</option>
+              <option>其他事项</option>
+            </select>
+          </label>
+          <p class="form-error" id="formError" role="alert"></p>
+          <button type="submit" class="btn btn-gold btn-block btn-lg" id="submitBtn">提交，预约免费咨询</button>
+          <p class="privacy-note">您的信息仅用于联系回访，绝不对外披露。详见《隐私政策》。</p>
+        </form>
+        <div class="form-success" id="formSuccess" aria-live="polite">
+          <svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" fill="none" stroke="#B9975B" stroke-width="2.5"/>
+            <path d="M15 24.5 l6.5 6.5 L33 18" fill="none" stroke="#B9975B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>已收到您的咨询请求</h3>
+          <p id="successText">值班律师将在 2 小时内与您联系，请保持电话畅通。</p>
+          <p class="privacy-note">您的信息仅用于联系回访，绝不对外披露。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="衡信律师事务所 首页">
+          <svg viewBox="0 0 40 40" width="28" height="28" aria-hidden="true">
+            <rect x="4" y="4" width="32" height="32" rx="2" fill="none" stroke="#B9975B" stroke-width="2.5"/>
+            <text x="20" y="27.5" text-anchor="middle" font-size="17" fill="#B9975B" font-family="Songti SC, STSong, serif">衡</text>
+          </svg>
+          <span class="logo-word">衡信<em>律师事务所</em></span>
+        </a>
+        <p class="foot-desc">综合性商事律师事务所。以专业，守护商业的确定性。</p>
+        <div class="social" aria-label="社交媒体">
+          <a href="#" aria-label="微信公众号" title="微信公众号"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9.5 4C5.9 4 3 6.5 3 9.6c0 1.8 1 3.4 2.6 4.4l-.7 2.1 2.4-1.2c.7.2 1.4.3 2.2.3h.3A5.6 5.6 0 0 1 9.4 12C9.4 8.9 12 6.4 15.2 6.1 14 4.8 11.9 4 9.5 4zm8.3 5.5c-3 0-5.4 2-5.4 4.5s2.4 4.5 5.4 4.5c.6 0 1.2-.1 1.7-.2l2 1-.6-1.7c1.3-.8 2.1-1.9 2.1-3.1 0-2.5-2.3-4.5-5.2-4.5zM8.2 8.2h.1c.3 0 .5.2.5.5s-.2.5-.5.5h-.1a.5.5 0 0 1 0-1zm2.6 0h.1c.3 0 .5.2.5.5s-.2.5-.5.5h-.1a.5.5 0 0 1 0-1zm5.3 5.4h.1c.2 0 .4.2.4.4s-.2.4-.4.4h-.1a.4.4 0 0 1 0-.8zm2.1 0h.1c.2 0 .4.2.4.4s-.2.4-.4.4h-.1a.4.4 0 0 1 0-.8z"/></svg></a>
+          <a href="#" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M6.9 8.6H3.6V21h3.3V8.6zM5.2 3.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM21 13.4c0-3.2-1.7-4.7-4-4.7-1.9 0-2.7 1-3.2 1.8V8.6h-3.3V21h3.3v-6.6c0-1.6.8-2.6 2.2-2.6 1.3 0 1.9.9 1.9 2.6V21H21v-7.6z"/></svg></a>
+          <a href="#" aria-label="X" title="X"><svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M17.7 3H21l-7.3 8.3L22.2 21h-6.7l-5.2-6.2L4.3 21H1l7.8-8.9L1.8 3h6.9l4.7 5.7L17.7 3zm-1.2 16h1.9L7.1 4.9H5.1L16.5 19z"/></svg></a>
+          <a href="#" aria-label="电子邮件" title="电子邮件"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm8 7.2L5 7.4V18h14V7.4l-7 4.8z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>业务领域</h4>
+        <a href="#practice">公司并购</a>
+        <a href="#practice">争议解决</a>
+        <a href="#practice">知识产权</a>
+        <a href="#practice">劳动与人力</a>
+      </div>
+      <div class="foot-col">
+        <h4>关于衡信</h4>
+        <a href="#team">律师团队</a>
+        <a href="#cases">典型案例</a>
+        <a href="#contact">免费咨询</a>
+      </div>
+      <div class="foot-col">
+        <h4>联系方式</h4>
+        <p class="foot-line">咨询热线<br><a class="foot-phone" data-site-tel href="#" data-site="phone"></a></p>
+        <p class="foot-line">办公地址<br><span data-site="address"></span></p>
+      </div>
+      <div class="foot-col">
+        <h4>法律</h4>
+        <button class="foot-link" data-modal="privacy">隐私政策</button>
+        <button class="foot-link" data-modal="terms">服务条款</button>
+        <button class="foot-link" data-modal="cookie">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 <span data-site="name"></span> · 保留所有权利</p>
+      <p class="foot-license">执业许可证号：<span data-site="license"></span>（占位，上线后替换）</p>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+    <h3 id="modalTitle"></h3>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

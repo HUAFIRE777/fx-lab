@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>驰轮 VELOCE · 把路骑成自己的节奏</title>
+<meta name="description" content="驰轮 VELOCE 自行车品牌官方落地页：公路/山地/电助力三款车型，车架几何参数可视化，预约门店试骑。">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mark"><span>V</span></div>
+    <div class="loader-name">驰轮 VELOCE</div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+</div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <a class="brand" href="#top" aria-label="驰轮 VELOCE 首页">
+    <span class="brand-mark">V</span>
+    <span class="brand-text">驰轮<i>VELOCE</i></span>
+  </a>
+  <nav class="menu" aria-label="车型导航">
+    <a href="#road" data-nav="road">公路</a>
+    <a href="#mtb" data-nav="mtb">山地</a>
+    <a href="#ebike" data-nav="ebike">电助力</a>
+    <a href="#accessories">配件</a>
+  </nav>
+  <div class="nav-right">
+    <a class="btn btn-red btn-sm" href="#testride">预约试骑</a>
+    <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<!-- 移动端抽屉 -->
+<div id="drawer" aria-hidden="true">
+  <nav>
+    <a href="#road">公路</a>
+    <a href="#mtb">山地</a>
+    <a href="#ebike">电助力</a>
+    <a href="#accessories">配件</a>
+    <a class="btn btn-red" href="#testride">预约试骑</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-kicker rv">驰轮 VELOCE · 2026 新款</p>
+        <h1 class="rv">把路<br>骑成自己的节奏<span class="dot">。</span></h1>
+        <p class="hero-sub rv">公路的速度、山地的野、电助力的从容——<br>三种车架，同一种认真。</p>
+        <div class="hero-cta rv">
+          <a class="btn btn-red" href="#testride">预约门店试骑</a>
+          <a class="btn btn-ghost" href="#models">看看三款车</a>
+        </div>
+        <dl class="hero-stats rv">
+          <div><dt><span data-count="98">0</span> 家</dt><dd>全国试骑门店</dd></div>
+          <div><dt><span data-count="23000">0</span>+</dt><dd>骑手的选择</dd></div>
+          <div><dt>终身</dt><dd>车架质保</dd></div>
+        </dl>
+      </div>
+      <div class="hero-visual rv">
+        <svg id="bike" viewBox="0 0 960 540" role="img" aria-label="驰轮公路车侧影，车轮转动中">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="55%" r="55%">
+              <stop offset="0%" stop-color="#E50012" stop-opacity=".28"/>
+              <stop offset="100%" stop-color="#E50012" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="480" cy="262" rx="360" ry="210" fill="url(#glow)"/>
+          <!-- 地面阴影 -->
+          <ellipse cx="470" cy="482" rx="310" ry="16" fill="#000" opacity=".55"/>
+          <ellipse cx="470" cy="478" rx="180" ry="8" fill="#E50012" opacity=".18"/>
+          <!-- 速度线 -->
+          <g id="speedlines" stroke-linecap="round">
+            <line class="spd" x1="60"  y1="150" x2="200" y2="150" stroke="#E50012" stroke-width="5" style="--d:0s"/>
+            <line class="spd" x1="20"  y1="215" x2="150" y2="215" stroke="#fff" stroke-width="4" opacity=".55" style="--d:.5s"/>
+            <line class="spd" x1="80"  y1="290" x2="230" y2="290" stroke="#E50012" stroke-width="4" opacity=".8" style="--d:1s"/>
+            <line class="spd" x1="30"  y1="365" x2="140" y2="365" stroke="#fff" stroke-width="3" opacity=".4" style="--d:1.4s"/>
+            <line class="spd" x1="90"  y1="440" x2="190" y2="440" stroke="#E50012" stroke-width="3" opacity=".6" style="--d:.9s"/>
+          </g>
+          <!-- 后轮 -->
+          <g id="wheel-rear" class="wheel">
+            <circle cx="250" cy="380" r="95" fill="none" stroke="#161616" stroke-width="15"/>
+            <circle cx="250" cy="380" r="76" fill="none" stroke="#f2f2f2" stroke-width="4" opacity=".9"/>
+            <g class="spokes" data-cx="250" data-cy="380"></g>
+            <circle cx="250" cy="380" r="9" fill="#E50012"/>
+          </g>
+          <!-- 前轮 -->
+          <g id="wheel-front" class="wheel">
+            <circle cx="690" cy="380" r="95" fill="none" stroke="#161616" stroke-width="15"/>
+            <circle cx="690" cy="380" r="76" fill="none" stroke="#f2f2f2" stroke-width="4" opacity=".9"/>
+            <g class="spokes" data-cx="690" data-cy="380"></g>
+            <circle cx="690" cy="380" r="9" fill="#E50012"/>
+          </g>
+          <!-- 车架 -->
+          <g id="frame" stroke="#E50012" stroke-width="11" stroke-linecap="round" fill="none">
+            <line x1="345" y1="225" x2="250" y2="380"/>   <!-- 后上叉 -->
+            <line x1="430" y1="415" x2="250" y2="380"/>   <!-- 后下叉 -->
+            <line x1="430" y1="415" x2="628" y2="258"/>   <!-- 下管 -->
+            <line x1="345" y1="225" x2="600" y2="200"/>   <!-- 上管 -->
+            <line x1="430" y1="415" x2="345" y2="225"/>   <!-- 立管 -->
+            <line x1="600" y1="200" x2="628" y2="258"/>   <!-- 头管 -->
+            <line x1="628" y1="258" x2="690" y2="380"/>   <!-- 前叉 -->
+          </g>
+          <g stroke="#fff" stroke-width="6" stroke-linecap="round">
+            <line x1="345" y1="225" x2="336" y2="192"/>   <!-- 座管 -->
+            <line x1="600" y1="200" x2="642" y2="168"/>   <!-- 把立 -->
+          </g>
+          <line x1="306" y1="188" x2="368" y2="188" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          <path d="M642,168 q34,2 40,26 q4,18 -14,22" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <!-- 牙盘/曲柄 -->
+          <g id="crank">
+            <circle cx="430" cy="415" r="27" fill="none" stroke="#f2f2f2" stroke-width="6"/>
+            <line x1="430" y1="415" x2="462" y2="443" stroke="#f2f2f2" stroke-width="8" stroke-linecap="round"/>
+            <rect x="448" y="438" width="30" height="10" rx="4" fill="#E50012" transform="rotate(38 463 443)"/>
+          </g>
+        </svg>
+        <p class="visual-cap">驰空 AERO-R · 气动公路车架 · 手绘程序化侧影</p>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#models" aria-label="向下滚动"><i></i></a>
+  </section>
+
+  <!-- 红色滚动带 -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>驰轮 VELOCE</span><em>·</em><span>公路</span><em>·</em><span>山地</span><em>·</em><span>电助力</span><em>·</em><span>预约试骑</span><em>·</em>
+      <span>驰轮 VELOCE</span><em>·</em><span>公路</span><em>·</em><span>山地</span><em>·</em><span>电助力</span><em>·</em><span>预约试骑</span><em>·</em>
+    </div>
+  </div>
+
+  <!-- 车型对比 -->
+  <section class="sec" id="models">
+    <div class="wrap">
+      <p class="kicker rv">三款车，一个标准</p>
+      <h2 class="rv">先选车，再谈骑行。</h2>
+      <p class="lede rv">参数都摆在桌面上：重量精确到小数点后一位，价格就是标价，没有"咨询客服"。</p>
+
+      <div class="cards">
+        <article class="card rv" id="road">
+          <p class="card-tag">公路</p>
+          <h3>驰空 AERO-R</h3>
+          <p class="card-desc">气动车架配 50mm 高框轮组，平路巡航稳得像贴在地上，爬坡摇车不泄力。</p>
+          <ul class="card-points">
+            <li>整车 8.2kg（含脚踏）</li>
+            <li>Shimano 105 12 速机械变速</li>
+            <li>全内走线，风阻再降一档</li>
+          </ul>
+          <p class="card-price">¥12,980 <span>起</span></p>
+          <a class="btn btn-line" href="#testride">试骑这款</a>
+        </article>
+        <article class="card rv" id="mtb">
+          <p class="card-tag">山地</p>
+          <h3>驰野 TRAIL-X</h3>
+          <p class="card-desc">120mm 前叉行程，29 寸轮径。林道碎石路只管放手，刹车的事交给它。</p>
+          <ul class="card-points">
+            <li>整车 13.5kg（含脚踏）</li>
+            <li>SRAM NX Eagle 12 速</li>
+            <li>升降座管，速降一键放倒</li>
+          </ul>
+          <p class="card-price">¥8,980 <span>起</span></p>
+          <a class="btn btn-line" href="#testride">试骑这款</a>
+        </article>
+        <article class="card rv" id="ebike">
+          <p class="card-tag">电助力</p>
+          <h3>驰电 E-CITY</h3>
+          <p class="card-desc">中置电机 65Nm 扭矩，续航 120 公里。通勤 26 公里，出一身汗都难。</p>
+          <ul class="card-points">
+            <li>整车 21.0kg（含电池）</li>
+            <li>9 速变速 + 4 档助力</li>
+            <li>电池 4 小时充满，可拆卸</li>
+          </ul>
+          <p class="card-price">¥15,980 <span>起</span></p>
+          <a class="btn btn-line" href="#testride">试骑这款</a>
+        </article>
+      </div>
+
+      <div class="table-wrap rv">
+        <table class="compare">
+          <caption>三款车型参数对照</caption>
+          <thead>
+            <tr><th scope="col">参数</th><th scope="col">驰空 AERO-R</th><th scope="col">驰野 TRAIL-X</th><th scope="col">驰电 E-CITY</th></tr>
+          </thead>
+          <tbody>
+            <tr class="hl"><th scope="row">整车重量</th><td>8.2kg</td><td>13.5kg</td><td>21.0kg</td></tr>
+            <tr><th scope="row">变速系统</th><td>Shimano 105 · 12 速</td><td>SRAM NX Eagle · 12 速</td><td>9 速 + 4 档助力</td></tr>
+            <tr><th scope="row">车架材质</th><td>T800 碳纤维</td><td>6061 铝合金</td><td>6061 铝合金</td></tr>
+            <tr><th scope="row">轮径 / 轮胎</th><td>700×28C</td><td>29×2.25"</td><td>700×40C</td></tr>
+            <tr><th scope="row">刹车</th><td>油压碟刹 160mm</td><td>油压碟刹 180mm</td><td>油压碟刹 180mm</td></tr>
+            <tr class="hl"><th scope="row">官方售价</th><td>¥12,980 起</td><td>¥8,980 起</td><td>¥15,980 起</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 车架几何可视化 -->
+  <section class="sec sec-dark" id="geometry">
+    <div class="wrap">
+      <p class="kicker rv">看不懂参数？看图</p>
+      <h2 class="rv">车架几何，一眼看懂。</h2>
+      <p class="lede rv">把鼠标放到参数上，图上对应的线会亮起来。选尺码，数字跟着变。</p>
+
+      <div class="geo-sizes rv" role="tablist" aria-label="车架尺码">
+        <button class="size" data-size="S" role="tab">S</button>
+        <button class="size on" data-size="M" role="tab" aria-selected="true">M</button>
+        <button class="size" data-size="L" role="tab">L</button>
+      </div>
+
+      <div class="geo-grid">
+        <div class="geo-svg rv">
+          <svg id="geosvg" viewBox="0 0 620 420" role="img" aria-label="车架几何示意图">
+            <g id="geo-frame" fill="none" stroke="#f2f2f2" stroke-width="7" stroke-linecap="round">
+              <line x1="205" y1="120" x2="120" y2="300"/>
+              <line x1="300" y1="330" x2="120" y2="300"/>
+              <line x1="300" y1="330" x2="470" y2="170"/>
+              <line x1="205" y1="120" x2="445" y2="105"/>
+              <line x1="300" y1="330" x2="205" y2="120"/>
+              <line x1="445" y1="105" x2="470" y2="170"/>
+              <line x1="470" y1="170" x2="520" y2="300"/>
+            </g>
+            <circle cx="120" cy="300" r="46" fill="none" stroke="#333" stroke-width="10"/>
+            <circle cx="520" cy="300" r="46" fill="none" stroke="#333" stroke-width="10"/>
+            <!-- 标注线 -->
+            <g id="geo-stack" class="geo-dim" stroke="#E50012" stroke-width="2" fill="none">
+              <line x1="560" y1="300" x2="560" y2="140"/>
+              <line x1="552" y1="300" x2="568" y2="300"/><line x1="552" y1="140" x2="568" y2="140"/>
+              <text x="572" y="225" fill="#E50012" stroke="none" font-size="15">Stack</text>
+            </g>
+            <g id="geo-reach" class="geo-dim" stroke="#E50012" stroke-width="2" fill="none">
+              <line x1="300" y1="352" x2="445" y2="352"/>
+              <line x1="300" y1="344" x2="300" y2="360"/><line x1="445" y1="344" x2="445" y2="360"/>
+              <text x="352" y="378" fill="#E50012" stroke="none" font-size="15">Reach</text>
+            </g>
+            <g id="geo-head" class="geo-dim" stroke="#E50012" stroke-width="2" fill="none">
+              <path d="M470,170 L520,300 M470,170 L540,170" stroke-dasharray="6 5"/>
+              <path d="M512,176 A46,46 0 0 1 522,206" fill="none"/>
+              <text x="528" y="200" fill="#E50012" stroke="none" font-size="15">头管角</text>
+            </g>
+            <g id="geo-seat" class="geo-dim" stroke="#E50012" stroke-width="2" fill="none">
+              <path d="M300,330 L205,120 M300,330 L300,300" stroke-dasharray="6 5"/>
+              <path d="M292,286 A46,46 0 0 0 276,250" fill="none"/>
+              <text x="238" y="276" fill="#E50012" stroke="none" font-size="15">座管角</text>
+            </g>
+            <g id="geo-bb" class="geo-dim" stroke="#E50012" stroke-width="2" fill="none">
+              <line x1="300" y1="300" x2="300" y2="330"/>
+              <line x1="120" y1="300" x2="300" y2="300" stroke-dasharray="6 5" opacity=".6"/>
+              <text x="310" y="322" fill="#E50012" stroke="none" font-size="15">五通下沉</text>
+            </g>
+          </svg>
+        </div>
+        <ul class="geo-list rv">
+          <li data-geo="geo-stack"><b>Stack</b><span class="v" data-k="stack">560</span><span class="u">mm</span><p>五通到头管顶的垂直高度，决定骑行姿态有多战斗。</p></li>
+          <li data-geo="geo-reach"><b>Reach</b><span class="v" data-k="reach">390</span><span class="u">mm</span><p>五通到头管顶的水平距离，车架"长短"的硬指标。</p></li>
+          <li data-geo="geo-head"><b>头管角度</b><span class="v" data-k="head">73</span><span class="u">°</span><p>越陡转向越灵，越缓高速越稳。73° 是公路的黄金点。</p></li>
+          <li data-geo="geo-seat"><b>座管角度</b><span class="v" data-k="seat">73.5</span><span class="u">°</span><p>决定踩踏时身体重心前后，爬坡发力全看它。</p></li>
+          <li data-geo="geo-bb"><b>五通下沉</b><span class="v" data-k="bb">70</span><span class="u">mm</span><p>重心越低，过弯越有信心，摇车也不晃。</p></li>
+        </ul>
+      </div>
+      <p class="geo-note rv">* 几何数据为驰空 AERO-R 各尺码实测值，门店提供免费 Fitting 测量。</p>
+    </div>
+  </section>
+
+  <!-- 骑行故事 -->
+  <section class="sec" id="stories">
+    <div class="wrap">
+      <p class="kicker rv">他们已经在路上</p>
+      <h2 class="rv">骑行故事，不讲大话。</h2>
+      <div class="story-cards">
+        <figure class="story rv">
+          <blockquote>"每天 26 公里通勤，电助力这台车让我重新爱上早高峰——到公司居然没出汗。"</blockquote>
+          <figcaption><span class="avatar">陈</span><span class="who"><b>陈默</b><i>深圳 · 驰电 E-CITY 车主</i></span></figcaption>
+        </figure>
+        <figure class="story rv">
+          <blockquote>"周末 120 公里拉练，AERO-R 摇车那一下是真跟脚，爬坡再没泄过力。"</blockquote>
+          <figcaption><span class="avatar">周</span><span class="who"><b>老周</b><i>成都 · 驰空 AERO-R 车主</i></span></figcaption>
+        </figure>
+        <figure class="story rv">
+          <blockquote>"第一次下林道居然没摔。后来想明白了：刹车给的信心，比技术管用。"</blockquote>
+          <figcaption><span class="avatar">梨</span><span class="who"><b>阿梨</b><i>杭州 · 驰野 TRAIL-X 车主</i></span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 配件 -->
+  <section class="sec sec-dark" id="accessories">
+    <div class="wrap">
+      <p class="kicker rv">车买了，装备配齐</p>
+      <h2 class="rv">原装配件，装上就走。</h2>
+      <div class="acc-row rv">
+        <a class="acc" href="#testride"><b>破风头盔</b><span>MIPS 内衬</span><i>¥499</i></a>
+        <a class="acc" href="#testride"><b>骑行服套装</b><span>速干透气</span><i>¥399</i></a>
+        <a class="acc" href="#testride"><b>智能码表</b><span>GPS + 心率</span><i>¥899</i></a>
+        <a class="acc" href="#testride"><b>车灯套装</b><span>800 流明白光</span><i>¥199</i></a>
+        <a class="acc" href="#testride"><b>便携打气筒</b><span>120psi 高压</span><i>¥129</i></a>
+        <a class="acc" href="#testride"><b>防水驮包</b><span>20L 快拆</span><i>¥259</i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约试骑 -->
+  <section class="sec cta" id="testride">
+    <div class="wrap">
+      <p class="kicker rv">别光看，骑一圈</p>
+      <h2 class="rv">预约门店试骑，<br>车是骑出来的。</h2>
+      <p class="lede rv">留个电话，门店 24 小时内联系你。试骑免费，头盔我们备好。</p>
+      <form id="ride-form" class="rv" novalidate>
+        <div class="frow">
+          <label>姓名<input name="name" type="text" placeholder="怎么称呼你" autocomplete="name"></label>
+          <label>手机<input name="phone" type="tel" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric"></label>
+        </div>
+        <div class="frow">
+          <label>城市
+            <select name="city">
+              <option value="">选择城市</option>
+              <option>上海</option><option>北京</option><option>广州</option>
+              <option>深圳</option><option>成都</option><option>杭州</option>
+            </select>
+          </label>
+          <label>想试的车
+            <select name="model">
+              <option value="">选择车型</option>
+              <option>驰空 AERO-R（公路）</option>
+              <option>驰野 TRAIL-X（山地）</option>
+              <option>驰电 E-CITY（电助力）</option>
+            </select>
+          </label>
+        </div>
+        <p class="form-err" id="form-err" role="alert"></p>
+        <button class="btn btn-red btn-big" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意我们通过电话联系你安排试骑，不会用于其他用途。</p>
+      </form>
+      <div class="ride-ok" id="ride-ok">
+        <p class="ok-mark">✓</p>
+        <h3>预约收到！</h3>
+        <p id="ok-text">门店会在 24 小时内联系你，记得带身份证。</p>
+        <button class="btn btn-line" id="ok-back" type="button">再约一辆</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="brand-text">驰轮<i>VELOCE</i></p>
+        <p class="foot-slogan">把路骑成自己的节奏。</p>
+        <div class="social">
+          <a href="#" aria-label="微信" data-soc="wechat"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 1 0-3.4 4.4L4 17l1.7-1a3.5 3.5 0 0 0 3.3.9 5.5 5.5 0 0 1-2.4 1.6L5 20l1.2-1.2A7 7 0 0 0 9 19.5a7 7 0 1 0-7-7c0-.5.1-1 .2-1.5A3.5 3.5 0 0 0 9 11zm9.5 1.5a3 3 0 1 0-2.9 3.7l-1.3 1.3 1.4-.8a3 3 0 0 0 2.8.8 6 6 0 1 0-6-6c0-.4 0-.9.1-1.3a3 3 0 0 0 5.9 2.3z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="微博" data-soc="weibo"><svg viewBox="0 0 24 24"><path d="M10 8.5A4.5 4.5 0 1 0 10 17.5 4.5 4.5 0 0 0 10 8.5zm0 7.2a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4zM16.6 4c-.5 0-1 .4-1 .9 0 .2.1.5.3.6C17.4 6.4 18.5 8 19 9.9c.1.2.3.3.6.3.5 0 .9-.4.9-.9C20 6.9 18.6 4.5 16.6 4zm1.9 4.2c-.4 0-.8.3-.8.8 0 .2.1.3.2.5 1 1.2 1.7 2.6 1.9 4.1 0 .4.4.7.8.7.4 0 .8-.3.8-.8-.3-2-1.2-3.7-2.4-4.9-.1-.2-.3-.4-.5-.4zM5.5 18.6c2.5 1.3 5.7 1.9 8.9 1.4 2-.3 3.9-1 5.3-2-.3.9-2.6 2-5.3 2.4-3.4.5-6.8-.3-8.9-1.8z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="抖音" data-soc="douyin"><svg viewBox="0 0 24 24"><path d="M14.5 3v10.8a3.9 3.9 0 1 0 2.6 3.7V10.2a6.3 6.3 0 0 0 3.9 1.4V8.4a6.4 6.4 0 0 1-3.9-1.4V3h-2.6zm-2.6 14.7a2.1 2.1 0 1 1 2.1-2.1 2.1 2.1 0 0 1-2.1 2.1z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="B站" data-soc="bilibili"><svg viewBox="0 0 24 24"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v9a1.5 1.5 0 0 1-1.5 1.5h-3l-2 2.5a.6.6 0 0 1-1 0l-2-2.5h-5A1.5 1.5 0 0 1 4 15.5v-9zM8 9.5a1.2 1.2 0 1 0 1.2 1.2A1.2 1.2 0 0 0 8 9.5zm8 0a1.2 1.2 0 1 0 1.2 1.2A1.2 1.2 0 0 0 16 9.5z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">车型</p>
+        <a href="#road">驰空 AERO-R</a>
+        <a href="#mtb">驰野 TRAIL-X</a>
+        <a href="#ebike">驰电 E-CITY</a>
+        <a href="#accessories">原装配件</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">服务</p>
+        <a href="#testride">预约试骑</a>
+        <a href="#geometry">车架几何</a>
+        <a href="#stories">骑行故事</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">联系我们</p>
+        <p class="foot-info">电话：<a data-site="phone" href="#">—</a></p>
+        <p class="foot-info">邮箱：<a data-site="email" href="#">—</a></p>
+        <p class="foot-info">地址：<span data-site="address">—</span></p>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <button class="legal-btn" data-legal="privacy">隐私政策</button>
+      <button class="legal-btn" data-legal="terms">服务条款</button>
+      <button class="legal-btn" data-legal="cookie">Cookie 说明</button>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span data-site="year">2026</span> <span data-site="brand">驰轮</span>单车 · <span data-site="icp">—</span></p>
+      <p class="foot-demo">演示模板 · 文案与数据为虚构，仅供样式参考</p>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legal-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="legal-title">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="legal-title">隐私政策</h3>
+      <button class="modal-x" data-close aria-label="关闭">×</button>
+    </div>
+    <div class="modal-body" id="legal-body"></div>
+    <div class="modal-foot"><button class="btn btn-red btn-sm" data-close>知道了</button></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

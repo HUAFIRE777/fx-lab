@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泡泡岛儿童乐园 · 3–12 岁孩子的快乐老家</title>
+<meta name="description" content="泡泡岛室内儿童乐园：2800㎡恒温乐园，12大主题游乐区，票价透明，生日派对一站式，安全看护全程在线。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="js-motion">
+
+<!-- 加载幕布 -->
+<div id="veil" aria-hidden="true">
+  <div class="veil-bubble"></div>
+  <div class="veil-bubble v2"></div>
+  <div class="veil-word">泡泡岛</div>
+</div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="泡泡岛首页">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="19" fill="#FFB81C"/>
+        <circle cx="24" cy="24" r="19" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+        <circle cx="17" cy="17" r="5" fill="#FFF9EC" opacity=".85"/>
+        <circle cx="31" cy="30" r="3" fill="#FFF9EC" opacity=".7"/>
+        <path d="M14 33 Q24 38 34 33" fill="none" stroke="#1D2A6E" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-word">泡泡岛<em>BUBBLE ISLAND</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#rides">游乐项目</a>
+      <a href="#tickets">票价</a>
+      <a href="#party">生日派对</a>
+      <a href="#safety">安全须知</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="#booking">立即购票</a>
+      <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div id="drawerMask" hidden></div>
+<aside id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand-word">泡泡岛<em>BUBBLE ISLAND</em></span>
+    <button id="drawerClose" aria-label="关闭菜单">×</button>
+  </div>
+  <nav class="drawer-links" aria-label="移动端导航">
+    <a href="#rides">游乐项目</a>
+    <a href="#tickets">票价</a>
+    <a href="#party">生日派对</a>
+    <a href="#safety">安全须知</a>
+  </nav>
+  <a class="btn btn-primary btn-block" href="#booking">立即购票</a>
+  <p class="drawer-tel">客服热线 <b data-site="phone"></b></p>
+</aside>
+
+<main id="top">
+  <!-- Hero -->
+  <section id="hero">
+    <div id="bubbles" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-kicker rv"><span class="kicker-dot"></span>室内恒温乐园 · 全年开放</p>
+      <h1 class="hero-title">
+        <span class="line"><span class="line-inner">放电一整天，</span></span>
+        <span class="line"><span class="line-inner">快乐不打烊<span class="tide">。</span></span></span>
+      </h1>
+      <p class="hero-sub rv">2800㎡ 室内乐园 · 12 大主题区 · 全场软包防撞<br class="d-only">3–12 岁孩子的快乐老家，爸妈的遛娃救星。</p>
+      <div class="hero-cta rv">
+        <a class="btn btn-primary btn-lg" href="#booking">预约入场</a>
+        <a class="btn btn-ghost btn-lg" href="#rides">看看有啥玩</a>
+      </div>
+      <div class="hero-meta rv">
+        <div class="meta-item"><b>9:30–21:00</b><span>每天营业</span></div>
+        <div class="meta-item"><b>12</b><span>主题游乐区</span></div>
+        <div class="meta-item"><b>1:8</b><span>看护配比</span></div>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#rides" aria-label="向下滚动">↓</a>
+    <div class="hero-vignette" aria-hidden="true"></div>
+  </section>
+
+  <!-- 游乐项目矩阵 -->
+  <section id="rides" class="section">
+    <div class="wrap">
+      <p class="sec-kicker rv">游乐项目</p>
+      <h2 class="sec-title rv">12 个主题区，<br class="m-only">先看最火的 6 个</h2>
+      <p class="sec-sub rv">每个区都有专职看护员，全场边角软包，玩得野也放心。</p>
+      <div class="ride-grid">
+        <article class="ride-card rv" style="--d:.0s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="20" y="70" width="160" height="50" rx="22" fill="#1D2A6E"/>
+              <rect x="20" y="70" width="160" height="50" rx="22" fill="none" stroke="#1D2A6E" stroke-width="4"/>
+              <circle cx="55" cy="62" r="12" fill="#FFB81C"/><circle cx="85" cy="58" r="12" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="115" cy="62" r="12" fill="#FFB81C"/><circle cx="145" cy="58" r="12" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="70" cy="44" r="10" fill="#1D2A6E"/><circle cx="100" cy="40" r="10" fill="#FFB81C"/>
+              <circle cx="130" cy="44" r="10" fill="#1D2A6E"/>
+              <circle cx="48" cy="52" r="4" fill="#FFF9EC" opacity=".8"/><circle cx="108" cy="52" r="4" fill="#FFF9EC" opacity=".8"/>
+            </svg>
+          </div>
+          <h3>泡泡海洋球池</h3>
+          <p>8 万颗食品级海洋球，深 60cm，潜水艇滑梯直达池心。</p>
+          <span class="tag">3 岁+ · 看护员 2 名</span>
+        </article>
+        <article class="ride-card rv" style="--d:.08s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="30" y="30" width="26" height="90" rx="8" fill="#1D2A6E"/>
+              <path d="M56 44 Q110 44 118 96 L118 120 L92 120 L92 100 Q86 70 56 70 Z" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="126" y="96" width="44" height="24" rx="10" fill="#1D2A6E"/>
+              <circle cx="138" cy="108" r="4" fill="#FFF9EC"/><circle cx="158" cy="108" r="4" fill="#FFF9EC"/>
+              <circle cx="170" cy="30" r="10" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+            </svg>
+          </div>
+          <h3>彩虹滑梯城堡</h3>
+          <p>三层攀爬城堡接 4.2 米螺旋滑梯，滑下去直接扎进球池。</p>
+          <span class="tag">4 岁+ · 身高 90cm+</span>
+        </article>
+        <article class="ride-card rv" style="--d:.16s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="40" y="16" width="120" height="104" rx="10" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="4"/>
+              <path d="M60 40 l18 0 l-9 16 z" fill="#FFB81C"/><circle cx="110" cy="52" r="9" fill="#1D2A6E"/>
+              <rect x="66" y="78" width="20" height="14" rx="4" fill="#FFB81C"/><circle cx="130" cy="88" r="8" fill="#1D2A6E"/>
+              <path d="M96 104 l16 0 l-8 14 z" fill="#FFB81C"/><rect x="118" y="30" width="16" height="12" rx="3" fill="#1D2A6E"/>
+              <rect x="30" y="112" width="140" height="12" rx="6" fill="#1D2A6E"/>
+            </svg>
+          </div>
+          <h3>小勇士攀岩墙</h3>
+          <p>3 米儿童攀岩墙，安全绳 + 厚垫双保险，教练一对一保护。</p>
+          <span class="tag">5 岁+ · 需预约</span>
+        </article>
+        <article class="ride-card rv" style="--d:.0s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="46" y="84" width="34" height="34" rx="6" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="84" y="84" width="34" height="34" rx="6" fill="#1D2A6E"/>
+              <rect x="122" y="84" width="34" height="34" rx="6" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="65" y="52" width="34" height="30" rx="6" fill="#1D2A6E"/>
+              <rect x="103" y="52" width="34" height="30" rx="6" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <circle cx="150" cy="40" r="16" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="146" y="56" width="8" height="28" fill="#1D2A6E"/>
+            </svg>
+          </div>
+          <h3>积木工坊</h3>
+          <p>超大软积木自由搭建区，每周换主题：城堡、火箭、动物园。</p>
+          <span class="tag">全年龄 · 亲子共玩</span>
+        </article>
+        <article class="ride-card rv" style="--d:.08s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <path d="M40 120 L40 88 Q40 76 52 76 L70 76 L84 52 Q88 46 96 46 L132 46 Q140 46 144 52 L156 76 L160 76 Q170 76 170 88 L170 120 Z" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="92" y="58" width="34" height="20" rx="6" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="72" cy="120" r="14" fill="#1D2A6E"/><circle cx="72" cy="120" r="6" fill="#FFF9EC"/>
+              <circle cx="140" cy="120" r="14" fill="#1D2A6E"/><circle cx="140" cy="120" r="6" fill="#FFF9EC"/>
+              <path d="M30 40 q10 -12 20 0 q10 12 20 0" fill="none" stroke="#1D2A6E" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>小小驾驶员</h3>
+          <p>仿真小车道 + 红绿灯，考张「泡泡岛驾照」带回家贴冰箱。</p>
+          <span class="tag">3–8 岁 · 限时 15 分钟</span>
+        </article>
+        <article class="ride-card rv" style="--d:.16s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <path d="M100 18 L100 60" stroke="#1D2A6E" stroke-width="5"/>
+              <path d="M60 60 L140 60 L128 96 L72 96 Z" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <path d="M72 96 q-8 18 -20 22 M128 96 q8 18 20 22" fill="none" stroke="#1D2A6E" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="100" cy="18" r="8" fill="#1D2A6E"/>
+              <circle cx="84" cy="78" r="5" fill="#FFF9EC"/><circle cx="116" cy="78" r="5" fill="#FFF9EC"/>
+              <rect x="40" y="118" width="120" height="8" rx="4" fill="#1D2A6E"/>
+            </svg>
+          </div>
+          <h3>梦幻旋转秋千</h3>
+          <p>慢速旋转秋千椅，配泡泡机，小朋友的第一个「游乐园记忆」。</p>
+          <span class="tag">3 岁+ · 家长可陪坐</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 票价三档 -->
+  <section id="tickets" class="section section-alt">
+    <div class="wrap">
+      <p class="sec-kicker rv">票价</p>
+      <h2 class="sec-title rv">明码标价，<br class="m-only">没有隐藏消费</h2>
+      <p class="sec-sub rv">1 米以下儿童免票 · 两位成人可免费陪同一名儿童入场。</p>
+      <div class="price-grid">
+        <article class="price-card rv" style="--d:.0s">
+          <h3>欢乐票</h3>
+          <p class="price"><sup>¥</sup>98<span>/次</span></p>
+          <ul>
+            <li>单次入场，不限时长</li>
+            <li>12 大主题区全开放</li>
+            <li>含 1 杯儿童果汁</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#booking" data-plan="欢乐票">选欢乐票</a>
+        </article>
+        <article class="price-card hot rv" style="--d:.1s">
+          <span class="hot-flag">最受欢迎</span>
+          <h3>畅玩票</h3>
+          <p class="price"><sup>¥</sup>168<span>/次</span></p>
+          <ul>
+            <li>欢乐票全部内容</li>
+            <li>2 节手工课 / 烘焙课</li>
+            <li>泡泡岛驾照 + 勋章 1 枚</li>
+            <li>离场小食一份</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="#booking" data-plan="畅玩票">选畅玩票</a>
+        </article>
+        <article class="price-card rv" style="--d:.2s">
+          <h3>亲子年卡</h3>
+          <p class="price"><sup>¥</sup>1999<span>/年</span></p>
+          <ul>
+            <li>2 大 1 小全年无限次</li>
+            <li>生日派对 8 折</li>
+            <li>新品区优先体验</li>
+            <li>专属客服微信</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#booking" data-plan="亲子年卡">选亲子年卡</a>
+        </article>
+      </div>
+      <p class="price-note rv">节假日不加价 · 退改政策见服务条款 · 团建 / 幼儿园包场请致电 <b data-site="phone"></b></p>
+    </div>
+  </section>
+
+  <!-- 生日派对 -->
+  <section id="party" class="section">
+    <div class="wrap party-wrap">
+      <div class="party-copy">
+        <p class="sec-kicker rv">生日派对</p>
+        <h2 class="sec-title rv">孩子的生日，<br>交给我们操办</h2>
+        <p class="sec-sub rv">主题布置、蛋糕、主持人、跟拍，一价全包，爸妈只负责美美地出现。</p>
+        <ol class="party-steps rv">
+          <li><b>01</b><div><h4>选主题定日期</h4><p>泡泡公主 / 小小宇航员 / 恐龙探险等 8 个主题，提前 7 天预定。</p></div></li>
+          <li><b>02</b><div><h4>我们布置+主持</h4><p>派对管家全程跟进，游戏、切蛋糕、许愿环节一个不少。</p></div></li>
+          <li><b>03</b><div><h4>照片次日送达</h4><p>跟拍摄影师精修 30 张，电子相册直接发到家长手机。</p></div></li>
+        </ol>
+      </div>
+      <div class="party-cards">
+        <article class="party-card rv" style="--d:.0s">
+          <div class="party-art">
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <rect x="60" y="70" width="80" height="36" rx="8" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="60" y="58" width="80" height="14" rx="7" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="94" y="38" width="12" height="22" fill="#1D2A6E"/>
+              <path d="M100 38 q14 -4 10 -18 q-12 2 -10 18" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="48" cy="40" r="8" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="152" cy="34" r="11" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="152" cy="34" r="3" fill="#FFB81C"/>
+            </svg>
+          </div>
+          <h3>小派对</h3>
+          <p class="party-price">¥1299<span> / 8 位小朋友</span></p>
+          <ul><li>主题布置 + 蛋糕 1 磅</li><li>派对主持 2 小时</li><li>每位小朋友伴手礼</li></ul>
+          <a class="btn btn-ghost btn-block" href="#booking" data-plan="生日小派对">预约小派对</a>
+        </article>
+        <article class="party-card rv" style="--d:.1s">
+          <div class="party-art">
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <rect x="52" y="76" width="96" height="30" rx="8" fill="#1D2A6E"/>
+              <rect x="52" y="62" width="96" height="16" rx="8" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="92" y="40" width="16" height="24" fill="#1D2A6E"/>
+              <path d="M100 40 q18 -6 12 -24 q-15 3 -12 24" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="40" cy="36" r="7" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="160" cy="30" r="9" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+              <path d="M28 84 l8 -14 M172 84 l-8 -14" stroke="#1D2A6E" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>大派对</h3>
+          <p class="party-price">¥2499<span> / 16 位小朋友</span></p>
+          <ul><li>小派对全部内容</li><li>蛋糕升级 2 磅 + 跟拍</li><li>专属派对房 3 小时</li></ul>
+          <a class="btn btn-primary btn-block" href="#booking" data-plan="生日大派对">预约大派对</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安全须知 -->
+  <section id="safety" class="section section-dark">
+    <div class="wrap">
+      <p class="sec-kicker rv">安全须知</p>
+      <h2 class="sec-title light rv">安全这件事，<br class="m-only">我们比谁都较真</h2>
+      <p class="sec-sub light rv">入场前请花 1 分钟读完，玩得开心的前提是人人守规矩。</p>
+      <div class="faq-list">
+        <details class="faq rv" open>
+          <summary>入场需要带什么？孩子多大可以自己玩？</summary>
+          <p>请带防滑袜（现场也可购买，15 元/双）。6 岁以下儿童须有成人全程陪同；6 岁以上可在看护区独立游玩，但家长不得离场，需保持电话畅通。</p>
+        </details>
+        <details class="faq rv">
+          <summary>场馆每天消毒吗？</summary>
+          <p>每天闭馆后全场紫外线 + 雾化双重消毒，海洋球每周机洗两次，消毒记录公示在入口电子屏，欢迎随时查看。</p>
+        </details>
+        <details class="faq rv">
+          <summary>孩子走失 / 受伤怎么办？</summary>
+          <p>入场时孩子佩戴防走失手环，出口有双人核验。场内 1:8 看护配比，驻场急救员持红十字证上岗；小擦伤现场处理并第一时间通知家长，稍重的情况直接拨打 120 并同步家长。</p>
+        </details>
+        <details class="faq rv">
+          <summary>可以带外食吗？有寄存吗？</summary>
+          <p>生日蛋糕等可提前与客服报备带入；普通外食请在休息区食用，游乐区内只许喝水。入口提供免费储物柜，贵重物品请随身携带。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约 CTA -->
+  <section id="booking" class="section">
+    <div class="wrap book-wrap">
+      <div class="book-copy">
+        <p class="sec-kicker rv">预约</p>
+        <h2 class="sec-title rv">选个日子，<br>带娃来放电</h2>
+        <p class="sec-sub rv">提交后客服会在 2 小时内（9:30–21:00）来电确认。<br>周末场次紧张，建议提前 3 天预约。</p>
+        <ul class="book-points rv">
+          <li>预约成功到店核销，无需提前付款</li>
+          <li>免费取消，改期提前 1 天说一声就行</li>
+        </ul>
+      </div>
+      <form id="bookForm" class="book-form rv" novalidate>
+        <div class="field">
+          <label for="fName">家长姓名</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼您" autocomplete="name">
+          <p class="err" hidden>请填写姓名（2–10 个字）</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">到店日期</label>
+            <input id="fDate" name="date" type="date">
+            <p class="err" hidden>请选择今天或之后的日期</p>
+          </div>
+          <div class="field">
+            <label for="fCount">人数</label>
+            <select id="fCount" name="count">
+              <option value="1大1小">1 大 1 小</option>
+              <option value="2大1小" selected>2 大 1 小</option>
+              <option value="2大2小">2 大 2 小</option>
+              <option value="3大2小">3 大 2 小</option>
+              <option value="4人以上">4 人以上（团建/包场）</option>
+            </select>
+          </div>
+        </div>
+        <fieldset class="field">
+          <legend>想约哪种</legend>
+          <div class="radio-row" id="planRow">
+            <label><input type="radio" name="plan" value="欢乐票" checked><span>欢乐票 ¥98</span></label>
+            <label><input type="radio" name="plan" value="畅玩票"><span>畅玩票 ¥168</span></label>
+            <label><input type="radio" name="plan" value="亲子年卡"><span>亲子年卡</span></label>
+            <label><input type="radio" name="plan" value="生日小派对"><span>生日小派对</span></label>
+            <label><input type="radio" name="plan" value="生日大派对"><span>生日大派对</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="fPhone">手机号码</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号，用于接收确认短信" autocomplete="tel">
+          <p class="err" hidden>手机号格式不对，再检查一下</p>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意《服务条款》与《隐私政策》中关于预约信息使用的说明。</p>
+      </form>
+      <div id="bookDone" class="book-done" hidden>
+        <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="32" fill="#FFB81C"/><path d="M23 37 l9 9 l17 -19" fill="none" stroke="#1D2A6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>预约收到啦！</h3>
+        <p id="doneText"></p>
+        <p class="done-no">预约号 <b id="doneNo"></b>（已短信发送至您的手机）</p>
+        <button class="btn btn-ghost" id="bookAgain" type="button">再约一场</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer id="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="brand-word light">泡泡岛<em>BUBBLE ISLAND</em></span>
+      <p>3–12 岁孩子的快乐老家。<br>室内恒温，安全看护，全年开放。</p>
+      <div class="socials">
+        <a href="#" aria-label="微信公众号" data-social="wechat"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M10 20 q2 -6 6 -6 q4 0 6 6 q-2 4 -6 4 l-2 2 v-2 q-3 0 -4 -4z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="抖音" data-social="douyin"><svg viewBox="0 0 32 32"><path d="M19 5 v14 a5 5 0 1 1 -5 -5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M19 8 q4 1 6 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书" data-social="xiaohongshu"><svg viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16 12 v8 M12 16 h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>联系我们</h4>
+      <p>电话 <b data-site="phone"></b></p>
+      <p>邮箱 <b data-site="email"></b></p>
+      <p>地址 <span data-site="address"></span></p>
+      <p>营业 9:30–21:00（全年无休）</p>
+    </div>
+    <div class="foot-col">
+      <h4>快速入口</h4>
+      <p><a href="#rides">游乐项目</a></p>
+      <p><a href="#tickets">票价</a></p>
+      <p><a href="#party">生日派对</a></p>
+      <p><a href="#booking">预约入场</a></p>
+    </div>
+    <div class="foot-col">
+      <h4>法律信息</h4>
+      <p><button class="legal-link" data-legal="privacy">隐私政策</button></p>
+      <p><button class="legal-link" data-legal="terms">服务条款</button></p>
+      <p><button class="legal-link" data-legal="cookie">Cookie 政策</button></p>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© 2026 <span data-site="organizer"></span> 版权所有</p>
+    <p><span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div id="legalMask" hidden></div>
+<div id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="legal-head">
+    <h3 id="legalTitle"></h3>
+    <button id="legalClose" aria-label="关闭">×</button>
+  </div>
+  <div class="legal-body" id="legalBody"></div>
+</div>
+
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

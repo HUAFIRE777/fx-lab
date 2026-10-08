@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>目屿 MUYU — 看清世界，先看清自己</title>
+<meta name="description" content="目屿 MUYU 眼镜：136 款镜框，免费在家试戴，预约验光 ¥599 起配。">
+<style>
+/* 目屿 MUYU — 眼镜品牌落地页
+   配色（全页只用三色）：墨黑 #1A1A1A / 暖灰 #E8E2D8 / 琥珀 #D9A441
+   字体：系统栈（无外部字体，保证离线可开） */
+:root{
+  --ink:#1A1A1A;
+  --ink-soft:rgba(26,26,26,.72);
+  --ink-faint:rgba(26,26,26,.14);
+  --ink-line:rgba(26,26,26,.18);
+  --paper:#E8E2D8;
+  --paper-deep:#DCD4C2;
+  --paper-card:#F1ECE1;
+  --amber:#D9A441;
+  --amber-deep:#B9862F;
+  --amber-soft:rgba(217,164,65,.16);
+  --ease:cubic-bezier(.22,1,.36,1);      /* 物理感：easeOutExpo 系 */
+  --ease-spring:cubic-bezier(.16,1,.3,1);
+  --font:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;
+}
+::selection{background:var(--amber);color:var(--ink)}
+a{color:inherit}
+img,svg{display:block}
+button{font-family:inherit}
+
+/* ---------- 噪点 + 暗角（手工细节） ---------- */
+.grain{
+  position:fixed;inset:-50%;z-index:2000;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(9) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}
+  40%{transform:translate(3%,-4%)}60%{transform:translate(-3%,-2%)}80%{transform:translate(4%,3%)}
+}
+.vignette{
+  position:fixed;inset:0;z-index:1999;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(26,26,26,.14) 100%);
+}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:3000;background:var(--ink);
+  display:flex;flex-direction:column;gap:22px;align-items:center;justify-content:center;
+  transition:opacity .6s ease,visibility .6s;
+  animation:loaderKill .6s ease 4.5s forwards; /* JS 失效兜底：最长 4.5s 自动消退 */
+}
+.loader.done{opacity:0;visibility:hidden}
+@keyframes loaderKill{to{opacity:0;visibility:hidden}}
+.loader-mark{
+  width:74px;height:74px;border:1.5px solid var(--amber);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  animation:pulse 1.6s var(--ease) infinite;
+}
+.loader-mark span{color:var(--paper);font-size:30px;font-weight:700;letter-spacing:.1em}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.75}}
+.loader-bar{width:120px;height:2px;background:rgba(232,226,216,.18);overflow:hidden;border-radius:2px}
+.loader-bar i{display:block;height:100%;width:40%;background:var(--amber);animation:loadslide 1.2s var(--ease) infinite}
+@keyframes loadslide{0%{transform:translateX(-110%)}100%{transform:translateX(310%)}}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 30px;border-radius:999px;font-size:15px;font-weight:600;letter-spacing:.06em;
+  text-decoration:none;border:1.5px solid transparent;cursor:pointer;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .3s,color .3s,border-color .3s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{box-shadow:0 12px 28px rgba(26,26,26,.28)}
+.btn-amber{background:var(--amber);color:var(--ink)}
+.btn-amber:hover{box-shadow:0 12px 28px rgba(217,164,65,.45)}
+.btn-ghost{border-color:var(--ink-line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink);background:rgba(26,26,26,.05)}
+.btn-sm{padding:10px 20px;font-size:13.5px}
+.btn-lg{padding:17px 44px;font-size:17px}
+.btn-block{width:100%}
+.linklike{background:none;border:none;color:var(--amber-deep);font-size:inherit;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;padding:0}
+
+/* ---------- 导航：透明 → 毛玻璃 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  transition:background .45s ease,box-shadow .45s ease,backdrop-filter .45s ease;
+}
+.nav-inner{
+  max-width:1240px;margin:0 auto;padding:18px 28px;
+  display:flex;align-items:center;gap:34px;
+  transition:padding .45s ease;
+}
+.nav.scrolled{background:rgba(232,226,216,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 var(--ink-line),0 10px 30px rgba(26,26,26,.06)}
+.nav.scrolled .nav-inner{padding-top:12px;padding-bottom:12px}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.logo-cn{font-size:23px;font-weight:800;letter-spacing:.28em}
+.logo-en{font-size:12px;font-weight:600;letter-spacing:.42em;color:var(--ink-soft)}
+.nav-links{display:flex;gap:30px;margin-left:auto}
+.nav-links a{text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:.08em;position:relative;padding:4px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--amber);transition:width .35s var(--ease)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{margin-left:6px}
+.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:6px;padding:8px}
+.burger span{width:24px;height:2px;background:var(--ink);border-radius:2px;transition:transform .35s var(--ease),opacity .3s}
+
+/* 移动端抽屉 */
+.drawer-backdrop{position:fixed;inset:0;z-index:1001;background:rgba(26,26,26,.45);opacity:0;transition:opacity .4s}
+.drawer-backdrop.open{opacity:1}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(340px,86vw);z-index:1002;
+  background:var(--ink);color:var(--paper);padding:28px;
+  transform:translateX(102%);transition:transform .55s var(--ease-spring);
+  display:flex;flex-direction:column;gap:8px;
+}
+.drawer.open{transform:none}
+.drawer-close{background:none;border:none;color:var(--paper);font-size:34px;align-self:flex-end;cursor:pointer;line-height:1}
+.drawer-logo{display:flex;align-items:baseline;gap:10px;text-decoration:none;margin:6px 0 26px}
+.drawer-logo span{font-size:28px;font-weight:800;letter-spacing:.3em;color:var(--paper)}
+.drawer-logo em{font-style:normal;font-size:12px;letter-spacing:.4em;color:var(--amber)}
+.drawer-links{display:flex;flex-direction:column}
+.drawer-links a{color:var(--paper);text-decoration:none;font-size:21px;font-weight:600;letter-spacing:.1em;
+  padding:15px 0;border-bottom:1px solid rgba(232,226,216,.14);transition:padding-left .3s var(--ease),color .3s}
+.drawer-links a:hover{padding-left:10px;color:var(--amber)}
+.drawer-cta{margin-top:26px}
+.drawer-tel{margin-top:auto;color:rgba(232,226,216,.6);font-size:13px}
+.drawer-tel a{color:var(--amber);text-decoration:none;font-weight:700}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:130px 24px 40px;position:relative;
+  background:
+    radial-gradient(58% 42% at 50% 30%,rgba(217,164,65,.14),transparent 70%),
+    var(--paper);
+}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.34em;color:var(--amber-deep);text-transform:uppercase}
+.eyebrow-light{color:var(--amber)}
+.hero-title{margin:26px 0 8px;font-size:clamp(52px,9vw,118px);line-height:1.14;font-weight:800;letter-spacing:.02em}
+.hero-title .mask{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hero-title .rl-line{display:block;will-change:transform}
+.hero-title em{font-style:normal;color:var(--amber-deep);position:relative}
+/* 隐藏等 JS：完成态必须可达 —— .is-in 下强制 transform:none 覆盖 */
+.js .hero-title .rl-line{transform:translateY(112%)}
+.js .hero.is-in .hero-title .rl-line{transform:none;transition:transform 1.15s var(--ease-spring)}
+.js .hero.is-in .hero-title .mask:nth-child(2) .rl-line{transition-delay:.14s}
+.hero-sub{margin-top:22px;font-size:clamp(15px,2vw,18px);color:var(--ink-soft);letter-spacing:.04em}
+.hero-ctas{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;justify-content:center}
+
+/* 入场微交互：stagger */
+.js .rv{opacity:0;transform:translateY(30px)}
+.js .rv.in{opacity:1;transform:none;transition:opacity .9s ease,transform 1s var(--ease);transition-delay:var(--d,0s)}
+
+/* ---------- 360° 旋转舞台（核心动效） ---------- */
+.stage{position:relative;margin-top:54px;width:min(560px,92vw);cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.stage.dragging{cursor:grabbing}
+.turntable{position:relative;perspective:1100px;width:100%;aspect-ratio:16/8.5}
+.rotor{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.rotor .layer{position:absolute;inset:0;--rim:#1A1A1A}
+.rotor .layer svg{width:100%;height:100%}
+.rotor .layer.side{--rim:#0B0B0B}
+/* 注意：3D 子树内禁用 filter:blur（Chromium 会压平 3D），高光用渐变透明度实现 */
+.rim{fill:none;stroke:var(--rim);stroke-width:7;stroke-linecap:round}
+.rim-thin{fill:none;stroke:var(--rim);stroke-width:4.5;stroke-linecap:round}
+.lens{fill:rgba(217,164,65,.16);stroke:none}
+.lens-glare{fill:rgba(255,255,255,.5);stroke:none}
+.rivet{fill:var(--amber);stroke:none}
+.pad{fill:rgba(26,26,26,.35);stroke:none}
+.glare{
+  position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background:radial-gradient(34% 60% at 38% 32%,rgba(255,252,240,.85),rgba(255,252,240,0) 70%);
+  mix-blend-mode:screen;
+}
+.stage-shadow{
+  height:26px;margin:6px auto 0;width:64%;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(26,26,26,.32),transparent 70%);
+  border-radius:50%;
+}
+.dial{position:absolute;right:2px;top:6px;width:64px;height:64px}
+.dial svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dial-bg{fill:none;stroke:var(--ink-faint);stroke-width:3}
+.dial-arc{fill:none;stroke:var(--amber-deep);stroke-width:3;stroke-linecap:round;
+  stroke-dasharray:188.5;stroke-dashoffset:188.5}
+.dial-deg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.stage-hint{margin-top:14px;font-size:12.5px;letter-spacing:.28em;color:var(--ink-soft)}
+
+.hero-stats{
+  list-style:none;display:flex;gap:clamp(28px,6vw,72px);margin-top:44px;
+  padding-top:26px;border-top:1px solid var(--ink-line);
+}
+.hero-stats b{font-size:30px;font-weight:800;letter-spacing:.02em;display:block;font-variant-numeric:tabular-nums}
+.hero-stats b i{font-style:normal;font-size:15px;font-weight:600;color:var(--ink-soft)}
+.hero-stats span{font-size:12.5px;letter-spacing:.22em;color:var(--ink-soft)}
+.scroll-cue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:26px;height:42px;
+  border:1.5px solid var(--ink-soft);border-radius:14px;display:flex;justify-content:center;padding-top:8px}
+.scroll-cue i{width:4px;height:9px;border-radius:3px;background:var(--amber-deep);animation:cue 1.8s var(--ease) infinite}
+@keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+
+/* ---------- 通用区块 ---------- */
+section{position:relative}
+.series,.tryon,.booking{padding:110px 24px;max-width:1240px;margin:0 auto}
+.section-head{text-align:center;max-width:640px;margin:0 auto 54px}
+.section-head h2{font-size:clamp(32px,4.6vw,52px);font-weight:800;letter-spacing:.04em;margin:16px 0 12px}
+.section-sub{color:var(--ink-soft);font-size:16px;letter-spacing:.03em}
+
+/* ---------- 系列横滑 ---------- */
+.rail-wrap{position:relative}
+.rail{
+  display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:10px 6px 26px;scrollbar-width:none;
+}
+.rail::-webkit-scrollbar{display:none}
+.rail-btn{
+  position:absolute;top:38%;z-index:2;width:48px;height:48px;border-radius:50%;
+  border:1.5px solid var(--ink-line);background:rgba(241,236,225,.9);backdrop-filter:blur(6px);
+  font-size:24px;line-height:1;cursor:pointer;color:var(--ink);
+  transition:transform .3s var(--ease),background .3s,border-color .3s;
+}
+.rail-btn:hover{transform:scale(1.1);background:var(--amber);border-color:var(--amber)}
+.rail-btn.prev{left:-8px}.rail-btn.next{right:-8px}
+.card{
+  flex:0 0 clamp(240px,30vw,320px);scroll-snap-align:start;
+  background:var(--paper-card);border:1px solid var(--ink-line);border-radius:20px;
+  padding:30px 26px 26px;text-decoration:none;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(26,26,26,.14);border-color:var(--amber)}
+.card-tag{position:absolute;top:16px;left:18px;font-size:11px;font-weight:700;letter-spacing:.2em;
+  color:var(--amber-deep);background:var(--amber-soft);padding:5px 12px;border-radius:999px}
+.card-frame{height:150px;display:flex;align-items:center;justify-content:center;margin:18px 0 8px}
+.card-frame svg{width:88%;height:auto;transition:transform .5s var(--ease-spring)}
+.card:hover .card-frame svg{transform:scale(1.07) rotate(-2deg)}
+.card h3{font-size:19px;font-weight:700;letter-spacing:.06em}
+.card h3 small{font-weight:500;color:var(--ink-soft);font-size:13px;margin-left:8px;letter-spacing:.02em}
+.card .price{margin-top:8px;font-size:17px;font-weight:800;color:var(--ink)}
+.card .price s{color:var(--ink-soft);font-weight:500;font-size:13px;margin-left:8px}
+.card .go{margin-top:14px;font-size:13px;letter-spacing:.2em;color:var(--amber-deep);font-weight:700}
+
+/* ---------- 试戴三步骤 ---------- */
+.tryon{background:var(--paper-deep);max-width:none}
+.tryon .section-head,.tryon .tryon-cta{max-width:1240px;margin-left:auto;margin-right:auto;padding:0 24px}
+.steps{
+  list-style:none;max-width:1240px;margin:0 auto;padding:0 24px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative;
+}
+.steps::before{content:"";position:absolute;top:44px;left:12%;right:12%;height:1.5px;
+  background:repeating-linear-gradient(90deg,var(--amber-deep) 0 10px,transparent 10px 20px);opacity:.55}
+.step{background:var(--paper);border:1px solid var(--ink-line);border-radius:20px;padding:38px 30px;position:relative;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.step:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(26,26,26,.1)}
+.step-no{font-size:56px;font-weight:800;color:var(--amber);letter-spacing:.02em;line-height:1;
+  font-variant-numeric:tabular-nums}
+.step h3{font-size:20px;font-weight:700;margin:18px 0 10px;letter-spacing:.05em}
+.step p{color:var(--ink-soft);font-size:14.5px}
+.tryon-cta{text-align:center;margin-top:48px}
+.fine{margin-top:14px;font-size:12.5px;color:var(--ink-soft);letter-spacing:.08em}
+
+/* ---------- 验光预约 ---------- */
+.booking-card{
+  display:grid;grid-template-columns:1fr 1.1fr;gap:0;overflow:hidden;
+  background:var(--ink);color:var(--paper);border-radius:26px;
+  box-shadow:0 30px 70px rgba(26,26,26,.25);
+}
+.booking-info{padding:56px 48px;background:
+  radial-gradient(90% 70% at 20% 10%,rgba(217,164,65,.16),transparent 60%),var(--ink)}
+.booking-info h2{font-size:clamp(30px,3.6vw,42px);font-weight:800;margin:14px 0 14px;letter-spacing:.04em}
+.booking-info>p{color:rgba(232,226,216,.72);font-size:15px}
+.booking-points{list-style:none;margin:26px 0}
+.booking-points li{padding:11px 0 11px 30px;position:relative;font-size:14.5px;color:rgba(232,226,216,.85);border-bottom:1px solid rgba(232,226,216,.12)}
+.booking-points li::before{content:"";position:absolute;left:4px;top:17px;width:11px;height:6px;
+  border-left:2.5px solid var(--amber);border-bottom:2.5px solid var(--amber);transform:rotate(-45deg)}
+.booking-tel{margin-top:8px;font-size:14px;color:rgba(232,226,216,.6)}
+.booking-tel a{color:var(--amber);font-weight:800;font-size:19px;text-decoration:none;letter-spacing:.06em}
+.booking-tel span{font-size:12.5px}
+.booking-form{padding:56px 48px;background:var(--paper-card);color:var(--ink);display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label,.field-label{font-size:13px;font-weight:700;letter-spacing:.14em}
+.field label em{font-style:normal;color:var(--ink-soft);font-weight:500}
+.field input,.field select,.field textarea{
+  font-family:inherit;font-size:15.5px;color:var(--ink);
+  background:var(--paper);border:1.5px solid var(--ink-line);border-radius:12px;padding:13px 16px;
+  transition:border-color .3s,box-shadow .3s;appearance:none;
+}
+.field textarea{resize:vertical;min-height:52px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--amber-deep);box-shadow:0 0 0 4px var(--amber-soft)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(26,26,26,.35)}
+.field-err{font-size:12.5px;color:#A33B2E;letter-spacing:.04em}
+.slots{display:flex;gap:10px}
+.slots label{flex:1;cursor:pointer}
+.slots input{position:absolute;opacity:0;pointer-events:none}
+.slots span{display:flex;align-items:center;justify-content:center;padding:12px 0;border-radius:12px;
+  border:1.5px solid var(--ink-line);font-size:14px;font-weight:600;background:var(--paper);
+  transition:all .3s var(--ease)}
+.slots input:checked+span{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.slots input:focus-visible+span{box-shadow:0 0 0 4px var(--amber-soft)}
+.booking-form .fine{text-align:center}
+.booking-done{padding:70px 48px;background:var(--paper-card);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:14px}
+.done-mark{width:72px;height:72px;border-radius:50%;background:var(--amber);color:var(--ink);
+  font-size:34px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  animation:pop .6s var(--ease-spring)}
+@keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.booking-done h3{font-size:26px;font-weight:800}
+.booking-done p{color:var(--ink-soft);font-size:15px}
+#doneSummary{color:var(--ink);font-weight:600}
+
+/* ---------- CTA ---------- */
+.cta{background:var(--ink);color:var(--paper);text-align:center;padding:120px 24px;overflow:hidden;position:relative}
+.cta::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(46% 60% at 50% 100%,rgba(217,164,65,.22),transparent 70%)}
+.cta-inner{position:relative;max-width:720px;margin:0 auto}
+.cta h2{font-size:clamp(34px,5.4vw,60px);font-weight:800;letter-spacing:.03em;line-height:1.25;margin:18px 0 14px}
+.cta p{color:rgba(232,226,216,.7);letter-spacing:.1em;font-size:15px;margin-bottom:36px}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#141414;color:rgba(232,226,216,.72);padding:70px 24px 0}
+.footer-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+.footer .logo-cn{color:var(--paper)}
+.footer-desc{margin:16px 0 22px;font-size:14px;max-width:280px}
+.social{display:flex;gap:12px}
+.social a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(232,226,216,.25);
+  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease)}
+.social a svg{width:21px;height:21px;fill:rgba(232,226,216,.75);transition:fill .3s}
+.social a:hover{background:var(--amber);border-color:var(--amber);transform:translateY(-3px)}
+.social a:hover svg{fill:var(--ink)}
+.footer-col h4{color:var(--paper);font-size:13px;letter-spacing:.3em;margin-bottom:18px;font-weight:700}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px;font-size:14px}
+.footer-col a{color:rgba(232,226,216,.72);text-decoration:none;transition:color .3s}
+.footer-col a:hover{color:var(--amber)}
+.footer-col .linklike{color:rgba(232,226,216,.72);text-decoration:none;font-size:14px}
+.footer-col .linklike:hover{color:var(--amber)}
+.footer-bottom{max-width:1240px;margin:56px auto 0;padding:24px 0;border-top:1px solid rgba(232,226,216,.14);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:rgba(232,226,216,.45)}
+.footer-bottom .fine{margin:0}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:1500;display:flex;align-items:center;justify-content:center;padding:22px}
+.modal[hidden]{display:none}
+.modal-backdrop{position:absolute;inset:0;background:rgba(20,20,20,.6);backdrop-filter:blur(4px)}
+.modal-card{position:relative;background:var(--paper-card);border-radius:20px;max-width:640px;width:100%;
+  max-height:82vh;display:flex;flex-direction:column;padding:38px 40px 30px;
+  animation:modalIn .5s var(--ease-spring);box-shadow:0 40px 90px rgba(0,0,0,.35)}
+@keyframes modalIn{0%{transform:translateY(36px) scale(.97);opacity:0}100%{transform:none;opacity:1}}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:32px;cursor:pointer;
+  color:var(--ink-soft);line-height:1;transition:color .3s,transform .3s}
+.modal-close:hover{color:var(--ink);transform:rotate(90deg)}
+.modal-card h3{font-size:23px;font-weight:800;letter-spacing:.06em;margin-bottom:6px}
+.modal-card h3 small{display:block;font-size:12px;font-weight:500;color:var(--ink-soft);letter-spacing:.1em;margin-top:6px}
+.modal-body{overflow-y:auto;margin-top:14px;padding-right:8px;font-size:14.5px;color:var(--ink-soft)}
+.modal-body h5{color:var(--ink);font-size:15px;margin:20px 0 8px;letter-spacing:.04em}
+.modal-body h5:first-child{margin-top:0}
+.modal-body p{margin-bottom:10px}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .booking-card{grid-template-columns:1fr}
+  .booking-info,.booking-form,.booking-done{padding:44px 30px}
+  .steps{grid-template-columns:1fr;max-width:560px}
+  .steps::before{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+  .nav-inner{gap:16px}
+  .hero{padding-top:110px}
+  .rail-btn{display:none}
+  .field-row{grid-template-columns:1fr}
+  .slots{flex-direction:column}
+  .hero-stats{gap:26px}
+  .series,.tryon,.booking{padding:80px 20px}
+  .dial{right:-4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .js .rv{opacity:1;transform:none}
+  .js .hero-title .rl-line{transform:none}
+}
+
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body id="top">
+
+<!-- 加载态：品牌印记脉冲，最长 4.5s 自动消退（CSS 兜底） -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark"><span>目</span></div>
+  <div class="loader-bar"><i></i></div>
+</div>
+
+<!-- 噪点颗粒（SVG turbulence data URI，非外链） -->
+<div class="grain" aria-hidden="true"></div>
+<!-- 暗角 -->
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="#top" aria-label="目屿 MUYU 首页">
+      <span class="logo-cn">目屿</span><span class="logo-en">MUYU</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#series">系列镜框</a>
+      <a href="#tryon">在家试戴</a>
+      <a href="#booking">验光预约</a>
+    </nav>
+    <a class="btn btn-ink btn-sm nav-cta" href="#booking">预约验光</a>
+  </div>
+</header>
+
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" aria-hidden="true">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <a class="drawer-logo" href="#top"><span>目屿</span><em>MUYU</em></a>
+  <nav class="drawer-links">
+    <a href="#series">系列镜框</a>
+    <a href="#tryon">在家试戴</a>
+    <a href="#booking">验光预约</a>
+  </nav>
+  <a class="btn btn-amber drawer-cta" href="#booking">预约免费验光</a>
+  <p class="drawer-tel">客服 <a href="tel:4000882026" data-site="phone">400-088-2026</a></p>
+</aside>
+
+<main>
+  <!-- ============ HERO：居中大字 + 镜框 360° 旋转 ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <p class="eyebrow rv">目屿 MUYU · 2026 秋季系列「雾屿」</p>
+      <h1 class="hero-title">
+        <span class="mask"><span class="rl-line">看清世界，</span></span>
+        <span class="mask"><span class="rl-line">先看清<em>自己</em>。</span></span>
+      </h1>
+      <p class="hero-sub rv">全框 / 半框 / 无框，136 款镜框全部支持免费在家试戴。<br>验光、配镜，一副 ¥599 起。</p>
+      <div class="hero-ctas rv">
+        <a class="btn btn-ink" href="#series">挑选镜框</a>
+        <a class="btn btn-ghost" href="#tryon">免费在家试戴</a>
+      </div>
+    </div>
+
+    <div class="stage rv" id="stage" aria-label="镜框 360 度旋转展示，拖动可旋转">
+      <div class="turntable">
+        <div class="rotor" id="rotor"><!-- JS 注入 5 层挤出镜框 --></div>
+        <div class="glare" id="glare" aria-hidden="true"></div>
+      </div>
+      <div class="stage-shadow" id="stageShadow" aria-hidden="true"></div>
+      <div class="dial" aria-hidden="true">
+        <svg viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="30" class="dial-bg"/>
+          <circle cx="36" cy="36" r="30" class="dial-arc" id="dialArc"/>
+        </svg>
+        <span class="dial-deg" id="dialDeg">0°</span>
+      </div>
+      <p class="stage-hint" id="stageHint">← 拖动旋转 · 360° →</p>
+    </div>
+
+    <ul class="hero-stats rv">
+      <li><b>136</b><span>款镜框在售</span></li>
+      <li><b>30<i>天</i></b><span>无理由退换</span></li>
+      <li><b>2<i>年</i></b><span>镜架质保</span></li>
+    </ul>
+
+    <a class="scroll-cue" href="#series" aria-label="向下滚动"><i></i></a>
+  </section>
+
+  <!-- ============ 系列横滑陈列 ============ -->
+  <section class="series" id="series">
+    <div class="section-head rv">
+      <p class="eyebrow">FRAME COLLECTION</p>
+      <h2>镜框系列</h2>
+      <p class="section-sub">六款主打，横滑浏览。每一副都可以在家免费试戴五天。</p>
+    </div>
+    <div class="rail-wrap rv">
+      <button class="rail-btn prev" id="railPrev" aria-label="向左滚动">‹</button>
+      <div class="rail" id="rail" tabindex="0" aria-label="镜框系列横滑列表"><!-- JS 渲染卡片 --></div>
+      <button class="rail-btn next" id="railNext" aria-label="向右滚动">›</button>
+    </div>
+  </section>
+
+  <!-- ============ 在家试戴 3 步骤 ============ -->
+  <section class="tryon" id="tryon">
+    <div class="section-head rv">
+      <p class="eyebrow">HOME TRY-ON</p>
+      <h2>在家试戴，三步就好</h2>
+      <p class="section-sub">不用出门，不用将就。镜框寄到你手上，慢慢挑。</p>
+    </div>
+    <ol class="steps">
+      <li class="step rv">
+        <span class="step-no">01</span>
+        <h3>线上挑选五副</h3>
+        <p>在系列里勾选最多五副心仪镜框，加入试戴盒。近视度数先不填，试戴的是版型。</p>
+      </li>
+      <li class="step rv" style="--d:.12s">
+        <span class="step-no">02</span>
+        <h3>顺丰包邮到家</h3>
+        <p>48 小时内发出，运费我们付。试戴盒里附赠清洁布、鼻托贴和一张手写卡。</p>
+      </li>
+      <li class="step rv" style="--d:.24s">
+        <span class="step-no">03</span>
+        <h3>七天免费体验</h3>
+        <p>戴出门、拍照、问朋友。看中的那副下单配镜，其余四副免费寄回即可。</p>
+      </li>
+    </ol>
+    <div class="tryon-cta rv">
+      <a class="btn btn-amber" href="#booking">开始挑选试戴盒</a>
+      <p class="fine">试戴全程 ¥0 · 损坏不用赔 · 顺丰上门取回</p>
+    </div>
+  </section>
+
+  <!-- ============ 验光预约表单 ============ -->
+  <section class="booking" id="booking">
+    <div class="booking-card rv">
+      <div class="booking-info">
+        <p class="eyebrow">EYE EXAM</p>
+        <h2>预约免费验光</h2>
+        <p>25 分钟，一对一。验光师会给你一份完整的视力档案，配不配镜都归你。</p>
+        <ul class="booking-points">
+          <li>电脑验光 + 综合验光仪双检</li>
+          <li>镜框佩戴舒适度现场调校</li>
+          <li>档案同步到你的试戴账户</li>
+        </ul>
+        <p class="booking-tel">电话预约 <a data-site="phone" href="tel:4000882026">400-088-2026</a><br><span data-site="hours">每日 10:00 – 22:00</span></p>
+      </div>
+      <form class="booking-form" id="bookForm" novalidate>
+        <div class="field">
+          <label for="fName">姓名</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="fPhone">手机</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号" autocomplete="tel" required>
+          <p class="field-err" id="errPhone" hidden>手机号格式不对，再检查一下</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fCity">城市</label>
+            <select id="fCity" name="city" required>
+              <option value="">选择城市</option>
+              <option>上海</option><option>北京</option><option>广州</option>
+              <option>深圳</option><option>杭州</option><option>成都</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fDate">日期</label>
+            <input id="fDate" name="date" type="date" required>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">时段</span>
+          <div class="slots" role="radiogroup" aria-label="预约时段">
+            <label><input type="radio" name="slot" value="10:00–12:00" checked><span>上午</span></label>
+            <label><input type="radio" name="slot" value="14:00–17:00"><span>下午</span></label>
+            <label><input type="radio" name="slot" value="18:00–21:00"><span>晚上</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fNote">备注 <em>（选填）</em></label>
+          <textarea id="fNote" name="note" rows="2" placeholder="比如：第一次配镜 / 孩子验光"></textarea>
+        </div>
+        <button class="btn btn-ink btn-block" type="submit">提交预约</button>
+        <p class="fine">提交即表示同意我们的 <button type="button" class="linklike" data-legal="privacy">隐私政策</button></p>
+      </form>
+      <div class="booking-done" id="bookDone" hidden>
+        <div class="done-mark">✓</div>
+        <h3>预约收到</h3>
+        <p id="doneSummary"></p>
+        <p class="fine">验光师将在 24 小时内电话与你确认具体时间。<br>如需改期，直接回复短信即可。</p>
+        <button class="btn btn-ghost" id="bookAgain" type="button">再约一位家人</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="cta-inner rv">
+      <p class="eyebrow eyebrow-light">FIRST PAIR</p>
+      <h2>第一副眼镜，<br>我们请你重新认识世界。</h2>
+      <p>新客首单立减 ¥100 · 免费验光 · 30 天无理由退换</p>
+      <a class="btn btn-amber btn-lg" href="#booking">预约免费验光</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <p class="logo"><span class="logo-cn">目屿</span><span class="logo-en">MUYU</span></p>
+      <p class="footer-desc">为每天戴 12 小时的人，做戴 12 小时也不累的眼镜。</p>
+      <div class="social" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号" title="微信公众号"><svg viewBox="0 0 24 24"><title>微信</title><path d="M9.5 4C5.9 4 3 6.5 3 9.6c0 1.8 1 3.4 2.5 4.4l-.6 2 2.2-1.1c.8.2 1.6.4 2.4.4h.3A5.6 5.6 0 0 1 9 13.4c0-2.5 2.3-4.6 5.2-4.6h.4C14.2 6 12 4 9.5 4zM15.4 10c-2.4 0-4.4 1.7-4.4 3.8s2 3.8 4.4 3.8c.6 0 1.2-.1 1.7-.3l1.6.8-.4-1.4c1.1-.8 1.7-1.8 1.7-3 0-2-2-3.7-4.6-3.7z"/><circle cx="13.4" cy="13.7" r=".9"/><circle cx="17.2" cy="13.7" r=".9"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><title>微博</title><path d="M10.1 20.2c-3.4.3-6.4-1.4-6.7-3.9-.3-2.4 2.2-4.7 5.6-5 3.1-.3 5.9 1.2 6.5 3.3l1.9-.6c-1-2.9-4.4-4.6-7.9-4.2-4.2.4-7.3 3.2-6.9 6.2.4 3.1 4 5.2 8.1 4.8 3-.3 5.3-1.9 5.9-3.9l-1.9.5c-.4 1.2-2.2 2.5-4.6 2.8zm8.3-9.1c-.3-.4-.8-.5-1.2-.3-.4.2-.5.8-.3 1.2.9 1.5.4 3.2-1 4.3 2-1.2 2.9-3.4 2.5-5.2zm2.2-1.3c-.3-.4-.9-.6-1.3-.3-.5.2-.6.9-.3 1.3 1.5 2.4.9 5.3-1.3 7.1 3-2 4.2-5.3 2.9-8.1z"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><title>小红书</title><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3.2 5.2c-.5 0-.9.4-.9.9v4.6c0 .5.4.9.9.9h3.6c.5 0 .9-.4.9-.9V9.1c0-.5-.4-.9-.9-.9h-3.6zm.5 1.4h2.6v3.8h-2.6V9.6zM9 16.4c-.4 0-.7.3-.7.7s.3.7.7.7h6c.4 0 .7-.3.7-.7s-.3-.7-.7-.7H9z"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><title>抖音</title><path d="M16.5 3c.4 2.3 1.9 3.8 4.2 4v3c-1.6 0-3-.5-4.2-1.4v6.6c0 3.4-2.5 5.8-5.8 5.8A5.6 5.6 0 0 1 5 15.4c0-3.2 2.6-5.7 6-5.4v3.1c-1.6-.3-3 .8-3 2.3 0 1.4 1.1 2.5 2.6 2.5 1.6 0 2.7-1.2 2.7-2.9V3h3.2z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>联系我们</h4>
+      <ul>
+        <li>客服电话 <a data-site="phone" href="tel:4000882026">400-088-2026</a></li>
+        <li>邮箱 <a data-site="email" href="mailto:hello@muyu-eyewear.com">hello@muyu-eyewear.com</a></li>
+        <li>门店 <span data-site="address">上海市静安区南京西路 1266 号 2 层 L201</span></li>
+        <li>营业时间 <span data-site="hours">每日 10:00 – 22:00</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>服务</h4>
+      <ul>
+        <li><a href="#series">系列镜框</a></li>
+        <li><a href="#tryon">在家试戴</a></li>
+        <li><a href="#booking">验光预约</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>法律</h4>
+      <ul>
+        <li><button class="linklike" data-legal="privacy">隐私政策</button></li>
+        <li><button class="linklike" data-legal="terms">服务条款</button></li>
+        <li><button class="linklike" data-legal="cookies">Cookie 政策</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 目屿光学 MUYU OPTICAL · <span data-site="icp">沪ICP备2026000000号-1</span></p>
+    <p class="fine">本站为品牌概念演示模板，信息均为虚构。</p>
+  </div>
+</footer>
+
+<!-- 法务三件套弹窗 -->
+<div class="modal" id="legalModal" hidden role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="document">
+    <button class="modal-close" data-close aria-label="关闭">×</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* MUYU vendor: tiny tween engine + physical easings (no dependencies).
+   Used by src/main.js for: scroll-cue nudge, card hover-free JS anims,
+   booking success panel, modal open, and the 360 dial sweep.
+   License: MIT (c) 2026 HUAFIRE777 */
+(function (global) {
+  'use strict';
+
+  // ---------- easings: all physical, none linear ----------
+  var Easings = {
+    // fast attack, long settle — default for entrances
+    easeOutExpo: function (t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); },
+    easeInOutCubic: function (t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    },
+    // overshoot and settle — for pops / marks
+    easeOutBack: function (t) {
+      var c = 1.70158, c3 = c + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2);
+    },
+    // gentle elastic for the dial sweep
+    easeOutElastic: function (t) {
+      if (t <= 0) return 0; if (t >= 1) return 1;
+      var c = (2 * Math.PI) / 3.2;
+      return Math.pow(2, -9 * t) * Math.sin((t * 9 - 0.75) * c) + 1;
+    },
+    easeOutQuart: function (t) { return 1 - Math.pow(1 - t, 4); }
+  };
+
+  var active = [];
+  var rafId = 0;
+  var now = function () {
+    return (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  };
+
+  function tick() {
+    rafId = 0;
+    var t = now();
+    // iterate backwards so completion splice is safe
+    for (var i = active.length - 1; i >= 0; i--) {
+      var tw = active[i];
+      if (tw.paused) continue;
+      var el = t - tw.start;
+      var p = tw.duration <= 0 ? 1 : Math.min(el / tw.duration, 1);
+      var e = tw.ease(p);
+      tw.onUpdate(tw.from + (tw.to - tw.from) * e, e, p);
+      if (p >= 1) {
+        active.splice(i, 1);
+        if (tw.onComplete) { try { tw.onComplete(); } catch (err) { setTimeout(function () { throw err; }, 0); } }
+      }
+    }
+    if (active.length) rafId = requestAnimationFrame(tick);
+  }
+
+  function schedule() {
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+
+  // tween({from,to,duration,ease,delay,onUpdate,onComplete}) -> handle {cancel,pause,resume}
+  function tween(opts) {
+    opts = opts || {};
+    var tw = {
+      from: typeof opts.from === 'number' ? opts.from : 0,
+      to: typeof opts.to === 'number' ? opts.to : 1,
+      duration: typeof opts.duration === 'number' ? opts.duration : 600,
+      ease: typeof opts.ease === 'function' ? opts.ease
+          : (Easings[opts.ease] || Easings.easeOutExpo),
+      onUpdate: opts.onUpdate || function () {},
+      onComplete: opts.onComplete || null,
+      start: now() + (opts.delay || 0),
+      paused: false,
+      _remain: 0
+    };
+    active.push(tw);
+    schedule();
+    return {
+      cancel: function () {
+        var i = active.indexOf(tw);
+        if (i !== -1) active.splice(i, 1);
+      },
+      pause: function () {
+        if (!tw.paused) { tw.paused = true; tw._remain = tw.start + tw.duration - now(); }
+      },
+      resume: function () {
+        if (tw.paused) { tw.paused = false; tw.start = now() + tw._remain - tw.duration; schedule(); }
+      }
+    };
+  }
+
+  // animate a CSS numeric property without touching existing transforms
+  function cssNum(el, prop, to, opts) {
+    opts = opts || {};
+    var from = parseFloat(getComputedStyle(el)[prop]) || 0;
+    var unit = opts.unit || '';
+    return tween({
+      from: from, to: to, duration: opts.duration, ease: opts.ease, delay: opts.delay,
+      onUpdate: function (v) { el.style[prop] = v + unit; },
+      onComplete: opts.onComplete
+    });
+  }
+
+  // stagger helper: run fn(i) with i*step delay
+  function stagger(count, step, fn, opts) {
+    var handles = [];
+    for (var i = 0; i < count; i++) {
+      (function (i) {
+        handles.push(tween({
+          from: 0, to: 1, duration: (opts && opts.duration) || 500,
+          ease: (opts && opts.ease) || 'easeOutExpo', delay: i * step,
+          onUpdate: function (v, e) { fn(i, v, e); }
+        }));
+      })(i);
+    }
+    return handles;
+  }
+
+  var Tween = {
+    tween: tween, css: cssNum, stagger: stagger,
+    easings: Easings,
+    cancelAll: function () { active.length = 0; if (rafId) { cancelAnimationFrame(rafId); rafId = 0; } }
+  };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = Tween;
+  global.MUYU_Tween = Tween;
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+<script>
+/* 目屿 MUYU — 主交互逻辑
+   纯原生 JS + vendor/tween.js（MUYU_Tween）。零外部依赖。 */
+(function () {
+  'use strict';
+  var T = window.MUYU_Tween;
+
+  /* ================= SITE 集中配置：一改全改 ================= */
+  var SITE = {
+    brand: '目屿 MUYU',
+    phone: '400-088-2026',
+    phoneHref: 'tel:4000882026',
+    address: '上海市静安区南京西路 1266 号 2 层 L201',
+    email: 'hello@muyu-eyewear.com',
+    hours: '每日 10:00 – 22:00',
+    icp: '沪ICP备2026000000号-1'
+  };
+  document.querySelectorAll('[data-site]').forEach(function (el) {
+    var k = el.getAttribute('data-site');
+    if (SITE[k] == null) return;
+    el.textContent = SITE[k];
+    if (k === 'phone' && el.tagName === 'A') el.setAttribute('href', SITE.phoneHref);
+    if (k === 'email' && el.tagName === 'A') el.setAttribute('href', 'mailto:' + SITE.email);
+  });
+
+  /* ================= 加载态 ================= */
+  var loader = document.getElementById('loader');
+  function hideLoader() { if (loader) loader.classList.add('done'); }
+  window.addEventListener('load', function () { setTimeout(hideLoader, 500); });
+  setTimeout(hideLoader, 2600); // 双保险
+
+  /* ================= 导航滚动态 ================= */
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 24); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ================= 移动端抽屉 ================= */
+  var burger = document.getElementById('burger'),
+      drawer = document.getElementById('drawer'),
+      backdrop = document.getElementById('drawerBackdrop'),
+      drawerClose = document.getElementById('drawerClose');
+  function openDrawer() {
+    drawer.classList.add('open'); backdrop.hidden = false;
+    requestAnimationFrame(function () { backdrop.classList.add('open'); });
+    burger.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open'); backdrop.classList.remove('open');
+    setTimeout(function () { backdrop.hidden = true; }, 400);
+    burger.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+  drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+
+  /* ================= HERO 入场：遮罩行揭示 ================= */
+  var hero = document.getElementById('hero');
+  // 完成态可达：即使 rAF/IO 异常，2.2s 后强制揭示（与 CSS 的 .is-in 覆盖规则配合）
+  setTimeout(function () { hero.classList.add('is-in'); }, 700);
+  setTimeout(function () { hero.classList.add('is-in'); }, 2200);
+
+  /* ================= 滚动 stagger 入场 ================= */
+  var rvEls = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    rvEls.forEach(function (el) { io.observe(el); });
+  } else {
+    rvEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ============================================================
+     核心动效：镜框 360° 旋转展示
+     5 层 SVG 挤出（translateZ）→ 伪厚度；rotor 做 rotateY；
+     高光/阴影/刻度盘随角度联动。3D 子树内无 filter（防压平）。
+     ============================================================ */
+  function glassesSVG(detail) {
+    var lensL = detail
+      ? '<rect class="lens" x="60" y="45" width="130" height="95" rx="30"/>' +
+        '<rect class="lens" x="250" y="45" width="130" height="95" rx="30"/>' +
+        '<polygon class="lens-glare" points="96,50 132,50 100,135 70,135"/>' +
+        '<polygon class="lens-glare" points="286,50 322,50 290,135 260,135"/>'
+      : '';
+    var pads = detail
+      ? '<ellipse class="pad" cx="207" cy="110" rx="6" ry="9"/>' +
+        '<ellipse class="pad" cx="233" cy="110" rx="6" ry="9"/>'
+      : '';
+    return '<svg viewBox="0 0 440 180" aria-hidden="true">' + lensL +
+      '<rect class="rim" x="60" y="45" width="130" height="95" rx="30"/>' +
+      '<rect class="rim" x="250" y="45" width="130" height="95" rx="30"/>' +
+      '<path class="rim" d="M190 74 C206 60 234 60 250 74"/>' +
+      '<path class="rim-thin" d="M60 74 L30 66"/>' +
+      '<path class="rim-thin" d="M380 74 L410 66"/>' +
+      '<circle class="rivet" cx="72" cy="68" r="3.5"/>' +
+      '<circle class="rivet" cx="368" cy="68" r="3.5"/>' + pads + '</svg>';
+  }
+
+  var rotor = document.getElementById('rotor'),
+      stage = document.getElementById('stage'),
+      glare = document.getElementById('glare'),
+      shadow = document.getElementById('stageShadow'),
+      dialArc = document.getElementById('dialArc'),
+      dialDeg = document.getElementById('dialDeg'),
+      ARC = 188.5;
+  var depths = [-10, -5, 0, 5, 8];
+  depths.forEach(function (z, i) {
+    var layer = document.createElement('div');
+    layer.className = 'layer' + (z === 0 ? '' : ' side');
+    layer.style.transform = 'translateZ(' + z + 'px)';
+    layer.innerHTML = glassesSVG(z === 0);
+    rotor.appendChild(layer);
+  });
+
+  var angle = -28,            // 开场从 -28° 用 tween 甩回 0（easeOutBack 物理感）
+      autoSpeed = 26,         // °/秒
+      autoOn = true,
+      resumeTimer = null,
+      dragging = false,
+      lastX = 0, lastT = 0,
+      reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render() {
+    var a = ((angle % 360) + 360) % 360;
+    rotor.style.transform = 'rotateY(' + angle + 'deg)';
+    var rad = a * Math.PI / 180, c = Math.cos(rad);
+    // 正面时高光最强，侧面时几乎消失
+    glare.style.opacity = (0.12 + 0.55 * Math.pow(Math.max(c, 0), 1.6)).toFixed(3);
+    // 阴影随朝向轻微呼吸
+    var s = 0.72 + 0.28 * Math.abs(c);
+    shadow.style.transform = 'scaleX(' + s.toFixed(3) + ')';
+    shadow.style.opacity = (0.55 + 0.45 * Math.abs(c)).toFixed(3);
+    // 刻度盘
+    dialArc.style.strokeDashoffset = (ARC * (1 - a / 360)).toFixed(1);
+    dialDeg.textContent = Math.round(a) + '°';
+  }
+
+  var prevT = performance.now();
+  function loop(t) {
+    var dt = Math.min((t - prevT) / 1000, 0.05);
+    prevT = t;
+    if (autoOn && !dragging && !reduceMotion) angle += autoSpeed * dt;
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // 开场：甩入（tween 真实调用点之一）
+  T.tween({
+    from: angle, to: 0, duration: 1100, ease: 'easeOutBack', delay: 800,
+    onUpdate: function (v) { angle = v; }
+  });
+  // 刻度盘扫一圈的小彩蛋：延迟后 dial arc 弹性扫过（tween 真实调用点之二）
+  T.tween({
+    from: ARC, to: 0, duration: 1400, ease: 'easeOutElastic', delay: 1600,
+    onUpdate: function (v) { if (!dragging && autoOn) dialArc.style.strokeDashoffset = v.toFixed(1); }
+  });
+
+  stage.addEventListener('pointerdown', function (e) {
+    dragging = true; lastX = e.clientX; lastT = performance.now();
+    stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+    autoOn = false;
+    if (resumeTimer) clearTimeout(resumeTimer);
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var dx = e.clientX - lastX;
+    lastX = e.clientX;
+    angle += dx * 0.55; // 拖动系数：跟手但不飘
+  });
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    stage.classList.remove('dragging');
+    if (reduceMotion) return;
+    resumeTimer = setTimeout(function () { autoOn = true; }, 2800); // 松手 2.8s 后恢复自动旋转
+  }
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  requestAnimationFrame(loop);
+
+  /* ================= 系列横滑卡片（程序化 SVG 镜框） ================= */
+  function frameSVG(kind, color) {
+    var s = 'stroke="' + color + '" stroke-width="6" fill="none" stroke-linecap="round"';
+    var lensFill = 'fill="' + color + '" opacity="0.14" stroke="none"';
+    var bridge = '<path d="M110 42 C118 34 132 34 140 42" ' + s + '/>';
+    var temples = '<path d="M20 44 L8 40" ' + s + '/><path d="M230 44 L242 40" ' + s + '/>';
+    var inner = '';
+    if (kind === 'round') {
+      inner = '<circle cx="65" cy="52" r="30" ' + lensFill + '/><circle cx="185" cy="52" r="30" ' + lensFill + '/>' +
+              '<circle cx="65" cy="52" r="30" ' + s + '/><circle cx="185" cy="52" r="30" ' + s + '/>';
+    } else if (kind === 'panto') {
+      inner = '<rect x="30" y="24" width="72" height="58" rx="28" ' + lensFill + '/>' +
+              '<rect x="148" y="24" width="72" height="58" rx="28" ' + lensFill + '/>' +
+              '<rect x="30" y="24" width="72" height="58" rx="28" ' + s + '/>' +
+              '<rect x="148" y="24" width="72" height="58" rx="28" ' + s + '/>';
+    } else {
+      inner = '<rect x="28" y="22" width="76" height="62" rx="16" ' + lensFill + '/>' +
+              '<rect x="146" y="22" width="76" height="62" rx="16" ' + lensFill + '/>' +
+              '<rect x="28" y="22" width="76" height="62" rx="16" ' + s + '/>' +
+              '<rect x="146" y="22" width="76" height="62" rx="16" ' + s + '/>';
+    }
+    return '<svg viewBox="0 0 250 110" aria-hidden="true">' + inner + bridge + temples + '</svg>';
+  }
+
+  var FRAMES = [
+    { name: '雾屿', no: '01', kind: 'wayfarer', color: '#1A1A1A', price: '¥699', was: '¥899', tag: '热卖' },
+    { name: '屿岸', no: '02', kind: 'round',    color: '#8C5A2B', price: '¥799', was: '',     tag: '新品' },
+    { name: '晨雾', no: '03', kind: 'panto',    color: '#9A938A', price: '¥649', was: '',     tag: '热卖' },
+    { name: '归航', no: '04', kind: 'wayfarer', color: '#D9A441', price: '¥899', was: '',     tag: '限量' },
+    { name: '听屿', no: '05', kind: 'round',    color: '#4A3A2C', price: '¥749', was: '',     tag: '' },
+    { name: '望舒', no: '06', kind: 'panto',    color: '#1A1A1A', price: '¥1299', was: '',    tag: '钛架' }
+  ];
+  var rail = document.getElementById('rail');
+  FRAMES.forEach(function (f, i) {
+    var a = document.createElement('a');
+    a.className = 'card rv';
+    a.href = '#booking';
+    a.style.setProperty('--d', (i * 0.08) + 's');
+    a.setAttribute('aria-label', f.name + ' ' + f.no + '，' + f.price);
+    a.innerHTML =
+      (f.tag ? '<span class="card-tag">' + f.tag + '</span>' : '') +
+      '<div class="card-frame">' + frameSVG(f.kind, f.color) + '</div>' +
+      '<h3>' + f.name + '<small>' + f.no + '</small></h3>' +
+      '<p class="price">' + f.price + (f.was ? '<s>' + f.was + '</s>' : '') + '</p>' +
+      '<p class="go">加入试戴盒 →</p>';
+    rail.appendChild(a);
+    ioObserve(a);
+  });
+  function ioObserve(el) {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (ens, o) {
+        ens.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); o.disconnect(); } });
+      }, { threshold: 0.1 }).observe(el);
+    } else el.classList.add('in');
+  }
+  function railStep() {
+    var card = rail.querySelector('.card');
+    return card ? card.getBoundingClientRect().width + 22 : 320;
+  }
+  document.getElementById('railPrev').addEventListener('click', function () {
+    rail.scrollBy({ left: -railStep(), behavior: 'smooth' });
+  });
+  document.getElementById('railNext').addEventListener('click', function () {
+    rail.scrollBy({ left: railStep(), behavior: 'smooth' });
+  });
+
+  /* ================= 验光预约表单 ================= */
+  var form = document.getElementById('bookForm'),
+      done = document.getElementById('bookDone'),
+      dateInput = document.getElementById('fDate'),
+      phoneInput = document.getElementById('fPhone'),
+      errPhone = document.getElementById('errPhone');
+  dateInput.min = new Date().toISOString().slice(0, 10);
+  phoneInput.addEventListener('input', function () { errPhone.hidden = true; });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('fName').value.trim(),
+        phone = phoneInput.value.trim(),
+        city = document.getElementById('fCity').value,
+        date = dateInput.value,
+        slot = (form.querySelector('input[name="slot"]:checked') || {}).value || '';
+    if (!name || !phone || !city || !date) {
+      // 浏览器原生缺失提示：聚焦第一个空项
+      var first = !name ? 'fName' : !phone ? 'fPhone' : !city ? 'fCity' : 'fDate';
+      document.getElementById(first).focus();
+      return;
+    }
+    if (!/^1[3-9]\d{9}$/.test(phone)) {
+      errPhone.hidden = false;
+      phoneInput.focus();
+      return;
+    }
+    document.getElementById('doneSummary').textContent =
+      name + '，已为你锁定：' + city + ' · ' + date + ' · ' + slot;
+    form.hidden = true;
+    done.hidden = false;
+    // 成功面板弹性入场（tween 真实调用点之三：stagger）
+    var kids = done.querySelectorAll('.done-mark, h3, p, .btn');
+    T.stagger(kids.length, 90, function (i, v, ez) {
+      kids[i].style.opacity = v.toFixed(2);
+      kids[i].style.transform = 'translateY(' + ((1 - ez) * 18).toFixed(1) + 'px)';
+    }, { duration: 550 });
+  });
+  document.getElementById('bookAgain').addEventListener('click', function () {
+    form.reset(); form.hidden = false; done.hidden = true;
+    document.getElementById('fName').focus();
+  });
+
+  /* ================= 法务三件套 ================= */
+  var LEGAL = {
+    privacy: {
+      title: '隐私政策', sub: '最后更新：2026 年 10 月',
+      body:
+        '<h5>我们收集什么</h5><p>预约验光时，你填写的姓名、手机号、城市和预约时间，用于安排验光师与你联系。浏览页面时，我们会记录匿名化的访问统计（如页面停留时长），用于改进页面体验，不关联你的身份。</p>' +
+        '<h5>用来做什么</h5><p>收集的信息只用于三件事：确认你的验光预约、寄送你选择的试戴盒、以及在你同意的情况下推送新品信息。不会出售、出租给任何第三方。</p>' +
+        '<h5>保存多久</h5><p>预约信息在服务完成后保留 12 个月用于售后，之后匿名化处理。你可以随时要求提前删除。</p>' +
+        '<h5>你的权利</h5><p>你有权查看、更正、删除我们持有的你的个人信息。联系客服 <b>' + SITE.phone + '</b>（' + SITE.hours + '），我们将在 3 个工作日内响应。</p>' +
+        '<h5>未成年人</h5><p>14 岁以下儿童的预约须由监护人陪同并代为填写，我们不会主动向儿童营销。</p>'
+    },
+    terms: {
+      title: '服务条款', sub: '最后更新：2026 年 10 月',
+      body:
+        '<h5>试戴服务</h5><p>在家试戴免费，每位用户每次最多选择 5 副镜框，试戴期 7 天。试戴期间镜框正常佩戴痕迹无需赔偿；如镜框遗失或严重损坏，需按吊牌价的 50% 赔偿。</p>' +
+        '<h5>验光预约</h5><p>验光服务免费，单次约 25 分钟。如需改期或取消，请至少提前 4 小时致电客服，无故爽约两次将暂停你的免费预约资格 90 天。</p>' +
+        '<h5>退换与质保</h5><p>自签收起 30 天内，无佩戴损坏可无理由退换。镜架享 2 年质保（正常使用下的开焊、断裂免费维修或更换）；镜片划伤、镜架人为折断不在质保范围内。</p>' +
+        '<h5>价格与优惠</h5><p>页面标价为人民币含税价。新客首单立减 ¥100 每个手机号限用一次，不与其他优惠叠加。</p>' +
+        '<h5>责任限制</h5><p>验光结果仅供配镜参考，不能替代医院眼科诊断。如你有眼部疾病史，请先就医。</p>'
+    },
+    cookies: {
+      title: 'Cookie 政策', sub: '最后更新：2026 年 10 月',
+      body:
+        '<h5>我们用什么 Cookie</h5><p>必需型：记住你的城市选择和表单草稿，关掉页面就失效。统计型：匿名访问计数，帮助我们知道哪个系列最受欢迎。营销型：仅在你点击社交媒体分享后，由对应平台写入，我们不直接操作。</p>' +
+        '<h5>怎么管理</h5><p>你可以在浏览器设置里一键清除或禁用 Cookie。禁用后页面照常浏览，只是试戴盒的已选款式可能记不住，需要重新勾选。</p>' +
+        '<h5>第三方</h5><p>我们接入的顺丰物流查询、短信通知服务商会写入自己的 Cookie，受它们各自的隐私政策约束，与我们无关。</p>' +
+        '<h5>联系</h5><p>对 Cookie 有任何疑问，致电 <b>' + SITE.phone + '</b> 或发邮件至 <b>' + SITE.email + '</b>。</p>'
+    }
+  };
+  var modal = document.getElementById('legalModal'),
+      legalTitle = document.getElementById('legalTitle'),
+      legalBody = document.getElementById('legalBody'),
+      lastFocus = null;
+  function openLegal(key) {
+    var L = LEGAL[key];
+    if (!L) return;
+    lastFocus = document.activeElement;
+    legalTitle.innerHTML = L.title + '<small>' + L.sub + '</small>';
+    legalBody.innerHTML = L.body;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    legalBody.scrollTop = 0;
+    modal.querySelector('.modal-close').focus();
+  }
+  function closeLegal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-legal]').forEach(function (btn) {
+    btn.addEventListener('click', function () { openLegal(btn.getAttribute('data-legal')); });
+  });
+  modal.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', closeLegal);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hidden) closeLegal();
+  });
+})();
+
+</script>
+</body>
+</html>

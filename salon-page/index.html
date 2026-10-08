@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绒 RONG · 美发美容 — 把时间还给自己</title>
+<meta name="description" content="绒 RONG 美发美容：剪发、染发、烫发、头皮护理。在线预约，留一个下午给自己。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23161412'/%3E%3Ctext x='32' y='42' font-size='30' text-anchor='middle' fill='%23C7A35B' font-family='serif'%3E%E7%BB%92%3C/text%3E%3C/svg%3E">
+<style>
+/* 绒 RONG · salon-page — 奶油白 #FAF5EE / 曜石黑 #161412 / 香槟金 #C7A35B */
+:root{
+  --cream:#FAF5EE; --cream-2:#F3EBDF; --ink:#161412; --ink-2:#3A352E;
+  --gold:#C7A35B; --gold-deep:#A8863F;
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Noto Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--ink)}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.section{padding:110px 0}
+
+/* ---------- 全页噪点 ---------- */
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ---------- 加载态 ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:var(--cream);display:flex;align-items:center;justify-content:center;
+  transition:opacity .7s var(--ease),visibility .7s}
+#loader.done{opacity:0;visibility:hidden}
+.loader-inner{text-align:center}
+.loader-mono{font-family:var(--serif);font-size:64px;color:var(--ink);line-height:1;animation:monopulse 1.6s ease-in-out infinite}
+.loader-word{margin-top:14px;font-size:11px;letter-spacing:.5em;color:var(--ink-2)}
+.loader-bar{width:180px;height:2px;background:var(--cream-2);margin:22px auto 0;overflow:hidden;border-radius:2px}
+.loader-bar span{display:block;height:100%;width:40%;background:var(--gold);animation:loadslide 1.1s ease-in-out infinite}
+@keyframes monopulse{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes loadslide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+
+/* ---------- 导航 ---------- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .45s var(--ease),box-shadow .45s var(--ease),backdrop-filter .45s}
+#nav.scrolled{background:rgba(250,245,238,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(22,20,18,.08)}
+.nav-inner{max-width:1180px;margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;gap:36px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mono{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--gold);font-family:var(--serif);font-size:22px;display:flex;align-items:center;justify-content:center}
+.brand-word{font-family:var(--serif);font-size:19px;letter-spacing:.28em}
+.brand-word em{display:block;font-style:normal;font-family:var(--sans);font-size:9px;letter-spacing:.5em;color:var(--ink-2)}
+.nav-links{margin-left:auto;display:flex;gap:30px}
+.nav-links a{font-size:14px;letter-spacing:.12em;position:relative;padding:6px 0;color:var(--ink-2)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold-deep);transition:width .4s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{margin-left:6px}
+.burger{display:none;margin-left:auto;background:none;border:0;cursor:pointer;padding:10px}
+.burger span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;transition:transform .35s var(--ease),opacity .3s}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-block;padding:13px 30px;font-size:14px;letter-spacing:.18em;border-radius:999px;cursor:pointer;border:1px solid transparent;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .35s,color .35s}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(168,134,63,.35)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(22,20,18,.3)}
+.btn-ghost{border-color:rgba(22,20,18,.28);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-line{border-color:rgba(22,20,18,.3);color:var(--cream);padding:10px 26px}
+.btn-line:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.btn-big{width:100%;padding:16px;font-size:15px}
+
+/* ---------- 移动抽屉 ---------- */
+.drawer-scrim{position:fixed;inset:0;z-index:110;background:rgba(22,20,18,.45);opacity:0;transition:opacity .4s var(--ease)}
+.drawer-scrim.open{opacity:1}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(340px,84vw);z-index:120;background:var(--ink);color:var(--cream);
+  padding:28px 34px;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .55s var(--ease)}
+.drawer.open{transform:none}
+.drawer-close{align-self:flex-end;background:none;border:0;color:var(--cream);font-size:20px;cursor:pointer;padding:8px}
+.drawer-links{display:flex;flex-direction:column;gap:6px;margin-top:30px}
+.drawer-links a{font-family:var(--serif);font-size:30px;letter-spacing:.14em;padding:12px 0;border-bottom:1px solid rgba(250,245,238,.12);
+  opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.drawer.open .drawer-links a{opacity:1;transform:none}
+.drawer.open .drawer-links a:nth-child(1){transition-delay:.1s}.drawer.open .drawer-links a:nth-child(2){transition-delay:.18s}
+.drawer.open .drawer-links a:nth-child(3){transition-delay:.26s}.drawer.open .drawer-links a:nth-child(4){transition-delay:.34s}
+.drawer-links a:hover{color:var(--gold)}
+.drawer-foot{margin-top:auto;color:rgba(250,245,238,.6);font-size:13px;line-height:2}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:130px 0 90px;overflow:hidden}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(22,20,18,.10) 100%)}
+.hero-inner{position:relative;width:100%;max-width:1180px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.eyebrow{font-size:12px;letter-spacing:.42em;color:var(--gold-deep);margin-bottom:26px}
+.eyebrow.light{color:var(--gold)}
+.hero-title{font-family:var(--serif);font-weight:400;font-size:clamp(52px,7vw,96px);line-height:1.28;letter-spacing:.06em}
+.hero-title em{font-style:normal;color:var(--gold-deep);position:relative}
+.rl-mask{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.js .rl-line{display:block;transform:translateY(112%);transition:transform 1.15s var(--ease)}
+.js [data-intro].is-in .rl-line{transform:none}
+.js [data-intro].is-in .rl-mask:nth-of-type(2) .rl-line{transition-delay:.14s}
+.hero-sub{margin-top:28px;font-size:17px;color:var(--ink-2);line-height:2}
+.hero-ctas{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.hero-trust{margin-top:30px;font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}
+.hero-trust .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:monopulse 2s ease-in-out infinite}
+.hero-visual{position:relative;display:flex;justify-content:center}
+.strands{width:min(400px,80vw);height:auto;transform-origin:50% 0;animation:sway 9s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-1.1deg)}to{transform:rotate(1.1deg)}}
+.strand-sheen path{stroke-dasharray:150 1500;animation:sheen 7.5s ease-in-out infinite}
+@keyframes sheen{0%{stroke-dashoffset:1650}55%{stroke-dashoffset:-150}100%{stroke-dashoffset:-150}}
+.hero-card{position:absolute;left:0;bottom:34px;background:rgba(250,245,238,.85);backdrop-filter:blur(10px);border:1px solid rgba(199,163,91,.4);
+  border-radius:14px;padding:16px 22px;box-shadow:0 18px 40px rgba(22,20,18,.10);animation:floaty 5.5s ease-in-out infinite alternate}
+@keyframes floaty{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.hc-k{font-size:11px;letter-spacing:.34em;color:var(--gold-deep)}
+.hc-v{font-family:var(--serif);font-size:30px;margin:4px 0}
+.hc-v span{font-size:14px;font-family:var(--sans);color:var(--ink-2)}
+.hc-s{font-size:12px;color:var(--ink-2)}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);width:26px;height:44px;border:1.5px solid rgba(22,20,18,.3);border-radius:14px}
+.scroll-hint span{display:block;width:4px;height:9px;border-radius:4px;background:var(--gold-deep);margin:8px auto;animation:drop 1.8s var(--ease) infinite}
+@keyframes drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(16px);opacity:0}100%{opacity:0}}
+
+/* ---------- 跑马灯 ---------- */
+.ticker{background:var(--ink);color:var(--cream);overflow:hidden;padding:16px 0;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+.ticker-track{display:inline-flex;gap:34px;white-space:nowrap;animation:tick 30s linear infinite;will-change:transform}
+.ticker-track span{font-family:var(--serif);font-size:15px;letter-spacing:.2em}
+.ticker-track i{color:var(--gold);font-style:normal;font-size:11px;align-self:center}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- 通用区块 ---------- */
+.sec-title{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.4vw,54px);letter-spacing:.08em;line-height:1.4}
+.sec-title span{color:var(--gold-deep);font-size:.62em;letter-spacing:.2em}
+.sec-title.light{color:var(--cream)}
+.sec-sub{margin-top:16px;color:var(--ink-2);font-size:15px;line-height:2;max-width:640px}
+.sec-sub.light{color:rgba(250,245,238,.66)}
+
+/* ---------- reveal ---------- */
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* ---------- 服务价目 ---------- */
+.price-grid{margin-top:54px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.price-card{position:relative;background:#fff;border:1px solid rgba(22,20,18,.09);border-radius:18px;padding:34px 28px;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.price-card:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(22,20,18,.10)}
+.price-card.hot{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.price-card.hot .pc-note{color:rgba(250,245,238,.6)}
+.price-card.hot li{border-color:rgba(250,245,238,.14)}
+.pc-badge{position:absolute;top:-13px;left:28px;background:var(--gold);color:var(--ink);font-size:11px;letter-spacing:.24em;padding:5px 14px;border-radius:999px}
+.price-card h3{font-family:var(--serif);font-size:23px;letter-spacing:.14em;font-weight:400}
+.pc-note{font-size:12px;color:var(--ink-2);margin:8px 0 20px;letter-spacing:.1em}
+.price-card ul{list-style:none}
+.price-card li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-top:1px dashed rgba(22,20,18,.16);font-size:14px}
+.price-card li span{color:inherit}
+.price-card li b{font-family:var(--serif);font-weight:400;font-size:17px;color:var(--gold-deep);white-space:nowrap}
+.price-card.hot li b{color:var(--gold)}
+.price-foot{margin-top:34px;font-size:13px;color:var(--ink-2);text-align:center;letter-spacing:.06em}
+
+/* ---------- 造型师墙（深色） ---------- */
+.stylists{background:var(--ink);color:var(--cream)}
+.sty-grid{margin-top:54px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.sty-card{border:1px solid rgba(250,245,238,.14);border-radius:18px;padding:36px 28px;text-align:center;
+  transition:transform .45s var(--ease),border-color .45s,box-shadow .45s var(--ease)}
+.sty-card:hover{transform:translateY(-8px);border-color:var(--gold);box-shadow:0 24px 50px rgba(0,0,0,.4)}
+.sty-avatar{width:96px;height:96px;margin:0 auto 22px;border-radius:50%;border:1px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#2B2620,#161412 70%)}
+.sty-avatar span{font-family:var(--serif);font-size:40px;color:var(--gold)}
+.sty-card h3{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:.16em}
+.sty-card h3 em{font-style:normal;font-size:12px;font-family:var(--sans);color:var(--gold);letter-spacing:.24em;margin-left:8px}
+.sty-exp{font-size:12px;color:rgba(250,245,238,.55);margin-top:8px;letter-spacing:.08em}
+.sty-tags{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.sty-tags span{font-size:11px;letter-spacing:.2em;border:1px solid rgba(199,163,91,.55);color:var(--gold);border-radius:999px;padding:4px 12px}
+.sty-quote{margin:20px 0 24px;font-family:var(--serif);font-size:14px;line-height:1.9;color:rgba(250,245,238,.72);min-height:52px}
+
+/* ---------- 门店 ---------- */
+.store-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.store-list{margin-top:36px;display:flex;flex-direction:column}
+.store-list>div{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:18px 0;border-top:1px solid rgba(22,20,18,.12)}
+.store-list>div:last-child{border-bottom:1px solid rgba(22,20,18,.12)}
+.store-list dt{font-size:12px;letter-spacing:.34em;color:var(--gold-deep);padding-top:4px}
+.store-list dd{font-size:15px;line-height:1.9}
+.store-list dd a{border-bottom:1px solid var(--gold-deep)}
+.store-visual{text-align:center}
+.store-svg{width:100%;max-width:420px;margin:0 auto}
+.store-cap{margin-top:14px;font-size:12px;color:var(--ink-2);letter-spacing:.2em}
+
+/* ---------- 预约（深色） ---------- */
+.booking{background:var(--ink);color:var(--cream)}
+.booking-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start}
+.booking-points{list-style:none;margin-top:36px;display:flex;flex-direction:column;gap:18px}
+.booking-points li{display:flex;gap:18px;align-items:baseline;font-size:15px;color:rgba(250,245,238,.85)}
+.booking-points b{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:15px;letter-spacing:.1em}
+.book-form{background:rgba(250,245,238,.05);border:1px solid rgba(250,245,238,.14);border-radius:20px;padding:40px 36px;position:relative}
+.field{margin-bottom:20px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field label{display:block;font-size:12px;letter-spacing:.3em;color:var(--gold);margin-bottom:10px}
+.field input,.field select{width:100%;background:rgba(250,245,238,.07);border:1px solid rgba(250,245,238,.22);border-radius:12px;
+  color:var(--cream);font-size:15px;font-family:var(--sans);padding:14px 16px;outline:none;transition:border-color .3s,box-shadow .3s}
+.field select option{color:#161412}
+.field input:focus,.field select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(199,163,91,.22)}
+.field input::placeholder{color:rgba(250,245,238,.35)}
+.field.invalid input,.field.invalid select{border-color:#E0A090}
+.err{display:none;font-size:12px;color:#E8B4A0;margin-top:8px;letter-spacing:.06em}
+.field.invalid .err{display:block}
+.form-note{margin-top:18px;font-size:12px;color:rgba(250,245,238,.5);text-align:center}
+.form-note a{color:var(--gold);border-bottom:1px solid rgba(199,163,91,.5)}
+.form-success{position:absolute;inset:0;background:var(--ink);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px;gap:14px;animation:fadeup .7s var(--ease)}
+@keyframes fadeup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.fs-title{font-family:var(--serif);font-size:32px;letter-spacing:.2em;color:var(--gold)}
+.fs-body{font-size:15px;line-height:2.1;color:rgba(250,245,238,.85)}
+.fs-note{font-size:13px;color:rgba(250,245,238,.55)}
+.fs-note b{color:var(--gold);font-weight:400}
+.form-success .btn-line{border-color:var(--gold);color:var(--gold)}
+.form-success .btn-line:hover{background:var(--gold);color:var(--ink)}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#0F0E0C;color:rgba(250,245,238,.7);padding:80px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:50px}
+.f-logo{font-family:var(--serif);font-size:22px;letter-spacing:.24em;color:var(--cream);display:flex;align-items:center;gap:12px}
+.f-desc{margin-top:18px;font-size:13px;line-height:2}
+.f-social{display:flex;gap:12px;margin-top:24px}
+.f-social a{width:40px;height:40px;border:1px solid rgba(250,245,238,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgba(250,245,238,.75);transition:all .35s var(--ease)}
+.f-social a svg{width:20px;height:20px}
+.f-social a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+.f-h{font-size:12px;letter-spacing:.34em;color:var(--gold);margin-bottom:20px}
+.f-col p{font-size:13px;line-height:2.1}
+.f-col a{border-bottom:1px solid transparent}
+.f-col a:hover{color:var(--gold)}
+.f-link{background:none;border:0;color:inherit;font-size:13px;cursor:pointer;padding:0;font-family:var(--sans)}
+.f-link:hover{color:var(--gold)}
+.f-bottom{margin-top:60px;border-top:1px solid rgba(250,245,238,.12);padding:24px 32px 30px;font-size:12px;letter-spacing:.1em;color:rgba(250,245,238,.45);text-align:center}
+
+/* ---------- 法务弹窗 ---------- */
+.modal-scrim{position:fixed;inset:0;z-index:150;background:rgba(15,14,12,.55);opacity:0;transition:opacity .35s}
+.modal-scrim.open{opacity:1}
+.modal{position:fixed;z-index:160;left:50%;top:50%;transform:translate(-50%,-46%);width:min(620px,92vw);max-height:82vh;
+  background:var(--cream);color:var(--ink);border-radius:18px;padding:44px 44px 36px;overflow:hidden auto;
+  opacity:0;transition:opacity .4s var(--ease),transform .4s var(--ease);box-shadow:0 40px 90px rgba(0,0,0,.35)}
+.modal.open{opacity:1;transform:translate(-50%,-50%)}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:0;font-size:18px;cursor:pointer;color:var(--ink-2);padding:8px}
+.modal-close:hover{color:var(--ink)}
+.modal h3{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:.14em;margin-bottom:8px}
+.modal h3::after{content:"";display:block;width:44px;height:2px;background:var(--gold);margin-top:14px}
+.modal-body{margin-top:18px;font-size:14px;line-height:2}
+.modal-body h4{font-size:14px;letter-spacing:.2em;color:var(--gold-deep);margin:20px 0 6px;font-weight:600}
+.modal-body p{color:var(--ink-2)}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:1020px){
+  .price-grid{grid-template-columns:repeat(2,1fr)}
+  .sty-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-inner{grid-template-columns:1fr;gap:44px}
+  .hero-visual{order:-1}
+  .strands{width:min(320px,70vw)}
+  .hero-copy{text-align:center}
+  .hero-ctas,.hero-trust{justify-content:center}
+  .store-grid,.booking-grid{grid-template-columns:1fr;gap:50px}
+}
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:block}
+}
+@media(max-width:640px){
+  .section{padding:76px 0}
+  .wrap{padding:0 22px}
+  .price-grid,.sty-grid{grid-template-columns:1fr}
+  .field-row{grid-template-columns:1fr}
+  .book-form{padding:30px 22px}
+  .hero{padding:110px 0 70px}
+  .hero-card{left:8px;bottom:8px;padding:12px 16px}
+  .modal{width:100vw;max-height:100vh;top:0;left:0;transform:none;border-radius:0;padding:60px 26px 30px}
+  .modal.open{transform:none}
+  .footer-grid{grid-template-columns:1fr;gap:36px}
+  .store-list>div{grid-template-columns:76px 1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .js .reveal{opacity:1;transform:none}
+  .js .rl-line{transform:none}
+  .ticker-track{animation:none}
+}
+
+</style>
+</head>
+<body>
+
+<!-- 加载态 -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mono">绒</div>
+    <div class="loader-word">RONG · SALON</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- 全页纸纹噪点 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="绒 RONG 首页">
+      <span class="brand-mono">绒</span>
+      <span class="brand-word">RONG<em>SALON</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#services">服务价目</a>
+      <a href="#stylists">造型师</a>
+      <a href="#store">门店</a>
+      <a href="#booking">预约</a>
+    </nav>
+    <a class="btn btn-gold nav-cta" href="#booking">在线预约</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-scrim" id="drawerScrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" hidden>
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">✕</button>
+  <nav class="drawer-links">
+    <a href="#services">服务价目</a>
+    <a href="#stylists">造型师</a>
+    <a href="#store">门店</a>
+    <a href="#booking">在线预约</a>
+  </nav>
+  <div class="drawer-foot">
+    <p data-site="phone"></p>
+    <p data-site="hours"></p>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero" data-intro>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">上海 · 静安 — 开业第六年</p>
+        <h1 class="hero-title">
+          <span class="rl-mask"><span class="rl-line">把一个下午，</span></span>
+          <span class="rl-mask"><span class="rl-line">留给<em>头发</em>。</span></span>
+        </h1>
+        <p class="hero-sub reveal" data-d="0.25">剪、染、烫、护，一人一位，不赶时间。<br>绒 RONG 只做一件事：让你走出门时，觉得镜子里的人顺眼。</p>
+        <div class="hero-ctas reveal" data-d="0.35">
+          <a class="btn btn-dark" href="#booking">预约造型师</a>
+          <a class="btn btn-ghost" href="#services">看价目表</a>
+        </div>
+        <p class="hero-trust reveal" data-d="0.45"><span class="dot"></span>本周六、日下午尚有余位 · 提前 2 小时可约</p>
+      </div>
+      <div class="hero-visual reveal" data-d="0.2" aria-hidden="true">
+        <svg class="strands" viewBox="0 0 420 560" role="img" aria-label="流动的发丝">
+          <defs>
+            <linearGradient id="goldfade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#C7A35B" stop-opacity="0"/>
+              <stop offset=".5" stop-color="#C7A35B" stop-opacity=".95"/>
+              <stop offset="1" stop-color="#C7A35B" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g class="strand-base" fill="none" stroke="#161412" stroke-linecap="round">
+            <path d="M60,-20 C90,140 40,300 95,460 C120,540 105,585 130,600" stroke-width="14"/>
+            <path d="M120,-20 C150,130 95,290 150,450 C172,528 160,575 182,600" stroke-width="11"/>
+            <path d="M180,-20 C205,120 150,280 205,440 C224,515 214,568 232,600" stroke-width="16"/>
+            <path d="M240,-20 C262,110 210,270 262,430 C280,505 272,560 288,600" stroke-width="10"/>
+            <path d="M300,-20 C318,100 268,260 318,420 C334,498 328,555 342,600" stroke-width="13"/>
+            <path d="M355,-20 C370,95 322,250 370,410 C384,490 380,550 392,600" stroke-width="9"/>
+            <path d="M20,-20 C45,150 5,310 55,465 C75,540 65,580 88,600" stroke-width="8"/>
+            <path d="M405,-20 C415,100 372,260 415,415 C426,492 424,552 434,600" stroke-width="7"/>
+          </g>
+          <g class="strand-sheen" fill="none" stroke="url(#goldfade)" stroke-linecap="round">
+            <path d="M60,-20 C90,140 40,300 95,460 C120,540 105,585 130,600" stroke-width="14"/>
+            <path d="M120,-20 C150,130 95,290 150,450 C172,528 160,575 182,600" stroke-width="11"/>
+            <path d="M180,-20 C205,120 150,280 205,440 C224,515 214,568 232,600" stroke-width="16"/>
+            <path d="M240,-20 C262,110 210,270 262,430 C280,505 272,560 288,600" stroke-width="10"/>
+            <path d="M300,-20 C318,100 268,260 318,420 C334,498 328,555 342,600" stroke-width="13"/>
+            <path d="M355,-20 C370,95 322,250 370,410 C384,490 380,550 392,600" stroke-width="9"/>
+            <path d="M20,-20 C45,150 5,310 55,465 C75,540 65,580 88,600" stroke-width="8"/>
+            <path d="M405,-20 C415,100 372,260 415,415 C426,492 424,552 434,600" stroke-width="7"/>
+          </g>
+        </svg>
+        <div class="hero-card">
+          <p class="hc-k">今日空位</p>
+          <p class="hc-v">4 <span>位造型师可约</span></p>
+          <p class="hc-s">平均等待 0 分钟 · 一人一位</p>
+        </div>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#services" aria-label="向下滚动"><span></span></a>
+  </section>
+
+  <!-- 服务跑马灯 -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>剪发 ¥180 起</span><i>◆</i><span>染发 ¥680 起</span><i>◆</i><span>烫发 ¥780 起</span><i>◆</i>
+      <span>头皮护理 ¥380 起</span><i>◆</i><span>新娘盘发 ¥880 起</span><i>◆</i><span>儿童剪发 ¥120</span><i>◆</i>
+      <span>剪发 ¥180 起</span><i>◆</i><span>染发 ¥680 起</span><i>◆</i><span>烫发 ¥780 起</span><i>◆</i>
+      <span>头皮护理 ¥380 起</span><i>◆</i><span>新娘盘发 ¥880 起</span><i>◆</i><span>儿童剪发 ¥120</span><i>◆</i>
+    </div>
+  </div>
+
+  <!-- 服务价目 -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <p class="eyebrow reveal">Service &amp; Price</p>
+      <h2 class="sec-title reveal">服务价目<span>，明码标价</span></h2>
+      <p class="sec-sub reveal">价格含洗发与基础造型。染烫类免费做发质检测，方案不合适我们会直接说不合适。</p>
+      <div class="price-grid">
+        <article class="price-card reveal" data-d="0">
+          <h3>剪发造型</h3>
+          <p class="pc-note">含洗发 · 45 分钟</p>
+          <ul>
+            <li><span>总监剪发</span><b>¥380</b></li>
+            <li><span>资深剪发</span><b>¥280</b></li>
+            <li><span>设计师剪发</span><b>¥180</b></li>
+            <li><span>刘海修剪（免费·限会员）</span><b>¥0</b></li>
+          </ul>
+        </article>
+        <article class="price-card reveal hot" data-d="0.1">
+          <p class="pc-badge">约得最多</p>
+          <h3>染发</h3>
+          <p class="pc-note">含发质检测 · 2–3 小时</p>
+          <ul>
+            <li><span>单色染（短发）</span><b>¥680</b></li>
+            <li><span>单色染（长发）</span><b>¥880</b></li>
+            <li><span>挑染 / 耳圈染</span><b>¥980</b></li>
+            <li><span>褪色 + 创意色</span><b>¥1380</b></li>
+          </ul>
+        </article>
+        <article class="price-card reveal" data-d="0.2">
+          <h3>烫发</h3>
+          <p class="pc-note">含烫前护理 · 3 小时</p>
+          <ul>
+            <li><span>韩式纹理烫</span><b>¥780</b></li>
+            <li><span>法式大波浪</span><b>¥980</b></li>
+            <li><span>摩根烫 / 锡纸烫</span><b>¥880</b></li>
+            <li><span>烫后深层修复</span><b>+¥280</b></li>
+          </ul>
+        </article>
+        <article class="price-card reveal" data-d="0.3">
+          <h3>头皮护理</h3>
+          <p class="pc-note">独立护理间 · 60 分钟</p>
+          <ul>
+            <li><span>头皮深层清洁</span><b>¥380</b></li>
+            <li><span>去屑止痒疗程</span><b>¥480</b></li>
+            <li><span>生发固发护理</span><b>¥580</b></li>
+            <li><span>香薰肩颈放松（加购）</span><b>+¥120</b></li>
+          </ul>
+        </article>
+      </div>
+      <p class="price-foot reveal">所有染烫产品均为沙龙专供正品，扫码可验。会员储值享 9 折，生日当月剪发半价。</p>
+    </div>
+  </section>
+
+  <!-- 造型师墙 -->
+  <section class="section stylists" id="stylists">
+    <div class="wrap">
+      <p class="eyebrow reveal light">Our Stylists</p>
+      <h2 class="sec-title reveal light">造型师<span>，先看人再约</span></h2>
+      <p class="sec-sub reveal light">四位全职造型师，无外聘、无学徒代剪。点名字看擅长，直接约到人。</p>
+      <div class="sty-grid">
+        <article class="sty-card reveal" data-d="0">
+          <div class="sty-avatar" aria-hidden="true"><span>林</span></div>
+          <h3>林晚舟 <em>总监</em></h3>
+          <p class="sty-exp">12 年 · 曾任上海时装周后台造型</p>
+          <p class="sty-tags"><span>短发塑形</span><span>高颅顶烫</span></p>
+          <p class="sty-quote">“脸型比流行重要，先看骨相再动剪刀。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="林晚舟">约她</a>
+        </article>
+        <article class="sty-card reveal" data-d="0.1">
+          <div class="sty-avatar" aria-hidden="true"><span>陈</span></div>
+          <h3>陈默 <em>染发专家</em></h3>
+          <p class="sty-exp">9 年 · 专攻褪色与创意色</p>
+          <p class="sty-tags"><span>雾感色</span><span>耳圈染</span></p>
+          <p class="sty-quote">“褪色做到位，掉色也是好看的。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="陈默">约他</a>
+        </article>
+        <article class="sty-card reveal" data-d="0.2">
+          <div class="sty-avatar" aria-hidden="true"><span>苏</span></div>
+          <h3>苏青禾 <em>烫发专家</em></h3>
+          <p class="sty-exp">8 年 · 日系烫发研修背景</p>
+          <p class="sty-tags"><span>纹理烫</span><span>羊毛卷</span></p>
+          <p class="sty-quote">“卷度是睡出来的，不是夹出来的。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="苏青禾">约她</a>
+        </article>
+        <article class="sty-card reveal" data-d="0.3">
+          <div class="sty-avatar" aria-hidden="true"><span>江</span></div>
+          <h3>江一白 <em>护理 / 新娘造型</em></h3>
+          <p class="sty-exp">7 年 · 头皮护理认证讲师</p>
+          <p class="sty-tags"><span>头皮管理</span><span>新娘盘发</span></p>
+          <p class="sty-quote">“好发型长在健康的头皮上。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="江一白">约他</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 门店信息 -->
+  <section class="section store" id="store">
+    <div class="wrap store-grid">
+      <div class="store-copy">
+        <p class="eyebrow reveal">Visit Us</p>
+        <h2 class="sec-title reveal">门店<span>，在静安等你</span></h2>
+        <p class="sec-sub reveal">恒隆广场 3 层，扶梯上来右转第三间。门口有香槟金门牌，很好认。</p>
+        <dl class="store-list">
+          <div class="reveal" data-d="0"><dt>地址</dt><dd data-site="address"></dd></div>
+          <div class="reveal" data-d="0.08"><dt>电话</dt><dd><a data-site="phone" data-site-href="phoneHref"></a></dd></div>
+          <div class="reveal" data-d="0.16"><dt>营业时间</dt><dd data-site="hours"></dd></div>
+          <div class="reveal" data-d="0.24"><dt>交通</dt><dd>地铁 2/12/13 号线南京西路站，6 号口步行 3 分钟；商场 B2 有停车场</dd></div>
+        </dl>
+      </div>
+      <div class="store-visual reveal" data-d="0.15" aria-hidden="true">
+        <svg viewBox="0 0 400 300" class="store-svg">
+          <rect x="40" y="60" width="320" height="180" rx="6" fill="none" stroke="#161412" stroke-width="3"/>
+          <rect x="40" y="60" width="320" height="46" rx="6" fill="#161412"/>
+          <text x="200" y="90" text-anchor="middle" fill="#C7A35B" font-size="20" letter-spacing="8" font-family="serif">绒 RONG</text>
+          <rect x="150" y="130" width="100" height="110" fill="none" stroke="#C7A35B" stroke-width="2"/>
+          <line x1="200" y1="130" x2="200" y2="240" stroke="#C7A35B" stroke-width="2"/>
+          <rect x="70" y="130" width="56" height="70" fill="none" stroke="#161412" stroke-width="2"/>
+          <rect x="274" y="130" width="56" height="70" fill="none" stroke="#161412" stroke-width="2"/>
+          <circle cx="70" cy="262" r="4" fill="#C7A35B"/><circle cx="330" cy="262" r="4" fill="#C7A35B"/>
+        </svg>
+        <p class="store-cap">门店示意 · 实景以到店为准</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约 CTA -->
+  <section class="section booking" id="booking">
+    <div class="wrap booking-grid">
+      <div class="booking-copy">
+        <p class="eyebrow reveal light">Book Now</p>
+        <h2 class="sec-title reveal light">在线预约<span>，留一个下午</span></h2>
+        <p class="sec-sub reveal light">提交后 10 分钟内，店长会电话和你确认时间。<br>到店出示预约短信，免费升级一次发膜护理。</p>
+        <ul class="booking-points">
+          <li class="reveal" data-d="0"><b>01</b>一人一位，绝不拼台等位</li>
+          <li class="reveal" data-d="0.08"><b>02</b>染烫前免费发质检测，不合适直接劝退</li>
+          <li class="reveal" data-d="0.16"><b>03</b>迟到 15 分钟内保留预约，超时顺延</li>
+        </ul>
+      </div>
+      <form class="book-form reveal" data-d="0.1" id="bookForm" novalidate>
+        <div class="field">
+          <label for="fName">称呼</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name">
+          <p class="err" data-err="name"></p>
+        </div>
+        <div class="field">
+          <label for="fPhone">手机号</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号，用于确认预约" autocomplete="tel">
+          <p class="err" data-err="phone"></p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fService">服务项目</label>
+            <select id="fService" name="service">
+              <option value="">请选择服务</option>
+              <option>剪发造型</option>
+              <option>染发</option>
+              <option>烫发</option>
+              <option>头皮护理</option>
+              <option>新娘盘发（需提前 3 天）</option>
+            </select>
+            <p class="err" data-err="service"></p>
+          </div>
+          <div class="field">
+            <label for="fStylist">造型师</label>
+            <select id="fStylist" name="stylist">
+              <option value="">不指定</option>
+              <option>林晚舟</option>
+              <option>陈默</option>
+              <option>苏青禾</option>
+              <option>江一白</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">日期</label>
+            <input id="fDate" name="date" type="date">
+            <p class="err" data-err="date"></p>
+          </div>
+          <div class="field">
+            <label for="fTime">时间段</label>
+            <select id="fTime" name="time">
+              <option value="">请选择</option>
+              <option>10:00 – 12:00</option>
+              <option>12:00 – 14:00</option>
+              <option>14:00 – 16:00</option>
+              <option>16:00 – 18:00</option>
+              <option>18:00 – 20:00</option>
+            </select>
+            <p class="err" data-err="time"></p>
+          </div>
+        </div>
+        <button class="btn btn-gold btn-big" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意我们的<a href="#" data-legal="privacy">隐私政策</a>。信息仅用于预约确认，不做他用。</p>
+        <div class="form-success" id="formSuccess" hidden>
+          <p class="fs-title">预约已收到</p>
+          <p class="fs-body" id="fsBody"></p>
+          <p class="fs-note">店长将在 10 分钟内致电确认，请留意 <b data-site="phone"></b> 来电。</p>
+          <button class="btn btn-line" type="button" id="bookAgain">再约一位朋友</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <p class="f-logo"><span class="brand-mono">绒</span> RONG SALON</p>
+      <p class="f-desc">开业第六年，只做让人顺眼的头发。<br>一人一位，不赶时间。</p>
+      <div class="f-social">
+        <a href="#" aria-label="微信" title="微信"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15c3-1 4-4 3-7M10 16c4-1 6-5 5-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><path d="M10 4v10.5a3.5 3.5 0 1 0 3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 8.5c1 2.5 3 4 6 4.2V9.4c-1.6-.3-3-1.3-3.8-2.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <p class="f-h">联系我们</p>
+      <p data-site="address"></p>
+      <p><a data-site="phone" data-site-href="phoneHref"></a></p>
+      <p><a data-site="email" data-site-href="mailtoHref"></a></p>
+      <p data-site="hours"></p>
+    </div>
+    <div class="f-col">
+      <p class="f-h">网站政策</p>
+      <p><button class="f-link" data-legal="privacy">隐私政策</button></p>
+      <p><button class="f-link" data-legal="terms">服务条款</button></p>
+      <p><button class="f-link" data-legal="cookies">Cookie 政策</button></p>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · 把时间还给自己 ｜ <span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-scrim" id="modalScrim" hidden></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <button class="modal-close" id="modalClose" aria-label="关闭">✕</button>
+  <h3 id="modalTitle"></h3>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<script>
+/* 绒 RONG · salon-page 主脚本（classic，零依赖） */
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+
+  /* ============ 配置：买家改这里，一改全改 ============ */
+  var SITE = {
+    name: '绒 RONG',
+    address: '上海市静安区南京西路 1266 号恒隆广场 3 层 312 室',
+    phone: '021-6288-6688',
+    phoneHref: 'tel:+862162886688',
+    email: 'hello@rong-salon.cn',
+    mailtoHref: 'mailto:hello@rong-salon.cn',
+    hours: '周一至周日 10:00 – 21:00（最晚入店 20:00）',
+    icp: '沪ICP备xxxxxxxxxx号-1',
+    year: 2026
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: '隐私政策',
+      points: [
+        ['我们收集什么', '预约时我们会记录你的称呼、手机号、预约项目与时间，用于确认到店与售后回访。除此之外不收集任何信息。'],
+        ['用来做什么', '你的信息只用于本次预约的确认、提醒与售后，不做营销群发，不出售、不共享给任何第三方。'],
+        ['保存多久', '预约完成后 12 个月内删除。如需提前删除，发邮件或到店说一声即可，当场处理。'],
+        ['你的权利', '你随时可以要求查看、更正或删除自己的预约信息，店长会在 3 个工作日内办好。'],
+        ['未成年人', '14 岁以下顾客预约需由监护人陪同并代为填写信息。'],
+        ['联系我们', '任何隐私问题，直接打门店电话或发邮件，店长本人回复，不转客服。']
+      ]
+    },
+    terms: {
+      title: '服务条款',
+      points: [
+        ['预约与到店', '在线预约成功后请按时到店。迟到 15 分钟内为你保留，超过 15 分钟顺延到下一空位，或改约其他时间。'],
+        ['改约与取消', '提前 4 小时以上可免费改约或取消；2 小时内取消，染烫类项目需支付 30% 材料准备费。'],
+        ['价格说明', '价目表为到店价，含洗发与基础造型。染烫前会做免费发质检测，如发质不适合，我们会如实告知并建议暂缓。'],
+        ['效果承诺', '我们承诺按沟通好的方案执行。染烫后 7 天内对效果不满意，免费返工一次（发质受损类除外，会提前说明）。'],
+        ['会员储值', '储值卡不记名不挂失，店内消费通用，有效期 2 年，到期未用余额可退。'],
+        ['纠纷处理', '先店内协商，协商不成按消费者权益保护法处理。门店电话就是投诉电话。']
+      ]
+    },
+    cookies: {
+      title: 'Cookie 政策',
+      points: [
+        ['我们用什么', '本站只使用维持页面正常显示所必需的本地存储（如记住你上次选的服务项目），不放任何第三方追踪 Cookie。'],
+        ['不做什么', '不做跨站追踪、不做广告画像、不把你的浏览行为卖给任何人。'],
+        ['你可以关掉', '浏览器设置里随时可以清除本站的本地存储，不影响预约功能使用。'],
+        ['有效期', '本地记住的偏好最多保留 30 天，到期自动清除。'],
+        ['有问题找谁', '关于 Cookie 的任何疑问，发邮件给我们，3 个工作日内回复。']
+      ]
+    }
+  };
+
+  /* ============ SITE 渲染 ============ */
+  function renderSite() {
+    var els = document.querySelectorAll('[data-site]');
+    for (var i = 0; i < els.length; i++) {
+      var key = els[i].getAttribute('data-site');
+      if (!(key in SITE)) continue;
+      if (els[i].hasAttribute('data-site-href')) {
+        els[i].setAttribute('href', SITE[els[i].getAttribute('data-site-href')]);
+      }
+      els[i].textContent = SITE[key];
+    }
+  }
+
+  /* ============ 加载态 + hero 入场 ============ */
+  function finishIntro() {
+    var intro = document.querySelector('[data-intro]');
+    if (intro) intro.classList.add('is-in');
+    var loader = document.getElementById('loader');
+    if (loader) loader.classList.add('done');
+  }
+  var introDone = false;
+  function introOnce() {
+    if (introDone) return;
+    introDone = true;
+    setTimeout(finishIntro, 700); // 最短展示 700ms
+  }
+  window.addEventListener('load', introOnce);
+  setTimeout(introOnce, 4000); // 4s 兜底
+
+  /* ============ 导航滚动态 ============ */
+  var nav = document.getElementById('nav');
+  function onScroll() {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ============ 移动端抽屉 ============ */
+  var burger = document.getElementById('burger'),
+      drawer = document.getElementById('drawer'),
+      scrim = document.getElementById('drawerScrim'),
+      drawerClose = document.getElementById('drawerClose');
+  function openDrawer() {
+    drawer.hidden = false; scrim.hidden = false;
+    requestAnimationFrame(function () {
+      drawer.classList.add('open'); scrim.classList.add('open');
+    });
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open'); scrim.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    setTimeout(function () { drawer.hidden = true; scrim.hidden = true; }, 550);
+  }
+  burger.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  scrim.addEventListener('click', closeDrawer);
+  var dLinks = drawer.querySelectorAll('a');
+  for (var i = 0; i < dLinks.length; i++) dLinks[i].addEventListener('click', closeDrawer);
+
+  /* ============ 滚动 reveal ============ */
+  function clearDelay(el) {
+    setTimeout(function () { el.style.transitionDelay = ''; }, 1100);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        var d = el.getAttribute('data-d');
+        if (d) el.style.transitionDelay = d + 's';
+        el.classList.add('in');
+        clearDelay(el);
+        io.unobserve(el);
+      });
+    }, { threshold: 0.12 });
+    var revs = document.querySelectorAll('.reveal');
+    for (var j = 0; j < revs.length; j++) io.observe(revs[j]);
+  } else {
+    var revs2 = document.querySelectorAll('.reveal');
+    for (var k = 0; k < revs2.length; k++) revs2[k].classList.add('in');
+  }
+
+  /* ============ 法务弹窗（三通道关闭） ============ */
+  var modal = document.getElementById('modal'),
+      modalScrim = document.getElementById('modalScrim'),
+      modalTitle = document.getElementById('modalTitle'),
+      modalBody = document.getElementById('modalBody'),
+      modalClose = document.getElementById('modalClose'),
+      lastFocus = null;
+  function openLegal(key) {
+    var doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    modalTitle.textContent = doc.title;
+    var html = '';
+    doc.points.forEach(function (p) {
+      html += '<h4>' + p[0] + '</h4><p>' + p[1] + '</p>';
+    });
+    modalBody.innerHTML = html;
+    modal.hidden = false; modalScrim.hidden = false;
+    requestAnimationFrame(function () {
+      modal.classList.add('open'); modalScrim.classList.add('open');
+    });
+    document.body.style.overflow = 'hidden';
+    modalClose.focus();
+  }
+  function closeLegal() {
+    modal.classList.remove('open'); modalScrim.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function () { modal.hidden = true; modalScrim.hidden = true; }, 400);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  modalClose.addEventListener('click', closeLegal);
+  modalScrim.addEventListener('click', closeLegal);
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') {
+      if (!modal.hidden) closeLegal();
+      if (!drawer.hidden && drawer.classList.contains('open')) closeDrawer();
+    }
+  });
+  var legalBtns = document.querySelectorAll('[data-legal]');
+  for (var m = 0; m < legalBtns.length; m++) {
+    (function (btn) {
+      btn.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        openLegal(btn.getAttribute('data-legal'));
+      });
+    })(legalBtns[m]);
+  }
+
+  /* ============ 预约表单 ============ */
+  var form = document.getElementById('bookForm'),
+      success = document.getElementById('formSuccess'),
+      fsBody = document.getElementById('fsBody');
+  var fDate = document.getElementById('fDate');
+  var today = new Date();
+  var iso = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  fDate.min = iso;
+
+  // 造型师墙"约他/她"直达：预选造型师
+  var styBtns = document.querySelectorAll('[data-stylist]');
+  for (var s = 0; s < styBtns.length; s++) {
+    (function (btn) {
+      btn.addEventListener('click', function () {
+        var sel = document.getElementById('fStylist');
+        sel.value = btn.getAttribute('data-stylist');
+      });
+    })(styBtns[s]);
+  }
+
+  function setErr(name, msg) {
+    var p = form.querySelector('[data-err="' + name + '"]');
+    var input = form.querySelector('[name="' + name + '"]');
+    var field = input.closest('.field');
+    if (msg) { p.textContent = msg; field.classList.add('invalid'); }
+    else { p.textContent = ''; field.classList.remove('invalid'); }
+  }
+  function validate() {
+    var ok = true;
+    var name = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    if (!name) { setErr('name', '请留下称呼，方便我们确认预约'); ok = false; }
+    else setErr('name', '');
+    if (!/^1[3-9]\d{9}$/.test(phone)) { setErr('phone', '手机号格式不对，请检查 11 位数字'); ok = false; }
+    else setErr('phone', '');
+    if (!form.service.value) { setErr('service', '请选择一项服务'); ok = false; }
+    else setErr('service', '');
+    if (!form.date.value) { setErr('date', '请选择到店日期'); ok = false; }
+    else if (form.date.value < iso) { setErr('date', '不能约过去的日子，换一天吧'); ok = false; }
+    else setErr('date', '');
+    if (!form.time.value) { setErr('time', '请选择时间段'); ok = false; }
+    else setErr('time', '');
+    return ok;
+  }
+  ['name', 'phone', 'service', 'date', 'time'].forEach(function (n) {
+    var input = form.querySelector('[name="' + n + '"]');
+    input.addEventListener('input', function () { setErr(n, ''); });
+    input.addEventListener('change', function () { setErr(n, ''); });
+  });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (!validate()) {
+      var bad = form.querySelector('.field.invalid input, .field.invalid select');
+      if (bad) bad.focus();
+      return;
+    }
+    var sty = form.stylist.value ? '（' + form.stylist.value + ' 接待）' : '';
+    fsBody.innerHTML = form.name.value.trim() + '，你约的 <b>' + form.service.value + '</b>' + sty +
+      '<br>' + form.date.value + '　' + form.time.value + '，我们不见不散。';
+    success.hidden = false;
+  });
+  document.getElementById('bookAgain').addEventListener('click', function () {
+    success.hidden = true;
+    form.reset();
+  });
+
+  renderSite();
+})();
+
+</script>
+</body>
+</html>

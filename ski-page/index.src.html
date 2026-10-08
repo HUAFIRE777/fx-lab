@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雪线 SNOWLINE — 第一场雪，从这里开始</title>
+<meta name="description" content="雪线 SNOWLINE：雪板、雪服、配件与雪场指南。2026 雪季新品上线，领取雪季早鸟券。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 24 L14 8 L20 14 L28 6' stroke='%237FCBE8' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='23' cy='22' r='3' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<div class="announce" id="announce">雪季早鸟 · 全场装备 8 折起 &nbsp;·&nbsp; 满 ¥2000 再领 ¥300 券 &nbsp;·&nbsp; 30 天雪场实测退换</div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="#top" aria-label="雪线 SNOWLINE 首页">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 24 L14 8 L20 14 L28 6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="22" r="3" fill="currentColor"/></svg>
+      <span class="logo-word">雪线<i>SNOWLINE</i></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#gear-boards">雪板</a>
+      <a href="#gear-apparel">雪服</a>
+      <a href="#gear-accessories">配件</a>
+      <a href="#resorts">雪场</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-ice btn-sm" href="#coupon">冬季新品</a>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-mask" id="drawerMask"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#gear-boards">雪板</a>
+    <a href="#gear-apparel">雪服</a>
+    <a href="#gear-accessories">配件</a>
+    <a href="#resorts">雪场</a>
+    <a href="#stories">滑手故事</a>
+  </nav>
+  <a class="btn btn-ice drawer-cta" href="#coupon">冬季新品 · 领早鸟券</a>
+  <div class="drawer-foot">雪线 SNOWLINE · 第一场雪，从这里开始</div>
+</aside>
+
+<main id="top">
+
+  <!-- 1. HERO：程序化雪山多层视差 + 飘雪粒子（整页唯一主视觉动效） -->
+  <section class="hero" id="hero">
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-loader" id="heroLoader" aria-hidden="true"><span></span></div>
+    <div class="hero-copy">
+      <p class="hero-kicker"><span class="rl-mask"><span class="rl-line">2026 雪季 · SNOWLINE 全新装备线</span></span></p>
+      <h1 class="hero-title">
+        <span class="rl-mask"><span class="rl-line">第一场雪，</span></span>
+        <span class="rl-mask"><span class="rl-line">从<em>这里</em>开始。</span></span>
+      </h1>
+      <p class="hero-sub"><span class="rl-mask"><span class="rl-line">雪板、雪服、配件——三件装备，一整季山野。</span></span></p>
+      <div class="hero-ctas"><span class="rl-mask"><span class="rl-line">
+        <a class="btn btn-ice" href="#gear-boards">选购装备</a>
+        <a class="btn btn-ghost" href="#resorts">雪场指南</a>
+      </span></span></div>
+    </div>
+    <a class="hero-scroll" href="#gear-boards" aria-label="向下滚动"><span></span></a>
+  </section>
+
+  <!-- 2. 装备矩阵 -->
+  <section class="section gear" id="gear">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">装备矩阵</p>
+        <h2 class="sec-title">三件装备，<br>一整季山野。</h2>
+        <p class="sec-sub">每件都在雪场实测过 30 天。不好用，我们自己先打回。</p>
+      </header>
+
+      <div class="cat-block" id="gear-boards">
+        <div class="cat-head reveal">
+          <h3>雪板 <span>Boards</span></h3>
+          <a class="cat-more" href="#coupon">查看全部 →</a>
+        </div>
+        <div class="grid cards" data-cat="boards"></div>
+      </div>
+
+      <div class="cat-block" id="gear-apparel">
+        <div class="cat-head reveal">
+          <h3>雪服 <span>Apparel</span></h3>
+          <a class="cat-more" href="#coupon">查看全部 →</a>
+        </div>
+        <div class="grid cards" data-cat="apparel"></div>
+      </div>
+
+      <div class="cat-block" id="gear-accessories">
+        <div class="cat-head reveal">
+          <h3>配件 <span>Accessories</span></h3>
+          <a class="cat-more" href="#coupon">查看全部 →</a>
+        </div>
+        <div class="grid cards" data-cat="accessories"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 雪场指南 -->
+  <section class="section resorts" id="resorts">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">雪场指南</p>
+        <h2 class="sec-title">这个周末，<br>去哪块雪。</h2>
+        <p class="sec-sub">雪况每日 07:30 更新，来自雪场压雪车的第一手数据。</p>
+      </header>
+      <div class="grid resort-grid" id="resortGrid"></div>
+      <p class="resort-note reveal">雪况更新于今日 07:30 · 数据仅供参考，出行前请以雪场官方公告为准</p>
+    </div>
+  </section>
+
+  <!-- 4. 滑手社区故事 -->
+  <section class="section stories" id="stories">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">滑手社区</p>
+        <h2 class="sec-title">他们在雪上，<br>找到了自己的节奏。</h2>
+      </header>
+      <div class="grid story-grid" id="storyGrid"></div>
+    </div>
+  </section>
+
+  <!-- 5. CTA：领取雪季早鸟券 -->
+  <section class="section coupon" id="coupon">
+    <div class="wrap">
+      <div class="coupon-card reveal">
+        <div class="coupon-info">
+          <p class="coupon-kicker">雪季早鸟</p>
+          <h2 class="coupon-title">¥300 早鸟券，<br>第一场雪前领走。</h2>
+          <p class="coupon-desc">满 ¥2000 可用，全场装备通用。11 月 30 日前有效，数量有限。</p>
+          <form class="coupon-form" id="couponForm" novalidate>
+            <input class="coupon-input" id="couponPhone" type="tel" inputmode="numeric" maxlength="11"
+                   placeholder="输入手机号，券码发到短信" autocomplete="tel" aria-label="手机号">
+            <button class="btn btn-ice" type="submit" id="couponBtn">领取早鸟券</button>
+          </form>
+          <p class="coupon-tip" id="couponTip" role="status"></p>
+        </div>
+        <div class="coupon-visual" aria-hidden="true">
+          <div class="ticket">
+            <div class="ticket-top"><span>SNOWLINE</span><span>EARLY BIRD</span></div>
+            <div class="ticket-value">¥300</div>
+            <div class="ticket-rule">满 ¥2000 可用 · 11.30 前有效</div>
+            <div class="ticket-code" id="ticketCode">SNOW-······</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="雪线 SNOWLINE 首页">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 24 L14 8 L20 14 L28 6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="22" r="3" fill="currentColor"/></svg>
+          <span class="logo-word">雪线<i>SNOWLINE</i></span>
+        </a>
+        <p class="foot-slogan">第一场雪，从这里开始。</p>
+        <div class="socials" aria-label="社交媒体">
+          <a href="#top" aria-label="微信"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 12h8M8 9h8M8 15h5"/><rect x="3" y="4" width="18" height="14" rx="4"/></svg></a>
+          <a href="#top" aria-label="微博"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><path d="M7.5 13.5c1 1.6 5.5 1.4 6.8-.4M9 11.2c.7 1 3.4.8 4.2-.3"/></svg></a>
+          <a href="#top" aria-label="小红书"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="5" width="14" height="14" rx="3.5"/><path d="M9.5 12.5l2 2 3.5-4"/></svg></a>
+          <a href="#top" aria-label="抖音"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.4 2.6 2.2 4.3 5 4.6"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-col" aria-label="装备">
+        <h4>装备</h4>
+        <a href="#gear-boards">雪板</a>
+        <a href="#gear-apparel">雪服</a>
+        <a href="#gear-accessories">配件</a>
+      </nav>
+      <nav class="foot-col" aria-label="支持">
+        <h4>支持</h4>
+        <a href="#resorts">雪场指南</a>
+        <a href="#stories">滑手故事</a>
+        <a href="#coupon">早鸟券</a>
+      </nav>
+      <div class="foot-col foot-contact" id="footContact" aria-label="联系方式">
+        <h4>联系</h4>
+        <p data-site="phone"></p>
+        <p data-site="address"></p>
+        <p data-site="email"></p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="copyright" data-site="copyright"></p>
+      <div class="legal-links">
+        <button type="button" data-modal="privacy">隐私政策</button>
+        <button type="button" data-modal="terms">服务条款</button>
+        <button type="button" data-modal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务三件套：模态弹窗 -->
+<div class="modal-mask" id="modalMask"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+    <h3 class="modal-title" id="modalTitle"></h3>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

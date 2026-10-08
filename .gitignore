@@ -1,0 +1,13 @@
+# 内部复刻参考（不对外）
+lusion/
+locomotive/
+studiofreight/
+bruno-simon/
+igloo/
+active-theory/
+# 内部工具与过程文档
+tools/
+PROGRESS.md
+R2-MODEL-SYNC.md
+# 未完工模板
+papercraft-3d/

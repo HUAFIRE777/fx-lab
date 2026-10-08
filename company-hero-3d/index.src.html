@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STELLARCRAFT 星核工坊 — Spatial Computing Studio</title>
+<meta name="description" content="星核是一家空间计算工作室——为产品、展览与品牌，把故事装进可以走进去的 3D 世界。">
+<script>document.documentElement.className += ' js';</script>
+<link href="styles.css" rel="stylesheet">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+<noscript><style>#loader { display: none; }</style></noscript>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="mark">STELLARCRAFT</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<canvas id="gl"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<nav id="nav">
+  <a class="wordmark" href="#hero"><span data-copy="brand">STELLARCRAFT</span><small data-copy="eyebrow">SPATIAL COMPUTING STUDIO · EST. 2021</small></a>
+  <div class="nav-links">
+    <span data-copy="nav"></span>
+    <a class="nav-cta" data-copy="navCta" href="#contact">预约演示</a>
+  </div>
+</nav>
+
+<header id="hero">
+  <div class="hero-copy">
+    <p class="eyebrow" data-fade><span data-copy="eyebrow">SPATIAL COMPUTING STUDIO · EST. 2021</span></p>
+    <h1 class="title" data-copy="title">
+      <span class="rv" data-line><span class="rv-mask"><span class="rv-txt">We turn ideas</span></span></span>
+      <span class="rv" data-line><span class="rv-mask"><span class="rv-txt">into <em>places.</em></span></span></span>
+    </h1>
+    <p class="sub" data-fade><span data-copy="sub">星核是一家空间计算工作室——为产品、展览与品牌，把故事装进可以走进去的 3D 世界。</span></p>
+    <div class="ctas" data-fade><span data-copy="ctas"></span></div>
+  </div>
+  <button class="scroll-cue" data-fade data-target="#capabilities" aria-label="向下滚动">
+    <span class="line" aria-hidden="true"></span>
+    <span data-copy="scrollHint">向下滚动</span>
+  </button>
+</header>
+
+<section id="capabilities">
+  <div class="caps-inner">
+    <p class="caps-head" data-fade>CAPABILITIES · 我们能做什么</p>
+    <div class="caps-grid" data-copy="caps"></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <span data-copy="footerNote">© 2026 Stellarcraft Studio · 本页为 huafire3d 模板演示</span>
+  <button id="toTop" data-copy="backTop">回到顶部 ↑</button>
+</footer>
+
+<div class="grain" aria-hidden="true"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

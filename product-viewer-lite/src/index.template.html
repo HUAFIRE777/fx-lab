@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation
+     product-viewer-lite 演示页：三个不同配置的 <product-viewer> 实例。
+     打包：python3 ~/workspace/bin/fx-singlefile.py product-viewer-lite -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>product-viewer · 一行标签，把 3D 商品装进详情页</title>
+<link rel="stylesheet" href="src/styles.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">HUAFIRE3D FX-LAB · 03</div>
+    <h1>一行标签，<span class="thin">把 3D 商品装进详情页。</span></h1>
+    <p class="lede"><strong>product-viewer</strong> 是一个 Web Component：丢进任何页面即用。
+      只做旋转、缩放、自动转三件事，不做后期特效——千元机上也跑得动。
+      下面三台是同一个组件，三种配法。</p>
+  </header>
+  <hr class="rule">
+
+  <main>
+    <!-- 实例 1：深色 + 自动旋转 + 3 个热点 -->
+    <section class="demo demo-1">
+      <div class="demo-head">
+        <span class="demo-num">01</span>
+        <h2>深色 · 自动旋转</h2>
+        <span class="cfg">background="#141414" auto-rotate</span>
+      </div>
+      <p class="demo-desc">详情页首屏的标准摆法：深色底托住产品，自己慢慢转。点金色圆点，卖点卡从底部浮上来。</p>
+      <div class="viewer-card">
+        <product-viewer id="pv1"
+          src="https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb"
+          alt="无线降噪耳机 3D 展示"
+          background="#141414" auto-rotate rotate-speed="14"
+          poster="poster.jpg">
+          <button data-hotspot data-pos="0.476,-0.306,0"
+            data-title="40mm 镀钛动圈"
+            data-desc="低频下潜深，人声不闷。封闭式耳罩隔掉办公室的键盘声，地铁上也能听清细节。">1</button>
+          <button data-hotspot data-pos="0,1.0,0"
+            data-title="慢回弹记忆棉"
+            data-desc="头梁加宽到 32mm，压力分散到整个头顶。连续戴一下午，太阳穴不疼。">2</button>
+          <button data-hotspot data-pos="0.408,-0.571,0.714"
+            data-title="ENC 通话降噪"
+            data-desc="4 麦克风阵列专拾人声，风噪过滤之后，对方听到的只有你的声音。">3</button>
+        </product-viewer>
+      </div>
+    </section>
+
+    <!-- 实例 2：浅色 + 手动 + 封面降级演示 -->
+    <section class="demo demo-2">
+      <div class="demo-head">
+        <span class="demo-num">02</span>
+        <h2>浅色 · 手动旋转</h2>
+        <span class="cfg">background="#e9e6dd"</span>
+      </div>
+      <p class="demo-desc">浅色站点的配法：不自动转，把主动权留给用户。拖一下，阻尼会带着它滑到停——不是硬停。</p>
+      <div class="viewer-card">
+        <product-viewer id="pv2"
+          src="https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb"
+          alt="无线降噪耳机 3D 展示"
+          background="#e9e6dd"
+          poster="poster.jpg">
+        </product-viewer>
+      </div>
+      <div class="demo-actions">
+        <button class="btn" data-toggle-rotate="#pv2">开始旋转</button>
+      </div>
+    </section>
+
+    <!-- 实例 3：透明底 + 慢速旋转 + 2 个热点 -->
+    <section class="demo demo-3">
+      <div class="demo-head">
+        <span class="demo-num">03</span>
+        <h2>透明底 · 叠在排版上</h2>
+        <span class="cfg">background="transparent" rotate-speed="8"</span>
+      </div>
+      <p class="demo-desc">品牌大片式的摆法：背景透明，产品直接站在你的排版上。转速调慢，配大标题一起看。</p>
+      <div class="viewer-card">
+        <product-viewer id="pv3"
+          src="https://pub-5e390bef91b24ffe9036eedac2f9c382.r2.dev/models-web/hero/electronics/tripo_headphone.glb"
+          alt="无线降噪耳机 3D 展示"
+          background="transparent" auto-rotate rotate-speed="8"
+          poster="poster.jpg">
+          <button data-hotspot data-pos="0.476,-0.306,0"
+            data-title="40mm 镀钛动圈"
+            data-desc="低频下潜深，人声不闷。封闭式耳罩隔掉办公室的键盘声。">1</button>
+          <button data-hotspot data-pos="0,1.0,0"
+            data-title="慢回弹记忆棉"
+            data-desc="头梁加宽到 32mm，连续戴一下午，太阳穴不疼。">2</button>
+        </product-viewer>
+      </div>
+    </section>
+
+    <!-- 参数表 -->
+    <section class="spec">
+      <h2>参数</h2>
+      <p class="sub">属性驱动，多实例共存。改属性即改行为，不用碰 JS。</p>
+      <table class="attrs">
+        <tr><th><code>src</code></th><td>GLB 模型地址（必填）。支持 gzip，draco 压缩的模型自带解码器，不用配路径。</td></tr>
+        <tr><th><code>auto-rotate</code></th><td>出现即自动旋转。用户拖动后暂停 2.5 秒再缓缓恢复；卖点卡打开时暂停。</td></tr>
+        <tr><th><code>rotate-speed</code></th><td>转速，度/秒，默认 14。</td></tr>
+        <tr><th><code>background</code></th><td>底色，任何 CSS 颜色；填 <code>transparent</code> 得到透明底。</td></tr>
+        <tr><th><code>poster</code></th><td>封面图。无 WebGL 或模型加载失败时降级显示。</td></tr>
+        <tr><th><code>alt</code> / <code>exposure</code></th><td>无障碍描述 / ACES 曝光补偿，默认 1.0。</td></tr>
+        <tr><th><code>data-hotspot</code></th><td>写在标签里的 <code>&lt;button data-hotspot data-pos="x,y,z" data-title data-desc&gt;</code> 即热点。坐标是归一化模型坐标（最长轴为 [-1,1]，中心为原点）。</td></tr>
+        <tr><th>JS API</th><td><code>viewer.ready</code>（Promise，首帧渲染后兑现）、<code>viewer.addHotspot({pos,title,desc})</code>、<code>viewer.setAutoRotate(bool)</code>，以及模块导出的 <code>CONFIG</code> 全局默认。</td></tr>
+      </table>
+    </section>
+
+    <!-- 嵌入指南 -->
+    <section class="embed">
+      <h2>如何嵌入已有页面</h2>
+      <p class="sub">两条路：拿单文件最省事，用源码版最灵活。两种都不需要构建工具。</p>
+      <ol class="steps">
+        <li>
+          <h3>拿走单文件（推荐）</h3>
+          <p>先打包：<code>python3 ~/workspace/bin/fx-singlefile.py product-viewer-lite</code>，得到单文件 <code>index.html</code>。从里面复制三段进你的页面：<code>&lt;style&gt;</code>（演示样式可删）、importmap 那段、<code>&lt;script type="module"&gt;</code>（组件本体）。然后在任意位置放标签：</p>
+          <pre class="code"><span class="cm">&lt;!-- 1. head 里放 importmap（整站只需一次） --&gt;</span>
+&lt;script type="importmap"&gt;{ "imports": { "three": "…" } }&lt;/script&gt;
+<span class="cm">&lt;!-- 2. body 末尾放组件脚本 --&gt;</span>
+&lt;script type="module"&gt; <span class="cm">/* 单文件里那段 */</span> &lt;/script&gt;
+<span class="cm">&lt;!-- 3. 想放哪放哪 --&gt;</span>
+&lt;product-viewer <span class="at">src</span>="https://你的CDN/耳机.glb" <span class="at">auto-rotate</span> <span class="at">background</span>="#141414"&gt;
+  &lt;button data-hotspot <span class="at">data-pos</span>="0.48,-0.31,0"
+    <span class="at">data-title</span>="40mm 镀钛动圈" <span class="at">data-desc</span>="低频下潜深，人声不闷。"&gt;1&lt;/button&gt;
+&lt;/product-viewer&gt;</pre>
+        </li>
+        <li>
+          <h3>用源码版</h3>
+          <p>把 <code>src/</code> 和 <code>vendor/</code> 两个目录原样拷进你的站点（相对位置保持：<code>src</code> 里引用的是 <code>../vendor/…</code>）。页面里加三行：</p>
+          <pre class="code"><span class="cm">&lt;!-- 样式按需取用，组件自带影子样式，不依赖它 --&gt;</span>
+&lt;link rel="stylesheet" href="src/styles.css"&gt;
+&lt;script type="importmap"&gt;{ "imports": { "three": "./vendor/three.module.js" } }&lt;/script&gt;
+&lt;script type="module" src="src/main.js"&gt;&lt;/script&gt;</pre>
+        </li>
+        <li>
+          <h3>配一张封面图</h3>
+          <p>加 <code>poster="cover.jpg"</code>：老设备没有 WebGL、弱网加载失败时，用户看到的是封面而不是黑屏。这是唯一推荐配的图片资源。</p>
+          <div class="note"><strong>模型地址必须是允许跨域的 CDN</strong>（响应头带 <code>Access-Control-Allow-Origin</code>），否则浏览器会拦截模型加载。R2 公开桶记得开 CORS。</div>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap"><p>HUAFIRE3D FX-LAB · PRODUCT-VIEWER-LITE · ORIGINAL IMPLEMENTATION</p></div>
+  </footer>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

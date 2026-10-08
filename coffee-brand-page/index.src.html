@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>屿咖 ISLE · 独立烘焙工作室</title>
+<meta name="description" content="屿咖 ISLE，上海独立烘焙工作室。每周小批量烘焙，四款常备豆单，订阅每月寄豆，三家社区门店。把海岛的慢，烘进每一杯。">
+<!-- huafire3d fx-lab — original implementation (coffee-brand-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- SVG 符号库：豆袋 / 图钉 / 社交图标 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bag" viewBox="0 0 120 150">
+    <path d="M34 16h52l9 104q1.5 12-11 12H36q-12.5 0-11-12z" fill="#2B1D16"/>
+    <path d="M34 16h52l2.2 16H31.8z" fill="#1a100a"/>
+    <path d="M31 30h58" stroke="#C68B4E" stroke-width="2" opacity=".55"/>
+    <rect x="30" y="58" width="60" height="36" fill="#C68B4E"/>
+    <text x="60" y="84" text-anchor="middle" font-size="20" fill="#2B1D16" font-family="Songti SC,STSong,serif">屿</text>
+    <path d="M40 108h40" stroke="#F5EFE6" stroke-width="2" opacity=".35"/>
+    <path d="M44 118h32" stroke="#F5EFE6" stroke-width="2" opacity=".22"/>
+  </symbol>
+  <symbol id="pin" viewBox="0 0 24 24">
+    <path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="12" cy="9" r="2.6" fill="currentColor"/>
+  </symbol>
+  <symbol id="soc-wx" viewBox="0 0 24 24">
+    <path d="M9.5 4C5.9 4 3 6.6 3 9.8c0 1.8 1 3.4 2.5 4.4l-.6 2 2.2-1.1c.8.2 1.6.4 2.4.4h.3A5.4 5.4 0 0 1 9.5 4z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M14.5 10c-2.9 0-5.3 2-5.3 4.5 0 1.5.9 2.9 2.2 3.7l-.5 1.8 1.9-1c.6.2 1.1.2 1.7.2 2.9 0 5.3-2 5.3-4.5S17.4 10 14.5 10z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="12.4" cy="14.4" r=".9" fill="currentColor"/><circle cx="16.4" cy="14.4" r=".9" fill="currentColor"/>
+  </symbol>
+  <symbol id="soc-wb" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M7.5 12.5c1-2.6 3.4-4.3 6-3.6 2.2.6 3.3 2.8 2.4 4.8-.9 2.1-3.6 2.8-5.7 1.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="9.4" cy="12.6" r="1.1" fill="currentColor"/>
+  </symbol>
+  <symbol id="soc-xhs" viewBox="0 0 24 24">
+    <rect x="4" y="4" width="16" height="16" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M8.5 9.5l7 5m0-5l-7 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="soc-dy" viewBox="0 0 24 24">
+    <path d="M14 4v10.5a3.8 3.8 0 1 1-3.8-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M14 4c.4 2.4 1.9 3.9 4.2 4.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<!-- 加载态（仅 JS 生效，无 JS 直接隐藏） -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">屿</div>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-tip">正在暖杯…</p>
+</div>
+<noscript><style>.loader{display:none!important}.reveal{opacity:1!important;transform:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="屿咖首页">
+      <span class="brand-mark">屿</span>
+      <span class="brand-name">屿咖<small>ISLE · 烘焙工作室</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#beans">本季豆单</a>
+      <a href="#subscribe">订阅计划</a>
+      <a href="#stores">门店</a>
+      <a href="#story">品牌故事</a>
+    </nav>
+    <a class="btn btn-caramel btn-sm nav-find" href="#stores">门店查找</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#beans" style="--d:.06s">本季豆单</a>
+    <a href="#subscribe" style="--d:.12s">订阅计划</a>
+    <a href="#stores" style="--d:.18s">门店</a>
+    <a href="#story" style="--d:.24s">品牌故事</a>
+    <a class="btn btn-caramel" href="#stores" style="--d:.32s">门店查找</a>
+  </nav>
+  <p class="m-menu-foot" style="--d:.4s">屿咖 ISLE · 把海岛的慢，烘进每一杯</p>
+</div>
+
+<main id="top">
+
+  <!-- 全屏氛围 hero：蒸汽粒子 + 视差 -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" data-plx="0.28" aria-hidden="true">
+      <div class="hero-glow"></div>
+      <div class="hero-grain"></div>
+      <div class="hero-vignette"></div>
+    </div>
+    <div class="hero-inner" data-plx="0.06">
+      <div class="hero-copy">
+        <p class="eyebrow rl"><span class="rl-in" style="--d:.05s">独立烘焙工作室 · 上海</span></p>
+        <h1 class="hero-title rl"><span class="rl-in" style="--d:.16s">屿咖</span></h1>
+        <p class="hero-en rl"><span class="rl-in" style="--d:.24s">ISLE&nbsp;&nbsp;COFFEE&nbsp;&nbsp;ROASTERS</span></p>
+        <p class="hero-tag rl"><span class="rl-in" style="--d:.32s">把海岛的慢，烘进每一杯。</span></p>
+        <p class="hero-sub rl"><span class="rl-in" style="--d:.4s">每周三小批量烘焙，四款常备豆单。<br>你喝到的每一杯，都是七天内的新鲜货。</span></p>
+        <div class="hero-cta rl"><span class="rl-in cta-row" style="--d:.5s">
+          <a class="btn btn-caramel" href="#beans">看看本季豆单</a>
+          <a class="btn btn-ghost" href="#subscribe">订阅每月寄豆</a>
+        </span></div>
+      </div>
+      <div class="cup-wrap" data-plx="-0.1" aria-hidden="true">
+        <canvas id="steam"></canvas>
+        <svg class="cup" viewBox="0 0 320 300">
+          <ellipse cx="160" cy="262" rx="118" ry="16" fill="#F5EFE6" opacity=".10"/>
+          <path d="M96 118h128l-13 108q-2.5 16-19 16h-64q-16.5 0-19-16z" fill="#F5EFE6"/>
+          <path d="M96 118h128l-2.5 20H98.5z" fill="#2B1D16" opacity=".14"/>
+          <ellipse cx="160" cy="118" rx="64" ry="13" fill="#2B1D16"/>
+          <ellipse cx="160" cy="118" rx="64" ry="13" fill="none" stroke="#C68B4E" stroke-width="3"/>
+          <ellipse cx="160" cy="117" rx="46" ry="8.5" fill="#3d2a1e"/>
+          <path d="M224 140q44 6 36 44q-7 34-48 30" fill="none" stroke="#F5EFE6" stroke-width="11" stroke-linecap="round"/>
+          <text x="160" y="196" text-anchor="middle" font-size="44" fill="#2B1D16" opacity=".85" font-family="Songti SC,STSong,serif">屿</text>
+          <path d="M60 262h200" stroke="#C68B4E" stroke-width="2" opacity=".5"/>
+        </svg>
+      </div>
+    </div>
+    <a class="scroll-cue" href="#beans" aria-label="向下滚动到豆单">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- 本季豆单：横滑产品线 -->
+  <section class="section beans" id="beans">
+    <div class="wrap">
+      <p class="eyebrow reveal">本季豆单</p>
+      <h2 class="sec-title reveal" style="--d:.08s">四款豆，喝得到新鲜</h2>
+      <p class="sec-sub reveal" style="--d:.16s">每周三烘焙、周四上架。全部 227g 袋装，可选整豆或现磨，默认中细研磨。</p>
+      <div class="strip" id="beanStrip">
+        <article class="bean-card reveal" style="--d:.1s">
+          <span class="bean-badge">当季新豆</span>
+          <div class="bag"><svg><use href="#bag"/></svg><span class="bag-tag">浅烘</span></div>
+          <h3>屿南 · 水洗耶加雪菲</h3>
+          <p class="bean-notes">茉莉花香 / 佛手柑 / 蜂蜜尾韵</p>
+          <p class="bean-desc">埃塞俄比亚高地水洗豆，花香干净得像刚晒过的被子。适合手冲，慢一点喝。</p>
+          <div class="bean-foot"><span class="price"><i>¥</i>88<em>/ 227g</em></span><a class="btn btn-ink btn-sm" href="#subscribe">订阅更划算</a></div>
+        </article>
+        <article class="bean-card reveal" style="--d:.18s">
+          <div class="bag"><svg><use href="#bag"/></svg><span class="bag-tag">深烘</span></div>
+          <h3>礁岩 · 曼特宁深烘</h3>
+          <p class="bean-notes">黑巧克力 / 香料 / 醇厚</p>
+          <p class="bean-desc">苏门答腊老豆，深烘后像礁石一样沉。加奶是绝配，冬天尤其。</p>
+          <div class="bean-foot"><span class="price"><i>¥</i>96<em>/ 227g</em></span><a class="btn btn-ink btn-sm" href="#subscribe">订阅更划算</a></div>
+        </article>
+        <article class="bean-card reveal" style="--d:.26s">
+          <div class="bag"><svg><use href="#bag"/></svg><span class="bag-tag">中烘</span></div>
+          <h3>潮汐 · 哥伦比亚蜜处理</h3>
+          <p class="bean-notes">焦糖 / 红苹果 / 圆润</p>
+          <p class="bean-desc">蜜处理带来的天然甜感，不加糖也好喝。日常口粮豆，回购最多的一款。</p>
+          <div class="bean-foot"><span class="price"><i>¥</i>92<em>/ 227g</em></span><a class="btn btn-ink btn-sm" href="#subscribe">订阅更划算</a></div>
+        </article>
+        <article class="bean-card reveal" style="--d:.34s">
+          <div class="bag"><svg><use href="#bag"/></svg><span class="bag-tag">中深烘</span></div>
+          <h3>灯塔 · 意式拼配</h3>
+          <p class="bean-notes">坚果 / 可可 / 油脂丰富</p>
+          <p class="bean-desc">为意式机调的拼配，crema 厚得能托住糖。家里有意式机的闭眼入。</p>
+          <div class="bean-foot"><span class="price"><i>¥</i>78<em>/ 227g</em></span><a class="btn btn-ink btn-sm" href="#subscribe">订阅更划算</a></div>
+        </article>
+      </div>
+      <p class="strip-hint reveal" style="--d:.2s">←&nbsp;&nbsp;左右滑动查看&nbsp;&nbsp;→</p>
+    </div>
+  </section>
+
+  <!-- 订阅计划 -->
+  <section class="section subscribe" id="subscribe">
+    <div class="wrap">
+      <p class="eyebrow reveal">屿咖订阅</p>
+      <h2 class="sec-title reveal" style="--d:.08s">当个岛民，豆不断供</h2>
+      <p class="sec-sub reveal" style="--d:.16s">每月自动寄出，烘焙后 48 小时内发出。随时暂停、随时取消，不玩套路。</p>
+      <div class="tiers">
+        <article class="tier reveal" style="--d:.1s">
+          <h3>尝鲜岛民</h3>
+          <p class="tier-price"><i>¥</i>99<em>/ 月</em></p>
+          <ul>
+            <li>每月 1 袋 227g 当季豆</li>
+            <li>随单附手写烘焙卡</li>
+            <li>随时暂停，随时取消</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#stores">先去店里尝尝</a>
+        </article>
+        <article class="tier tier-hot reveal" style="--d:.2s">
+          <span class="tier-badge">最多人选</span>
+          <h3>日常岛民</h3>
+          <p class="tier-price"><i>¥</i>259<em>/ 季</em></p>
+          <ul>
+            <li>每月 1 袋 227g，豆单任选</li>
+            <li>新豆优先尝鲜权</li>
+            <li>门店消费 9 折</li>
+            <li>免运费，顺丰发出</li>
+          </ul>
+          <a class="btn btn-caramel btn-block" href="#stores">成为日常岛民</a>
+        </article>
+        <article class="tier reveal" style="--d:.3s">
+          <h3>年度岛民</h3>
+          <p class="tier-price"><i>¥</i>960<em>/ 年</em></p>
+          <ul>
+            <li>每月 1 袋 227g，豆单任选</li>
+            <li>生日月免费加赠 1 袋</li>
+            <li>门店消费 85 折</li>
+            <li>烘焙体验课 1 次</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#stores">成为年度岛民</a>
+        </article>
+      </div>
+      <p class="tiers-note reveal" style="--d:.24s">所有订阅均从下一次烘焙日（周三）开始计。取消后当期豆照常寄出，不扣下一期。</p>
+    </div>
+  </section>
+
+  <!-- 门店 -->
+  <section class="section stores" id="stores">
+    <div class="wrap">
+      <p class="eyebrow reveal">门店</p>
+      <h2 class="sec-title reveal" style="--d:.08s">来店里坐坐</h2>
+      <p class="sec-sub reveal" style="--d:.16s">三家店，三种慢。堂食美式均可免费续一次，坐一下午也没人赶你。</p>
+      <div class="store-grid">
+        <article class="store-card reveal" style="--d:.1s">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>上海静安店</h3>
+          <p class="store-addr">上海市静安区愚园路 372 号 1 楼</p>
+          <p class="store-meta">8:00 – 22:00 · <a data-site-href="phone"><span data-site="phone"></span></a></p>
+          <p class="store-desc">第一家店，门口有棵香樟。早上八点开门，附近上班的人都来这儿买第一杯。</p>
+        </article>
+        <article class="store-card reveal" style="--d:.2s">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>杭州西湖店</h3>
+          <p class="store-addr">杭州市西湖区龙井路 58 号</p>
+          <p class="store-meta">9:00 – 21:30 · 0571-8799-3321</p>
+          <p class="store-desc">茶山脚下的小店，秋天桂花开时整条街都是香的。带本书来，能坐到打烊。</p>
+        </article>
+        <article class="store-card reveal" style="--d:.3s">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>厦门鼓浪屿店</h3>
+          <p class="store-addr">厦门市思明区安海路 27 号</p>
+          <p class="store-meta">9:30 – 21:00 · 0592-206-7788</p>
+          <p class="store-desc">离海 200 米，店里有海风。特调"海盐拿铁"是这家店限定的，离岛前记得喝一杯。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品牌故事 -->
+  <section class="section story" id="story">
+    <div class="wrap story-in">
+      <div class="story-copy">
+        <p class="eyebrow reveal">品牌故事</p>
+        <h2 class="sec-title reveal" style="--d:.08s">从一台 1kg 烘焙机开始</h2>
+        <p class="reveal" style="--d:.16s">2019 年，屿咖在愚园路一间 20 平米的小店开张。店里只有一台 1kg 烘焙机、四款豆子，和一张总被熟客占着的长桌。</p>
+        <p class="reveal" style="--d:.24s">我们相信，一杯好咖啡不需要太多解释：新鲜烘焙、实在价格、一个能坐一下午的地方。七年过去，店开了三家，这三样没变过。</p>
+        <p class="reveal" style="--d:.32s">「屿」是孤岛，也是港口。愿你在这里，找到属于自己的慢。</p>
+        <p class="story-sign reveal" style="--d:.4s">—— 屿咖创始团队</p>
+      </div>
+      <div class="stats">
+        <div class="stat reveal" style="--d:.12s"><b data-count="7">7</b><span>年持续烘焙</span></div>
+        <div class="stat reveal" style="--d:.2s"><b data-count="4">4</b><span>款常备豆单</span></div>
+        <div class="stat reveal" style="--d:.28s"><b data-count="3">3</b><span>家社区门店</span></div>
+        <div class="stat reveal" style="--d:.36s"><b data-count="8000" data-suffix="+">8000+</b><span>岛民会员</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta" id="join">
+    <div class="wrap">
+      <p class="eyebrow reveal">岛民招募中</p>
+      <h2 class="cta-title reveal" style="--d:.08s">来杯岛屿的味道。</h2>
+      <p class="cta-sub reveal" style="--d:.16s">首次到店，出示本页面免费升级大杯。就现在，别等下周。</p>
+      <div class="reveal" style="--d:.24s"><a class="btn btn-caramel btn-lg" href="#stores">找最近的门店</a></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="屿咖首页">
+        <span class="brand-mark">屿</span>
+        <span class="brand-name">屿咖<small>ISLE · 烘焙工作室</small></span>
+      </a>
+      <p class="foot-tag">把海岛的慢，烘进每一杯。</p>
+      <div class="social">
+        <a href="#top" aria-label="微信"><svg><use href="#soc-wx"/></svg></a>
+        <a href="#top" aria-label="微博"><svg><use href="#soc-wb"/></svg></a>
+        <a href="#top" aria-label="小红书"><svg><use href="#soc-xhs"/></svg></a>
+        <a href="#top" aria-label="抖音"><svg><use href="#soc-dy"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="页脚导航">
+      <h4>探索</h4>
+      <a href="#beans">本季豆单</a>
+      <a href="#subscribe">订阅计划</a>
+      <a href="#stores">门店</a>
+      <a href="#story">品牌故事</a>
+    </nav>
+    <div class="foot-contact">
+      <h4>联系我们</h4>
+      <p><span data-site="address"></span></p>
+      <p><a data-site-href="phone"><span data-site="phone"></span></a></p>
+      <p><a data-site-href="email"><span data-site="email"></span></a></p>
+      <p class="foot-hours"><span data-site="hours"></span></p>
+    </div>
+    <div class="foot-legal">
+      <h4>网站政策</h4>
+      <button data-legal="privacy">隐私政策</button>
+      <button data-legal="terms">服务条款</button>
+      <button data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · <span data-site="icp"></span></p>
+    <p class="foot-stamp">huafire3d fx-lab — original implementation</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" aria-hidden="true">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-card" role="document">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

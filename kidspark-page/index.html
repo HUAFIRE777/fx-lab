@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泡泡岛儿童乐园 · 3–12 岁孩子的快乐老家</title>
+<meta name="description" content="泡泡岛室内儿童乐园：2800㎡恒温乐园，12大主题游乐区，票价透明，生日派对一站式，安全看护全程在线。">
+<style>
+/* 泡泡岛 BUBBLE ISLAND · 儿童乐园落地页
+   配色：奶白 #FFF9EC / 活力黄 #FFB81C / 深蓝 #1D2A6E（三色定死）
+   动效：纯 CSS，无外部库 */
+:root{
+  --cream:#FFF9EC;
+  --cream-2:#FFFDF6;
+  --yellow:#FFB81C;
+  --yellow-deep:#F0A500;
+  --navy:#1D2A6E;
+  --navy-soft:#2A3A8F;
+  --ink:#23264A;
+  --muted:#6B6F8C;
+  --line:#EDE4CE;
+  --radius:20px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --shadow:0 18px 44px -18px rgba(29,42,110,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:var(--cream);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;
+}
+/* 全页细噪点（手工质感） */
+body::after{
+  content:"";position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+::selection{background:var(--yellow);color:var(--navy)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.section{padding:104px 0}
+.section-alt{background:var(--cream-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section-dark{background:var(--navy);color:#F4F1E4}
+.m-only{display:none}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;cursor:pointer;
+  border:2px solid transparent;transition:transform .28s var(--ease),box-shadow .28s var(--ease),background .25s,color .25s,border-color .25s}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--yellow);color:var(--navy);box-shadow:0 10px 24px -10px rgba(240,165,0,.7)}
+.btn-primary:hover{transform:translateY(-2px);background:var(--yellow-deep);box-shadow:0 16px 30px -10px rgba(240,165,0,.75)}
+.btn-ghost{background:transparent;color:var(--navy);border-color:var(--navy)}
+.btn-ghost:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
+.btn-lg{padding:15px 38px;font-size:1.05rem}
+.btn-sm{padding:9px 24px;font-size:.92rem}
+.btn-block{display:block;text-align:center;width:100%}
+
+/* ---------- 幕布加载态 ---------- */
+#veil{position:fixed;inset:0;z-index:3000;background:var(--navy);display:flex;align-items:center;justify-content:center;
+  transition:opacity .6s var(--ease),visibility .6s}
+#veil.gone{opacity:0;visibility:hidden}
+.veil-word{color:#fff;font-size:2.6rem;font-weight:900;letter-spacing:.35em;text-indent:.35em;position:relative;z-index:2}
+.veil-bubble{position:absolute;border:3px solid rgba(255,184,28,.55);border-radius:50%;animation:veilUp 2.4s var(--ease) infinite}
+.veil-bubble{width:70px;height:70px;left:30%}
+.veil-bubble.v2{width:44px;height:44px;left:64%;animation-delay:.7s}
+@keyframes veilUp{0%{bottom:-12%;opacity:0}25%{opacity:1}100%{bottom:112%;opacity:0}}
+
+/* ---------- 导航 ---------- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .35s,box-shadow .35s,backdrop-filter .35s}
+#nav .nav-inner{max-width:1200px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+#nav.scrolled{background:rgba(255,249,236,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 6px 24px -12px rgba(29,42,110,.25)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-mark{width:40px;height:40px;flex:none;transition:transform .4s var(--ease)}
+.brand:hover .brand-mark{transform:rotate(-12deg) scale(1.06)}
+.brand-word{font-size:1.35rem;font-weight:900;color:var(--navy);line-height:1.1}
+.brand-word em{display:block;font-style:normal;font-size:.58rem;font-weight:700;letter-spacing:.32em;color:var(--muted)}
+.brand-word.light{color:#fff}.brand-word.light em{color:rgba(255,255,255,.65)}
+.nav-links{display:flex;gap:30px}
+.nav-links a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.98rem;position:relative;padding:4px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--yellow);border-radius:2px;transition:width .3s var(--ease)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:14px}
+#burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+#burger span{width:24px;height:3px;background:var(--navy);border-radius:2px;transition:transform .3s var(--ease),opacity .3s}
+
+/* ---------- 移动抽屉 ---------- */
+#drawerMask{position:fixed;inset:0;z-index:1001;background:rgba(29,42,110,.45);opacity:0;transition:opacity .35s var(--ease)}
+#drawerMask.show{opacity:1}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(340px,84vw);z-index:1002;background:var(--cream);
+  transform:translateX(105%);transition:transform .45s var(--ease);padding:22px;display:flex;flex-direction:column;box-shadow:-18px 0 44px -18px rgba(29,42,110,.4)}
+#drawer.open{transform:none}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+#drawerClose{background:none;border:0;font-size:2rem;color:var(--navy);cursor:pointer;line-height:1;padding:4px 8px}
+.drawer-links{display:flex;flex-direction:column;gap:4px;margin-bottom:26px}
+.drawer-links a{padding:13px 6px;font-size:1.15rem;font-weight:700;color:var(--navy);text-decoration:none;border-bottom:1px dashed var(--line)}
+.drawer-tel{margin-top:18px;color:var(--muted);font-size:.92rem}
+.drawer-tel b{color:var(--navy)}
+
+/* ---------- Hero ---------- */
+#hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;
+  background:radial-gradient(1100px 520px at 50% -8%,#FFE9AE 0%,var(--cream) 62%)}
+#bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.bubble{position:absolute;bottom:-12%;border-radius:50%;border:2.5px solid rgba(29,42,110,.28);
+  animation:bubbleRise linear infinite;opacity:0}
+.bubble::after{content:"";position:absolute;top:18%;left:20%;width:26%;height:26%;border-radius:50%;background:rgba(255,255,255,.85)}
+.bubble.y{border-color:rgba(240,165,0,.6);background:rgba(255,184,28,.14)}
+@keyframes bubbleRise{
+  0%{transform:translate3d(0,0,0) scale(.9);opacity:0}
+  8%{opacity:.9}
+  50%{transform:translate3d(26px,-58vh,0) scale(1.04)}
+  92%{opacity:.85}
+  100%{transform:translate3d(-14px,-118vh,0) scale(1);opacity:0}
+}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:130px 24px 90px;text-align:center}
+.hero-kicker{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line);
+  padding:8px 20px;border-radius:999px;font-size:.9rem;font-weight:700;color:var(--navy);box-shadow:var(--shadow);margin-bottom:26px}
+.kicker-dot{width:9px;height:9px;border-radius:50%;background:var(--yellow-deep);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
+.hero-title{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:900;color:var(--navy);line-height:1.22;letter-spacing:.02em;margin-bottom:22px}
+.hero-title .line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hero-title .line-inner{display:inline-block;will-change:transform}
+/* 隐藏等 JS：完成态覆盖规则，保证可达 */
+.js-motion .hero-title .line-inner{transform:translateY(112%);transition:transform .9s var(--ease)}
+.js-motion .hero-title .line:nth-child(2) .line-inner{transition-delay:.14s}
+body.is-in .hero-title .line-inner{transform:none}
+.hero-title .tide{color:var(--yellow-deep)}
+.hero-sub{font-size:1.12rem;color:var(--muted);margin-bottom:34px}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:52px}
+.hero-meta{display:inline-flex;gap:0;background:rgba(255,255,255,.75);border:1.5px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.meta-item{padding:16px 34px;text-align:center}
+.meta-item+.meta-item{border-left:1px dashed var(--line)}
+.meta-item b{display:block;font-size:1.5rem;color:var(--navy);font-weight:900}
+.meta-item span{font-size:.85rem;color:var(--muted)}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;color:var(--navy);
+  text-decoration:none;font-size:1.4rem;animation:hintBob 2.2s ease-in-out infinite;
+  width:46px;height:46px;border:2px solid var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.6)}
+@keyframes hintBob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,10px)}}
+.hero-vignette{position:absolute;inset:auto 0 0 0;height:150px;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(29,42,110,.10),transparent)}
+
+/* ---------- 区块通用 ---------- */
+.sec-kicker{display:inline-block;font-size:.85rem;font-weight:800;letter-spacing:.28em;color:var(--yellow-deep);
+  text-transform:uppercase;margin-bottom:14px}
+.section-dark .sec-kicker{color:var(--yellow)}
+.sec-title{font-size:clamp(1.9rem,4.4vw,2.7rem);font-weight:900;color:var(--navy);line-height:1.35;letter-spacing:.02em;margin-bottom:14px}
+.sec-title.light{color:#fff}
+.sec-sub{color:var(--muted);font-size:1.05rem;margin-bottom:48px;max-width:640px}
+.sec-sub.light{color:rgba(244,241,228,.75)}
+
+/* ---------- reveal（滚动显现） ---------- */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- 游乐项目 ---------- */
+.ride-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.ride-card{background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:26px;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .3s}
+.ride-card:hover{transform:translateY(-10px);box-shadow:var(--shadow);border-color:var(--yellow)}
+.ride-art{background:var(--cream);border-radius:14px;margin-bottom:20px;overflow:hidden}
+.ride-art svg{display:block;width:100%;height:auto;transition:transform .5s var(--ease)}
+.ride-card:hover .ride-art svg{transform:scale(1.05) rotate(-1deg)}
+.ride-card h3{font-size:1.25rem;color:var(--navy);font-weight:800;margin-bottom:8px}
+.ride-card p{color:var(--muted);font-size:.95rem;margin-bottom:14px}
+.tag{display:inline-block;font-size:.8rem;font-weight:700;color:var(--navy);background:rgba(255,184,28,.28);
+  border:1px solid rgba(240,165,0,.5);padding:4px 12px;border-radius:999px}
+
+/* ---------- 票价 ---------- */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch;margin-bottom:26px}
+.price-card{background:#fff;border:1.5px solid var(--line);border-radius:24px;padding:36px 30px;position:relative;
+  display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.price-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.price-card.hot{background:var(--navy);border-color:var(--navy);color:#F4F1E4}
+.price-card.hot h3{color:#fff}
+.price-card h3{font-size:1.2rem;color:var(--navy);font-weight:800;margin-bottom:6px}
+.hot-flag{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--yellow);color:var(--navy);
+  font-size:.8rem;font-weight:800;padding:5px 18px;border-radius:999px;white-space:nowrap;box-shadow:0 8px 18px -8px rgba(240,165,0,.8)}
+.price{font-size:3rem;font-weight:900;color:var(--navy);margin:8px 0 20px;letter-spacing:-.02em}
+.price-card.hot .price{color:var(--yellow)}
+.price sup{font-size:1.3rem;top:-.9em;position:relative}
+.price span{font-size:1rem;font-weight:600;color:var(--muted)}
+.price-card.hot .price span{color:rgba(244,241,228,.7)}
+.price-card ul{list-style:none;margin-bottom:28px;flex:1}
+.price-card li{padding:9px 0 9px 30px;position:relative;font-size:.96rem;color:inherit}
+.price-card li::before{content:"";position:absolute;left:4px;top:16px;width:14px;height:8px;
+  border-left:3px solid var(--yellow-deep);border-bottom:3px solid var(--yellow-deep);transform:rotate(-45deg) translateY(-3px)}
+.price-card.hot li::before{border-color:var(--yellow)}
+.price-card .btn{margin-top:auto}
+.price-note{text-align:center;color:var(--muted);font-size:.92rem}
+.price-note b{color:var(--navy)}
+
+/* ---------- 生日派对 ---------- */
+.party-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.party-steps{list-style:none;margin-top:8px}
+.party-steps li{display:flex;gap:18px;padding:18px 0;border-bottom:1px dashed var(--line)}
+.party-steps li:last-child{border-bottom:0}
+.party-steps b{font-size:1.6rem;font-weight:900;color:var(--yellow-deep);line-height:1.2;flex:none}
+.party-steps h4{color:var(--navy);font-size:1.05rem;margin-bottom:4px}
+.party-steps p{color:var(--muted);font-size:.94rem}
+.party-cards{display:grid;gap:22px}
+.party-card{background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:28px;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.party-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.party-art{background:var(--cream);border-radius:14px;margin-bottom:18px}
+.party-art svg{display:block;width:100%;height:auto}
+.party-card h3{font-size:1.3rem;color:var(--navy);font-weight:800}
+.party-price{font-size:1.7rem;font-weight:900;color:var(--navy);margin:6px 0 14px}
+.party-price span{font-size:.9rem;font-weight:600;color:var(--muted)}
+.party-card ul{list-style:none;margin-bottom:22px}
+.party-card li{padding:6px 0 6px 26px;position:relative;font-size:.95rem;color:var(--muted)}
+.party-card li::before{content:"";position:absolute;left:2px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy)}
+
+/* ---------- 安全须知 ---------- */
+.faq-list{max-width:800px}
+.faq{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);border-radius:16px;margin-bottom:14px;overflow:hidden;
+  transition:border-color .3s,background .3s}
+.faq[open]{background:rgba(255,255,255,.1);border-color:var(--yellow)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 24px;font-weight:700;font-size:1.05rem;color:#fff;
+  display:flex;align-items:center;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.6rem;font-weight:400;color:var(--yellow);transition:transform .3s var(--ease);flex:none}
+.faq[open] summary::after{transform:rotate(45deg)}
+.faq p{padding:0 24px 22px;color:rgba(244,241,228,.8);font-size:.96rem}
+
+/* ---------- 预约表单 ---------- */
+.book-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start}
+.book-points{list-style:none;margin-top:6px}
+.book-points li{padding:8px 0 8px 32px;position:relative;color:var(--muted);font-size:.98rem}
+.book-points li::before{content:"";position:absolute;left:2px;top:15px;width:16px;height:10px;
+  border-left:3px solid var(--yellow-deep);border-bottom:3px solid var(--yellow-deep);transform:rotate(-45deg) translateY(-4px)}
+.book-form{background:#fff;border:1.5px solid var(--line);border-radius:24px;padding:38px;box-shadow:var(--shadow)}
+.field{margin-bottom:20px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label,.field legend{font-weight:700;color:var(--navy);font-size:.95rem;margin-bottom:8px;display:block}
+.field legend{padding:0}
+.fieldset,.field fieldset{border:0}
+.field input[type=text],.field input[type=tel],.field input[type=date],.field select{
+  width:100%;padding:13px 16px;border:2px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;
+  color:var(--ink);background:var(--cream-2);transition:border-color .25s,box-shadow .25s,background .25s;appearance:none}
+.field input:focus,.field select:focus{outline:none;border-color:var(--yellow-deep);box-shadow:0 0 0 4px rgba(255,184,28,.25);background:#fff}
+.field.invalid input,.field.invalid select{border-color:#E5484D;animation:shake .4s var(--ease)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+.err{color:#C9343A;font-size:.85rem;margin-top:6px;font-weight:600}
+.radio-row{display:flex;flex-wrap:wrap;gap:10px}
+.radio-row label{margin:0;cursor:pointer}
+.radio-row input{position:absolute;opacity:0;pointer-events:none}
+.radio-row span{display:inline-block;padding:10px 18px;border:2px solid var(--line);border-radius:999px;
+  font-size:.92rem;font-weight:600;color:var(--muted);transition:all .25s var(--ease)}
+.radio-row input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff;transform:scale(1.03)}
+.radio-row input:focus-visible+span{box-shadow:0 0 0 4px rgba(255,184,28,.35)}
+.form-note{margin-top:14px;font-size:.82rem;color:var(--muted);text-align:center}
+.book-done{background:#fff;border:1.5px solid var(--line);border-radius:24px;padding:52px 38px;text-align:center;box-shadow:var(--shadow)}
+.book-done svg{width:72px;height:72px;margin-bottom:18px;animation:pop .55s var(--ease)}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.book-done h3{color:var(--navy);font-size:1.6rem;margin-bottom:10px}
+.book-done p{color:var(--muted);margin-bottom:8px}
+.done-no b{color:var(--navy);font-size:1.1rem;letter-spacing:.06em}
+#bookAgain{margin-top:14px}
+
+/* ---------- 页脚 ---------- */
+#footer{background:var(--navy);color:rgba(244,241,228,.78);padding:70px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px}
+.foot-brand p{margin:16px 0 20px;font-size:.94rem}
+.socials{display:flex;gap:12px}
+.socials a{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;
+  color:#fff;transition:all .3s var(--ease)}
+.socials a:hover{background:var(--yellow);border-color:var(--yellow);color:var(--navy);transform:translateY(-3px)}
+.socials svg{width:22px;height:22px}
+.foot-col h4{color:#fff;font-size:1rem;margin-bottom:16px}
+.foot-col p{margin-bottom:10px;font-size:.92rem}
+.foot-col b{color:#fff;font-weight:700}
+.foot-col a{color:rgba(244,241,228,.78);text-decoration:none;transition:color .25s}
+.foot-col a:hover{color:var(--yellow)}
+.legal-link{background:none;border:0;color:rgba(244,241,228,.78);font-size:.92rem;cursor:pointer;padding:0;font-family:inherit;transition:color .25s}
+.legal-link:hover{color:var(--yellow);text-decoration:underline}
+.foot-base{border-top:1px solid rgba(255,255,255,.14);padding:20px 24px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.85rem;color:rgba(244,241,228,.55)}
+
+/* ---------- 法务弹窗 ---------- */
+#legalMask{position:fixed;inset:0;z-index:1500;background:rgba(20,26,64,.55);opacity:0;transition:opacity .3s}
+#legalMask.show{opacity:1}
+#legalModal{position:fixed;z-index:1501;left:50%;top:50%;transform:translate(-50%,-46%) scale(.96);opacity:0;
+  width:min(640px,92vw);max-height:82vh;background:var(--cream-2);border-radius:22px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;transition:transform .35s var(--ease),opacity .3s;pointer-events:none}
+#legalModal.show{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
+.legal-head{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1.5px solid var(--line)}
+.legal-head h3{color:var(--navy);font-size:1.3rem}
+#legalClose{background:var(--navy);color:#fff;border:0;width:38px;height:38px;border-radius:50%;font-size:1.4rem;cursor:pointer;line-height:1;transition:transform .3s var(--ease)}
+#legalClose:hover{transform:rotate(90deg)}
+.legal-body{padding:26px 28px;overflow-y:auto;font-size:.95rem;color:var(--ink)}
+.legal-body h5{color:var(--navy);font-size:1.02rem;margin:18px 0 8px}
+.legal-body h5:first-child{margin-top:0}
+.legal-body p{margin-bottom:10px;color:var(--muted)}
+.legal-body .kid{border-left:4px solid var(--yellow);background:rgba(255,184,28,.14);padding:12px 16px;border-radius:0 12px 12px 0;margin:14px 0}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);z-index:1600;background:var(--navy);color:#fff;
+  padding:13px 26px;border-radius:999px;font-size:.95rem;font-weight:600;opacity:0;transition:all .35s var(--ease);box-shadow:var(--shadow);max-width:90vw}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .ride-grid{grid-template-columns:repeat(2,1fr)}
+  .price-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto 26px}
+  .party-wrap,.book-wrap{grid-template-columns:1fr;gap:44px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .section{padding:76px 0}
+}
+@media (max-width:640px){
+  .m-only{display:block}
+  .d-only{display:none}
+  .nav-links{display:none}
+  #nav .btn-sm{display:none}
+  #burger{display:flex}
+  .ride-grid{grid-template-columns:1fr}
+  .hero-meta{flex-direction:column;width:100%}
+  .meta-item+.meta-item{border-left:0;border-top:1px dashed var(--line)}
+  .hero-cta .btn{flex:1;min-width:150px}
+  .field-row{grid-template-columns:1fr}
+  .book-form{padding:26px 20px}
+  .foot-grid{grid-template-columns:1fr;gap:28px}
+  .foot-base{flex-direction:column;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .js-motion .hero-title .line-inner{transform:none}
+}
+
+</style>
+</head>
+<body class="js-motion">
+
+<!-- 加载幕布 -->
+<div id="veil" aria-hidden="true">
+  <div class="veil-bubble"></div>
+  <div class="veil-bubble v2"></div>
+  <div class="veil-word">泡泡岛</div>
+</div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="泡泡岛首页">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="19" fill="#FFB81C"/>
+        <circle cx="24" cy="24" r="19" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+        <circle cx="17" cy="17" r="5" fill="#FFF9EC" opacity=".85"/>
+        <circle cx="31" cy="30" r="3" fill="#FFF9EC" opacity=".7"/>
+        <path d="M14 33 Q24 38 34 33" fill="none" stroke="#1D2A6E" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-word">泡泡岛<em>BUBBLE ISLAND</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#rides">游乐项目</a>
+      <a href="#tickets">票价</a>
+      <a href="#party">生日派对</a>
+      <a href="#safety">安全须知</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="#booking">立即购票</a>
+      <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div id="drawerMask" hidden></div>
+<aside id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand-word">泡泡岛<em>BUBBLE ISLAND</em></span>
+    <button id="drawerClose" aria-label="关闭菜单">×</button>
+  </div>
+  <nav class="drawer-links" aria-label="移动端导航">
+    <a href="#rides">游乐项目</a>
+    <a href="#tickets">票价</a>
+    <a href="#party">生日派对</a>
+    <a href="#safety">安全须知</a>
+  </nav>
+  <a class="btn btn-primary btn-block" href="#booking">立即购票</a>
+  <p class="drawer-tel">客服热线 <b data-site="phone"></b></p>
+</aside>
+
+<main id="top">
+  <!-- Hero -->
+  <section id="hero">
+    <div id="bubbles" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-kicker rv"><span class="kicker-dot"></span>室内恒温乐园 · 全年开放</p>
+      <h1 class="hero-title">
+        <span class="line"><span class="line-inner">放电一整天，</span></span>
+        <span class="line"><span class="line-inner">快乐不打烊<span class="tide">。</span></span></span>
+      </h1>
+      <p class="hero-sub rv">2800㎡ 室内乐园 · 12 大主题区 · 全场软包防撞<br class="d-only">3–12 岁孩子的快乐老家，爸妈的遛娃救星。</p>
+      <div class="hero-cta rv">
+        <a class="btn btn-primary btn-lg" href="#booking">预约入场</a>
+        <a class="btn btn-ghost btn-lg" href="#rides">看看有啥玩</a>
+      </div>
+      <div class="hero-meta rv">
+        <div class="meta-item"><b>9:30–21:00</b><span>每天营业</span></div>
+        <div class="meta-item"><b>12</b><span>主题游乐区</span></div>
+        <div class="meta-item"><b>1:8</b><span>看护配比</span></div>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#rides" aria-label="向下滚动">↓</a>
+    <div class="hero-vignette" aria-hidden="true"></div>
+  </section>
+
+  <!-- 游乐项目矩阵 -->
+  <section id="rides" class="section">
+    <div class="wrap">
+      <p class="sec-kicker rv">游乐项目</p>
+      <h2 class="sec-title rv">12 个主题区，<br class="m-only">先看最火的 6 个</h2>
+      <p class="sec-sub rv">每个区都有专职看护员，全场边角软包，玩得野也放心。</p>
+      <div class="ride-grid">
+        <article class="ride-card rv" style="--d:.0s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="20" y="70" width="160" height="50" rx="22" fill="#1D2A6E"/>
+              <rect x="20" y="70" width="160" height="50" rx="22" fill="none" stroke="#1D2A6E" stroke-width="4"/>
+              <circle cx="55" cy="62" r="12" fill="#FFB81C"/><circle cx="85" cy="58" r="12" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="115" cy="62" r="12" fill="#FFB81C"/><circle cx="145" cy="58" r="12" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="70" cy="44" r="10" fill="#1D2A6E"/><circle cx="100" cy="40" r="10" fill="#FFB81C"/>
+              <circle cx="130" cy="44" r="10" fill="#1D2A6E"/>
+              <circle cx="48" cy="52" r="4" fill="#FFF9EC" opacity=".8"/><circle cx="108" cy="52" r="4" fill="#FFF9EC" opacity=".8"/>
+            </svg>
+          </div>
+          <h3>泡泡海洋球池</h3>
+          <p>8 万颗食品级海洋球，深 60cm，潜水艇滑梯直达池心。</p>
+          <span class="tag">3 岁+ · 看护员 2 名</span>
+        </article>
+        <article class="ride-card rv" style="--d:.08s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="30" y="30" width="26" height="90" rx="8" fill="#1D2A6E"/>
+              <path d="M56 44 Q110 44 118 96 L118 120 L92 120 L92 100 Q86 70 56 70 Z" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="126" y="96" width="44" height="24" rx="10" fill="#1D2A6E"/>
+              <circle cx="138" cy="108" r="4" fill="#FFF9EC"/><circle cx="158" cy="108" r="4" fill="#FFF9EC"/>
+              <circle cx="170" cy="30" r="10" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+            </svg>
+          </div>
+          <h3>彩虹滑梯城堡</h3>
+          <p>三层攀爬城堡接 4.2 米螺旋滑梯，滑下去直接扎进球池。</p>
+          <span class="tag">4 岁+ · 身高 90cm+</span>
+        </article>
+        <article class="ride-card rv" style="--d:.16s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="40" y="16" width="120" height="104" rx="10" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="4"/>
+              <path d="M60 40 l18 0 l-9 16 z" fill="#FFB81C"/><circle cx="110" cy="52" r="9" fill="#1D2A6E"/>
+              <rect x="66" y="78" width="20" height="14" rx="4" fill="#FFB81C"/><circle cx="130" cy="88" r="8" fill="#1D2A6E"/>
+              <path d="M96 104 l16 0 l-8 14 z" fill="#FFB81C"/><rect x="118" y="30" width="16" height="12" rx="3" fill="#1D2A6E"/>
+              <rect x="30" y="112" width="140" height="12" rx="6" fill="#1D2A6E"/>
+            </svg>
+          </div>
+          <h3>小勇士攀岩墙</h3>
+          <p>3 米儿童攀岩墙，安全绳 + 厚垫双保险，教练一对一保护。</p>
+          <span class="tag">5 岁+ · 需预约</span>
+        </article>
+        <article class="ride-card rv" style="--d:.0s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <rect x="46" y="84" width="34" height="34" rx="6" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="84" y="84" width="34" height="34" rx="6" fill="#1D2A6E"/>
+              <rect x="122" y="84" width="34" height="34" rx="6" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="65" y="52" width="34" height="30" rx="6" fill="#1D2A6E"/>
+              <rect x="103" y="52" width="34" height="30" rx="6" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <circle cx="150" cy="40" r="16" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="146" y="56" width="8" height="28" fill="#1D2A6E"/>
+            </svg>
+          </div>
+          <h3>积木工坊</h3>
+          <p>超大软积木自由搭建区，每周换主题：城堡、火箭、动物园。</p>
+          <span class="tag">全年龄 · 亲子共玩</span>
+        </article>
+        <article class="ride-card rv" style="--d:.08s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <path d="M40 120 L40 88 Q40 76 52 76 L70 76 L84 52 Q88 46 96 46 L132 46 Q140 46 144 52 L156 76 L160 76 Q170 76 170 88 L170 120 Z" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="92" y="58" width="34" height="20" rx="6" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="72" cy="120" r="14" fill="#1D2A6E"/><circle cx="72" cy="120" r="6" fill="#FFF9EC"/>
+              <circle cx="140" cy="120" r="14" fill="#1D2A6E"/><circle cx="140" cy="120" r="6" fill="#FFF9EC"/>
+              <path d="M30 40 q10 -12 20 0 q10 12 20 0" fill="none" stroke="#1D2A6E" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>小小驾驶员</h3>
+          <p>仿真小车道 + 红绿灯，考张「泡泡岛驾照」带回家贴冰箱。</p>
+          <span class="tag">3–8 岁 · 限时 15 分钟</span>
+        </article>
+        <article class="ride-card rv" style="--d:.16s">
+          <div class="ride-art">
+            <svg viewBox="0 0 200 140" aria-hidden="true">
+              <path d="M100 18 L100 60" stroke="#1D2A6E" stroke-width="5"/>
+              <path d="M60 60 L140 60 L128 96 L72 96 Z" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <path d="M72 96 q-8 18 -20 22 M128 96 q8 18 20 22" fill="none" stroke="#1D2A6E" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="100" cy="18" r="8" fill="#1D2A6E"/>
+              <circle cx="84" cy="78" r="5" fill="#FFF9EC"/><circle cx="116" cy="78" r="5" fill="#FFF9EC"/>
+              <rect x="40" y="118" width="120" height="8" rx="4" fill="#1D2A6E"/>
+            </svg>
+          </div>
+          <h3>梦幻旋转秋千</h3>
+          <p>慢速旋转秋千椅，配泡泡机，小朋友的第一个「游乐园记忆」。</p>
+          <span class="tag">3 岁+ · 家长可陪坐</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 票价三档 -->
+  <section id="tickets" class="section section-alt">
+    <div class="wrap">
+      <p class="sec-kicker rv">票价</p>
+      <h2 class="sec-title rv">明码标价，<br class="m-only">没有隐藏消费</h2>
+      <p class="sec-sub rv">1 米以下儿童免票 · 两位成人可免费陪同一名儿童入场。</p>
+      <div class="price-grid">
+        <article class="price-card rv" style="--d:.0s">
+          <h3>欢乐票</h3>
+          <p class="price"><sup>¥</sup>98<span>/次</span></p>
+          <ul>
+            <li>单次入场，不限时长</li>
+            <li>12 大主题区全开放</li>
+            <li>含 1 杯儿童果汁</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#booking" data-plan="欢乐票">选欢乐票</a>
+        </article>
+        <article class="price-card hot rv" style="--d:.1s">
+          <span class="hot-flag">最受欢迎</span>
+          <h3>畅玩票</h3>
+          <p class="price"><sup>¥</sup>168<span>/次</span></p>
+          <ul>
+            <li>欢乐票全部内容</li>
+            <li>2 节手工课 / 烘焙课</li>
+            <li>泡泡岛驾照 + 勋章 1 枚</li>
+            <li>离场小食一份</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="#booking" data-plan="畅玩票">选畅玩票</a>
+        </article>
+        <article class="price-card rv" style="--d:.2s">
+          <h3>亲子年卡</h3>
+          <p class="price"><sup>¥</sup>1999<span>/年</span></p>
+          <ul>
+            <li>2 大 1 小全年无限次</li>
+            <li>生日派对 8 折</li>
+            <li>新品区优先体验</li>
+            <li>专属客服微信</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="#booking" data-plan="亲子年卡">选亲子年卡</a>
+        </article>
+      </div>
+      <p class="price-note rv">节假日不加价 · 退改政策见服务条款 · 团建 / 幼儿园包场请致电 <b data-site="phone"></b></p>
+    </div>
+  </section>
+
+  <!-- 生日派对 -->
+  <section id="party" class="section">
+    <div class="wrap party-wrap">
+      <div class="party-copy">
+        <p class="sec-kicker rv">生日派对</p>
+        <h2 class="sec-title rv">孩子的生日，<br>交给我们操办</h2>
+        <p class="sec-sub rv">主题布置、蛋糕、主持人、跟拍，一价全包，爸妈只负责美美地出现。</p>
+        <ol class="party-steps rv">
+          <li><b>01</b><div><h4>选主题定日期</h4><p>泡泡公主 / 小小宇航员 / 恐龙探险等 8 个主题，提前 7 天预定。</p></div></li>
+          <li><b>02</b><div><h4>我们布置+主持</h4><p>派对管家全程跟进，游戏、切蛋糕、许愿环节一个不少。</p></div></li>
+          <li><b>03</b><div><h4>照片次日送达</h4><p>跟拍摄影师精修 30 张，电子相册直接发到家长手机。</p></div></li>
+        </ol>
+      </div>
+      <div class="party-cards">
+        <article class="party-card rv" style="--d:.0s">
+          <div class="party-art">
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <rect x="60" y="70" width="80" height="36" rx="8" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="60" y="58" width="80" height="14" rx="7" fill="#FFF9EC" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="94" y="38" width="12" height="22" fill="#1D2A6E"/>
+              <path d="M100 38 q14 -4 10 -18 q-12 2 -10 18" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="48" cy="40" r="8" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="152" cy="34" r="11" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="152" cy="34" r="3" fill="#FFB81C"/>
+            </svg>
+          </div>
+          <h3>小派对</h3>
+          <p class="party-price">¥1299<span> / 8 位小朋友</span></p>
+          <ul><li>主题布置 + 蛋糕 1 磅</li><li>派对主持 2 小时</li><li>每位小朋友伴手礼</li></ul>
+          <a class="btn btn-ghost btn-block" href="#booking" data-plan="生日小派对">预约小派对</a>
+        </article>
+        <article class="party-card rv" style="--d:.1s">
+          <div class="party-art">
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <rect x="52" y="76" width="96" height="30" rx="8" fill="#1D2A6E"/>
+              <rect x="52" y="62" width="96" height="16" rx="8" fill="#FFB81C" stroke="#1D2A6E" stroke-width="4"/>
+              <rect x="92" y="40" width="16" height="24" fill="#1D2A6E"/>
+              <path d="M100 40 q18 -6 12 -24 q-15 3 -12 24" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="40" cy="36" r="7" fill="#FFB81C" stroke="#1D2A6E" stroke-width="3"/>
+              <circle cx="160" cy="30" r="9" fill="none" stroke="#1D2A6E" stroke-width="3"/>
+              <path d="M28 84 l8 -14 M172 84 l-8 -14" stroke="#1D2A6E" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>大派对</h3>
+          <p class="party-price">¥2499<span> / 16 位小朋友</span></p>
+          <ul><li>小派对全部内容</li><li>蛋糕升级 2 磅 + 跟拍</li><li>专属派对房 3 小时</li></ul>
+          <a class="btn btn-primary btn-block" href="#booking" data-plan="生日大派对">预约大派对</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安全须知 -->
+  <section id="safety" class="section section-dark">
+    <div class="wrap">
+      <p class="sec-kicker rv">安全须知</p>
+      <h2 class="sec-title light rv">安全这件事，<br class="m-only">我们比谁都较真</h2>
+      <p class="sec-sub light rv">入场前请花 1 分钟读完，玩得开心的前提是人人守规矩。</p>
+      <div class="faq-list">
+        <details class="faq rv" open>
+          <summary>入场需要带什么？孩子多大可以自己玩？</summary>
+          <p>请带防滑袜（现场也可购买，15 元/双）。6 岁以下儿童须有成人全程陪同；6 岁以上可在看护区独立游玩，但家长不得离场，需保持电话畅通。</p>
+        </details>
+        <details class="faq rv">
+          <summary>场馆每天消毒吗？</summary>
+          <p>每天闭馆后全场紫外线 + 雾化双重消毒，海洋球每周机洗两次，消毒记录公示在入口电子屏，欢迎随时查看。</p>
+        </details>
+        <details class="faq rv">
+          <summary>孩子走失 / 受伤怎么办？</summary>
+          <p>入场时孩子佩戴防走失手环，出口有双人核验。场内 1:8 看护配比，驻场急救员持红十字证上岗；小擦伤现场处理并第一时间通知家长，稍重的情况直接拨打 120 并同步家长。</p>
+        </details>
+        <details class="faq rv">
+          <summary>可以带外食吗？有寄存吗？</summary>
+          <p>生日蛋糕等可提前与客服报备带入；普通外食请在休息区食用，游乐区内只许喝水。入口提供免费储物柜，贵重物品请随身携带。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约 CTA -->
+  <section id="booking" class="section">
+    <div class="wrap book-wrap">
+      <div class="book-copy">
+        <p class="sec-kicker rv">预约</p>
+        <h2 class="sec-title rv">选个日子，<br>带娃来放电</h2>
+        <p class="sec-sub rv">提交后客服会在 2 小时内（9:30–21:00）来电确认。<br>周末场次紧张，建议提前 3 天预约。</p>
+        <ul class="book-points rv">
+          <li>预约成功到店核销，无需提前付款</li>
+          <li>免费取消，改期提前 1 天说一声就行</li>
+        </ul>
+      </div>
+      <form id="bookForm" class="book-form rv" novalidate>
+        <div class="field">
+          <label for="fName">家长姓名</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼您" autocomplete="name">
+          <p class="err" hidden>请填写姓名（2–10 个字）</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">到店日期</label>
+            <input id="fDate" name="date" type="date">
+            <p class="err" hidden>请选择今天或之后的日期</p>
+          </div>
+          <div class="field">
+            <label for="fCount">人数</label>
+            <select id="fCount" name="count">
+              <option value="1大1小">1 大 1 小</option>
+              <option value="2大1小" selected>2 大 1 小</option>
+              <option value="2大2小">2 大 2 小</option>
+              <option value="3大2小">3 大 2 小</option>
+              <option value="4人以上">4 人以上（团建/包场）</option>
+            </select>
+          </div>
+        </div>
+        <fieldset class="field">
+          <legend>想约哪种</legend>
+          <div class="radio-row" id="planRow">
+            <label><input type="radio" name="plan" value="欢乐票" checked><span>欢乐票 ¥98</span></label>
+            <label><input type="radio" name="plan" value="畅玩票"><span>畅玩票 ¥168</span></label>
+            <label><input type="radio" name="plan" value="亲子年卡"><span>亲子年卡</span></label>
+            <label><input type="radio" name="plan" value="生日小派对"><span>生日小派对</span></label>
+            <label><input type="radio" name="plan" value="生日大派对"><span>生日大派对</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="fPhone">手机号码</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号，用于接收确认短信" autocomplete="tel">
+          <p class="err" hidden>手机号格式不对，再检查一下</p>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意《服务条款》与《隐私政策》中关于预约信息使用的说明。</p>
+      </form>
+      <div id="bookDone" class="book-done" hidden>
+        <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="32" fill="#FFB81C"/><path d="M23 37 l9 9 l17 -19" fill="none" stroke="#1D2A6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>预约收到啦！</h3>
+        <p id="doneText"></p>
+        <p class="done-no">预约号 <b id="doneNo"></b>（已短信发送至您的手机）</p>
+        <button class="btn btn-ghost" id="bookAgain" type="button">再约一场</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer id="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="brand-word light">泡泡岛<em>BUBBLE ISLAND</em></span>
+      <p>3–12 岁孩子的快乐老家。<br>室内恒温，安全看护，全年开放。</p>
+      <div class="socials">
+        <a href="#" aria-label="微信公众号" data-social="wechat"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M10 20 q2 -6 6 -6 q4 0 6 6 q-2 4 -6 4 l-2 2 v-2 q-3 0 -4 -4z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="抖音" data-social="douyin"><svg viewBox="0 0 32 32"><path d="M19 5 v14 a5 5 0 1 1 -5 -5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M19 8 q4 1 6 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书" data-social="xiaohongshu"><svg viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16 12 v8 M12 16 h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>联系我们</h4>
+      <p>电话 <b data-site="phone"></b></p>
+      <p>邮箱 <b data-site="email"></b></p>
+      <p>地址 <span data-site="address"></span></p>
+      <p>营业 9:30–21:00（全年无休）</p>
+    </div>
+    <div class="foot-col">
+      <h4>快速入口</h4>
+      <p><a href="#rides">游乐项目</a></p>
+      <p><a href="#tickets">票价</a></p>
+      <p><a href="#party">生日派对</a></p>
+      <p><a href="#booking">预约入场</a></p>
+    </div>
+    <div class="foot-col">
+      <h4>法律信息</h4>
+      <p><button class="legal-link" data-legal="privacy">隐私政策</button></p>
+      <p><button class="legal-link" data-legal="terms">服务条款</button></p>
+      <p><button class="legal-link" data-legal="cookie">Cookie 政策</button></p>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© 2026 <span data-site="organizer"></span> 版权所有</p>
+    <p><span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div id="legalMask" hidden></div>
+<div id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="legal-head">
+    <h3 id="legalTitle"></h3>
+    <button id="legalClose" aria-label="关闭">×</button>
+  </div>
+  <div class="legal-body" id="legalBody"></div>
+</div>
+
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+/* 泡泡岛 BUBBLE ISLAND · 交互逻辑（零外部依赖，纯原生 JS） */
+"use strict";
+
+/* ============ 配置：换主体只改这里 ============ */
+const SITE = {
+  brand: "泡泡岛",
+  brandEn: "BUBBLE ISLAND",
+  organizer: "泡泡岛儿童乐园（上海）有限公司",
+  phone: "400-820-2026",
+  address: "上海市闵行区星乐路 88 号 3 楼",
+  email: "hello@bubbleisland.example.com",
+  icp: "沪ICP备2026000000号-1",
+};
+
+/* 法务三件套文案（真实感通用条款，含儿童安全条款） */
+const LEGAL = {
+  privacy: {
+    title: "隐私政策",
+    body: `
+      <h5>一、我们收集哪些信息</h5>
+      <p>为完成预约服务，我们仅收集您主动填写的信息：家长姓名、手机号码、到店日期与人数。我们不会收集与预约无关的信息，也不会读取您设备的其他数据。</p>
+      <div class="kid"><b>儿童信息特别说明：</b>我们不会主动收集 14 周岁以下儿童的姓名、照片等可识别信息。生日派对跟拍照片仅在获得家长书面同意后拍摄，精修后直接发送给预留手机，不做任何公开传播。</div>
+      <h5>二、信息如何使用</h5>
+      <p>收集的信息仅用于：预约确认短信/电话、到店核销、售后回访。我们不会将您的信息出售、出租或分享给任何第三方营销机构。</p>
+      <h5>三、信息保存与删除</h5>
+      <p>预约信息自到店日起保留 12 个月用于售后，之后自动删除。您可随时致电 ${SITE.phone} 要求提前删除，我们将在 3 个工作日内处理完毕并回复确认。</p>
+      <h5>四、联系我们</h5>
+      <p>如对本政策有疑问，请发邮件至 ${SITE.email}，我们会在 5 个工作日内答复。</p>`,
+  },
+  terms: {
+    title: "服务条款",
+    body: `
+      <h5>一、票价与入场</h5>
+      <p>所有票价为明码标价，节假日不加价。1 米以下儿童免票；每位付费儿童可由两名成人免费陪同入场。门票当日有效，离场后再次入场需重新购票（用餐外出可凭手环 1 小时内返回）。</p>
+      <h5>二、预约与退改</h5>
+      <p>线上预约成功后到店核销，无需预付。免费取消；如需改期，请提前 1 天致电 ${SITE.phone}。生日派对需提前 7 天预定，支付 30% 定金后锁定档期，提前 3 天以上取消全额退还定金。</p>
+      <div class="kid"><b>儿童安全条款：</b>6 岁以下儿童须有成人全程陪同；场内禁止追逐打闹、倒立等危险动作，看护员有权劝阻。游乐设施有身高/年龄限制的，以现场标识为准，家长不得强行让孩子乘坐不符合条件的项目。</div>
+      <h5>三、场馆规则</h5>
+      <p>入场须穿防滑袜；游乐区内禁止饮食（饮水除外）；请勿携带尖锐物品、宠物入场。储物柜免费使用，贵重物品请随身携带，遗失本馆协助查找但不承担保管责任。</p>
+      <h5>四、免责与保险</h5>
+      <p>本馆已投保公众责任险。儿童在场内活动请家长尽到看护义务；因违反场馆规则或家长看护缺位导致的意外，本馆在保险范围内先行垫付，责任划分依法处理。</p>`,
+  },
+  cookie: {
+    title: "Cookie 政策",
+    body: `
+      <h5>一、我们使用 Cookie 做什么</h5>
+      <p>本页面仅使用维持网站正常运行所必需的 Cookie（如记住您的票种选择、表单填写进度），不做用户画像，不做跨站追踪，不接入任何第三方广告 Cookie。</p>
+      <h5>二、您可以如何管理</h5>
+      <p>您可以在浏览器设置中随时清除或禁用 Cookie。禁用后预约表单仍可正常使用，仅「记住我的选择」类便利功能会失效。</p>
+      <h5>三、政策更新</h5>
+      <p>本政策更新时会在本页面显著位置提示，更新后的版本自发布之日起生效。如有疑问请联系 ${SITE.email}。</p>`,
+  },
+};
+
+/* ============ 工具 ============ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.hidden = false;
+  requestAnimationFrame(() => t.classList.add("show"));
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.classList.remove("show");
+    setTimeout(() => (t.hidden = true), 400);
+  }, 2600);
+}
+
+/* ============ SITE 变量渲染 ============ */
+function renderSite() {
+  $$("[data-site]").forEach((el) => {
+    const k = el.getAttribute("data-site");
+    if (SITE[k] != null) el.textContent = SITE[k];
+  });
+  document.title = `${SITE.brand}儿童乐园 · 3–12 岁孩子的快乐老家`;
+}
+
+/* ============ Hero 泡泡（主视觉动效） ============ */
+function spawnBubbles() {
+  const box = $("#bubbles");
+  const N = 16;
+  for (let i = 0; i < N; i++) {
+    const b = document.createElement("span");
+    const size = 14 + Math.random() * 66; // 14–80px
+    b.className = "bubble" + (Math.random() < 0.4 ? " y" : "");
+    b.style.width = b.style.height = size.toFixed(0) + "px";
+    b.style.left = (Math.random() * 96).toFixed(1) + "%";
+    const dur = 9 + Math.random() * 9; // 9–18s 上升
+    b.style.animationDuration = dur.toFixed(1) + "s";
+    b.style.animationDelay = (-Math.random() * dur).toFixed(1) + "s"; // 负延迟：首屏即有泡泡在半空
+    box.appendChild(b);
+  }
+}
+
+/* ============ 导航滚动态 + 抽屉 ============ */
+function initNav() {
+  const nav = $("#nav");
+  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 24);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  const drawer = $("#drawer"),
+    mask = $("#drawerMask"),
+    burger = $("#burger");
+  const open = (v) => {
+    drawer.classList.toggle("open", v);
+    mask.hidden = !v;
+    requestAnimationFrame(() => mask.classList.toggle("show", v));
+    drawer.setAttribute("aria-hidden", String(!v));
+    burger.setAttribute("aria-expanded", String(v));
+    document.body.style.overflow = v ? "hidden" : "";
+  };
+  burger.addEventListener("click", () => open(true));
+  $("#drawerClose").addEventListener("click", () => open(false));
+  mask.addEventListener("click", () => open(false));
+  $$("#drawer a").forEach((a) => a.addEventListener("click", () => open(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer.classList.contains("open")) open(false);
+  });
+}
+
+/* ============ 滚动 reveal（带完成态兜底） ============ */
+function initReveal() {
+  const els = $$(".rv");
+  if (!("IntersectionObserver" in window)) {
+    els.forEach((el) => el.classList.add("in"));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add("in");
+          io.unobserve(en.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  els.forEach((el) => io.observe(el));
+  // 3s 兜底：任何原因没触发的 reveal 强制显现，完成态永远可达
+  setTimeout(() => els.forEach((el) => el.classList.add("in")), 3000);
+}
+
+/* ============ 票种快捷选择：卡片按钮 → 表单 radio ============ */
+function initPlanShortcut() {
+  $$("[data-plan]").forEach((a) => {
+    a.addEventListener("click", () => {
+      const plan = a.getAttribute("data-plan");
+      const radio = $(`#planRow input[value="${plan}"]`);
+      if (radio) {
+        radio.checked = true;
+        toast(`已为您选中「${plan}」`);
+      }
+    });
+  });
+}
+
+/* ============ 预约表单：校验 + 成功态 ============ */
+function initForm() {
+  const form = $("#bookForm"),
+    done = $("#bookDone");
+  const fDate = $("#fDate");
+  const today = new Date();
+  const iso = (d) => d.toISOString().slice(0, 10);
+  fDate.min = iso(today);
+  fDate.value = iso(today);
+
+  const rules = {
+    name: (v) => /^[\u4e00-\u9fa5a-zA-Z·\s]{2,10}$/.test(v.trim()),
+    date: (v) => v && v >= iso(today),
+    phone: (v) => /^1[3-9]\d{9}$/.test(v.trim()),
+  };
+
+  const setErr = (input, bad) => {
+    const field = input.closest(".field");
+    field.classList.toggle("invalid", bad);
+    const err = field.querySelector(".err");
+    if (err) err.hidden = !bad;
+    return !bad;
+  };
+
+  ["name", "date", "phone"].forEach((n) => {
+    const input = form.elements[n];
+    input.addEventListener("input", () => setErr(input, false));
+    input.addEventListener("blur", () => setErr(input, !rules[n](input.value)));
+  });
+
+  $("#bookAgain").addEventListener("click", () => {
+    done.hidden = true;
+    form.hidden = false;
+    form.reset();
+    fDate.value = iso(today);
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = form.elements.name,
+      date = form.elements.date,
+      phone = form.elements.phone;
+    const ok =
+      setErr(name, !rules.name(name.value)) &
+      setErr(date, !rules.date(date.value)) &
+      setErr(phone, !rules.phone(phone.value));
+    if (!ok) {
+      const firstBad = $(".field.invalid input", form);
+      if (firstBad) firstBad.focus();
+      toast("还有几项没填对，检查一下再提交");
+      return;
+    }
+    const plan = form.elements.plan.value;
+    const count = form.elements.count.value;
+    const no =
+      "KS-" + date.value.replaceAll("-", "").slice(2) + "-" + Math.floor(1000 + Math.random() * 9000);
+    $("#doneText").textContent = `${name.value.trim()}，您预约了 ${date.value}（${count} · ${plan}），客服将在 2 小时内致电 ${phone.value.trim()} 确认。`;
+    $("#doneNo").textContent = no;
+    form.hidden = true;
+    done.hidden = false;
+    done.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+}
+
+/* ============ 法务弹窗（三通道关闭） ============ */
+function initLegal() {
+  const mask = $("#legalMask"),
+    modal = $("#legalModal"),
+    title = $("#legalTitle"),
+    body = $("#legalBody");
+  let lastFocus = null;
+
+  const open = (key) => {
+    const doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    title.textContent = doc.title;
+    body.innerHTML = doc.body;
+    body.scrollTop = 0;
+    mask.hidden = false;
+    modal.hidden = false;
+    requestAnimationFrame(() => {
+      mask.classList.add("show");
+      modal.classList.add("show");
+    });
+    document.body.style.overflow = "hidden";
+    $("#legalClose").focus();
+  };
+  const close = () => {
+    mask.classList.remove("show");
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+    setTimeout(() => {
+      mask.hidden = true;
+      modal.hidden = true;
+    }, 320);
+    if (lastFocus) lastFocus.focus();
+  };
+
+  $$(".legal-link").forEach((b) =>
+    b.addEventListener("click", () => open(b.getAttribute("data-legal")))
+  );
+  $("#legalClose").addEventListener("click", close);
+  mask.addEventListener("click", close);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.hidden) close();
+  });
+}
+
+/* ============ 启动 ============ */
+function boot() {
+  renderSite();
+  spawnBubbles();
+  initNav();
+  initReveal();
+  initPlanShortcut();
+  initForm();
+  initLegal();
+
+  // Hero 标题升起：首屏就绪即播（完成态覆盖规则保证可达）
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => document.body.classList.add("is-in"))
+  );
+
+  // 幕布退场：首屏就绪 + 2.5s 兜底
+  const veil = $("#veil");
+  const hideVeil = () => veil.classList.add("gone");
+  if (document.readyState === "complete") setTimeout(hideVeil, 350);
+  else window.addEventListener("load", () => setTimeout(hideVeil, 350));
+  setTimeout(hideVeil, 2500);
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+else boot();
+
+</script>
+</body>
+</html>

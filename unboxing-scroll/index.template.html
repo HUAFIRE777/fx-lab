@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KEY·01 机械键盘 · 滚动开箱</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/addons/"
+  }
+}
+</script>
+</head>
+<body>
+
+<div id="progress"><div id="progress-fill"></div></div>
+
+<div id="loader">
+  <div class="t">LOADING MODEL</div>
+  <div id="loader-num">0%</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<header class="intro">
+  <div class="brand">HUAFIRE · 3D 开箱</div>
+  <h1>KEY·01 <span class="thin">机械键盘</span></h1>
+  <div class="sub">向下滚动，亲手拆开它</div>
+  <div class="hint">SCROLL</div>
+</header>
+
+<section id="stage">
+  <div class="sticky">
+    <canvas id="gl"></canvas>
+    <div id="dust"></div>
+    <div class="vignette"></div>
+    <div class="grain"></div>
+    <svg id="leaders"></svg>
+    <div id="tags"></div>
+    <div class="hud" id="phase-caption">环绕鉴赏 · 360°</div>
+    <div class="hud" id="explode-badge">EXPLODED VIEW · 分解视图</div>
+    <div class="hud" id="progress-pct">0%</div>
+  </div>
+</section>
+
+<section class="outro">
+  <div class="kicker">UNBOXING COMPLETE</div>
+  <h2>开箱完毕</h2>
+  <p>三段式滚动叙事 · 相机轨道 × 分解视图 × 卖点标注</p>
+  <div class="buy">
+    <span class="price">¥ 499</span>
+    <button type="button">加入购物车</button>
+  </div>
+</section>
+
+<div id="static-fallback"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

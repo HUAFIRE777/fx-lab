@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>镜界 VIEWFINDER — 摄影器材，把决定性瞬间装进口袋</title>
+<meta name="description" content="镜界 VIEWFINDER：全画幅微单、镜头、灯光与配件，行货保修、以旧换新。摄影师开的器材店。">
+<link rel="stylesheet" href="styles.css">
+<script src="vendor/gsap.min.js"></script>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body id="top">
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="#top" aria-label="镜界首页">
+      <span class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="12" cy="12" r="3.4"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/></svg>
+      </span>
+      镜界 <small>VIEWFINDER</small>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#products" data-filter-link="body">相机</a>
+      <a href="#products" data-filter-link="lens">镜头</a>
+      <a href="#products" data-filter-link="acc">配件</a>
+      <a href="#tradein" class="hot">二手</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="cart-btn" id="cartBtn" aria-label="打开购物袋">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 8h12l-1.2 12.5H7.2L6 8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+        购物袋 <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-mask" id="drawerMask"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#products" data-filter-link="body">相机</a>
+    <a href="#products" data-filter-link="lens">镜头</a>
+    <a href="#products" data-filter-link="acc">配件</a>
+    <a href="#tradein">二手置换 <span class="tag">以旧换新</span></a>
+    <a href="#reviews">摄影师评测</a>
+  </nav>
+  <div class="drawer-foot">镜界 VIEWFINDER · 摄影师开的器材店</div>
+</aside>
+
+<!-- hero -->
+<section class="hero" aria-label="首屏">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-vig" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span>行货保修 · 以旧换新 · 摄影师客服</span>
+      <h1 id="heroTitle">把<b class="hl">决定性瞬间</b>，<br>装进口袋。</h1>
+      <p class="sub">全画幅微单、镜头与灯光，<b>全部行货、全部现货</b>。我们自己也是天天背着相机出门的人——你问的每个问题，都有人真正用过再回答。</p>
+      <div class="hero-cta">
+        <button class="btn-shutter" id="shutterCta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/></svg>
+          按下快门
+        </button>
+        <a class="btn-ghost" href="#products">逛逛热卖器材 →</a>
+      </div>
+      <div class="hero-meta">
+        <div><b data-count="12000">0</b>注册摄影师</div>
+        <div><b>4.9<span style="font-size:14px">/5</span></b>店铺评分</div>
+        <div><b data-count="98" data-suffix="%">0</b>现货当日发</div>
+      </div>
+    </div>
+    <div class="aperture-wrap">
+      <div class="aperture-stage" id="apertureStage" role="button" tabindex="0" aria-label="光圈演示，点击拍摄">
+        <div class="hero-load" id="heroLoad">正在装上镜头…</div>
+        <div id="apertureMount"></div>
+        <div class="flash" id="flash"></div>
+      </div>
+      <p class="aperture-hint">点击镜头 · 试试快门</p>
+    </div>
+  </div>
+</section>
+
+<!-- 品类磁贴 -->
+<section class="section" id="cats" aria-label="品类">
+  <div class="sec-head rv">
+    <div>
+      <p class="sec-kicker">CATEGORIES</p>
+      <h2 class="sec-title">先想好拍什么，<br>再挑趁手的家伙。</h2>
+    </div>
+    <p class="sec-desc">四个大类，全部现货。不确定买哪支？直接问客服——值班的都是拿过奖的摄影师。</p>
+  </div>
+  <div class="cats" id="catGrid"></div>
+</section>
+
+<!-- 热卖产品 -->
+<section id="products" aria-label="热卖产品" style="background:var(--paper-2)">
+  <div class="section">
+    <div class="sec-head rv">
+      <div>
+        <p class="sec-kicker">BEST SELLERS</p>
+        <h2 class="sec-title">这周大家都在买</h2>
+      </div>
+      <div class="tabs" id="tabs" role="tablist" aria-label="品类筛选">
+        <button class="tab on" data-f="all" role="tab">全部</button>
+        <button class="tab" data-f="body" role="tab">机身</button>
+        <button class="tab" data-f="lens" role="tab">镜头</button>
+        <button class="tab" data-f="light" role="tab">灯光</button>
+        <button class="tab" data-f="acc" role="tab">配件</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- 摄影师评测 -->
+<section class="section" id="reviews" aria-label="摄影师评测">
+  <div class="sec-head rv">
+    <div>
+      <p class="sec-kicker">FIELD REVIEWS</p>
+      <h2 class="sec-title">他们带着我们的器材，<br>去了这些地方。</h2>
+    </div>
+    <p class="sec-desc">没有脚本。以下评价来自真实订单的回访，器材型号可在订单系统查证。</p>
+  </div>
+  <div class="reviews" id="revGrid"></div>
+</section>
+
+<!-- 以旧换新 -->
+<section class="trade" id="tradein" aria-label="以旧换新">
+  <div class="trade-bg" aria-hidden="true"></div>
+  <div class="section">
+    <div class="trade-grid">
+      <div class="rv">
+        <p class="sec-kicker">TRADE-IN</p>
+        <h2>旧机器别吃灰，<br><span class="hl">折成新镜头的钱。</span></h2>
+        <p class="lede">三步搞定：在线估个价，顺丰到付寄过来，工程师 24 小时内检测打款。成色描述如实，价格说到做到。</p>
+        <div class="trade-steps">
+          <div class="tstep"><span class="n">1</span><div><b>在线估价</b><small>右边算一下，心里先有个数</small></div></div>
+          <div class="tstep"><span class="n">2</span><div><b>顺丰到付寄出</b><small>我们出运费，丢件按保价全赔</small></div></div>
+          <div class="tstep"><span class="n">3</span><div><b>检测后抵扣或打款</b><small>换新机直接抵，折现 24 小时到账</small></div></div>
+        </div>
+      </div>
+      <div class="est rv" aria-label="以旧换新估价器">
+        <h3>30 秒估个价</h3>
+        <div class="frow">
+          <label>设备类型</label>
+          <div class="seg" id="segType">
+            <button class="on" data-v="微单机身">微单机身</button>
+            <button data-v="单反机身">单反机身</button>
+            <button data-v="镜头">镜头</button>
+            <button data-v="闪光灯">闪光灯</button>
+          </div>
+        </div>
+        <div class="frow">
+          <label>品牌</label>
+          <div class="seg" id="segBrand">
+            <button class="on" data-v="索尼">索尼</button>
+            <button data-v="佳能">佳能</button>
+            <button data-v="尼康">尼康</button>
+            <button data-v="富士">富士</button>
+            <button data-v="其他">其他</button>
+          </div>
+        </div>
+        <div class="frow">
+          <label>成色</label>
+          <div class="seg" id="segCond">
+            <button class="on" data-v="95">95 新以上</button>
+            <button data-v="90">9 成新</button>
+            <button data-v="80">8 成新</button>
+            <button data-v="70">正常使用痕迹</button>
+          </div>
+        </div>
+        <div class="frow" id="shutterRow">
+          <label>快门次数</label>
+          <input type="range" id="shutterRange" min="0" max="200000" step="5000" value="30000" aria-label="快门次数">
+          <div class="range-val"><span id="shutterVal">3 万</span>次 · 快门寿命约 20 万次</div>
+        </div>
+        <div class="est-out">
+          <div><div class="num" id="estNum">¥–</div><small>预估抵扣区间，仅供参考</small></div>
+          <div style="text-align:right"><small>检测后可能上浮</small><br><small>也可能下调，如实描述最划算</small></div>
+        </div>
+        <button class="est-go" id="estGo">预约免费上门评估</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="foot-grid">
+    <div class="fbrand">
+      <a class="flogo" href="#top"><span class="mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="12" cy="12" r="3.4"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/></svg>
+      </span>镜界 <small>VIEWFINDER</small></a>
+      <p class="fabout">摄影师开的器材店。卖行货，收二手，修机器，聊摄影——开业第八年，靠口碑没打过广告。</p>
+      <div class="social" id="socialRow" aria-label="社交媒体"></div>
+    </div>
+    <div>
+      <h4>买器材</h4>
+      <a href="#products" data-filter-link="body">微单机身</a>
+      <a href="#products" data-filter-link="lens">镜头</a>
+      <a href="#products" data-filter-link="light">灯光</a>
+      <a href="#products" data-filter-link="acc">配件</a>
+    </div>
+    <div>
+      <h4>服务</h4>
+      <a href="#tradein">以旧换新</a>
+      <a href="#reviews">摄影师评测</a>
+      <a href="#cats">品类导航</a>
+      <a href="#top">回到顶部</a>
+    </div>
+    <div>
+      <h4>联系我们</h4>
+      <div class="fcontact" id="fcontact"></div>
+    </div>
+  </div>
+  <div class="fbase">
+    <div class="legal">
+      <button data-modal="privacy">隐私政策</button><span>·</span>
+      <button data-modal="terms">服务条款</button><span>·</span>
+      <button data-modal="cookies">Cookie 政策</button>
+    </div>
+    <div class="copy" id="copyLine"></div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-mask" id="modalMask" hidden></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <button class="modal-x" id="modalX" aria-label="关闭">×</button>
+  <h3 id="modalTitle"></h3>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<!-- 购物袋抽屉 -->
+<div class="cart-mask" id="cartMask" hidden></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="购物袋" hidden>
+  <div class="cart-head"><h3>购物袋 <span id="cartHeadCount">(0)</span></h3><button class="cart-x" id="cartX" aria-label="关闭购物袋">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>合计</span><b id="cartTotal">¥0</b></div>
+    <button class="checkout" id="checkoutBtn">去结算</button>
+    <small>行货含税 · 顺丰包邮 · 7 天无理由</small>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

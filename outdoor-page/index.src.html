@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>野径 TRAILHEAD · 把路，走成风景</title>
+<meta name="description" content="野径 TRAILHEAD 户外装备品牌：徒步、露营、攀登三大装备线，37 条合作徒步线路，92 万山野会员。下一座山，在等你。">
+<!-- huafire3d fx-lab — original implementation (outdoor-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== SVG 符号库（原创线稿） ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-boot" viewBox="0 0 48 48">
+    <path d="M10 38V20l4-2 3 8h6l3-14 9 3-4 13 11 4v6z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M10 32h28" stroke="currentColor" stroke-width="2.6"/>
+    <path d="M18 20l2-6m6 2l1.5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-tent" viewBox="0 0 48 48">
+    <path d="M24 8L6 38h36z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M24 8v30M24 24l-8 14m8-14l8 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M17 38a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+  <symbol id="i-pick" viewBox="0 0 48 48">
+    <path d="M8 12c8-6 20-6 26 2" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M34 14L20 40" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M12 20l6 2m-9 6l5 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-compass" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2.6"/>
+    <path d="M30 18l-4 8-8 4 4-8z" fill="currentColor"/>
+    <circle cx="24" cy="24" r="2" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M4 12h14m-6-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-soc-wx" viewBox="0 0 24 24">
+    <path d="M9.5 4C5.9 4 3 6.6 3 9.8c0 1.8 1 3.4 2.5 4.4l-.6 2 2.2-1.1c.8.2 1.6.4 2.4.4h.3A5.4 5.4 0 0 1 9.5 4z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M14.5 10c-2.9 0-5.3 2-5.3 4.5 0 1.5.9 2.9 2.2 3.7l-.5 1.8 1.9-1c.6.2 1.1.2 1.7.2 2.9 0 5.3-2 5.3-4.5S17.4 10 14.5 10z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="12.4" cy="14.4" r=".9" fill="currentColor"/><circle cx="16.4" cy="14.4" r=".9" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-soc-wb" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M7.5 12.5c1-2.6 3.4-4.3 6-3.6 2.2.6 3.3 2.8 2.4 4.8-.9 2.1-3.6 2.8-5.7 1.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="9.4" cy="12.6" r="1.1" fill="currentColor"/>
+  </symbol>
+  <symbol id="i-soc-xhs" viewBox="0 0 24 24">
+    <rect x="4" y="4" width="16" height="16" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M8.5 9.5l7 5m0-5l-7 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-soc-dy" viewBox="0 0 24 24">
+    <path d="M14 4v10.5a3.8 3.8 0 1 1-3.8-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M14 4c.4 2.4 1.9 3.9 4.2 4.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-close" viewBox="0 0 24 24">
+    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24">
+    <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<!-- ===== 加载态（JS 生效后显示；无 JS 时直接隐藏） ===== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">径</div>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-tip">正在收拾背包…</p>
+</div>
+<noscript><style>.loader{display:none!important}</style></noscript>
+
+<!-- ===== 导航 ===== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="野径首页">
+      <span class="brand-mark">径</span>
+      <span class="brand-word">野径<small>TRAILHEAD</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#gear">装备矩阵</a>
+      <a href="#stories">探险故事</a>
+      <a href="#member">会员计划</a>
+      <a href="#contact">联系我们</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-sm btn-ghost" href="#member">加入会员</a>
+      <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+        <svg width="26" height="26"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="drawer-scrim" id="drawerScrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" hidden>
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">
+    <svg width="24" height="24"><use href="#i-close"/></svg>
+  </button>
+  <nav class="drawer-links">
+    <a href="#gear">装备矩阵</a>
+    <a href="#stories">探险故事</a>
+    <a href="#member">会员计划</a>
+    <a href="#contact">联系我们</a>
+  </nav>
+  <a class="btn btn-primary drawer-btn" href="#member">加入会员 · ¥199/年</a>
+</aside>
+
+<main id="top">
+
+<!-- ===== Hero：山影视差 ===== -->
+<section class="hero" id="hero" aria-label="野径首页横幅">
+  <div class="hero-sky" data-depth="0.05">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <div class="sun" aria-hidden="true"></div>
+  </div>
+  <svg class="ridge r4" data-depth="0.12" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0,400 L110,310 L250,370 L410,270 L560,350 L720,250 L880,360 L1030,290 L1190,370 L1330,310 L1440,350 L1440,600 L0,600 Z" fill="#6d6c66"/>
+  </svg>
+  <svg class="ridge r3" data-depth="0.22" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0,450 L140,340 L300,425 L470,320 L640,435 L800,350 L980,455 L1150,370 L1300,445 L1440,395 L1440,600 L0,600 Z" fill="#4c4b46"/>
+  </svg>
+  <svg class="ridge r2" data-depth="0.36" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0,505 L180,400 L360,485 L560,380 L760,495 L960,410 L1160,505 L1330,430 L1440,475 L1440,600 L0,600 Z" fill="#5C6B4C"/>
+  </svg>
+  <svg class="ridge r1" data-depth="0.55" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0,560 L200,470 L420,552 L640,462 L880,562 L1100,482 L1300,557 L1440,520 L1440,600 L0,600 Z" fill="#232220"/>
+    <g class="campfire" transform="translate(985,505)">
+      <circle r="4" fill="#E0632F"/>
+      <circle r="10" fill="#E0632F" opacity="0.35"/>
+    </g>
+  </svg>
+  <div class="hero-content">
+    <p class="hero-kicker reveal">EST. 2016 · 专注山野十年</p>
+    <h1 class="hero-title reveal" data-d="1">把路，<br>走成风景。</h1>
+    <p class="hero-sub reveal" data-d="2">徒步 / 露营 / 攀登三大装备线，从城市边缘到雪线之上。<br>野径陪你走的每一步，都算数。</p>
+    <div class="hero-btns reveal" data-d="3">
+      <a class="btn btn-primary" href="#gear">逛逛装备<svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost" href="#member">加入会员</a>
+    </div>
+  </div>
+  <a class="scroll-hint" href="#stats" aria-label="向下滚动">
+    <span></span>
+  </a>
+</section>
+
+<!-- ===== 数字条 ===== -->
+<section class="stats" id="stats" aria-label="野径数字">
+  <div class="wrap stats-grid">
+    <div class="stat reveal"><b><span class="count" data-to="128">0</span></b><span>线下门店</span></div>
+    <div class="stat reveal" data-d="1"><b><span class="count" data-to="92">0</span> 万</b><span>山野会员</span></div>
+    <div class="stat reveal" data-d="2"><b><span class="count" data-to="37">0</span> 条</b><span>合作徒步线路</span></div>
+    <div class="stat reveal" data-d="3"><b><span class="count" data-to="15">0</span> 天</b><span>无理由退换</span></div>
+  </div>
+</section>
+
+<!-- ===== 装备分类矩阵 ===== -->
+<section class="section gear" id="gear" aria-label="装备分类">
+  <div class="wrap">
+    <p class="sec-kicker reveal">GEAR MATRIX</p>
+    <h2 class="sec-title reveal" data-d="1">三条产品线，<br class="br-m">覆盖你所有的出发。</h2>
+    <p class="sec-sub reveal" data-d="2">把卡片翻过来，看看每条线都为你准备了什么。移动端点一下即可翻转。</p>
+    <div class="gear-grid">
+
+      <div class="flip reveal" data-d="1" tabindex="0" role="button" aria-label="徒步穿越装备，激活查看详情">
+        <div class="flip-in">
+          <div class="face front">
+            <svg class="face-icon" width="64" height="64"><use href="#i-boot"/></svg>
+            <h3>徒步穿越</h3>
+            <p class="face-en">HIKING</p>
+            <p class="face-desc">从城市绿道到高原长线，脚下的每一步都稳。</p>
+            <span class="face-hint">翻转查看装备 <svg width="16" height="16"><use href="#i-arrow"/></svg></span>
+          </div>
+          <div class="face back">
+            <h3>徒步穿越</h3>
+            <ul class="back-list">
+              <li><span>远征 GTX 防水徒步鞋</span><b>¥1,299</b></li>
+              <li><span>轻量 45L 登山包</span><b>¥899</b></li>
+              <li><span>三节碳素登山杖</span><b>¥329</b></li>
+              <li><span>速干防晒皮肤衣</span><b>¥459</b></li>
+            </ul>
+            <a class="btn btn-sm btn-primary" href="#member">去选购</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip reveal" data-d="2" tabindex="0" role="button" aria-label="山野露营装备，激活查看详情">
+        <div class="flip-in">
+          <div class="face front">
+            <svg class="face-icon" width="64" height="64"><use href="#i-tent"/></svg>
+            <h3>山野露营</h3>
+            <p class="face-en">CAMPING</p>
+            <p class="face-desc">一顶帐篷，一堆篝火，今晚星空归你。</p>
+            <span class="face-hint">翻转查看装备 <svg width="16" height="16"><use href="#i-arrow"/></svg></span>
+          </div>
+          <div class="face back">
+            <h3>山野露营</h3>
+            <ul class="back-list">
+              <li><span>穹顶双人帐 · 四季款</span><b>¥1,599</b></li>
+              <li><span>700 蓬羽绒睡袋</span><b>¥1,099</b></li>
+              <li><span>折叠营地桌椅套装</span><b>¥699</b></li>
+              <li><span>便携卡式炉具</span><b>¥259</b></li>
+            </ul>
+            <a class="btn btn-sm btn-primary" href="#member">去选购</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip reveal" data-d="3" tabindex="0" role="button" aria-label="攀登攀冰装备，激活查看详情">
+        <div class="flip-in">
+          <div class="face front">
+            <svg class="face-icon" width="64" height="64"><use href="#i-pick"/></svg>
+            <h3>攀登攀冰</h3>
+            <p class="face-en">CLIMBING</p>
+            <p class="face-desc">岩壁与冰壁之间，安全永远排第一。</p>
+            <span class="face-hint">翻转查看装备 <svg width="16" height="16"><use href="#i-arrow"/></svg></span>
+          </div>
+          <div class="face back">
+            <h3>攀登攀冰</h3>
+            <ul class="back-list">
+              <li><span>半盔式攀登头盔</span><b>¥749</b></li>
+              <li><span>动力主绳 60m</span><b>¥1,189</b></li>
+              <li><span>技术冰镐（对）</span><b>¥1,459</b></li>
+              <li><span>安全带 + 保护器套装</span><b>¥689</b></li>
+            </ul>
+            <a class="btn btn-sm btn-primary" href="#member">去选购</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 探险故事 ===== -->
+<section class="section stories" id="stories" aria-label="探险故事">
+  <div class="wrap">
+    <p class="sec-kicker reveal">FIELD STORIES</p>
+    <h2 class="sec-title reveal" data-d="1">他们走过的路，<br class="br-m">写成了故事。</h2>
+    <p class="sec-sub reveal" data-d="2">来自野径会员的真实行程。每一篇，都经过编辑部核实路线与装备清单。</p>
+    <div class="story-grid">
+
+      <article class="story reveal" data-d="1">
+        <div class="story-art" aria-hidden="true">
+          <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="220" fill="#3B3A36"/>
+            <circle cx="310" cy="52" r="26" fill="#E0632F"/>
+            <path d="M0,150 L90,80 L170,140 L260,60 L340,130 L400,90 L400,220 L0,220 Z" fill="#5C6B4C"/>
+            <path d="M0,180 L120,120 L230,175 L330,130 L400,160 L400,220 L0,220 Z" fill="#232220"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <p class="story-meta">川西 · 贡嘎小环线 · 5 天 4 夜 · 难度 ★★★</p>
+          <h3>在子梅垭口，等一场日照金山</h3>
+          <p>第三天凌晨四点起床，帐篷外是零下六度。日出前十分钟，贡嘎主峰整面山体被点成金色——那一刻觉得，之前所有的爬升都值了。</p>
+          <span class="story-by">—— 会员 陈屿 · 徒步 6 年</span>
+        </div>
+      </article>
+
+      <article class="story reveal" data-d="2">
+        <div class="story-art" aria-hidden="true">
+          <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="220" fill="#232220"/>
+            <path d="M0,120 L100,50 L200,110 L300,40 L400,100 L400,140 L0,140 Z" fill="#4c4b46"/>
+            <rect y="140" width="400" height="80" fill="#3B3A36"/>
+            <path d="M0,150 L100,90 L200,140 L300,85 L400,125" fill="none" stroke="#6d6c66" stroke-width="2" opacity="0.6"/>
+            <circle cx="80" cy="42" r="3" fill="#F2EEE4"/><circle cx="200" cy="28" r="2.4" fill="#F2EEE4"/><circle cx="330" cy="52" r="2.8" fill="#F2EEE4"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <p class="story-meta">青海 · 阿尼玛卿 · 冰川湖畔 · 3 天 2 夜 · 难度 ★★</p>
+          <h3>冰川湖边的那个清晨，湖面比镜子还平</h3>
+          <p>营地就扎在冰川湖边。早上六点钻出睡袋，整座雪山完整地印在湖面上，连风都屏住了呼吸。羽绒睡袋的钱，花得太值了。</p>
+          <span class="story-by">—— 会员 林晚 · 露营 3 年</span>
+        </div>
+      </article>
+
+      <article class="story reveal" data-d="3">
+        <div class="story-art" aria-hidden="true">
+          <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="220" fill="#2c2b28"/>
+            <circle cx="90" cy="60" r="2.6" fill="#F2EEE4"/><circle cx="180" cy="38" r="2" fill="#F2EEE4"/><circle cx="270" cy="66" r="3" fill="#F2EEE4"/><circle cx="340" cy="40" r="2.2" fill="#F2EEE4"/><circle cx="140" cy="90" r="1.8" fill="#F2EEE4"/>
+            <path d="M200 130 L140 200 h120 z" fill="none" stroke="#E0632F" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M200 130 v70 M200 152 l-24 30 m24-30 l24 30" stroke="#E0632F" stroke-width="2"/>
+            <ellipse cx="200" cy="205" rx="90" ry="8" fill="#171715"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <p class="story-meta">浙江 · 临安 · 山顶营地 · 2 天 1 夜 · 难度 ★</p>
+          <h3>三十岁，我第一次在野外过夜</h3>
+          <p>以前觉得露营是别人的生活。跟着野径的新手营走了一次，才发现搭帐篷比搭宜家衣柜简单，星空比电影好看。回程路上就下单了自己的帐篷。</p>
+          <span class="story-by">—— 会员 苏青 · 新手首露</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 会员计划 CTA ===== -->
+<section class="section member" id="member" aria-label="会员计划">
+  <div class="wrap">
+    <div class="member-grid">
+      <div class="member-copy">
+        <p class="sec-kicker reveal">TRAILHEAD CLUB</p>
+        <h2 class="sec-title reveal" data-d="1">野径会员，<br>山野之家的入场券。</h2>
+        <p class="sec-sub reveal" data-d="2">一年 199 元，换来的是：更便宜的装备、优先参加的线路活动，以及一群随时能约着出发的山友。</p>
+        <ul class="perk-list">
+          <li class="reveal" data-d="1"><svg width="22" height="22"><use href="#i-check"/></svg>全场装备 9 折，生日月 85 折</li>
+          <li class="reveal" data-d="2"><svg width="22" height="22"><use href="#i-check"/></svg>每年 2 次免费装备租赁体验（帐篷/睡袋）</li>
+          <li class="reveal" data-d="3"><svg width="22" height="22"><use href="#i-check"/></svg>会员专属徒步线路，领队全程带队</li>
+          <li class="reveal" data-d="4"><svg width="22" height="22"><use href="#i-check"/></svg>旧装备以旧换新，最高抵 30%</li>
+        </ul>
+      </div>
+      <div class="member-card reveal" data-d="2">
+        <p class="member-card-kicker">年度会员</p>
+        <p class="member-price">¥199<small>/ 年</small></p>
+        <p class="member-note">首年附赠 ¥100 装备券 · 随时可退，按天折算</p>
+        <a class="btn btn-primary btn-block" href="#contact">成为会员</a>
+        <p class="member-fine">已有 92 万山友加入 · 支持微信/支付宝</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 终章 CTA ===== -->
+<section class="cta-band" aria-label="行动召唤">
+  <div class="wrap">
+    <svg class="cta-ridge" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path d="M0,200 L180,100 L360,180 L560,80 L760,190 L960,110 L1160,200 L1330,130 L1440,170 L1440,300 L0,300 Z" fill="#232220"/>
+    </svg>
+    <h2 class="reveal">下一座山，<span>在等你。</span></h2>
+    <p class="reveal" data-d="1">这个周末，别再把远方留在收藏夹里。</p>
+    <a class="btn btn-primary btn-lg reveal" data-d="2" href="#gear">挑选我的第一件装备<svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer" id="contact" aria-label="页脚">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="野径首页">
+          <span class="brand-mark">径</span>
+          <span class="brand-word">野径<small>TRAILHEAD</small></span>
+        </a>
+        <p>2016 年创立于成都。一家只做山野事的户外品牌：徒步、露营、攀登，三条产品线，三十七条合作线路。</p>
+        <div class="social">
+          <a href="#" aria-label="微信公众号"><svg width="22" height="22"><use href="#i-soc-wx"/></svg></a>
+          <a href="#" aria-label="微博"><svg width="22" height="22"><use href="#i-soc-wb"/></svg></a>
+          <a href="#" aria-label="小红书"><svg width="22" height="22"><use href="#i-soc-xhs"/></svg></a>
+          <a href="#" aria-label="抖音"><svg width="22" height="22"><use href="#i-soc-dy"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-col" aria-label="选购">
+        <h4>选购</h4>
+        <a href="#gear">徒步穿越</a>
+        <a href="#gear">山野露营</a>
+        <a href="#gear">攀登攀冰</a>
+        <a href="#member">会员计划</a>
+      </nav>
+      <nav class="foot-col" aria-label="支持">
+        <h4>支持</h4>
+        <a href="#stories">探险故事</a>
+        <a href="#contact">门店查询</a>
+        <a href="#contact">售后政策</a>
+        <a href="#contact">以旧换新</a>
+      </nav>
+      <div class="foot-col" aria-label="联系我们">
+        <h4>联系我们</h4>
+        <p>电话：<a data-site-href="phone" data-site="phone"></a></p>
+        <p>邮箱：<a data-site-href="email" data-site="email"></a></p>
+        <p>地址：<span data-site="address"></span></p>
+        <p class="foot-hours" data-site="hours"></p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="copyright">© <span data-site="year"></span> <span data-site="name"></span> 版权所有 · <span data-site="icp"></span></p>
+      <div class="legal-links">
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== 法务三件套弹窗 ===== -->
+<div class="modal-scrim" id="modalScrim" hidden></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div>
+        <p class="modal-en" id="modalEn"></p>
+        <h3 id="modalTitle"></h3>
+        <p class="modal-updated" id="modalUpdated"></p>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="关闭">
+        <svg width="22" height="22"><use href="#i-close"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

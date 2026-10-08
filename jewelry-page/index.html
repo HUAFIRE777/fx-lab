@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玖光 JOAILLERIE · 高级珠宝</title>
+<meta name="description" content="玖光高级珠宝 —— 流光、永恒、微澜三大系列。18K 香槟金与钻石的手工之作。">
+<style>
+/* 玖光 JOAILLERIE · jewelry-page —— 原创样式
+   配色只用三色：墨黑 #101010 / 香槟金 #C9A96A / 象牙 #F7F3EA */
+:root{
+  --ink:#101010;
+  --gold:#C9A96A;
+  --gold-deep:#8a6d3f;
+  --ivory:#F7F3EA;
+  --ease:cubic-bezier(.22,1,.36,1);      /* 慢而贵气的出场 */
+  --ease-soft:cubic-bezier(.33,1,.68,1);
+  --serif:"Songti SC","STSong","Noto Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--ivory);font-family:var(--sans);font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+
+/* 纸纹噪点（全页） */
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- 加载态 ---------- */
+.loader{position:fixed;inset:0;z-index:400;background:var(--ink);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:18px;transition:opacity .8s var(--ease-soft),visibility .8s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-mark{font-family:var(--serif);font-size:40px;letter-spacing:.5em;text-indent:.5em;color:var(--gold)}
+.loader-line{width:120px;height:1px;background:rgba(201,169,106,.25);overflow:hidden}
+.loader-line span{display:block;width:40%;height:100%;background:var(--gold);animation:loadslide 1.1s var(--ease-soft) infinite}
+@keyframes loadslide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+.loader-en{font-size:10px;letter-spacing:.42em;text-indent:.42em;color:rgba(247,243,234,.4)}
+
+/* ---------- 导航 ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:22px 48px;transition:background .5s var(--ease-soft),padding .5s var(--ease-soft),border-color .5s}
+.nav.scrolled{background:rgba(16,16,16,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  padding:14px 48px;border-bottom:1px solid rgba(201,169,106,.18)}
+.brand{display:flex;flex-direction:column;line-height:1.3}
+.brand-cn{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--ivory)}
+.brand-en{font-size:9px;letter-spacing:.5em;color:var(--gold)}
+.nav-links{display:flex;gap:44px}
+.nav-links a{font-size:14px;letter-spacing:.28em;color:rgba(247,243,234,.75);position:relative;padding:4px 0;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .45s var(--ease)}
+.nav-links a:hover{color:var(--ivory)}
+.nav-links a:hover::after{width:100%}
+.btn-ghost{font-size:13px;letter-spacing:.24em;border:1px solid rgba(201,169,106,.6);color:var(--gold);
+  padding:10px 26px;transition:background .35s,color .35s,border-color .35s}
+.btn-ghost:hover{background:var(--gold);color:var(--ink)}
+.burger{display:none;background:none;border:0;flex-direction:column;gap:6px;cursor:pointer;padding:8px}
+.burger span{width:26px;height:1.5px;background:var(--ivory);transition:transform .35s var(--ease),opacity .3s}
+
+/* 移动端抽屉 */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);background:#161616;z-index:150;
+  transform:translateX(102%);transition:transform .55s var(--ease);display:flex;flex-direction:column;
+  justify-content:center;padding:0 48px;gap:8px;border-left:1px solid rgba(201,169,106,.2)}
+.drawer.open{transform:none}
+.drawer-x{position:absolute;top:20px;right:24px;background:none;border:0;color:var(--ivory);font-size:30px;cursor:pointer;line-height:1}
+.drawer-links{display:flex;flex-direction:column;gap:6px}
+.drawer-links a{font-family:var(--serif);font-size:24px;letter-spacing:.3em;color:var(--ivory);padding:12px 0;border-bottom:1px solid rgba(201,169,106,.14)}
+.drawer-foot{margin-top:32px;font-size:12px;letter-spacing:.2em;color:rgba(247,243,234,.45);line-height:2.2}
+.drawer-mask{position:fixed;inset:0;z-index:140;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+.drawer-mask.open{opacity:1;visibility:visible}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--ink)}
+.hero-necklace{position:absolute;top:50%;left:50%;width:min(680px,120vw);transform:translate(-50%,-58%);opacity:.5;
+  animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.42;transform:translate(-50%,-58%) scale(1)}50%{opacity:.6;transform:translate(-50%,-58%) scale(1.03)}}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 90% 75% at 50% 45%,transparent 45%,rgba(0,0,0,.62) 100%)}
+.hero-inner{position:relative;text-align:center;padding:120px 24px 80px;max-width:900px}
+.hero-kicker{font-size:12px;letter-spacing:.55em;text-indent:.55em;color:var(--gold);margin-bottom:36px}
+.hero-title{font-family:var(--serif);font-weight:400;font-size:clamp(52px,9vw,110px);letter-spacing:.28em;text-indent:.28em;
+  line-height:1.5;color:var(--ivory);margin-bottom:36px}
+.mask{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.mask .line{display:block}
+.js .mask .line{transform:translateY(112%)}
+html.js body.loaded .mask .line{animation:riseUp 1.4s var(--ease) forwards}
+html.js body.loaded .mask:nth-child(2) .line{animation-delay:.18s}
+@keyframes riseUp{to{transform:none}}
+.hero-sub{font-size:16px;letter-spacing:.18em;color:rgba(247,243,234,.72);line-height:2.4;margin-bottom:48px}
+.hero-ctas{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.btn-gold{display:inline-block;background:var(--gold);color:var(--ink);font-size:14px;letter-spacing:.3em;text-indent:.3em;
+  padding:16px 44px;transition:transform .4s var(--ease),box-shadow .4s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(201,169,106,.28)}
+.btn-line{display:inline-block;border:1px solid rgba(247,243,234,.35);color:var(--ivory);font-size:14px;letter-spacing:.3em;text-indent:.3em;
+  padding:16px 44px;transition:border-color .35s,transform .4s var(--ease)}
+.btn-line:hover{border-color:var(--gold);transform:translateY(-2px)}
+.btn-line.light{border-color:rgba(201,169,106,.6);color:var(--gold)}
+.btn-line.light:hover{background:var(--gold);color:var(--ink)}
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);width:1px;height:56px;background:rgba(201,169,106,.25);overflow:hidden}
+.hero-scroll span{display:block;width:100%;height:40%;background:var(--gold);animation:drop 2.2s var(--ease-soft) infinite}
+@keyframes drop{0%{transform:translateY(-110%)}100%{transform:translateY(280%)}}
+
+/* ---------- 通用区块 ---------- */
+.section{padding:130px 48px;max-width:1280px;margin:0 auto}
+.section-head{text-align:center;margin-bottom:72px}
+.eyebrow{font-size:11px;letter-spacing:.5em;text-indent:.5em;color:var(--gold);margin-bottom:22px}
+.eyebrow.light{color:var(--gold)}
+.section-head h2,.craft-text h2,.visit-info h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.6vw,52px);
+  letter-spacing:.24em;text-indent:.24em;margin-bottom:20px}
+.section-sub{color:rgba(247,243,234,.6);letter-spacing:.14em;font-size:15px}
+
+/* ---------- 系列卡片（核心动效：金色光泽扫过 + stagger） ---------- */
+.collections{background:var(--ivory);color:var(--ink);max-width:none}
+.collections .section-head h2{color:var(--ink)}
+.collections .section-sub{color:rgba(16,16,16,.58)}
+.collections .eyebrow{color:var(--gold-deep)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;max-width:1280px;margin:0 auto}
+.card{background:#fff;border:1px solid rgba(138,109,63,.18);position:relative;overflow:hidden;
+  transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(16,16,16,.12)}
+/* 金色光泽扫过：整页唯一的 hover 主动效 */
+.card::after{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:46%;
+  background:linear-gradient(100deg,transparent,rgba(201,169,106,.28),rgba(255,252,244,.5),rgba(201,169,106,.28),transparent);
+  transform:translateX(-260%) skewX(-18deg);pointer-events:none}
+.card:hover::after{transform:translateX(480%) skewX(-18deg);transition:transform 1.15s var(--ease)}
+.card-art{background:linear-gradient(160deg,#faf7ef,#f1ead9);padding:56px 40px 40px;position:relative;overflow:hidden}
+.card-art svg{width:100%;height:auto;transition:transform .8s var(--ease)}
+.card:hover .card-art svg{transform:scale(1.05)}
+.card-body{padding:34px 36px 40px;text-align:center}
+.card-en{font-size:10px;letter-spacing:.5em;text-indent:.5em;color:var(--gold-deep);margin-bottom:14px}
+.card-body h3{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.22em;margin-bottom:12px;color:var(--ink)}
+.card-spec{font-size:13px;letter-spacing:.12em;color:rgba(16,16,16,.55);margin-bottom:16px}
+.card-price{font-family:var(--serif);font-size:21px;letter-spacing:.14em;color:var(--gold-deep)}
+.card-price span{font-size:12px;font-family:var(--sans);letter-spacing:.2em;color:rgba(16,16,16,.45)}
+
+/* ---------- 工艺 ---------- */
+.craft{background:var(--ink);max-width:none;position:relative;overflow:hidden}
+.craft::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%)}
+.craft-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center;position:relative}
+.craft-text p{color:rgba(247,243,234,.66);letter-spacing:.1em;font-size:15px;margin-bottom:22px;max-width:520px}
+.craft-text .btn-line{margin-top:14px}
+.craft-nums{display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(201,169,106,.25)}
+.num{display:flex;align-items:baseline;gap:22px;padding:30px 6px;border-bottom:1px solid rgba(201,169,106,.25)}
+.num b{font-family:var(--serif);font-weight:400;font-size:44px;color:var(--gold);letter-spacing:.08em;min-width:170px}
+.num span{font-size:13px;letter-spacing:.3em;color:rgba(247,243,234,.55)}
+
+/* ---------- 高级定制 ---------- */
+.atelier{background:var(--ivory);color:var(--ink);max-width:none}
+.atelier .section-head h2{color:var(--ink)}
+.atelier .section-sub{color:rgba(16,16,16,.58)}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1280px;margin:0 auto;border-top:1px solid rgba(138,109,63,.25)}
+.steps li{padding:44px 32px;border-left:1px solid rgba(138,109,63,.25);transition:background .5s}
+.steps li:last-child{border-right:1px solid rgba(138,109,63,.25)}
+.steps li:hover{background:rgba(201,169,106,.1)}
+.steps b{font-family:var(--serif);font-size:15px;letter-spacing:.3em;color:var(--gold-deep)}
+.steps h3{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:.28em;margin:18px 0 12px}
+.steps p{font-size:13.5px;letter-spacing:.08em;color:rgba(16,16,16,.6);line-height:2}
+
+/* ---------- 预约 ---------- */
+.visit{background:var(--ink)}
+.visit-card{max-width:1080px;margin:0 auto;background:#161616;border:1px solid rgba(201,169,106,.25);
+  display:grid;grid-template-columns:1fr 1fr;overflow:hidden;position:relative}
+.visit-card::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 70% at 20% 20%,transparent 55%,rgba(0,0,0,.5) 100%)}
+.visit-info{padding:72px 60px;position:relative}
+.visit-info p{color:rgba(247,243,234,.62);font-size:14.5px;letter-spacing:.1em;line-height:2.3;margin-bottom:18px}
+.visit-addr{color:var(--gold)!important;letter-spacing:.14em!important}
+.visit-form{padding:72px 60px;background:rgba(201,169,106,.05);display:flex;flex-direction:column;gap:20px;position:relative}
+.visit-form label{font-size:12px;letter-spacing:.3em;color:rgba(247,243,234,.55);display:flex;flex-direction:column;gap:10px}
+.visit-form input,.visit-form select{background:transparent;border:0;border-bottom:1px solid rgba(201,169,106,.35);
+  color:var(--ivory);font-size:15px;letter-spacing:.1em;padding:10px 2px;font-family:var(--sans);outline:none;transition:border-color .3s}
+.visit-form input:focus,.visit-form select:focus{border-color:var(--gold)}
+.visit-form select option{color:#101010}
+.visit-form .btn-gold{border:0;cursor:pointer;margin-top:8px;font-family:var(--sans)}
+.form-note{font-size:12px;letter-spacing:.14em;color:rgba(247,243,234,.4)}
+.form-note a{color:var(--gold);text-decoration:underline}
+.form-ok{font-size:14px;letter-spacing:.16em;color:var(--gold);border:1px solid rgba(201,169,106,.5);padding:18px;text-align:center;line-height:2}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#0b0b0b;border-top:1px solid rgba(201,169,106,.2);padding:80px 48px 0}
+.foot-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr 1fr;gap:48px;padding-bottom:64px}
+.foot-brand .brand-cn{font-size:30px}
+.foot-slogan{margin-top:18px;font-size:13px;letter-spacing:.24em;color:rgba(247,243,234,.45)}
+.foot-h{font-size:12px;letter-spacing:.34em;color:var(--gold);margin-bottom:20px}
+.foot-nav{display:flex;flex-direction:column;gap:14px}
+.foot-nav a,.legal-btn{font-size:14px;letter-spacing:.18em;color:rgba(247,243,234,.6);transition:color .3s}
+.foot-nav a:hover,.legal-btn:hover{color:var(--gold)}
+.legal-btn{background:none;border:0;padding:0;cursor:pointer;font-family:var(--sans);text-align:left;display:block;margin-bottom:14px}
+.foot-contact p{font-size:13.5px;letter-spacing:.1em;color:rgba(247,243,234,.6);margin-bottom:14px;line-height:2}
+.foot-contact a:hover{color:var(--gold)}
+.social-row{display:flex;gap:14px}
+.soc{width:40px;height:40px;border:1px solid rgba(201,169,106,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgba(247,243,234,.7);transition:background .35s,color .35s,border-color .35s,transform .35s var(--ease)}
+.soc svg{width:18px;height:18px}
+.soc:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);transform:translateY(-3px)}
+.foot-base{border-top:1px solid rgba(201,169,106,.14);padding:26px 0;text-align:center}
+.foot-base p{font-size:12px;letter-spacing:.18em;color:rgba(247,243,234,.38)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;visibility:hidden}
+.modal.open{visibility:visible}
+.modal-mask{position:absolute;inset:0;background:rgba(8,8,8,.66);opacity:0;transition:opacity .4s var(--ease-soft)}
+.modal.open .modal-mask{opacity:1}
+.modal-box{position:relative;width:min(620px,100%);max-height:82vh;background:var(--ivory);color:var(--ink);
+  padding:52px 52px 44px;overflow:hidden;display:flex;flex-direction:column;
+  transform:translateY(26px);opacity:0;transition:transform .5s var(--ease),opacity .4s}
+.modal.open .modal-box{transform:none;opacity:1}
+.modal-box h3{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.3em;margin-bottom:24px;color:var(--ink)}
+.modal-body{overflow-y:auto;font-size:14px;color:rgba(16,16,16,.72);line-height:2;letter-spacing:.06em}
+.modal-body ol{padding-left:22px;display:flex;flex-direction:column;gap:14px}
+.modal-body li::marker{color:var(--gold-deep);font-weight:600}
+.modal-x{position:absolute;top:14px;right:18px;background:none;border:0;font-size:30px;color:rgba(16,16,16,.5);
+  cursor:pointer;line-height:1;transition:transform .35s var(--ease),color .3s}
+.modal-x:hover{color:var(--gold-deep);transform:rotate(90deg)}
+body.locked{overflow:hidden}
+
+/* ---------- 滚动 reveal（无 JS 不隐藏，完成态必达） ---------- */
+.js .reveal{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal[data-i="1"]{transition-delay:.12s}
+.js .reveal[data-i="2"]{transition-delay:.24s}
+.js .reveal[data-i="3"]{transition-delay:.36s}
+@media (prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1;transform:none;transition:none}
+  .hero-necklace,.hero-scroll span,.loader-line span{animation:none}
+  .mask .line{transform:none}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1024px){
+  .foot-grid{grid-template-columns:1fr 1fr 1fr;row-gap:44px}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps li:nth-child(3){border-left:0}
+  .steps li{border-top:1px solid rgba(138,109,63,.25)}
+  .steps li:nth-child(-n+2){border-top:0}
+}
+@media (max-width:860px){
+  .nav{padding:16px 22px}
+  .nav.scrolled{padding:12px 22px}
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+  .cards{grid-template-columns:1fr;max-width:440px}
+  .craft-inner{grid-template-columns:1fr;gap:56px}
+  .visit-card{grid-template-columns:1fr}
+  .visit-info,.visit-form{padding:52px 34px}
+  .section{padding:96px 24px}
+}
+@media (max-width:640px){
+  .foot-grid{grid-template-columns:1fr;gap:36px}
+  .footer{padding:64px 24px 0}
+  .steps{grid-template-columns:1fr}
+  .steps li{border-left:0!important;border-top:1px solid rgba(138,109,63,.25)!important}
+  .steps li:first-child{border-top:0!important}
+  .modal{padding:0}
+  .modal-box{width:100%;height:100%;max-height:none;padding:72px 28px 40px}
+  .hero-ctas .btn-gold,.hero-ctas .btn-line{width:100%;text-align:center}
+}
+
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">玖光</div>
+  <div class="loader-line"><span></span></div>
+  <div class="loader-en">JOAILLERIE · EST. 2016</div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top">
+    <span class="brand-cn">玖光</span>
+    <span class="brand-en">JOAILLERIE</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#collections">系列</a>
+    <a href="#craft">工艺</a>
+    <a href="#atelier">高级定制</a>
+    <a href="#visit">预约鉴赏</a>
+  </nav>
+  <a class="btn-ghost nav-cta" href="#visit">预约鉴赏</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <button class="drawer-x" id="drawerX" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#collections">系列</a>
+    <a href="#craft">工艺</a>
+    <a href="#atelier">高级定制</a>
+    <a href="#visit">预约鉴赏</a>
+  </nav>
+  <div class="drawer-foot">玖光 JOAILLERIE<br><span data-site="city">上海</span> · <span data-site="phone">400-820-9616</span></div>
+</div>
+<div class="drawer-mask" id="drawerMask"></div>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="hero-necklace" viewBox="0 0 600 420" aria-hidden="true">
+      <g fill="none" stroke="#C9A96A" stroke-width="1.5">
+        <path d="M60,40 C180,180 240,300 300,330 C360,300 420,180 540,40" opacity="0.85"/>
+        <path d="M60,40 C180,180 240,300 300,330 C360,300 420,180 540,40" opacity="0.25" transform="translate(0,10)"/>
+        <g class="pendant" opacity="0.95">
+          <path d="M300,330 l-26,-34 l26,-34 l26,34 z"/>
+          <path d="M274,296 l52,0 M300,262 l0,68 M284,314 l32,-36 M316,314 l-32,-36" stroke-width="0.8" opacity="0.8"/>
+          <circle cx="300" cy="330" r="4" fill="#C9A96A" stroke="none"/>
+        </g>
+        <g stroke-width="1" opacity="0.7">
+          <circle cx="150" cy="130" r="3" fill="none"/>
+          <circle cx="450" cy="130" r="3" fill="none"/>
+          <circle cx="205" cy="205" r="2.4" fill="none"/>
+          <circle cx="395" cy="205" r="2.4" fill="none"/>
+          <circle cx="255" cy="272" r="2" fill="none"/>
+          <circle cx="345" cy="272" r="2" fill="none"/>
+        </g>
+      </g>
+    </svg>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-kicker reveal">高级珠宝 · HAUTE JOAILLERIE</p>
+      <h1 class="hero-title">
+        <span class="mask"><span class="line">光有九种</span></span>
+        <span class="mask"><span class="line">爱只一种</span></span>
+      </h1>
+      <p class="hero-sub reveal">18K 香槟金与钻石，经 327 道手工工序，<br>只为那一束落在你身上的光。</p>
+      <div class="hero-ctas reveal">
+        <a class="btn-gold" href="#collections">探索系列</a>
+        <a class="btn-line" href="#visit">预约鉴赏</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- 系列陈列 -->
+  <section class="section collections" id="collections">
+    <div class="section-head reveal">
+      <p class="eyebrow">COLLECTIONS</p>
+      <h2>三大系列</h2>
+      <p class="section-sub">每一件，都从一块金料开始，在工匠手中长成它该有的样子。</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal" data-i="0">
+        <div class="card-art">
+          <svg viewBox="0 0 300 240" aria-hidden="true">
+            <g fill="none" stroke="#8a6d3f" stroke-width="1.4">
+              <path d="M40,30 C110,120 140,170 150,190 C160,170 190,120 260,30"/>
+              <path d="M150,190 l-20,-26 l20,-26 l20,26 z"/>
+              <path d="M130,164 l40,0 M150,138 l0,52 M138,177 l24,-26 M162,177 l-24,-26" stroke-width="0.7" opacity="0.75"/>
+              <circle cx="150" cy="190" r="3" fill="#8a6d3f" stroke="none"/>
+              <circle cx="96" cy="92" r="2.4"/><circle cx="204" cy="92" r="2.4"/>
+              <circle cx="122" cy="128" r="2"/><circle cx="178" cy="128" r="2"/>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <p class="card-en">LUMIÈRE</p>
+          <h3>流光系列 · 项链</h3>
+          <p class="card-spec">18K 香槟金 · 梨形钻石 1.2ct</p>
+          <p class="card-price">¥ 86,000 <span>起</span></p>
+        </div>
+      </article>
+      <article class="card reveal" data-i="1">
+        <div class="card-art">
+          <svg viewBox="0 0 300 240" aria-hidden="true">
+            <g fill="none" stroke="#8a6d3f" stroke-width="1.4">
+              <ellipse cx="150" cy="150" rx="62" ry="62"/>
+              <ellipse cx="150" cy="150" rx="52" ry="52" opacity="0.4"/>
+              <path d="M150,58 l-30,-24 l30,-24 l30,24 z"/>
+              <path d="M120,34 l60,0 M150,10 l0,48 M132,46 l36,-24 M168,46 l-36,-24" stroke-width="0.7" opacity="0.75"/>
+              <path d="M112,96 l-8,-14 M188,96 l8,-14" stroke-width="0.8" opacity="0.6"/>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <p class="card-en">ÉTERNITÉ</p>
+          <h3>永恒系列 · 戒指</h3>
+          <p class="card-spec">18K 香槟金 · 圆形明亮式钻石 0.8ct</p>
+          <p class="card-price">¥ 58,000 <span>起</span></p>
+        </div>
+      </article>
+      <article class="card reveal" data-i="2">
+        <div class="card-art">
+          <svg viewBox="0 0 300 240" aria-hidden="true">
+            <g fill="none" stroke="#8a6d3f" stroke-width="1.4">
+              <g>
+                <circle cx="105" cy="70" r="5"/>
+                <path d="M105,75 C105,110 95,130 105,150 C115,130 105,110 105,75"/>
+                <path d="M105,150 l-16,-20 l16,-20 l16,20 z"/>
+                <path d="M89,130 l32,0 M105,110 l0,40" stroke-width="0.7" opacity="0.75"/>
+              </g>
+              <g>
+                <circle cx="195" cy="70" r="5"/>
+                <path d="M195,75 C195,110 185,130 195,150 C205,130 195,110 195,75"/>
+                <path d="M195,150 l-16,-20 l16,-20 l16,20 z"/>
+                <path d="M179,130 l32,0 M195,110 l0,40" stroke-width="0.7" opacity="0.75"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <p class="card-en">ONDE</p>
+          <h3>微澜系列 · 耳饰</h3>
+          <p class="card-spec">18K 香槟金 · 水滴形钻石 0.6ct ×2</p>
+          <p class="card-price">¥ 42,000 <span>起</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 工艺故事 -->
+  <section class="section craft" id="craft">
+    <div class="craft-inner">
+      <div class="craft-text reveal">
+        <p class="eyebrow light">SAVOIR-FAIRE</p>
+        <h2>慢，是一种工艺</h2>
+        <p>一枚戒指从图纸到成品，要经过 327 道工序。金匠在放大镜下坐满 42 个小时，只为让爪镶的四个爪，看起来像天生就长在钻石上。</p>
+        <p>我们不追产量。一年只做 300 件，每一件都有编号、有工匠签名、有 GIA 证书。卖出去的玖光，十年后拿回来保养，依然免费。</p>
+        <a class="btn-line light" href="#atelier">走进工坊</a>
+      </div>
+      <div class="craft-nums">
+        <div class="num reveal" data-i="0"><b><span class="count" data-to="327">0</span></b><span>道手工工序</span></div>
+        <div class="num reveal" data-i="1"><b><span class="count" data-to="42">0</span>小时</b><span>单件平均工时</span></div>
+        <div class="num reveal" data-i="2"><b><span class="count" data-to="300">0</span>件</b><span>每年限量制作</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 高级定制 -->
+  <section class="section atelier" id="atelier">
+    <div class="section-head reveal">
+      <p class="eyebrow">HAUTE JOAILLERIE</p>
+      <h2>高级定制</h2>
+      <p class="section-sub">把你的故事，交给我们画成图纸。</p>
+    </div>
+    <ol class="steps">
+      <li class="reveal" data-i="0"><b>01</b><h3>面谈</h3><p>一对一顾问，听你讲那个人、那件事。</p></li>
+      <li class="reveal" data-i="1"><b>02</b><h3>画稿</h3><p>首席设计师手绘三版草图，你来定稿。</p></li>
+      <li class="reveal" data-i="2"><b>03</b><h3>选石</h3><p>裸钻库现场挑选，GIA 证书逐颗核对。</p></li>
+      <li class="reveal" data-i="3"><b>04</b><h3>交付</h3><p>8–12 周后，带着编号与签名交到你手上。</p></li>
+    </ol>
+  </section>
+
+  <!-- 预约鉴赏 CTA -->
+  <section class="section visit" id="visit">
+    <div class="visit-card reveal">
+      <div class="visit-info">
+        <p class="eyebrow">RENDEZ-VOUS</p>
+        <h2>预约鉴赏</h2>
+        <p>旗舰沙龙提供一对一鉴赏，香槟与白手套已备好。<br>留下联系方式，顾问将在 24 小时内与你确认时间。</p>
+        <p class="visit-addr"><span data-site="address">上海市静安区南京西路 1266 号恒隆广场 2 座 8 层</span><br><span data-site="phone">400-820-9616</span> · 每日 10:00–21:00</p>
+      </div>
+      <form class="visit-form" id="visitForm" novalidate>
+        <label>姓名<input type="text" name="name" placeholder="怎么称呼你" required></label>
+        <label>电话<input type="tel" name="tel" placeholder="11 位手机号码" required></label>
+        <label>意向系列
+          <select name="line">
+            <option>流光系列 · 项链</option>
+            <option>永恒系列 · 戒指</option>
+            <option>微澜系列 · 耳饰</option>
+            <option>高级定制</option>
+          </select>
+        </label>
+        <button class="btn-gold" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意我们的<a href="#" data-legal="privacy">隐私政策</a></p>
+        <p class="form-ok" hidden>已收到你的预约，顾问将在 24 小时内联系你。</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <p class="brand-cn">玖光</p>
+      <p class="brand-en">JOAILLERIE</p>
+      <p class="foot-slogan">光有九种，爱只一种。</p>
+    </div>
+    <nav class="foot-nav" aria-label="页脚导航">
+      <a href="#collections">系列</a>
+      <a href="#craft">工艺</a>
+      <a href="#atelier">高级定制</a>
+      <a href="#visit">预约鉴赏</a>
+    </nav>
+    <div class="foot-contact">
+      <p><span data-site="address">上海市静安区南京西路 1266 号恒隆广场 2 座 8 层</span></p>
+      <p><a data-site-href="phoneHref" href="#"><span data-site="phone">400-820-9616</span></a></p>
+      <p>微信 <span data-site="wechat">jiuguang-joaillerie</span></p>
+    </div>
+    <div class="foot-legal">
+      <p class="foot-h">网站政策</p>
+      <button class="legal-btn" data-legal="privacy">隐私政策</button>
+      <button class="legal-btn" data-legal="terms">服务条款</button>
+      <button class="legal-btn" data-legal="cookies">Cookie 政策</button>
+    </div>
+    <div class="foot-social">
+      <p class="foot-h">关注我们</p>
+      <div class="social-row">
+        <a href="#" aria-label="微信" class="soc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 12.5c-2.8 0-5-1.8-5-4s2.2-4 5-4 5 1.8 5 4c0 .4-.1.8-.2 1.2M3.6 13.4c-.5.4-.8 1-.8 1.6 1 0 1.8-.3 2.5-.8M18.5 9.5c2.2 0 4 1.4 4 3.2s-1.8 3.2-4 3.2c-.5 0-1-.1-1.4-.2l-2.1 1.2.4-1.6c-1-.5-1.8-1.5-1.8-2.6 0-1.8 1.8-3.2 4.9-3.2z"/></svg></a>
+        <a href="#" aria-label="微博" class="soc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="13" r="5"/><path d="M14.5 8.5c3 0 5.5 2.2 5.5 5 0 3.4-3.6 6-8.5 6-1.5 0-3-.3-4.2-.8M18 4.5c1.8.8 3 2.3 3 4.2"/></svg></a>
+        <a href="#" aria-label="小红书" class="soc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M12 12l7-4M12 12v9M12 12L5 8"/></svg></a>
+        <a href="#" aria-label="抖音" class="soc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.5 2.5 2 4 4.5 4.2"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-base">
+    <p>© <span data-site="year">2026</span> <span data-site="name">玖光珠宝有限公司</span> 版权所有 · <span data-site="icp">沪ICP备2026166600号-1</span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="关闭">×</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body"><ol id="legalList"></ol></div>
+  </div>
+</div>
+
+<script>
+/* 玖光 JOAILLERIE · jewelry-page —— 原创脚本（无外部库）
+   配置区在顶部：SITE / LEGAL / CFG，买家只改这里。 */
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+
+  /* ============ 配置 ============ */
+  var SITE = {
+    name: "玖光珠宝有限公司",
+    phone: "400-820-9616",
+    phoneHref: "tel:4008209616",
+    wechat: "jiuguang-joaillerie",
+    address: "上海市静安区南京西路 1266 号恒隆广场 2 座 8 层",
+    city: "上海",
+    icp: "沪ICP备2026166600号-1",
+    year: "2026"
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: "隐私政策",
+      points: [
+        "我们收集的信息仅限于你主动留下的预约鉴赏信息：姓名、电话、意向系列，以及你与顾问沟通时提供的内容。",
+        "这些信息只用于预约确认与到店接待安排，不会出售、出租或提供给任何第三方营销机构。",
+        "你在店内试戴、定制过程中产生的影像资料，未经你书面同意，不会用于任何公开宣传。",
+        "你可以随时通过官方电话或微信要求查看、更正、删除你的个人信息，我们会在 7 个工作日内处理完毕。",
+        "网站仅使用必要的 Cookie 维持页面正常显示，不做跨站追踪，不接入第三方广告统计。"
+      ]
+    },
+    terms: {
+      title: "服务条款",
+      points: [
+        "预约鉴赏成功后，顾问将在 24 小时内与你确认到店时间；每位客人享有一对一专属接待时段 60 分钟。",
+        "高级定制需支付定金（定制总价的 30%）后启动设计；设计稿经你签字确认后进入制作，制作中途不可更改款式。",
+        "定制周期为 8–12 周；因你方原因取消定制，定金不予退还，已采购的裸石按实际结算归你所有。",
+        "所有售出珠宝享终身免费保养（含清洗、抛光、爪镶紧固检查）；人为损坏的维修按工费表收取成本费。",
+        "官网标价为含税人民币参考价，门店实际售价以当日金价与钻石报价为准，顾问会在下单前与你逐项确认。"
+      ]
+    },
+    cookies: {
+      title: "Cookie 政策",
+      points: [
+        "我们使用 Cookie 记住你的偏好，例如上次浏览的系列，方便你下次直接继续挑选。",
+        "我们也会用匿名的访问统计了解哪些页面更受欢迎，以此改进网站内容，不关联你的个人身份。",
+        "你可以在浏览器设置中随时清除或禁用 Cookie；禁用后网站仍可正常浏览，只是偏好不会被记住。",
+        "我们不使用第三方广告 Cookie，不做跨网站的用户画像与精准投放。",
+        "继续使用本网站，即表示你理解并接受以上 Cookie 使用方式。"
+      ]
+    }
+  };
+
+  var CFG = {
+    navOffset: 40,        // 导航毛玻璃触发距离 px
+    revealThreshold: 0.12,
+    loaderMin: 900,       // 加载态最短展示 ms
+    countDur: 1400        // 数字滚动时长 ms
+  };
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ============ SITE 变量渲染 ============ */
+  function renderSite() {
+    var els = document.querySelectorAll("[data-site]");
+    for (var i = 0; i < els.length; i++) {
+      var k = els[i].getAttribute("data-site");
+      if (SITE[k] !== undefined) els[i].textContent = SITE[k];
+    }
+    var hrefs = document.querySelectorAll("[data-site-href]");
+    for (var j = 0; j < hrefs.length; j++) {
+      var hk = hrefs[j].getAttribute("data-site-href");
+      if (SITE[hk] !== undefined) hrefs[j].setAttribute("href", SITE[hk]);
+    }
+  }
+
+  /* ============ 加载态（完成态必达） ============ */
+  var loaderDone = false;
+  function finishLoad() {
+    if (loaderDone) return;
+    loaderDone = true;
+    var l = document.getElementById("loader");
+    if (l) l.classList.add("done");
+    document.body.classList.add("loaded"); // 触发 hero 标题升起
+  }
+  var t0 = Date.now();
+  window.addEventListener("load", function () {
+    var wait = Math.max(0, CFG.loaderMin - (Date.now() - t0));
+    setTimeout(finishLoad, wait);
+  });
+  setTimeout(finishLoad, 4000); // 兜底
+
+  /* ============ 导航滚动毛玻璃 ============ */
+  var nav = document.getElementById("nav");
+  function onScroll() {
+    if (window.scrollY > CFG.navOffset) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ============ 移动端抽屉 ============ */
+  var burger = document.getElementById("burger");
+  var drawer = document.getElementById("drawer");
+  var drawerMask = document.getElementById("drawerMask");
+  function setDrawer(open) {
+    drawer.classList.toggle("open", open);
+    drawerMask.classList.toggle("open", open);
+    drawer.setAttribute("aria-hidden", open ? "false" : "true");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("locked", open);
+  }
+  burger.addEventListener("click", function () { setDrawer(!drawer.classList.contains("open")); });
+  document.getElementById("drawerX").addEventListener("click", function () { setDrawer(false); });
+  drawerMask.addEventListener("click", function () { setDrawer(false); });
+  var dLinks = drawer.querySelectorAll("a");
+  for (var d = 0; d < dLinks.length; d++) {
+    dLinks[d].addEventListener("click", function () { setDrawer(false); });
+  }
+
+  /* ============ 滚动 reveal + stagger ============ */
+  var io = null;
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+          if (e.target.classList.contains("num")) runCount(e.target);
+        }
+      });
+    }, { threshold: CFG.revealThreshold });
+    var revs = document.querySelectorAll(".reveal");
+    for (var r = 0; r < revs.length; r++) io.observe(revs[r]);
+  } else {
+    // 无 IO 或减弱动效：直达终态（完成态必达）
+    var all = document.querySelectorAll(".reveal");
+    for (var q = 0; q < all.length; q++) {
+      all[q].classList.add("in");
+      if (all[q].classList.contains("num")) setCountFinal(all[q]);
+    }
+  }
+
+  /* ============ 数字滚动 ============ */
+  function setCountFinal(numEl) {
+    var el = numEl.querySelector(".count");
+    if (el) el.textContent = el.getAttribute("data-to");
+  }
+  function runCount(numEl) {
+    var el = numEl.querySelector(".count");
+    if (!el || el.dataset.done) return;
+    el.dataset.done = "1";
+    var to = parseInt(el.getAttribute("data-to"), 10) || 0;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / CFG.countDur);
+      var eased = 1 - Math.pow(1 - p, 4); // easeOutQuart，慢而稳
+      el.textContent = Math.round(to * eased);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = to;
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ============ 法务弹窗（X / 遮罩 / ESC 关） ============ */
+  var modal = document.getElementById("legalModal");
+  var mTitle = document.getElementById("legalTitle");
+  var mList = document.getElementById("legalList");
+  var lastFocus = null;
+  function openLegal(key) {
+    var doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    mTitle.textContent = doc.title;
+    mList.innerHTML = "";
+    doc.points.forEach(function (p) {
+      var li = document.createElement("li");
+      li.textContent = p;
+      mList.appendChild(li);
+    });
+    modal.hidden = false;
+    requestAnimationFrame(function () { modal.classList.add("open"); });
+    document.body.classList.add("locked");
+    var x = modal.querySelector(".modal-x");
+    if (x) x.focus();
+  }
+  function closeLegal() {
+    modal.classList.remove("open");
+    document.body.classList.remove("locked");
+    setTimeout(function () { modal.hidden = true; }, 450);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  var legalBtns = document.querySelectorAll("[data-legal]");
+  for (var b = 0; b < legalBtns.length; b++) {
+    (function (btn) {
+      btn.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        openLegal(btn.getAttribute("data-legal"));
+      });
+    })(legalBtns[b]);
+  }
+  var closers = modal.querySelectorAll("[data-close]");
+  for (var c = 0; c < closers.length; c++) closers[c].addEventListener("click", closeLegal);
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && modal.classList.contains("open")) closeLegal();
+    if (ev.key === "Escape" && drawer.classList.contains("open")) setDrawer(false);
+  });
+
+  /* ============ 预约表单 ============ */
+  var form = document.getElementById("visitForm");
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var name = form.name.value.trim();
+    var tel = form.tel.value.trim();
+    if (!name) { form.name.focus(); return; }
+    if (!/^1\d{10}$/.test(tel)) { form.tel.focus(); form.tel.style.borderColor = "#c0392b"; return; }
+    form.tel.style.borderColor = "";
+    var ok = form.querySelector(".form-ok");
+    ok.hidden = false;
+    ok.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+    form.querySelector("button[type=submit]").disabled = true;
+  });
+
+  renderSite();
+})();
+
+</script>
+</body>
+</html>

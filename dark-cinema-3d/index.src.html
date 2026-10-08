@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>暗涌 STUDIO — 网页即电影</title>
+<script>document.documentElement.className += ' js';</script>
+<script type="importmap">
+{ "imports": { "three": "vendor/three.module.js" } }
+</script>
+<script type="module" src="src/main.js"></script>
+<style>
+  /* dark-cinema-3d · 原创实现（手法参考 Active Theory 式暗黑电影风） */
+  :root{
+    --ink:#050507;      /* 纯黑底 */
+    --blue:#4D7CFE;     /* 电光蓝 */
+    --paper:#f4f6ff;    /* 白字 */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{width:100%;background:var(--ink);color:var(--paper);
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","PingFang SC",
+      "Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--blue);color:#fff}
+
+  /* ---------- WebGL 舞台 ---------- */
+  #gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+
+  /* ---------- 后期：vignette + 噪点 ---------- */
+  #vignette{position:fixed;inset:0;z-index:3;pointer-events:none;
+    background:radial-gradient(ellipse 105% 90% at 50% 46%,
+      rgba(0,0,0,0) 52%, rgba(0,0,0,.38) 78%, rgba(0,0,0,.72) 100%)}
+  #grain{position:fixed;inset:0;width:100%;height:100%;z-index:4;
+    pointer-events:none;opacity:.07;mix-blend-mode:screen}
+
+  /* ---------- 加载态 ---------- */
+  #loader{position:fixed;inset:0;z-index:50;background:var(--ink);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:26px;transition:opacity .9s ease .1s}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .l-brand{font-size:13px;letter-spacing:.55em;text-indent:.55em;
+    font-weight:600;color:var(--paper)}
+  #loader .l-track{width:220px;max-width:60vw;height:2px;
+    background:rgba(244,246,255,.12);position:relative;overflow:hidden}
+  #loadbar{display:block;width:0%;height:100%;background:var(--blue);
+    box-shadow:0 0 12px rgba(77,124,254,.9)}
+  #loadpct{font-size:11px;letter-spacing:.3em;color:rgba(244,246,255,.5);
+    font-variant-numeric:tabular-nums}
+
+  /* ---------- 章节 ---------- */
+  main{position:relative;z-index:10}
+  section.chapter{min-height:100vh;display:flex;flex-direction:column;
+    justify-content:center;padding:12vh 8vw;position:relative}
+
+  .eyebrow{font-size:12px;letter-spacing:.42em;color:var(--blue);
+    margin-bottom:26px;font-weight:600}
+
+  h1.hero-title{font-size:clamp(52px,9.5vw,132px);font-weight:800;
+    line-height:1.12;letter-spacing:.02em;position:relative;display:inline-block}
+  h1.hero-title .kw{color:var(--blue)}
+  /* 加载线的延续：标题下划线由蓝线展开 */
+  #hero-underline{display:block;height:3px;margin-top:26px;background:var(--blue);
+    transform:scaleX(0);transform-origin:left center;
+    box-shadow:0 0 16px rgba(77,124,254,.85)}
+  .js h1.hero-title.lit #hero-underline{animation:unfurl 1.4s cubic-bezier(.19,1,.22,1) .15s forwards}
+  @keyframes unfurl{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .hero-sub{margin-top:30px;font-size:clamp(15px,1.6vw,20px);line-height:1.8;
+    color:rgba(244,246,255,.62);max-width:520px;font-weight:300}
+  .scroll-hint{position:absolute;left:8vw;bottom:34px;font-size:11px;
+    letter-spacing:.34em;color:rgba(244,246,255,.42);display:flex;align-items:center;gap:12px}
+  .scroll-hint::after{content:"";width:1px;height:44px;
+    background:linear-gradient(180deg,var(--blue),transparent);
+    animation:drip 2.2s ease-in-out infinite}
+  @keyframes drip{0%{transform:scaleY(0);transform-origin:top}
+    45%{transform:scaleY(1);transform-origin:top}
+    55%{transform:scaleY(1);transform-origin:bottom}
+    100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* ---------- clip reveal（完成态可达：.js 前缀 + is-in） ---------- */
+  .rev{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+  .rev-inner{display:block;will-change:transform}
+  .js .rev-inner{transform:translateY(112%)}
+  .js .rev.is-in .rev-inner{transform:translateY(0);
+    transition:transform 1.15s cubic-bezier(.19,1,.22,1)}
+  .js .rev.is-in .rev-inner.d2{transition-delay:.12s}
+  .js .rev.is-in .rev-inner.d3{transition-delay:.24s}
+  .fade{opacity:1}
+  .js .fade{opacity:0;transform:translateY(18px)}
+  .js .fade.is-in{opacity:1;transform:none;
+    transition:opacity 1s ease .35s,transform 1s cubic-bezier(.19,1,.22,1) .35s}
+
+  .ch-title{font-size:clamp(38px,5.6vw,76px);font-weight:700;line-height:1.25}
+  .ch-title .kw{color:var(--blue)}
+  .ch-body{margin-top:28px;font-size:clamp(15px,1.6vw,19px);line-height:1.9;
+    color:rgba(244,246,255,.66);max-width:600px;font-weight:300}
+
+  /* ---------- 能力矩阵 ---------- */
+  .matrix{margin-top:44px;display:grid;grid-template-columns:repeat(2,1fr);
+    gap:18px;max-width:760px}
+  .cell{border:1px solid rgba(244,246,255,.14);padding:28px 26px;
+    background:rgba(5,5,7,.42);backdrop-filter:blur(6px);
+    transition:border-color .35s ease,box-shadow .35s ease,transform .35s ease;
+    cursor:default}
+  .cell:hover{border-color:var(--blue);
+    box-shadow:0 0 24px rgba(77,124,254,.28),inset 0 0 18px rgba(77,124,254,.06);
+    transform:translateY(-4px)}
+  .cell .c-idx{font-size:11px;letter-spacing:.3em;color:var(--blue);margin-bottom:14px}
+  .cell h3{font-size:19px;font-weight:600;margin-bottom:10px}
+  .cell p{font-size:13.5px;line-height:1.75;color:rgba(244,246,255,.55)}
+
+  /* ---------- CTA ---------- */
+  .cta-title{font-size:clamp(40px,6vw,84px);font-weight:800;line-height:1.2}
+  .cta-title .kw{color:var(--blue)}
+  .cta-btn{display:inline-block;margin-top:40px;padding:18px 54px;
+    border:1px solid var(--blue);color:var(--paper);text-decoration:none;
+    font-size:15px;letter-spacing:.28em;text-indent:.28em;font-weight:600;
+    position:relative;overflow:hidden;
+    transition:box-shadow .4s ease,color .4s ease}
+  .cta-btn::before{content:"";position:absolute;inset:0;background:var(--blue);
+    transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.19,1,.22,1);z-index:-1}
+  .cta-btn:hover{box-shadow:0 0 34px rgba(77,124,254,.55);color:#fff}
+  .cta-btn:hover::before{transform:scaleX(1)}
+  .cta-mail{margin-top:26px;font-size:13px;letter-spacing:.18em;
+    color:rgba(244,246,255,.45)}
+  .cta-mail a{color:var(--blue);text-decoration:none}
+
+  /* ---------- 章节导航点 ---------- */
+  #dots{position:fixed;right:34px;top:50%;transform:translateY(-50%);
+    z-index:20;display:flex;flex-direction:column;gap:16px}
+  #dots button{width:8px;height:8px;border-radius:50%;border:1px solid rgba(244,246,255,.4);
+    background:transparent;cursor:pointer;padding:0;transition:all .3s ease}
+  #dots button.on{background:var(--blue);border-color:var(--blue);
+    box-shadow:0 0 10px rgba(77,124,254,.9);transform:scale(1.35)}
+
+  #brandmark{position:fixed;top:30px;left:8vw;z-index:20;font-size:13px;
+    letter-spacing:.4em;font-weight:700}
+  #brandmark em{font-style:normal;color:var(--blue)}
+
+  @media (max-width:720px){
+    .matrix{grid-template-columns:1fr}
+    #dots{display:none}
+    section.chapter{padding:14vh 7vw}
+    .scroll-hint{left:7vw}
+    #brandmark{left:7vw}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="gl"></canvas>
+<div id="vignette"></div>
+<canvas id="grain"></canvas>
+
+<div id="loader">
+  <div class="l-brand">暗涌 STUDIO</div>
+  <div class="l-track"><span id="loadbar"></span></div>
+  <div id="loadpct">00%</div>
+</div>
+
+<div id="brandmark">暗涌<em>·</em>STUDIO</div>
+
+<nav id="dots" aria-label="章节导航">
+  <button data-to="0" class="on" aria-label="开场"></button>
+  <button data-to="1" aria-label="宣言"></button>
+  <button data-to="2" aria-label="能力"></button>
+  <button data-to="3" aria-label="开场白"></button>
+</nav>
+
+<main>
+  <!-- 第一章 · Hero -->
+  <section class="chapter" id="ch0">
+    <p class="eyebrow fade">科技影像工作室 · SHOWREEL 2026</p>
+    <h1 class="hero-title" id="heroTitle">
+      <span class="rev"><span class="rev-inner">我们把网页</span></span>
+      <span class="rev"><span class="rev-inner d2">做成<span class="kw">电影</span></span></span>
+      <span id="hero-underline"></span>
+    </h1>
+    <p class="hero-sub fade">每一帧滚动都是一次运镜，每一次点击都是一场剪辑。暗涌，把浏览器变成放映厅。</p>
+    <div class="scroll-hint fade">向下滚动 · 进入正片</div>
+  </section>
+
+  <!-- 第二章 · 宣言 -->
+  <section class="chapter" id="ch1">
+    <p class="eyebrow fade">宣言 · MANIFESTO</p>
+    <h2 class="ch-title">
+      <span class="rev"><span class="rev-inner">我们不装饰页面，</span></span>
+      <span class="rev"><span class="rev-inner d2">我们<span class="kw">导演时间</span>。</span></span>
+    </h2>
+    <p class="ch-body fade">光影是布景，节奏是剧本，情绪是主演。我们把三幕式叙事装进每一次滚动——用户不是访客，是观众。</p>
+  </section>
+
+  <!-- 第三章 · 能力矩阵 -->
+  <section class="chapter" id="ch2">
+    <p class="eyebrow fade">能力矩阵 · CAPABILITIES</p>
+    <h2 class="ch-title">
+      <span class="rev"><span class="rev-inner">四组镜头，<span class="kw">一种语言</span>。</span></span>
+    </h2>
+    <div class="matrix">
+      <div class="cell fade"><div class="c-idx">SHOT 01</div><h3>实时渲染</h3><p>WebGL 逐帧调度光影，60 帧的稳定心跳，暗场也有呼吸。</p></div>
+      <div class="cell fade"><div class="c-idx">SHOT 02</div><h3>交互叙事</h3><p>滚动即剪辑，视差即运镜——把用户操作翻译成电影语法。</p></div>
+      <div class="cell fade"><div class="c-idx">SHOT 03</div><h3>空间音频</h3><p>声场随镜头移动，混音跟着情绪走，静默也是一种配乐。</p></div>
+      <div class="cell fade"><div class="c-idx">SHOT 04</div><h3>性能工程</h3><p>首屏一秒内入场，弱网不掉帧——快，是最贵的特效。</p></div>
+    </div>
+  </section>
+
+  <!-- 第四章 · CTA -->
+  <section class="chapter" id="ch3">
+    <p class="eyebrow fade">终幕 · FINALE</p>
+    <h2 class="cta-title">
+      <span class="rev"><span class="rev-inner">下一帧，</span></span>
+      <span class="rev"><span class="rev-inner d2">由你<span class="kw">开场</span>。</span></span>
+    </h2>
+    <div class="fade"><a class="cta-btn" href="mailto:hello@anyong.studio">预约一次试看</a></div>
+    <p class="cta-mail fade">暗涌 STUDIO · <a href="mailto:hello@anyong.studio">hello@anyong.studio</a></p>
+  </section>
+</main>
+
+</body>
+</html>

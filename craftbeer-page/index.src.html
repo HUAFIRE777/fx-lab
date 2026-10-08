@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦浪 BREWAVE · 精酿啤酒</title>
+<meta name="description" content="麦浪 BREWAVE 精酿啤酒：六款常备酒款、四步酿造工艺、三家城市门店。把秋天，倒进杯子里。">
+<!-- huafire3d fx-lab — original implementation (craftbeer-page) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#logo-wheat"/></svg>
+  </div>
+  <p class="loader-text">正在醒酒…</p>
+  <div class="loader-bar"><span></span></div>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- SVG 符号库：全部原创手绘 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-wheat" viewBox="0 0 40 40">
+    <path d="M20 36 V14" stroke="#e09a2b" stroke-width="2.4" stroke-linecap="round"/>
+    <g fill="#e09a2b">
+      <ellipse cx="20" cy="8" rx="3.4" ry="5"/>
+      <ellipse cx="13.5" cy="13" rx="3" ry="4.4" transform="rotate(-32 13.5 13)"/>
+      <ellipse cx="26.5" cy="13" rx="3" ry="4.4" transform="rotate(32 26.5 13)"/>
+      <ellipse cx="13.5" cy="21" rx="3" ry="4.4" transform="rotate(-32 13.5 21)"/>
+      <ellipse cx="26.5" cy="21" rx="3" ry="4.4" transform="rotate(32 26.5 21)"/>
+      <ellipse cx="14.5" cy="29" rx="2.8" ry="4" transform="rotate(-32 14.5 29)"/>
+      <ellipse cx="25.5" cy="29" rx="2.8" ry="4" transform="rotate(32 25.5 29)"/>
+    </g>
+  </symbol>
+  <symbol id="mini-glass" viewBox="0 0 60 96">
+    <path d="M17 22 L22.5 72 Q23.5 82 30 82 Q36.5 82 37.5 72 L43 22 Z" fill="currentColor" opacity=".94"/>
+    <rect x="14" y="10" width="32" height="14" rx="7" fill="#f3e9d2"/>
+    <circle cx="24" cy="14" r="3" fill="#fffdf6" opacity=".8"/>
+    <circle cx="35" cy="16" r="2.4" fill="#fffdf6" opacity=".8"/>
+    <path d="M17 22 L22.5 72 Q23.5 82 30 82 Q36.5 82 37.5 72 L43 22" fill="none" stroke="#f3e9d2" stroke-opacity=".65" stroke-width="3" stroke-linecap="round"/>
+    <path d="M23 34 L25.5 62" stroke="#ffffff" stroke-opacity=".35" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-pin" viewBox="0 0 24 24">
+    <path d="M12 21.5 C7 15.5 4.5 12 4.5 8.8 C4.5 4.9 7.9 2 12 2 C16.1 2 19.5 4.9 19.5 8.8 C19.5 12 17 15.5 12 21.5 Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="12" cy="8.8" r="2.6" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-phone" viewBox="0 0 24 24">
+    <path d="M6.8 3.5 C5 3.5 3.8 4.9 4.1 6.7 C5.4 13.4 10.6 18.6 17.3 19.9 C19.1 20.2 20.5 19 20.5 17.2 L20.5 15.4 C20.5 14.6 20 13.9 19.3 13.6 L16.4 12.4 C15.7 12.1 14.9 12.3 14.4 12.9 L13.4 14 C11 13.1 9 11 8.1 8.6 L9.2 7.6 C9.8 7.1 10 6.3 9.7 5.6 L8.5 2.7 C8.2 2 7.5 1.5 6.8 1.5 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" transform="translate(0 2)"/>
+  </symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 7.4 V12 L15.4 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-arrow" viewBox="0 0 24 24">
+    <path d="M4 12 H19 M13 6 L19 12 L13 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-chat" viewBox="0 0 24 24">
+    <path d="M4 6.5 C4 4 6.2 2.5 9 2.5 H15 C17.8 2.5 20 4 20 6.5 V11 C20 13.5 17.8 15 15 15 H12.5 L8.8 18.4 C8.4 18.8 7.8 18.5 7.8 17.9 V15 H9 C6.2 15 4 13.5 4 11 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <circle cx="9.4" cy="8.8" r="1.1" fill="currentColor"/>
+    <circle cx="14.6" cy="8.8" r="1.1" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-cam" viewBox="0 0 24 24">
+    <rect x="3.5" y="7" width="17" height="12.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="12" cy="13.2" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M9 7 L10.4 4.5 H13.6 L15 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24">
+    <rect x="3.5" y="4.5" width="17" height="15" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M10.4 9.2 L15.4 12 L10.4 14.8 Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="麦浪首页">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo-wheat"/></svg>
+    <span class="brand-word">麦浪<em>BREWAVE</em></span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#beers">酒款</a>
+    <a href="#craft">酿造</a>
+    <a href="#flavor">风味</a>
+    <a href="#stores">门店</a>
+    <a href="#club">俱乐部</a>
+  </nav>
+  <a class="btn btn-amber btn-sm nav-cta" href="#club">到店品鉴</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#beers" style="--d:.05s">酒款</a>
+    <a href="#craft" style="--d:.11s">酿造</a>
+    <a href="#flavor" style="--d:.17s">风味</a>
+    <a href="#stores" style="--d:.23s">门店</a>
+    <a href="#club" style="--d:.29s">俱乐部</a>
+    <a class="btn btn-amber" href="#club" style="--d:.37s">到店品鉴</a>
+  </nav>
+</div>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="kicker"><span class="rl"><span class="rl-in">BREWAVE CRAFT BREWING · EST. 2019</span></span></p>
+        <h1 class="hero-title">
+          <span class="rl"><span class="rl-in">把秋天，</span></span>
+          <span class="rl"><span class="rl-in">倒进杯子里。</span></span>
+        </h1>
+        <p class="lede"><span class="rl"><span class="rl-in">第一口，是刚割下的麦香。麦浪在城市里酿了七年，</span></span>
+        <span class="rl"><span class="rl-in">只做一件事：让精酿回到"好喝"本身。</span></span></p>
+        <div class="hero-ctas">
+          <a class="btn btn-amber" href="#beers">认识我们的酒<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#stores">找一家门店</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt><span class="count" data-count="18">0</span> 款</dt><dd>在酿酒款</dd></div>
+          <div><dt><span class="count" data-count="3">0</span> 家</dt><dd>城市门店</dd></div>
+          <div><dt><span class="count" data-count="12000">0</span>+</dt><dd>俱乐部会员</dd></div>
+        </dl>
+      </div>
+      <div class="hero-visual">
+        <div class="glass-stage" id="glassStage">
+          <canvas class="bubbles" id="bubbles" aria-hidden="true"></canvas>
+          <svg class="glass-svg" viewBox="0 0 260 400" role="img" aria-label="一杯琥珀色的麦浪精酿，气泡正在上升">
+            <defs>
+              <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f2b94b"/>
+                <stop offset=".55" stop-color="#e09a2b"/>
+                <stop offset="1" stop-color="#8a4d12"/>
+              </linearGradient>
+              <linearGradient id="glassEdge" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#f3e9d2" stop-opacity=".26"/>
+                <stop offset=".5" stop-color="#f3e9d2" stop-opacity=".04"/>
+                <stop offset="1" stop-color="#f3e9d2" stop-opacity=".2"/>
+              </linearGradient>
+              <clipPath id="bowlClip">
+                <path d="M78 44 C84 132 96 202 108 258 C112 282 118 294 130 294 C142 294 148 282 152 258 C164 202 176 132 182 44 Z"/>
+              </clipPath>
+            </defs>
+            <g clip-path="url(#bowlClip)">
+              <rect x="60" y="88" width="140" height="230" fill="url(#amber)"/>
+              <rect x="60" y="88" width="140" height="230" fill="url(#glassEdge)"/>
+              <ellipse cx="130" cy="272" rx="36" ry="34" fill="#6e3a0c" opacity=".38"/>
+            </g>
+            <path d="M78 44 C84 132 96 202 108 258 C112 282 118 294 130 294 C142 294 148 282 152 258 C164 202 176 132 182 44" fill="none" stroke="#f3e9d2" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+            <ellipse cx="130" cy="44" rx="52" ry="10" fill="none" stroke="#f3e9d2" stroke-opacity=".5" stroke-width="5"/>
+            <g fill="#f3e9d2">
+              <ellipse cx="102" cy="70" rx="21" ry="14"/>
+              <ellipse cx="130" cy="62" rx="25" ry="17"/>
+              <ellipse cx="158" cy="70" rx="20" ry="13"/>
+              <ellipse cx="117" cy="51" rx="14" ry="10" opacity=".95"/>
+              <ellipse cx="144" cy="51" rx="12" ry="9" opacity=".95"/>
+            </g>
+            <g fill="#fffdf6" opacity=".8">
+              <circle cx="110" cy="63" r="4"/><circle cx="138" cy="57" r="5"/><circle cx="152" cy="67" r="3"/>
+            </g>
+            <path d="M94 94 C98 152 104 212 112 252" stroke="#ffffff" stroke-opacity=".22" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <rect x="126" y="294" width="8" height="62" fill="#f3e9d2" opacity=".35"/>
+            <ellipse cx="130" cy="364" rx="40" ry="10" fill="none" stroke="#f3e9d2" stroke-opacity=".45" stroke-width="5"/>
+            <ellipse cx="130" cy="370" rx="70" ry="14" fill="#e09a2b" opacity=".13"/>
+          </svg>
+          <div class="sheen" aria-hidden="true"></div>
+        </div>
+        <p class="glass-cap">本季主打 · 麦浪 IPA —— 柑橘与松针的香气</p>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#beers" aria-label="向下滚动到酒款">向下滚动<span></span></a>
+  </section>
+
+  <!-- 酒款矩阵 -->
+  <section class="section beers" id="beers">
+    <div class="wrap">
+      <p class="kicker reveal">THE LINEUP · 酒款矩阵</p>
+      <h2 class="sec-title reveal" style="--d:.06s">常备六款，各有脾气</h2>
+      <p class="sec-lede reveal" style="--d:.12s">从 3.8 度到 9 度，从清亮到浓黑。每一款都标了酒精度和苦度，照着自己的口味点，错不了。</p>
+      <div class="beer-grid">
+        <article class="beer-card reveal" style="--d:.05s">
+          <div class="beer-visual" style="color:#e09a2b">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>麦浪 IPA</h3>
+          <p class="beer-style">美式 IPA</p>
+          <div class="beer-tags"><span>ABV 6.2%</span><span>IBU 65</span></div>
+          <p class="beer-flavor">柑橘 · 松针 · 柚子皮</p>
+          <p class="beer-desc">开瓶像走进柑橘园。柚子皮的苦收得干净，松针的香留在鼻腔，喝完想再点一杯。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.11s">
+          <div class="beer-visual" style="color:#3a1d0c">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>熏风世涛</h3>
+          <p class="beer-style">帝国世涛</p>
+          <div class="beer-tags"><span>ABV 9.0%</span><span>IBU 40</span></div>
+          <p class="beer-flavor">烘焙麦芽 · 黑巧克力 · 现磨咖啡</p>
+          <p class="beer-desc">像一块 85% 的黑巧在舌头上化开。冬天抱着它，就不想出门了。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.17s">
+          <div class="beer-visual" style="color:#f0c969">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>白桦小麦</h3>
+          <p class="beer-style">德式小麦</p>
+          <div class="beer-tags"><span>ABV 5.0%</span><span>IBU 12</span></div>
+          <p class="beer-flavor">香蕉 · 丁香 · 刚出炉的面包</p>
+          <p class="beer-desc">德式酵母的老手艺：香蕉和丁香自己长出来，没加一滴香精。云朵一样的泡沫，配早午餐正好。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.23s">
+          <div class="beer-visual" style="color:#a85f1e">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>焦糖棕艾</h3>
+          <p class="beer-style">英式棕色艾尔</p>
+          <div class="beer-tags"><span>ABV 5.4%</span><span>IBU 28</span></div>
+          <p class="beer-flavor">烤坚果 · 焦糖 · 饼干</p>
+          <p class="beer-desc">烤坚果混着焦糖的香气，饼干一样的麦芽底。是不赶时间的酒，适合慢慢聊。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.29s">
+          <div class="beer-visual" style="color:#c65b6e">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>野莓酸啤</h3>
+          <p class="beer-style">柏林酸小麦</p>
+          <div class="beer-tags"><span>ABV 3.8%</span><span>IBU 8</span></div>
+          <p class="beer-flavor">树莓 · 酸樱桃 · 乳酸的清亮</p>
+          <p class="beer-desc">树莓的酸爽脆，乳酸收得清清亮亮。3.8 度，夏天第一杯，开胃又解渴。</p>
+        </article>
+        <article class="beer-card reveal" style="--d:.35s">
+          <div class="beer-visual" style="color:#f2a93b">
+            <svg viewBox="0 0 60 96" aria-hidden="true"><use href="#mini-glass"/></svg>
+          </div>
+          <h3>双倍朦胧</h3>
+          <p class="beer-style">Hazy 双倍 IPA</p>
+          <div class="beer-tags"><span>ABV 8.0%</span><span>IBU 55</span></div>
+          <p class="beer-flavor">芒果 · 百香果 · 燕麦的顺滑</p>
+          <p class="beer-desc">像喝下一杯果汁：芒果和百香果扑面，燕麦让口感滑得不像 8 度。小心，它后劲不小。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 酿造工艺 -->
+  <section class="section craft" id="craft">
+    <div class="wrap">
+      <p class="kicker reveal">HOW WE BREW · 酿造</p>
+      <h2 class="sec-title reveal" style="--d:.06s">从麦田到酒杯，四步</h2>
+      <p class="sec-lede reveal" style="--d:.12s">没有捷径。每一批酒都走完这四步，少一步都不出厂。</p>
+      <ol class="steps">
+        <li class="step reveal" style="--d:.05s">
+          <span class="step-num">01</span>
+          <h3>糖化 <em>MASH</em></h3>
+          <p>63–72°C 分段保温，把麦芽里的淀粉变成可发酵的糖。糖化好不好，一口就喝得出来。</p>
+        </li>
+        <li class="step reveal" style="--d:.13s">
+          <span class="step-num">02</span>
+          <h3>煮沸 <em>BOIL</em></h3>
+          <p>90 分钟滚沸，分三次投酒花。苦味、香气，都在这口大锅里定下来。</p>
+        </li>
+        <li class="step reveal" style="--d:.21s">
+          <span class="step-num">03</span>
+          <h3>发酵 <em>FERMENT</em></h3>
+          <p>酵母接管一切。艾尔 20°C 七天，拉格 10°C 三周。我们只等，不催。</p>
+        </li>
+        <li class="step reveal" style="--d:.29s">
+          <span class="step-num">04</span>
+          <h3>熟成 <em>CONDITION</em></h3>
+          <p>进罐冷熟成，风味慢慢圆回来。好喝的东西，都值得多等两周。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 风味筛选 -->
+  <section class="section flavor" id="flavor">
+    <div class="wrap">
+      <p class="kicker reveal">FIND YOUR POUR · 风味</p>
+      <h2 class="sec-title reveal" style="--d:.06s">按今晚的心情选</h2>
+      <p class="sec-lede reveal" style="--d:.12s">不知道喝什么？先选一种感觉，剩下的交给我们。</p>
+      <div class="flavor-tabs reveal" style="--d:.16s" role="tablist" aria-label="风味筛选">
+        <button class="tab active" data-filter="all" role="tab" aria-selected="true">全部</button>
+        <button class="tab" data-filter="fruit" role="tab" aria-selected="false">果香四溢</button>
+        <button class="tab" data-filter="dark" role="tab" aria-selected="false">深烘浓郁</button>
+        <button class="tab" data-filter="fresh" role="tab" aria-selected="false">清爽易饮</button>
+      </div>
+      <div class="flavor-grid reveal" style="--d:.2s" id="flavorGrid">
+        <button class="flavor-card" data-cats="fruit">
+          <span class="flavor-name">麦浪 IPA</span>
+          <span class="flavor-meta">ABV 6.2% · 柑橘 / 松针 / 柚子皮</span>
+        </button>
+        <button class="flavor-card" data-cats="dark">
+          <span class="flavor-name">熏风世涛</span>
+          <span class="flavor-meta">ABV 9.0% · 烘焙麦芽 / 黑巧 / 咖啡</span>
+        </button>
+        <button class="flavor-card" data-cats="fruit fresh">
+          <span class="flavor-name">白桦小麦</span>
+          <span class="flavor-meta">ABV 5.0% · 香蕉 / 丁香 / 面包香</span>
+        </button>
+        <button class="flavor-card" data-cats="dark">
+          <span class="flavor-name">焦糖棕艾</span>
+          <span class="flavor-meta">ABV 5.4% · 烤坚果 / 焦糖 / 饼干</span>
+        </button>
+        <button class="flavor-card" data-cats="fruit fresh">
+          <span class="flavor-name">野莓酸啤</span>
+          <span class="flavor-meta">ABV 3.8% · 树莓 / 酸樱桃 / 乳酸清亮</span>
+        </button>
+        <button class="flavor-card" data-cats="fruit">
+          <span class="flavor-name">双倍朦胧</span>
+          <span class="flavor-meta">ABV 8.0% · 芒果 / 百香果 / 燕麦顺滑</span>
+        </button>
+      </div>
+      <p class="flavor-empty" id="flavorEmpty" hidden>这个心情暂时没有对应的酒——去门店问问酿酒师，他有私藏。</p>
+    </div>
+  </section>
+
+  <!-- 门店 -->
+  <section class="section stores" id="stores">
+    <div class="wrap">
+      <p class="kicker reveal">TAPROOMS · 门店</p>
+      <h2 class="sec-title reveal" style="--d:.06s">三家店，都在城里</h2>
+      <p class="sec-lede reveal" style="--d:.12s">16 个酒头轮换，酿酒师每周都在其中一家。来之前可以打个电话，问问今天有什么新酒。</p>
+      <div class="store-grid">
+        <article class="store-card reveal" style="--d:.05s">
+          <h3>麦浪 · 梧桐店</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"/></svg>上海市徐汇区武康路 280 号 1 楼</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-phone"/></svg><a href="tel:+862164723390">021-6472-3390</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-clock"/></svg>17:00 – 次日 1:00</li>
+          </ul>
+          <p class="store-note">梧桐树下的老洋房，16 个酒头，露台能看晚霞。</p>
+        </article>
+        <article class="store-card reveal" style="--d:.13s">
+          <h3>麦浪 · 江畔店</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"/></svg>上海市浦东新区滨江大道 1888 号</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-phone"/></svg><a href="tel:+862158762210">021-5876-2210</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-clock"/></svg>12:00 – 24:00</li>
+          </ul>
+          <p class="store-note">正对江景的落地窗，配餐做得最认真的一家。</p>
+        </article>
+        <article class="store-card reveal" style="--d:.21s">
+          <h3>麦浪 · 老厂房店</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"/></svg>上海市杨浦区隆昌路 640 号</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-phone"/></svg><a href="tel:+862165678812">021-6567-8812</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-clock"/></svg>15:00 – 次日 2:00</li>
+          </ul>
+          <p class="store-note">百年啤酒厂旧址，酿酒设备就摆在大厅里。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 会员俱乐部 CTA -->
+  <section class="section club" id="club">
+    <div class="wrap">
+      <div class="club-panel reveal">
+        <p class="kicker">THE CLUB · 会员俱乐部</p>
+        <h2 class="sec-title">好酒，值得一个身份</h2>
+        <p class="sec-lede">加入麦浪俱乐部，新品永远比别人早喝到，会员价天天有。随时退，不玩套路。</p>
+        <div class="tier-grid">
+          <div class="tier">
+            <h3>麦客</h3>
+            <p class="tier-price">免费入会</p>
+            <ul>
+              <li>生日当月送一杯</li>
+              <li>新品首发通知</li>
+              <li>会员价 9.5 折</li>
+            </ul>
+          </div>
+          <div class="tier tier-hot">
+            <p class="tier-badge">最多人选</p>
+            <h3>麦浪会员</h3>
+            <p class="tier-price">¥299<em> / 年</em></p>
+            <ul>
+              <li>全年 9 折</li>
+              <li>每月一款会员专属</li>
+              <li>酿造开放日优先报名</li>
+            </ul>
+          </div>
+          <div class="tier">
+            <h3>酿酒师之友</h3>
+            <p class="tier-price">¥1299<em> / 年</em></p>
+            <ul>
+              <li>专属橡木桶藏酒</li>
+              <li>一年两次共酿</li>
+              <li>名字刻上酒墙</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-ctas">
+          <a class="btn btn-amber" href="#top">加入会员</a>
+          <a class="btn btn-ghost" href="#stores">预约到店品鉴</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top" aria-label="麦浪首页">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo-wheat"/></svg>
+        <span class="brand-word">麦浪<em>BREWAVE</em></span>
+      </a>
+      <p>城市里的精酿酒厂。七年，六款常备，三家门店，只为倒好每一杯。</p>
+      <div class="social">
+        <a href="#top" aria-label="微信公众号"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chat"/></svg></a>
+        <a href="#top" aria-label="小红书"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-cam"/></svg></a>
+        <a href="#top" aria-label="视频号"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-play"/></svg></a>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <h4>探索</h4>
+      <a href="#beers">酒款矩阵</a>
+      <a href="#craft">酿造工艺</a>
+      <a href="#flavor">风味筛选</a>
+      <a href="#stores">门店</a>
+      <a href="#club">会员俱乐部</a>
+    </nav>
+    <div class="footer-contact">
+      <h4>联系</h4>
+      <p data-site="address"></p>
+      <p><a data-site-href="phone" data-site="phone"></a></p>
+      <p><a data-site-href="email" data-site="email"></a></p>
+      <p data-site="hours"></p>
+    </div>
+    <div class="footer-legal">
+      <h4>网站政策</h4>
+      <button data-legal="privacy">隐私政策</button>
+      <button data-legal="terms">服务条款</button>
+      <button data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · <span data-site="icp"></span></p>
+    <p class="drink-note">理性饮酒 · 未满 18 岁请勿饮酒 · 酒后请勿驾车</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" hidden role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box" role="document">
+    <button class="modal-x" id="legalClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"/></svg>
+    </button>
+    <p class="kicker" id="legalEn"></p>
+    <h3 id="legalTitle"></h3>
+    <p class="legal-updated" id="legalUpdated"></p>
+    <div class="legal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

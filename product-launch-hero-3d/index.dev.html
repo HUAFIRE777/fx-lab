@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AURELIA — Aria One</title>
+<style>
+  /* huafire3d fx-lab — original implementation */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #050507; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    color: #f5f1e8; -webkit-font-smoothing: antialiased;
+  }
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* vignette: hand-tuned, keeps the stage cinematic */
+  #vignette { position: fixed; inset: 0; pointer-events: none; z-index: 3;
+    background: radial-gradient(ellipse 90% 75% at 50% 42%, transparent 55%, rgba(0,0,0,0.55) 100%); }
+
+  #blackout { position: fixed; inset: 0; background: #000; z-index: 20; pointer-events: none; opacity: 1; }
+
+  #brand { position: fixed; top: 30px; left: 36px; z-index: 10; font-size: 13px;
+    letter-spacing: 0.42em; font-weight: 600; opacity: 0.9; }
+  #brand small { display: block; margin-top: 7px; font-size: 10px; font-weight: 400;
+    letter-spacing: 0.28em; opacity: 0.42; }
+
+  #skip { position: fixed; bottom: 30px; right: 36px; z-index: 10; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase; opacity: 0; color: #f5f1e8;
+    transition: opacity 0.4s ease; pointer-events: none; }
+  #skip::after { content: ""; display: block; height: 1px; margin-top: 6px;
+    background: linear-gradient(90deg, #ffb35c, transparent); }
+
+  /* loader */
+  #loader { position: fixed; inset: 0; z-index: 30; background: #050507;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 22px; transition: opacity 0.6s ease; }
+  #loader.done { opacity: 0; pointer-events: none; }
+  #loader .l-brand { font-size: 15px; letter-spacing: 0.5em; font-weight: 600; opacity: 0.9; }
+  #loader .l-track { width: 180px; height: 1px; background: rgba(245,241,232,0.14); }
+  #loadbar { display: block; width: 0%; height: 100%; background: #ffb35c; transition: width 0.2s ease; }
+  #loader .l-hint { font-size: 10px; letter-spacing: 0.3em; opacity: 0.35; text-transform: uppercase; }
+
+  /* hero copy: lower-left, keynote style */
+  #hero-copy { position: fixed; left: 36px; bottom: 108px; z-index: 10; max-width: 560px;
+    pointer-events: none; }
+  #hero-copy .eyebrow { font-size: 12px; letter-spacing: 0.38em; text-transform: uppercase;
+    color: #ffb35c; margin-bottom: 18px; }
+  #hero-copy h1 { font-size: clamp(44px, 7vw, 96px); line-height: 1.02; font-weight: 200;
+    letter-spacing: -0.015em; }
+  #hero-copy h1 .line { display: block; overflow: hidden; padding-bottom: 0.08em; }
+  #hero-copy h1 .line > span { display: block; will-change: transform; }
+  #hero-copy h1 .thin { color: rgba(245,241,232,0.62); }
+  #hero-sub { margin-top: 20px; font-size: 15px; line-height: 1.65; color: rgba(245,241,232,0.6);
+    max-width: 420px; font-weight: 300; }
+
+  /* spec chips */
+  #callouts { position: fixed; inset: 0; z-index: 9; pointer-events: none; }
+  .chip { position: absolute; top: 0; left: 0; display: flex; align-items: flex-start; gap: 10px;
+    background: rgba(10,10,14,0.62); border: 1px solid rgba(245,241,232,0.14);
+    border-radius: 12px; padding: 12px 16px; backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); will-change: transform, opacity; max-width: 230px; }
+  .chip-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex: none;
+    box-shadow: 0 0 10px currentColor; }
+  .chip-body strong { display: block; font-size: 13.5px; font-weight: 600; letter-spacing: 0.02em; }
+  .chip-body small { display: block; margin-top: 4px; font-size: 11.5px; font-weight: 300;
+    color: rgba(245,241,232,0.55); letter-spacing: 0.03em; }
+  #leaders { position: fixed; inset: 0; z-index: 8; pointer-events: none; }
+
+  /* CTA bar */
+  #cta { position: fixed; left: 36px; right: 36px; bottom: 34px; z-index: 10;
+    display: flex; align-items: center; gap: 28px; }
+  #cta .price { font-size: 13px; letter-spacing: 0.14em; color: rgba(245,241,232,0.65); }
+  #cta .price b { color: #f5f1e8; font-weight: 600; }
+  #cta .spacer { flex: 1; }
+  .btn { font-family: inherit; font-size: 13px; letter-spacing: 0.12em; cursor: pointer;
+    padding: 14px 34px; border-radius: 999px; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; }
+  .btn-primary { border: none; color: #0a0a0c; font-weight: 700;
+    background: linear-gradient(180deg, #ffc87e, #ffb35c);
+    box-shadow: 0 8px 32px rgba(255,179,92,0.28); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,179,92,0.4); }
+  .btn-ghost { background: transparent; color: #f5f1e8; border: 1px solid rgba(245,241,232,0.28); }
+  .btn-ghost:hover { border-color: rgba(245,241,232,0.6); transform: translateY(-2px); }
+
+  .no-webgl #hero-copy .line > span { transform: none !important; }
+  .no-webgl #hero-sub, .no-webgl #cta { opacity: 1 !important; transform: none !important; }
+
+  @media (max-width: 700px) {
+    #brand { top: 20px; left: 22px; }
+    #hero-copy { left: 22px; right: 22px; bottom: 132px; }
+    #hero-sub { font-size: 13.5px; }
+    #cta { left: 22px; right: 22px; bottom: 22px; gap: 14px; flex-wrap: wrap; }
+    #cta .price { width: 100%; }
+    .btn { padding: 12px 24px; font-size: 12px; }
+    .chip { max-width: 180px; padding: 9px 12px; }
+    .chip-body strong { font-size: 12px; }
+    .chip-body small { font-size: 10.5px; }
+    #skip { display: none; }
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/addons/"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="vignette"></div>
+<svg id="leaders" xmlns="http://www.w3.org/2000/svg"></svg>
+<div id="callouts"></div>
+
+<header id="brand">AURELIA<small>Keynote — 2026</small></header>
+
+<main id="hero-copy">
+  <p class="eyebrow">Introducing</p>
+  <h1>
+    <span class="line"><span>Aria One</span></span>
+    <span class="line"><span class="thin">Silence, engineered.</span></span>
+  </h1>
+  <p id="hero-sub">Our first flagship. 40&thinsp;mm beryllium drivers, adaptive silence, 58 hours of listening.</p>
+</main>
+
+<footer id="cta">
+  <span class="price"><b>From $349</b> &nbsp;·&nbsp; Ships March</span>
+  <span class="spacer"></span>
+  <button class="btn btn-ghost" type="button">Watch the film</button>
+  <button class="btn btn-primary" type="button">Pre-order</button>
+</footer>
+
+<div id="skip">Click anywhere to skip</div>
+<div id="blackout"></div>
+
+<div id="loader">
+  <div class="l-brand">AURELIA</div>
+  <div class="l-track"><i id="loadbar"></i></div>
+  <div class="l-hint">Preparing the stage</div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拾光婚礼影像 — 把那一天的光，妥善地留住</title>
+<meta name="description" content="拾光婚礼影像，婚礼跟拍与婚纱摄影工作室。不摆拍，不打扰，十二年拍了八百多场婚礼。">
+<!-- huafire3d fx-lab · MIT License — free for commercial use (wedding-photo-page) -->
+<style>
+/* 拾光婚礼影像 · wedding-photo-page —— 原创样式
+   配色定死三色：象牙白 #FFFDF7 / 墨黑 #1A1A1A / 香槟金 #C6A15B */
+:root{
+  --ivory:#FFFDF7;
+  --ink:#1A1A1A;
+  --gold:#C6A15B;
+  --gold-deep:#8a6d33;
+  --gold-soft:#F3E9D2;
+  --line:rgba(198,161,91,.28);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.4,.44,1);
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC",serif;
+  --sans:system-ui,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);color:var(--ink);background:var(--ivory);
+  line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:200;background:var(--ivory);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  transition:opacity .7s var(--ease-out),visibility .7s;
+}
+.loader-mark{
+  width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--gold);
+  font-family:var(--serif);font-size:30px;display:flex;align-items:center;justify-content:center;
+}
+.loader-word{font-family:var(--serif);letter-spacing:.55em;text-indent:.55em;font-size:14px;color:var(--gold-deep)}
+.loader-bar{width:150px;height:2px;background:var(--gold-soft);overflow:hidden;border-radius:2px}
+.loader-bar i{display:block;height:100%;width:40%;background:var(--gold);border-radius:2px;animation:load 1.1s var(--ease-out) infinite}
+@keyframes load{0%{transform:translateX(-110%)}100%{transform:translateX(380%)}}
+body.ready .loader{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:14px 34px;border-radius:999px;font-size:15px;letter-spacing:.12em;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .35s var(--ease-spring),box-shadow .35s var(--ease-out),background .3s,color .3s,border-color .3s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn-gold{background:var(--gold);color:var(--ivory)}
+.btn-gold:hover{box-shadow:0 14px 30px -10px rgba(198,161,91,.65);background:#b8924c}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:rgba(255,253,247,.5)}
+.btn-ghost:hover{border-color:var(--gold);box-shadow:0 10px 24px -12px rgba(26,26,26,.3)}
+.btn-outline{border-color:var(--gold);color:var(--gold-deep);background:transparent}
+.btn-outline:hover{background:var(--gold);color:var(--ivory)}
+.btn-sm{padding:10px 24px;font-size:13px}
+.btn-block{width:100%}
+
+/* ---------- 导航 ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,box-shadow .4s,backdrop-filter .4s}
+.nav-in{max-width:1140px;margin:0 auto;padding:18px 28px;display:flex;align-items:center;gap:28px}
+.nav.scrolled{background:rgba(255,253,247,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto}
+.brand-mark{
+  width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--gold);
+  font-family:var(--serif);font-size:19px;display:flex;align-items:center;justify-content:center;flex:none;
+}
+.brand-name{font-family:var(--serif);font-size:20px;letter-spacing:.14em;line-height:1.25}
+.brand-name small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.4em;color:var(--gold-deep);font-weight:400}
+.nav-links{display:flex;gap:30px}
+.nav-links a{font-size:14px;letter-spacing:.2em;position:relative;padding:6px 0;color:var(--ink)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold);transition:width .35s var(--ease-out)}
+.nav-links a:hover::after{width:100%}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:8px}
+.burger span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;transition:transform .35s var(--ease-out),opacity .3s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.m-menu{
+  position:fixed;inset:0;z-index:99;background:rgba(255,253,247,.97);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease-out),visibility .4s;
+}
+.m-menu.open{opacity:1;visibility:visible}
+.m-menu nav{display:flex;flex-direction:column;gap:26px;text-align:center}
+.m-menu nav a{font-family:var(--serif);font-size:26px;letter-spacing:.3em}
+.m-menu nav a.btn{font-family:var(--sans);font-size:15px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#FFFDF7 30%,#F8EFD9 70%,#F1E2BE)}
+.orb{position:absolute;border-radius:50%;filter:blur(46px);opacity:.55;animation:drift 16s ease-in-out infinite alternate}
+.o1{width:340px;height:340px;left:-90px;top:12%;background:#E9D3A0;animation-duration:17s}
+.o2{width:220px;height:220px;right:6%;top:18%;background:#F3E4C2;animation-duration:13s;animation-delay:-4s}
+.o3{width:420px;height:420px;left:38%;bottom:-160px;background:#EAD49E;animation-duration:21s;animation-delay:-8s}
+.o4{width:150px;height:150px;left:22%;top:64%;background:#F6EACD;animation-duration:11s;animation-delay:-2s}
+.o5{width:110px;height:110px;right:26%;bottom:22%;background:#E4C88F;animation-duration:15s;animation-delay:-6s}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(46px,-34px) scale(1.12)}
+  100%{transform:translate(-30px,26px) scale(.94)}
+}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 42%,transparent 55%,rgba(138,109,51,.16))}
+.hero-grain{position:absolute;inset:0;background-image:var(--noise);opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:130px 28px 90px;width:100%}
+.eyebrow{font-size:13px;letter-spacing:.5em;color:var(--gold-deep);margin-bottom:26px}
+/* 遮罩升起：完成态必须可达（body.ready 或无 JS） */
+.rl{display:block}
+.rl-line{display:block;overflow:hidden}
+.rl-line>span{display:inline-block;transform:translateY(112%);transition:transform 1s var(--ease-out);transition-delay:var(--d,0s)}
+body.ready .rl-line>span{transform:none}
+h1.rl{font-family:var(--serif);font-weight:600;font-size:clamp(44px,7.4vw,92px);line-height:1.32;letter-spacing:.06em}
+.tagline{margin-top:28px;font-size:17px;color:#4a4436;letter-spacing:.06em}
+.tagline .rl-line>span{font-size:17px}
+.hero-cta{display:flex;gap:18px;margin-top:44px;flex-wrap:wrap;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease-out) .62s,transform .9s var(--ease-out) .62s}
+body.ready .hero-cta{opacity:1;transform:none}
+.hero-stats{display:flex;gap:0;margin-top:64px;opacity:0;transition:opacity 1s var(--ease-out) .85s}
+body.ready .hero-stats{opacity:1}
+.hero-stats div{padding:0 44px;border-left:1px solid var(--line)}
+.hero-stats div:first-child{padding-left:0;border-left:0}
+.hero-stats dt{font-family:var(--serif);font-size:38px;color:var(--gold-deep);line-height:1.1}
+.hero-stats dd{font-size:13px;letter-spacing:.24em;color:#6b6250;margin-top:6px;white-space:nowrap}
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;letter-spacing:.4em;color:var(--gold-deep);
+}
+.scroll-hint i{width:1px;height:44px;background:var(--gold-deep);display:block;position:relative;overflow:hidden}
+.scroll-hint i::after{content:"";position:absolute;left:0;top:-100%;width:100%;height:100%;background:var(--ivory);animation:drop 1.8s var(--ease-out) infinite}
+@keyframes drop{to{top:100%}}
+
+/* ---------- 通用区块 ---------- */
+section{padding:110px 0}
+.kicker{font-size:13px;letter-spacing:.5em;color:var(--gold-deep);margin-bottom:18px}
+.sec-title{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.5;letter-spacing:.08em;margin-bottom:16px}
+.sec-sub{color:#6b6250;font-size:15px;letter-spacing:.04em;margin-bottom:54px;max-width:560px}
+
+/* 滚动 reveal：完成态 .in；JS 缺席/reduced-motion 时不隐藏 */
+.js .reveal{opacity:0;transform:translateY(30px)}
+.js .reveal.in{opacity:1;transform:none;transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+
+/* ---------- 作品瀑布流 ---------- */
+.works{background:var(--ivory)}
+.masonry{columns:3;column-gap:22px}
+.shot{
+  break-inside:avoid;margin-bottom:22px;border-radius:14px;overflow:hidden;position:relative;
+  aspect-ratio:calc(1 / var(--h,1));background:var(--gold-soft);cursor:pointer;
+  transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-out);
+}
+.shot svg{width:100%;height:100%;transition:transform .8s var(--ease-out)}
+.shot:hover{transform:translateY(-6px);box-shadow:0 26px 50px -18px rgba(26,26,26,.28)}
+.shot:hover svg{transform:scale(1.06)}
+.shot figcaption{
+  position:absolute;inset:auto 0 0 0;padding:38px 22px 18px;color:var(--ivory);
+  background:linear-gradient(transparent,rgba(26,26,26,.78));
+  opacity:0;transform:translateY(12px);transition:opacity .45s var(--ease-out),transform .45s var(--ease-out);
+}
+.shot:hover figcaption{opacity:1;transform:none}
+.shot figcaption strong{display:block;font-family:var(--serif);font-size:19px;letter-spacing:.18em;margin-bottom:4px}
+.shot figcaption span{font-size:13px;opacity:.88;line-height:1.6}
+/* stagger：masonry 卡片滚动入场主视觉 */
+.js .masonry .reveal.in{transition-delay:var(--sd,0s)}
+
+/* ---------- 套餐 ---------- */
+.plans{background:linear-gradient(180deg,#FFFDF7,#FBF4E2 60%,#FFFDF7)}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.plan{
+  background:var(--ivory);border:1px solid var(--line);border-radius:18px;padding:42px 34px;
+  display:flex;flex-direction:column;position:relative;
+  transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-out);
+}
+.plan:hover{transform:translateY(-8px);box-shadow:0 30px 60px -24px rgba(138,109,51,.35)}
+.plan h3{font-family:var(--serif);font-size:26px;letter-spacing:.2em}
+.plan-en{font-size:11px;letter-spacing:.42em;color:var(--gold-deep);margin:8px 0 20px}
+.plan-price{font-family:var(--serif);font-size:44px;color:var(--ink);margin-bottom:26px}
+.plan-price span{font-size:20px;vertical-align:top;margin-right:2px}
+.plan-price em{font-style:normal;font-size:14px;color:#8a7f66;margin-left:4px}
+.plan ul{list-style:none;flex:1;margin-bottom:32px}
+.plan li{position:relative;padding:9px 0 9px 30px;font-size:14px;color:#4a4436;border-bottom:1px dashed var(--line)}
+.plan li:last-child{border-bottom:0}
+.plan li::before{
+  content:"";position:absolute;left:2px;top:16px;width:14px;height:8px;
+  border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg) translateY(-4px);
+}
+.plan .btn{align-self:stretch}
+.plan-hot{border:2px solid var(--gold);background:#FFFDF7;box-shadow:0 24px 60px -28px rgba(198,161,91,.55)}
+.plan-badge{
+  position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--ivory);font-size:12px;letter-spacing:.3em;padding:6px 20px 6px 24px;border-radius:999px;white-space:nowrap;
+}
+
+/* ---------- 档期 ---------- */
+.dates{background:var(--ink);color:var(--ivory)}
+.dates .kicker{color:var(--gold)}
+.dates .sec-title{color:var(--ivory)}
+.dates .sec-sub{color:#b9b0a0}
+.cal{
+  max-width:640px;margin:0 auto;background:rgba(255,253,247,.045);border:1px solid rgba(198,161,91,.35);
+  border-radius:20px;padding:34px;
+}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.cal-title{font-family:var(--serif);font-size:22px;letter-spacing:.3em;color:var(--ivory)}
+.cal-nav{
+  width:42px;height:42px;border-radius:50%;border:1px solid rgba(198,161,91,.5);background:transparent;
+  color:var(--gold);font-size:22px;cursor:pointer;line-height:1;
+  transition:background .3s,transform .3s var(--ease-spring);
+}
+.cal-nav:hover{background:var(--gold);color:var(--ivory);transform:scale(1.08)}
+.cal-week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:12px;letter-spacing:.3em;color:#8f8672;margin-bottom:12px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.cal-day{
+  aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:14px;position:relative;cursor:default;transition:transform .3s var(--ease-spring);
+}
+.cal-day.ok{border:1px solid rgba(198,161,91,.6);color:var(--ivory);cursor:pointer}
+.cal-day.ok:hover{transform:scale(1.14);background:rgba(198,161,91,.18)}
+.cal-day.busy{color:#5c5648;background:rgba(255,253,247,.05)}
+.cal-day.busy::after{content:"";position:absolute;width:16px;height:1px;background:#5c5648;transform:rotate(45deg)}
+.cal-day.hold{border:1px dashed rgba(198,161,91,.4);color:#a99f88}
+.cal-day.dim{opacity:.18;pointer-events:none}
+.cal-day.today{box-shadow:0 0 0 2px var(--gold) inset}
+.cal-legend{display:flex;gap:26px;justify-content:center;margin:24px 0 12px;font-size:13px;color:#b9b0a0}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+.dot.ok{border:1.5px solid var(--gold)}
+.dot.busy{background:#5c5648}
+.dot.hold{border:1.5px dashed var(--gold)}
+.cal-note{text-align:center;font-size:12px;color:#8f8672;letter-spacing:.06em}
+
+/* ---------- 摄影师 ---------- */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.mate{
+  text-align:center;padding:44px 30px;border:1px solid var(--line);border-radius:18px;background:var(--ivory);
+  transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-out);
+}
+.mate:hover{transform:translateY(-6px);box-shadow:0 24px 50px -22px rgba(26,26,26,.22)}
+.mate-avatar{width:150px;height:150px;margin:0 auto 24px}
+.mate-avatar svg{width:100%;height:100%}
+.mate h3{font-family:var(--serif);font-size:23px;letter-spacing:.28em;margin-bottom:6px}
+.mate-role{font-size:12px;letter-spacing:.4em;color:var(--gold-deep);margin-bottom:18px}
+.mate-line{font-size:14px;color:#4a4436;line-height:2;text-align:left}
+
+/* ---------- 预约 ---------- */
+.book{background:linear-gradient(160deg,#FBF4E2,#F1E2BE)}
+.book-card{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--ink);color:var(--ivory);
+  border-radius:24px;overflow:hidden;box-shadow:0 40px 90px -30px rgba(26,26,26,.45);position:relative;
+}
+.book-card::before{content:"";position:absolute;inset:0;background-image:var(--noise);opacity:.25;mix-blend-mode:overlay;pointer-events:none}
+.book-copy{padding:60px 54px;position:relative;z-index:1}
+.kicker-light{color:var(--gold)}
+.book-copy h2{font-family:var(--serif);font-size:clamp(28px,3.6vw,40px);line-height:1.55;letter-spacing:.08em;margin-bottom:20px}
+.book-copy>p{color:#b9b0a0;font-size:14px;margin-bottom:28px}
+.book-points{list-style:none}
+.book-points li{position:relative;padding:8px 0 8px 30px;font-size:14px;color:#d8d0bd}
+.book-points li::before{
+  content:"";position:absolute;left:4px;top:17px;width:12px;height:7px;
+  border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg) translateY(-4px);
+}
+.book-form{padding:60px 54px;background:rgba(255,253,247,.03);position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-content:start}
+.book-form label{display:flex;flex-direction:column;gap:8px;font-size:13px;letter-spacing:.14em;color:#b9b0a0}
+.book-form label.full{grid-column:1/-1}
+.book-form input,.book-form select{
+  background:rgba(255,253,247,.07);border:1px solid rgba(198,161,91,.35);border-radius:10px;
+  padding:13px 16px;color:var(--ivory);font-size:15px;font-family:var(--sans);
+  transition:border-color .3s,box-shadow .3s;appearance:none;
+}
+.book-form select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23C6A15B' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.book-form input::placeholder{color:#6f675a}
+.book-form input:focus,.book-form select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(198,161,91,.22)}
+.book-form select option{color:var(--ink)}
+.form-err{grid-column:1/-1;min-height:22px;font-size:13px;color:#e8a0a0;letter-spacing:.04em}
+.form-fine{grid-column:1/-1;font-size:12px;color:#8f8672;line-height:1.8}
+.book-done{
+  display:none;padding:60px 54px;background:rgba(255,253,247,.03);position:relative;z-index:1;
+  flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;
+}
+.book-card.sent .book-form{display:none}
+.book-card.sent .book-done{display:flex}
+.done-mark svg{width:76px;height:76px;animation:pop .6s var(--ease-spring)}
+@keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.book-done h3{font-family:var(--serif);font-size:30px;letter-spacing:.3em}
+.book-done p{color:#b9b0a0;font-size:14px;line-height:2.1}
+.book-done strong{color:var(--gold);font-size:17px;letter-spacing:.1em}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--ink);color:#cfc7b4;padding:70px 0 34px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+.brand-row{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.brand-row strong{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:.2em;color:var(--ivory)}
+.foot-desc{font-size:13px;line-height:2;color:#8f8672;margin-bottom:24px}
+.social{display:flex;gap:12px}
+.social a{
+  width:40px;height:40px;border-radius:50%;border:1px solid rgba(198,161,91,.4);
+  display:flex;align-items:center;justify-content:center;color:var(--gold);
+  transition:background .3s,transform .3s var(--ease-spring);
+}
+.social a:hover{background:var(--gold);color:var(--ivory);transform:translateY(-3px)}
+.social svg{width:20px;height:20px}
+.foot-col h4{font-size:13px;letter-spacing:.34em;color:var(--gold);margin-bottom:20px;font-weight:600}
+.foot-col a,.foot-col p{display:block;font-size:14px;color:#b9b0a0;margin-bottom:12px;line-height:1.7}
+.foot-col a:hover{color:var(--gold)}
+.legal-btn{background:none;border:0;padding:0;font-size:14px;color:#b9b0a0;cursor:pointer;display:block;margin-bottom:12px;font-family:var(--sans);text-align:left}
+.legal-btn:hover{color:var(--gold)}
+.copyright{border-top:1px solid rgba(198,161,91,.22);padding-top:26px;font-size:12px;letter-spacing:.1em;color:#8f8672;text-align:center}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;visibility:hidden}
+.modal.open{visibility:visible}
+.modal-mask{position:absolute;inset:0;background:rgba(26,26,26,.55);opacity:0;transition:opacity .35s}
+.modal.open .modal-mask{opacity:1}
+.modal-box{
+  position:relative;background:var(--ivory);border-radius:18px;max-width:560px;width:100%;max-height:78vh;
+  padding:44px 44px 36px;overflow:hidden;display:flex;flex-direction:column;
+  transform:translateY(26px) scale(.97);opacity:0;transition:transform .45s var(--ease-spring),opacity .35s;
+}
+.modal.open .modal-box{transform:none;opacity:1}
+.modal-box h3{font-family:var(--serif);font-size:24px;letter-spacing:.24em;margin-bottom:20px}
+.modal-body{overflow-y:auto;font-size:14px;color:#4a4436;line-height:2}
+.modal-body ol{padding-left:22px;display:flex;flex-direction:column;gap:12px}
+.modal-body li::marker{color:var(--gold-deep);font-weight:600}
+.modal-x{
+  position:absolute;top:16px;right:18px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;font-size:15px;color:var(--ink);cursor:pointer;transition:transform .3s var(--ease-spring),background .3s;
+}
+.modal-x:hover{background:var(--gold);color:var(--ivory);transform:rotate(90deg)}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .nav-links,.nav-book{display:none}
+  .burger{display:block}
+  .masonry{columns:2}
+  .plan-grid,.team-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+  .book-card{grid-template-columns:1fr}
+  .book-copy,.book-form,.book-done{padding:44px 32px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  section{padding:84px 0}
+}
+@media (max-width:640px){
+  .masonry{columns:1}
+  .hero-stats div{padding:0 22px}
+  .hero-stats dt{font-size:29px}
+  .book-form{grid-template-columns:1fr}
+  .cal{padding:24px 18px}
+  .foot-grid{grid-template-columns:1fr;gap:32px}
+  .modal{padding:0}
+  .modal-box{border-radius:0;max-height:100vh;height:100%}
+}
+
+/* 减少动态：全部动画跳过直达终态 */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1!important;transform:none!important}
+  .rl-line>span{transform:none!important}
+  .hero-cta,.hero-stats{opacity:1!important;transform:none!important}
+  body .loader{display:none}
+}
+
+</style>
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">拾</div>
+  <p class="loader-word">拾光婚礼影像</p>
+  <div class="loader-bar"><i></i></div>
+</div>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.rl-line>span{transform:none!important}</style></noscript>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="拾光婚礼影像首页">
+      <span class="brand-mark">拾</span>
+      <span class="brand-name">拾光<small>婚礼影像</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#works">作品</a>
+      <a href="#plans">套餐</a>
+      <a href="#dates">档期</a>
+      <a href="#about">关于</a>
+    </nav>
+    <a class="btn btn-gold btn-sm nav-book" href="#book">预约档期</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav>
+    <a href="#works">作品</a>
+    <a href="#plans">套餐</a>
+    <a href="#dates">档期</a>
+    <a href="#about">关于</a>
+    <a class="btn btn-gold" href="#book">预约档期</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+      <div class="orb o4"></div><div class="orb o5"></div>
+      <div class="hero-vignette"></div>
+      <div class="hero-grain"></div>
+    </div>
+    <div class="hero-inner">
+      <p class="eyebrow rl"><span class="rl-line"><span style="--d:.05s">婚礼跟拍 · 婚纱摄影 · 杭州</span></span></p>
+      <h1 class="rl">
+        <span class="rl-line"><span style="--d:.16s">把那一天的光，</span></span>
+        <span class="rl-line"><span style="--d:.30s">妥善地留住</span></span>
+      </h1>
+      <p class="tagline rl"><span class="rl-line"><span style="--d:.44s">不摆拍，不打扰。十年后翻开相册，风还是那天的风。</span></span></p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#book">预约档期</a>
+        <a class="btn btn-ghost" href="#works">看看作品</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>800+</dt><dd>场婚礼跟拍</dd></div>
+        <div><dt>12</dt><dd>年只做婚礼</dd></div>
+        <div><dt>36</dt><dd>座城市旅拍</dd></div>
+      </dl>
+    </div>
+    <a class="scroll-hint" href="#works" aria-label="向下滚动看作品"><i></i><span>往下看</span></a>
+  </section>
+
+  <!-- 作品瀑布流 -->
+  <section class="works" id="works">
+    <div class="wrap">
+      <p class="kicker reveal">作品</p>
+      <h2 class="sec-title reveal">每一场，都值得<br>被认真对待</h2>
+      <p class="sec-sub reveal">下面是程序化绘制的占位示意——真实客片请预约后查看完整画册。</p>
+      <div class="masonry" id="masonry">
+
+        <figure class="shot reveal" style="--h:1.32">
+          <svg viewBox="0 0 400 528" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3E9D2"/><stop offset="1" stop-color="#DCC79B"/></linearGradient></defs>
+            <rect width="400" height="528" fill="url(#g1)"/>
+            <g fill="none" stroke="#8a6d33" stroke-width="3">
+              <circle cx="172" cy="250" r="74"/><circle cx="228" cy="250" r="74"/>
+            </g>
+            <g fill="none" stroke="#1a1a1a" stroke-width="2" opacity=".55">
+              <path d="M120 420c60-40 200-40 160-140"/><path d="M96 452c80-52 240-52 208-160"/>
+            </g>
+            <text x="200" y="500" text-anchor="middle" font-size="15" fill="#8a6d33" letter-spacing="6">RINGS</text>
+          </svg>
+          <figcaption><strong>戒指交换</strong><span>他手一直在抖，戒指戴了三次</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:.92">
+          <svg viewBox="0 0 400 368" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF6E9"/><stop offset="1" stop-color="#E9D9B4"/></linearGradient></defs>
+            <rect width="400" height="368" fill="url(#g2)"/>
+            <g fill="none" stroke="#b08d3e" stroke-width="2.5">
+              <path d="M40 300 C140 300 120 120 260 90 C330 74 360 120 388 60"/>
+              <path d="M40 330 C150 330 140 170 280 140" opacity=".5"/>
+              <path d="M60 180 a34 34 0 1 0 68 0 a34 34 0 1 0 -68 0" stroke-width="2"/>
+            </g>
+            <text x="200" y="352" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">VEIL</text>
+          </svg>
+          <figcaption><strong>头纱</strong><span>那天风很大，头纱飞起来的样子比摆拍好看</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:1.18">
+          <svg viewBox="0 0 400 472" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g3" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6EDD8"/><stop offset="1" stop-color="#D9BE8C"/></linearGradient></defs>
+            <rect width="400" height="472" fill="url(#g3)"/>
+            <g fill="none" stroke="#8a6d33" stroke-width="2.5">
+              <path d="M200 150 v180"/><path d="M200 200 l-70 -50"/><path d="M200 200 l70 -50"/>
+              <path d="M200 250 l-60 20"/><path d="M200 250 l60 20"/><path d="M200 300 l-50 60"/><path d="M200 300 l50 60"/>
+            </g>
+            <g fill="#b08d3e" opacity=".8">
+              <circle cx="130" cy="150" r="14"/><circle cx="270" cy="150" r="14"/><circle cx="200" cy="120" r="16"/>
+              <circle cx="140" cy="270" r="12"/><circle cx="260" cy="270" r="12"/><circle cx="200" cy="330" r="13"/>
+            </g>
+            <text x="200" y="448" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">BOUQUET</text>
+          </svg>
+          <figcaption><strong>捧花</strong><span>捧花是妈妈亲手扎的，里面藏了张小纸条</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:.98">
+          <svg viewBox="0 0 400 392" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F9F3E4"/><stop offset="1" stop-color="#E4D0A6"/></linearGradient></defs>
+            <rect width="400" height="392" fill="url(#g4)"/>
+            <path d="M60 120 A90 120 0 0 1 340 120" fill="none" stroke="#8a6d33" stroke-width="3"/>
+            <path d="M96 120 A64 88 0 0 1 304 120" fill="none" stroke="#1a1a1a" stroke-width="2" opacity=".4"/>
+            <g fill="#1a1a1a" opacity=".72">
+              <circle cx="168" cy="196" r="17"/><circle cx="232" cy="196" r="17"/>
+            </g>
+            <g fill="none" stroke="#1a1a1a" stroke-width="3" opacity=".72">
+              <path d="M168 218 v64 M232 218 v64"/>
+            </g>
+            <text x="200" y="360" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">CEREMONY</text>
+          </svg>
+          <figcaption><strong>仪式</strong><span>拱门下那两分钟，全场安静得能听见快门</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:1.26">
+          <svg viewBox="0 0 400 504" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#EFDFAE"/><stop offset="1" stop-color="#FFFDF7"/></linearGradient></defs>
+            <rect width="400" height="504" fill="url(#g5)"/>
+            <circle cx="310" cy="90" r="52" fill="#C6A15B" opacity=".85"/>
+            <g fill="none" stroke="#1a1a1a" stroke-width="3" opacity=".7">
+              <path d="M120 400 q60 -120 30 -200 q80 40 60 130 q50 -60 90 -50"/>
+              <circle cx="150" cy="190" r="14" fill="#1a1a1a" stroke="none"/>
+            </g>
+            <path d="M40 470 h320" stroke="#8a6d33" stroke-width="2" opacity=".6"/>
+            <text x="200" y="496" text-anchor="middle" font-size="13" fill="#8a6d33" letter-spacing="6">DUSK</text>
+          </svg>
+          <figcaption><strong>黄昏剪影</strong><span>日落只有七分钟，我们跑赢了它</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:.88">
+          <svg viewBox="0 0 400 352" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFDF7"/><stop offset="1" stop-color="#EAD9B0"/></linearGradient></defs>
+            <rect width="400" height="352" fill="url(#g6)"/>
+            <g fill="none" stroke="#8a6d33" stroke-width="2.5">
+              <rect x="120" y="90" width="160" height="180" rx="4"/>
+              <path d="M140 130 h120 M140 160 h120 M140 190 h80 M140 220 h100"/>
+            </g>
+            <path d="M300 250 c30 -10 40 -40 30 -70" fill="none" stroke="#1a1a1a" stroke-width="2" opacity=".5"/>
+            <text x="200" y="330" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">VOWS</text>
+          </svg>
+          <figcaption><strong>誓言</strong><span>誓言纸写了改，改了又写，最后还是念哭了</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:1.1">
+          <svg viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4E8CB"/><stop offset="1" stop-color="#DBC08A"/></linearGradient></defs>
+            <rect width="400" height="440" fill="url(#g7)"/>
+            <g fill="#C6A15B">
+              <circle cx="110" cy="120" r="10" opacity=".9"/><circle cx="190" cy="70" r="7" opacity=".6"/>
+              <circle cx="280" cy="130" r="12" opacity=".75"/><circle cx="90" cy="230" r="8" opacity=".55"/>
+              <circle cx="240" cy="220" r="9" opacity=".7"/><circle cx="330" cy="250" r="6" opacity=".5"/>
+              <circle cx="160" cy="300" r="11" opacity=".65"/><circle cx="290" cy="330" r="8" opacity=".55"/>
+            </g>
+            <g fill="none" stroke="#1a1a1a" stroke-width="3" opacity=".65">
+              <path d="M150 380 c20 -60 90 -60 110 0"/>
+            </g>
+            <text x="200" y="420" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">SPARK</text>
+          </svg>
+          <figcaption><strong>送客</strong><span>宾客散场时的仙女棒，比仪式还热闹</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:1.0">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g8" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8F0DC"/><stop offset="1" stop-color="#DFC48E"/></linearGradient></defs>
+            <rect width="400" height="400" fill="url(#g8)"/>
+            <g fill="none" stroke="#1a1a1a" stroke-width="3" opacity=".7">
+              <path d="M140 200 q30 -70 60 0 q30 70 60 0"/>
+              <path d="M140 200 q-40 40 -20 90 M260 200 q40 40 20 90"/>
+            </g>
+            <g fill="#8a6d33"><circle cx="200" cy="130" r="9"/><circle cx="118" cy="300" r="7"/><circle cx="282" cy="300" r="7"/></g>
+            <text x="200" y="372" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">HANDS</text>
+          </svg>
+          <figcaption><strong>牵手</strong><span>十指相扣这个动作，我们从不喊"再来一次"</span></figcaption>
+        </figure>
+
+        <figure class="shot reveal" style="--h:1.22">
+          <svg viewBox="0 0 400 488" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g9" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#EFDFAE"/><stop offset="1" stop-color="#FFFDF7"/></linearGradient></defs>
+            <rect width="400" height="488" fill="url(#g9)"/>
+            <g fill="none" stroke="#8a6d33" stroke-width="3">
+              <path d="M200 90 C120 150 110 260 200 330 C290 260 280 150 200 90 Z"/>
+            </g>
+            <g fill="none" stroke="#1a1a1a" stroke-width="2.5" opacity=".6">
+              <circle cx="172" cy="220" r="12"/><circle cx="228" cy="220" r="12"/>
+              <path d="M172 232 v50 M228 232 v50 M172 250 h56"/>
+            </g>
+            <text x="200" y="450" text-anchor="middle" font-size="14" fill="#8a6d33" letter-spacing="6">FIRST DANCE</text>
+          </svg>
+          <figcaption><strong>第一支舞</strong><span>排练了三周，开场还是踩了脚，笑着跳完的</span></figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 套餐三档 -->
+  <section class="plans" id="plans">
+    <div class="wrap">
+      <p class="kicker reveal">套餐</p>
+      <h2 class="sec-title reveal">三档，明码标价<br>没有隐藏消费</h2>
+      <p class="sec-sub reveal">所有套餐均含精修底片全送，不满意精修可免费重修一次。</p>
+      <div class="plan-grid">
+
+        <article class="plan reveal">
+          <h3>纪实跟拍</h3>
+          <p class="plan-en">DOCUMENTARY</p>
+          <p class="plan-price"><span>￥</span>12,800</p>
+          <ul>
+            <li>婚礼当天全程跟拍（接亲—送客）</li>
+            <li>双机位摄影师，不错过任何瞬间</li>
+            <li>400 张以上精修，底片全送</li>
+            <li>7 天出精修小样，30 天交付成片</li>
+            <li>16 寸水晶相册一本</li>
+          </ul>
+          <a class="btn btn-outline" href="#book" data-plan="纪实跟拍">选这个档</a>
+        </article>
+
+        <article class="plan plan-hot reveal">
+          <p class="plan-badge">最多人选</p>
+          <h3>婚纱旅拍</h3>
+          <p class="plan-en">DESTINATION</p>
+          <p class="plan-price"><span>￥</span>18,800</p>
+          <ul>
+            <li>2 天 1 夜旅拍（含三亚/大理/厦门三选一）</li>
+            <li>摄影师 + 化妆师 + 旅拍助理全程</li>
+            <li>3 套造型，场景不限数量</li>
+            <li>600 张以上精修，底片全送</li>
+            <li>24 寸油画框 + 摆台两幅</li>
+            <li>旅拍 Vlog 短片一条</li>
+          </ul>
+          <a class="btn btn-gold" href="#book" data-plan="婚纱旅拍">选这个档</a>
+        </article>
+
+        <article class="plan reveal">
+          <h3>全案定制</h3>
+          <p class="plan-en">FULL STORY</p>
+          <p class="plan-price"><span>￥</span>35,800<em>起</em></p>
+          <ul>
+            <li>婚纱旅拍 + 婚礼跟拍全包</li>
+            <li>主理人亲自掌镜</li>
+            <li>婚礼微电影（3—5 分钟成片）</li>
+            <li>1000 张以上精修，专属调色</li>
+            <li>婚礼当天快剪快播（晚宴播放）</li>
+          </ul>
+          <a class="btn btn-outline" href="#book" data-plan="全案定制">选这个档</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 档期查询 -->
+  <section class="dates" id="dates">
+    <div class="wrap">
+      <p class="kicker reveal">档期</p>
+      <h2 class="sec-title reveal">先看看<br>你的日子还空着吗</h2>
+      <p class="sec-sub reveal">好日子走得很快，一般提前 3—6 个月订档。</p>
+      <div class="cal reveal">
+        <div class="cal-head">
+          <button class="cal-nav" id="calPrev" aria-label="上个月">‹</button>
+          <p class="cal-title" id="calTitle">—</p>
+          <button class="cal-nav" id="calNext" aria-label="下个月">›</button>
+        </div>
+        <div class="cal-week" aria-hidden="true">
+          <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+        </div>
+        <div class="cal-grid" id="calGrid" role="grid" aria-label="档期日历"></div>
+        <div class="cal-legend">
+          <span><i class="dot ok"></i>可预约</span>
+          <span><i class="dot busy"></i>已订</span>
+          <span><i class="dot hold"></i>待定（可咨询）</span>
+        </div>
+        <p class="cal-note">档期每日 18:00 更新，仅供参考，最终以顾问确认为准。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 摄影师 -->
+  <section class="team" id="about">
+    <div class="wrap">
+      <p class="kicker reveal">关于</p>
+      <h2 class="sec-title reveal">拍你的人，<br>先认识一下</h2>
+      <p class="sec-sub reveal">拾光成立十二年，三位主拍从没换过。我们相信，婚礼拍得好不好，一半看技术，一半看合不合得来。</p>
+      <div class="team-grid">
+
+        <article class="mate reveal">
+          <div class="mate-avatar" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="96" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+              <circle cx="100" cy="100" r="84" fill="#F3E9D2"/>
+              <circle cx="100" cy="82" r="26" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M58 140 q42 -34 84 0 q-8 30 -42 30 q-34 0 -42 -30" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M74 82 h-10 M136 82 h-10" stroke="#8a6d33" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>陈拾光</h3>
+          <p class="mate-role">创始人 · 主理人</p>
+          <p class="mate-line">“我拍婚礼十二年，最喜欢的瞬间永远是新人没发现我在拍的时候。”</p>
+        </article>
+
+        <article class="mate reveal">
+          <div class="mate-avatar" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="96" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+              <circle cx="100" cy="100" r="84" fill="#EFE0BC"/>
+              <circle cx="100" cy="82" r="26" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M62 128 q38 22 76 0 l6 42 h-88 Z" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <circle cx="100" cy="52" r="10" fill="none" stroke="#8a6d33" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>林小满</h3>
+          <p class="mate-role">旅拍主拍</p>
+          <p class="mate-line">“旅拍不用赶时间，太阳下山前，我们慢慢走，慢慢拍。”</p>
+        </article>
+
+        <article class="mate reveal">
+          <div class="mate-avatar" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="96" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+              <circle cx="100" cy="100" r="84" fill="#F7F0DD"/>
+              <circle cx="100" cy="82" r="26" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M70 140 h60 l-8 30 h-44 Z" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M84 70 q16 -12 32 0" fill="none" stroke="#8a6d33" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>阿越</h3>
+          <p class="mate-role">纪实跟拍</p>
+          <p class="mate-line">“婚礼当天我话很少，快门很勤。你的眼泪和笑声，我都替你存着。”</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约表单 -->
+  <section class="book" id="book">
+    <div class="wrap">
+      <div class="book-card reveal">
+        <div class="book-copy">
+          <p class="kicker kicker-light">预约档期</p>
+          <h2>先聊聊，再决定<br>要不要把那天交给我们</h2>
+          <p>留下联系方式，顾问会在 24 小时内联系你，约一次免费的线上沟通。聊得来再订，不合适也没关系。</p>
+          <ul class="book-points">
+            <li>免费沟通 30 分钟，不推销</li>
+            <li>档期先到先得，口头预留 48 小时</li>
+            <li>定金 30%，尾款成片交付后付清</li>
+          </ul>
+        </div>
+        <form class="book-form" id="bookForm" novalidate>
+          <label>新人姓名<input type="text" name="name" placeholder="比如：陈晨 & 林晓" autocomplete="name"></label>
+          <label>联系电话<input type="tel" name="phone" placeholder="11 位手机号" inputmode="numeric" autocomplete="tel"></label>
+          <label>婚期<input type="date" name="date"></label>
+          <label>举办城市<input type="text" name="city" placeholder="比如：杭州"></label>
+          <label class="full">想选的套餐
+            <select name="plan" id="planSelect">
+              <option value="">还没想好，先聊聊</option>
+              <option>纪实跟拍</option>
+              <option>婚纱旅拍</option>
+              <option>全案定制</option>
+            </select>
+          </label>
+          <p class="form-err" id="formErr" role="alert"></p>
+          <button class="btn btn-gold btn-block" type="submit">提交预约</button>
+          <p class="form-fine">提交即表示同意我们通过电话与你联系，仅用于预约沟通。</p>
+        </form>
+        <div class="book-done" id="bookDone" aria-live="polite">
+          <div class="done-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="none" stroke="#C6A15B" stroke-width="2.5"/><path d="M20 33 l9 9 l16 -18" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>收到啦</h3>
+          <p>顾问会在 24 小时内联系你。<br>你的预约编号是 <strong id="bookNo">—</strong>，请记好。</p>
+          <button class="btn btn-outline" id="bookAgain" type="button">再约一场</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="brand-row"><span class="brand-mark">拾</span><strong data-site="name">拾光婚礼影像</strong></p>
+        <p class="foot-desc">婚礼跟拍 · 婚纱摄影工作室。<br>把那一天的光，妥善地留住。</p>
+        <div class="social" aria-label="社交媒体">
+          <a href="#" aria-label="微信" data-social="wechat"><svg viewBox="0 0 24 24"><path d="M8.7 4.5C5 4.5 2 6.9 2 9.9c0 1.7.9 3.2 2.3 4.2l-.6 2 2.3-1.1c.6.2 1.2.3 1.9.3h.4A5.4 5.4 0 0 1 7 12.6c0-2.7 2.7-4.9 6-4.9.3 0 .7 0 1-.1-.4-1.6-2-2.6-5.3-2.6v-.5zM16 9.2c-2.9 0-5.3 2-5.3 4.4 0 2.5 2.4 4.4 5.3 4.4.6 0 1.2-.1 1.7-.2l1.9 1-.5-1.7c1.2-.8 1.9-1.8 1.9-3 0-2.4-2.3-4.4-5-4.4v-.5z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="小红书" data-social="xiaohongshu"><svg viewBox="0 0 24 24"><path d="M12 2 3 20h18L12 2zm0 4.2L17.8 18H6.2L12 6.2z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="微博" data-social="weibo"><svg viewBox="0 0 24 24"><path d="M10.1 20.9c-3.9-.4-7-2.9-7-6.4 0-1 .2-2 .7-2.9-.2 3 1.9 5.6 5 6.1-2.5-.9-3.9-3.2-3.9-5.9 0-3.3 2.9-6 6.5-6 2 0 3.8.9 4.9 2.2.4-1.4-.1-3-1.2-4 2.5.4 4.4 2.3 4.4 4.7 0 2.9-2.8 5.4-6.6 5.9l-2.8 1.3z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="抖音" data-social="douyin"><svg viewBox="0 0 24 24"><path d="M16.6 3c.4 2.1 1.8 3.6 4 3.9v3c-1.6 0-3-.5-4-1.3v6.6c0 3.4-2.4 5.8-5.6 5.8A5.4 5.4 0 0 1 5.5 15c0-3.1 2.5-5.5 5.7-5.3v3.1c-1.4-.3-2.7.7-2.7 2.2 0 1.3 1 2.3 2.3 2.3 1.5 0 2.6-1.1 2.6-2.9V3h3.2z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>快速导航</h4>
+        <a href="#works">作品</a><a href="#plans">套餐</a><a href="#dates">档期</a><a href="#book">预约档期</a>
+      </div>
+      <div class="foot-col">
+        <h4>工作室</h4>
+        <p>电话：<a data-site-href="phoneHref" data-site="phone">—</a></p>
+        <p>微信：<span data-site="wechat">—</span></p>
+        <p>地址：<span data-site="address">—</span></p>
+      </div>
+      <div class="foot-col">
+        <h4>网站政策</h4>
+        <button class="legal-btn" data-legal="privacy">隐私政策</button>
+        <button class="legal-btn" data-legal="terms">服务条款</button>
+        <button class="legal-btn" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+    <p class="copyright">© <span data-site="year">2026</span> <span data-site="name">拾光婚礼影像</span> ｜ <span data-site="icp">—</span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <h3 id="legalTitle">—</h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 拾光婚礼影像 · wedding-photo-page —— 原创脚本（无外部库）
+   配置区在顶部：SITE / LEGAL / CFG，买家只改这里。 */
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+
+  /* ============ 配置 ============ */
+  var SITE = {
+    name: "拾光婚礼影像",
+    phone: "138-5812-6688",
+    phoneHref: "tel:13858126688",
+    wechat: "shiguang-wedding",
+    address: "杭州市西湖区留和路 318 号拾光小院",
+    icp: "浙ICP备2026888818号-1",
+    year: "2026"
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: "隐私政策",
+      points: [
+        "我们收集的信息仅限于你主动留下的预约信息：姓名、电话、婚期、城市，以及你与我们沟通时提供的内容。",
+        "这些信息只用于档期确认与拍摄沟通，不会出售、出租或分享给任何第三方营销机构。",
+        "你的婚礼照片与视频，未经你书面同意，我们不会用于任何公开宣传（包括官网案例与社交媒体）。",
+        "你可以随时通过工作室电话或微信要求查看、更正、删除你的个人信息，我们会在 7 个工作日内处理完毕。",
+        "网站仅使用必要的 Cookie 维持页面正常显示（如记住你上次查看的档期月份），不做跨站追踪。"
+      ]
+    },
+    terms: {
+      title: "服务条款",
+      points: [
+        "预约成功后，顾问会在 24 小时内与你确认档期；口头预留保留 48 小时，逾期未付定金视为自动放弃。",
+        "定金为套餐总价的 30%，支付后档期正式锁定；因新人方原因取消，定金不予退还，可改期一次（提前 30 天告知）。",
+        "因天气等不可抗力导致旅拍无法进行，我们免费改期一次；已产生的差旅费用按实际结算。",
+        "所有套餐均含精修底片全送；精修不满意可免费重修一次，重修后仍不满意可按比例退款（最高退 20%）。",
+        "成片交付周期：跟拍 30 天、旅拍 45 天、全案定制 60 天；加急交付需另行约定费用。"
+      ]
+    },
+    cookies: {
+      title: "Cookie 政策",
+      points: [
+        "我们使用 Cookie 记住你的偏好设置，例如上次查看的档期月份，方便你下次直接继续浏览。",
+        "我们也会用匿名的访问统计了解哪些页面更受欢迎，以此改进网站内容，不关联你的个人身份。",
+        "你可以在浏览器设置中随时清除或禁用 Cookie；禁用后网站仍可正常浏览，只是偏好设置不会被记住。",
+        "我们不使用第三方广告 Cookie，不做跨网站的用户画像与精准投放。",
+        "继续使用本网站，即表示你理解并接受以上 Cookie 使用方式。"
+      ]
+    }
+  };
+
+  var CFG = {
+    navOffset: 40,        // 导航毛玻璃触发距离 px
+    revealThreshold: 0.12,
+    loaderMin: 700,       // 加载态最短展示 ms
+    staggerMax: 0.5       // 瀑布流 stagger 上限 s
+  };
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ============ SITE 变量渲染 ============ */
+  function renderSite() {
+    var els = document.querySelectorAll("[data-site]");
+    for (var i = 0; i < els.length; i++) {
+      var k = els[i].getAttribute("data-site");
+      if (SITE[k] !== undefined) els[i].textContent = SITE[k];
+    }
+    var hs = document.querySelectorAll("[data-site-href]");
+    for (var j = 0; j < hs.length; j++) {
+      var hk = hs[j].getAttribute("data-site-href");
+      if (SITE[hk] !== undefined) hs[j].setAttribute("href", SITE[hk]);
+    }
+  }
+  renderSite();
+
+  /* ============ 加载态 → hero 入场 ============ */
+  var t0 = Date.now();
+  function ready() {
+    var wait = Math.max(0, CFG.loaderMin - (Date.now() - t0));
+    setTimeout(function () {
+      document.body.classList.add("ready");
+      observeReveals();
+    }, reduceMotion ? 0 : wait);
+  }
+  if (document.readyState === "complete") ready();
+  else window.addEventListener("load", ready);
+  // 兜底：load 事件 4 秒没来也放行（完成态必须可达）
+  setTimeout(function () {
+    if (!document.body.classList.contains("ready")) {
+      document.body.classList.add("ready");
+      observeReveals();
+    }
+  }, 4000);
+
+  /* ============ 导航毛玻璃 ============ */
+  var nav = document.getElementById("nav");
+  function onScroll() {
+    if (window.scrollY > CFG.navOffset) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ============ 移动端抽屉 ============ */
+  var burger = document.getElementById("burger");
+  var mMenu = document.getElementById("mMenu");
+  function setMenu(open) {
+    burger.classList.toggle("open", open);
+    mMenu.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    mMenu.setAttribute("aria-hidden", open ? "false" : "true");
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+  burger.addEventListener("click", function () {
+    setMenu(!mMenu.classList.contains("open"));
+  });
+  mMenu.addEventListener("click", function (e) {
+    if (e.target.closest("a")) setMenu(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && mMenu.classList.contains("open")) setMenu(false);
+  });
+
+  /* ============ 滚动 reveal（瀑布流 stagger 主视觉） ============ */
+  var observed = false;
+  function observeReveals() {
+    if (observed) return;
+    observed = true;
+    var shots = document.querySelectorAll(".masonry .shot");
+    for (var i = 0; i < shots.length; i++) {
+      var d = Math.min((i % 3) * 0.12 + Math.floor(i / 3) * 0.08, CFG.staggerMax);
+      shots[i].style.setProperty("--sd", d.toFixed(2) + "s");
+    }
+    var items = document.querySelectorAll(".reveal");
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      for (var k = 0; k < items.length; k++) items[k].classList.add("in");
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add("in");
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: CFG.revealThreshold, rootMargin: "0px 0px -6% 0px" });
+    for (var m = 0; m < items.length; m++) io.observe(items[m]);
+  }
+
+  /* ============ 套餐按钮 → 表单联动 ============ */
+  var planSelect = document.getElementById("planSelect");
+  var planBtns = document.querySelectorAll("[data-plan]");
+  for (var p = 0; p < planBtns.length; p++) {
+    planBtns[p].addEventListener("click", function () {
+      planSelect.value = this.getAttribute("data-plan");
+    });
+  }
+
+  /* ============ 档期日历 ============ */
+  var calGrid = document.getElementById("calGrid");
+  var calTitle = document.getElementById("calTitle");
+  var cur = new Date();
+  var viewY = cur.getFullYear(), viewM = cur.getMonth();
+
+  // 确定性伪随机：同一月份每次渲染状态一致
+  function seeded(n) {
+    var x = (n * 9301 + 49297) % 233280;
+    return x / 233280;
+  }
+  function statusOf(y, m, d) {
+    var r = seeded(y * 372 + m * 31 + d);
+    if (r < 0.34) return "busy";
+    if (r < 0.48) return "hold";
+    return "ok";
+  }
+  function renderCal() {
+    calTitle.textContent = viewY + " 年 " + (viewM + 1) + " 月";
+    var first = new Date(viewY, viewM, 1);
+    var startDay = (first.getDay() + 6) % 7; // 周一起
+    var days = new Date(viewY, viewM + 1, 0).getDate();
+    var html = "";
+    for (var i = 0; i < startDay; i++) html += '<span class="cal-day dim"></span>';
+    for (var d = 1; d <= days; d++) {
+      var st = statusOf(viewY, viewM + 1, d);
+      var today = (viewY === cur.getFullYear() && viewM === cur.getMonth() && d === cur.getDate()) ? " today" : "";
+      html += '<span class="cal-day ' + st + today + '" role="gridcell">' + d + "</span>";
+    }
+    calGrid.innerHTML = html;
+  }
+  document.getElementById("calPrev").addEventListener("click", function () {
+    viewM--; if (viewM < 0) { viewM = 11; viewY--; }
+    renderCal();
+  });
+  document.getElementById("calNext").addEventListener("click", function () {
+    viewM++; if (viewM > 11) { viewM = 0; viewY++; }
+    renderCal();
+  });
+  renderCal();
+  // 可预约日期点击 → 带到表单
+  calGrid.addEventListener("click", function (e) {
+    var t = e.target.closest(".cal-day.ok");
+    if (!t) return;
+    var dateInput = document.querySelector('input[name="date"]');
+    var mm = String(viewM + 1).padStart(2, "0");
+    var dd = String(t.textContent).padStart(2, "0");
+    dateInput.value = viewY + "-" + mm + "-" + dd;
+    dateInput.focus();
+  });
+
+  /* ============ 预约表单 ============ */
+  var form = document.getElementById("bookForm");
+  var formErr = document.getElementById("formErr");
+  var bookCard = form.closest(".book-card");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    var date = form.date.value;
+    var city = form.city.value.trim();
+    var err = "";
+    if (!name) err = "请留下新人姓名，方便我们称呼你。";
+    else if (!/^1\d{10}$/.test(phone)) err = "手机号好像不对，请检查一下（11 位数字）。";
+    else if (!date) err = "请选择婚期，方便我们为你查档期。";
+    else if (!city) err = "请填写举办城市，旅拍需要提前规划行程。";
+    if (err) {
+      formErr.textContent = err;
+      return;
+    }
+    formErr.textContent = "";
+    var no = "SG" + String(Date.now()).slice(-6);
+    document.getElementById("bookNo").textContent = no;
+    bookCard.classList.add("sent");
+  });
+  document.getElementById("bookAgain").addEventListener("click", function () {
+    bookCard.classList.remove("sent");
+    form.reset();
+  });
+
+  /* ============ 法务弹窗 ============ */
+  var modal = document.getElementById("legalModal");
+  var legalTitle = document.getElementById("legalTitle");
+  var legalBody = document.getElementById("legalBody");
+  var lastFocus = null;
+  function openLegal(key) {
+    var doc = LEGAL[key];
+    if (!doc) return;
+    legalTitle.textContent = doc.title;
+    var ol = document.createElement("ol");
+    doc.points.forEach(function (pt) {
+      var li = document.createElement("li");
+      li.textContent = pt;
+      ol.appendChild(li);
+    });
+    legalBody.innerHTML = "";
+    legalBody.appendChild(ol);
+    lastFocus = document.activeElement;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    modal.querySelector(".modal-x").focus();
+  }
+  function closeLegal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  var legalBtns = document.querySelectorAll("[data-legal]");
+  for (var l = 0; l < legalBtns.length; l++) {
+    legalBtns[l].addEventListener("click", function () {
+      openLegal(this.getAttribute("data-legal"));
+    });
+  }
+  modal.addEventListener("click", function (e) {
+    if (e.target.closest("[data-close]")) closeLegal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeLegal();
+  });
+})();
+
+</script>
+</body>
+</html>

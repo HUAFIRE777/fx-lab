@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诺言 VOWS · 婚礼策划 — 婚礼那天，你只需要当主角</title>
+<meta name="description" content="诺言 VOWS 婚礼策划：1200+ 场婚礼交付，9 年深耕。从第一通电话到最后一支舞，我们替你操心所有细节。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- 加载态：象牙白全屏 + 金印徽 + 进度线，window.load/3.5s 兜底必放行 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-seal">诺</div>
+  <div class="loader-word">VOWS · 诺言婚礼策划</div>
+  <div class="loader-bar"><i></i></div>
+</div>
+
+<!-- 全页纸纹噪点 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" data-scroll>
+    <span class="brand-seal">诺</span>
+    <span class="brand-word">诺言 <em>VOWS</em></span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#cases" data-scroll>婚礼案例</a>
+    <a href="#plans" data-scroll>策划套餐</a>
+    <a href="#flow" data-scroll>策划流程</a>
+    <a href="#voices" data-scroll>新人评价</a>
+  </nav>
+  <a class="btn btn-gold nav-cta" href="#booking" data-scroll>查档期</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#cases" data-scroll>婚礼案例</a>
+  <a href="#plans" data-scroll>策划套餐</a>
+  <a href="#flow" data-scroll>策划流程</a>
+  <a href="#voices" data-scroll>新人评价</a>
+  <a class="btn btn-gold" href="#booking" data-scroll>查档期 / 免费咨询</a>
+  <p class="drawer-contact"><span data-site="phone"></span></p>
+</aside>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <canvas id="petals" aria-hidden="true"></canvas>
+    <div class="hero-arch" aria-hidden="true">
+      <!-- 婚礼拱门剪影：程序化 SVG，无外链 -->
+      <svg viewBox="0 0 600 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M120 460 V190 C120 90 210 30 300 30 C390 30 480 90 480 190 V460" stroke="#c6a15b" stroke-width="3"/>
+        <path d="M150 460 V200 C150 112 228 62 300 62 C372 62 450 112 450 200 V460" stroke="#c6a15b" stroke-width="1.4" opacity=".55"/>
+        <g stroke="#c6a15b" stroke-width="1.2" opacity=".8">
+          <circle cx="300" cy="120" r="26"/>
+          <circle cx="300" cy="120" r="18" opacity=".5"/>
+          <path d="M244 156 q10 -14 22 -6 M356 156 q-10 -14 -22 -6"/>
+          <path d="M200 96 q8 -18 24 -14 M400 96 q-8 -18 -24 -14"/>
+          <path d="M170 200 q14 -8 24 2 M430 200 q-14 -8 -24 2"/>
+        </g>
+        <g fill="#c6a15b" opacity=".75">
+          <ellipse cx="244" cy="168" rx="7" ry="4" transform="rotate(-24 244 168)"/>
+          <ellipse cx="356" cy="168" rx="7" ry="4" transform="rotate(24 356 168)"/>
+          <ellipse cx="212" cy="104" rx="6" ry="3.6" transform="rotate(-30 212 104)"/>
+          <ellipse cx="388" cy="104" rx="6" ry="3.6" transform="rotate(30 388 104)"/>
+          <ellipse cx="186" cy="216" rx="6" ry="3.6" transform="rotate(-18 186 216)"/>
+          <ellipse cx="414" cy="216" rx="6" ry="3.6" transform="rotate(18 414 216)"/>
+          <ellipse cx="300" cy="72" rx="7" ry="4"/>
+        </g>
+        <path d="M120 460 H480" stroke="#c6a15b" stroke-width="3"/>
+        <text x="300" y="440" text-anchor="middle" font-size="15" letter-spacing="10" fill="#c6a15b" font-family="Georgia, serif">VOWS</text>
+      </svg>
+    </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-kicker reveal-line"><span class="rl-line"><span class="rl-inner">婚礼策划 · 全案统筹</span></span></p>
+      <h1 class="hero-title">
+        <span class="rl-line"><span class="rl-inner" style="transition-delay:.10s">婚礼那天，</span></span>
+        <span class="rl-line"><span class="rl-inner" style="transition-delay:.24s">你只需要当主角。</span></span>
+      </h1>
+      <p class="hero-sub">从第一通电话到最后一支舞，<br>所有细节我们替你操心。</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold btn-lg" href="#booking" data-scroll>查档期 · 免费咨询</a>
+        <a class="btn btn-ghost btn-lg" href="#cases" data-scroll>看看我们办过的婚礼</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>1200+</dt><dd>场婚礼交付</dd></div>
+        <div><dt>9 年</dt><dd>只做婚礼策划</dd></div>
+        <div><dt>40+</dt><dd>合作场地资源</dd></div>
+      </dl>
+    </div>
+    <a class="scroll-hint" href="#cases" data-scroll aria-label="向下滚动"><i></i></a>
+  </section>
+
+  <!-- ============ 婚礼案例瀑布流 ============ -->
+  <section class="section" id="cases">
+    <div class="wrap">
+      <p class="kicker reveal">婚礼案例</p>
+      <h2 class="h2 reveal">每一场，都是新人亲手写的故事</h2>
+      <p class="lede reveal">策划案从不在模板里复制。下面这些婚礼，主题、流程、音乐清单，全是和新人一句一句聊出来的。</p>
+      <div class="masonry">
+        <article class="case reveal">
+          <div class="case-art art-forest" aria-hidden="true">
+            <svg viewBox="0 0 300 200"><path d="M40 170 Q150 60 260 170" stroke="#faf7f0" stroke-width="4" fill="none"/><g fill="#faf7f0" opacity=".85"><ellipse cx="90" cy="90" rx="26" ry="14"/><ellipse cx="150" cy="70" rx="30" ry="16"/><ellipse cx="212" cy="92" rx="26" ry="14"/></g><path d="M60 170 h180" stroke="#faf7f0" stroke-width="3"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>雾中山林 · 草坪婚礼</h3>
+            <p>陈默 &amp; 林小满 · 莫干山 · 86 位宾客</p>
+            <span class="tag">户外草坪</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-chapel" aria-hidden="true">
+            <svg viewBox="0 0 300 240"><path d="M60 220 V110 L150 40 L240 110 V220" stroke="#1c1a17" stroke-width="4" fill="none"/><rect x="138" y="130" width="24" height="90" fill="#1c1a17"/><circle cx="150" cy="86" r="14" stroke="#1c1a17" stroke-width="3" fill="none"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>老教堂的午后</h3>
+            <p>周远 &amp; 沈清 · 上海 · 120 位宾客</p>
+            <span class="tag">复古教堂</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-sea" aria-hidden="true">
+            <svg viewBox="0 0 300 180"><path d="M0 140 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0" stroke="#faf7f0" stroke-width="3" fill="none"/><path d="M0 156 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0" stroke="#faf7f0" stroke-width="2" fill="none" opacity=".6"/><circle cx="238" cy="46" r="20" fill="#faf7f0" opacity=".9"/><path d="M90 150 q60 -70 120 0" stroke="#faf7f0" stroke-width="4" fill="none"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>退潮时的誓言</h3>
+            <p>高翔 &amp; 苏蔓 · 三亚 · 54 位宾客</p>
+            <span class="tag">海岛婚礼</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-chinese" aria-hidden="true">
+            <svg viewBox="0 0 300 220"><circle cx="150" cy="105" r="52" stroke="#c6a15b" stroke-width="4" fill="none"/><circle cx="150" cy="105" r="40" stroke="#c6a15b" stroke-width="1.6" fill="none" opacity=".6"/><text x="150" y="122" text-anchor="middle" font-size="34" fill="#c6a15b" font-family="STSong, serif">囍</text><path d="M60 190 h180" stroke="#c6a15b" stroke-width="2"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>一堂中式婚礼</h3>
+            <p>陆之昂 &amp; 顾青禾 · 苏州 · 200 位宾客</p>
+            <span class="tag">中式礼制</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-minimal" aria-hidden="true">
+            <svg viewBox="0 0 300 160"><path d="M40 130 H260" stroke="#1c1a17" stroke-width="2"/><path d="M70 130 V70 M230 130 V70 M70 70 h160" stroke="#1c1a17" stroke-width="2" fill="none"/><circle cx="150" cy="44" r="10" fill="#c6a15b"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>白 · 极简主义</h3>
+            <p>方简 &amp; 白露 · 杭州 · 38 位宾客</p>
+            <span class="tag">小型私宴</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-night" aria-hidden="true">
+            <svg viewBox="0 0 300 200"><g fill="#faf7f0"><circle cx="60" cy="40" r="2.4"/><circle cx="120" cy="70" r="1.8"/><circle cx="190" cy="36" r="2.2"/><circle cx="244" cy="80" r="1.8"/><circle cx="150" cy="110" r="2"/><circle cx="90" cy="130" r="1.6"/><circle cx="220" cy="140" r="2.2"/></g><path d="M70 170 Q150 90 230 170" stroke="#c6a15b" stroke-width="3" fill="none"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>星空下的 first dance</h3>
+            <p>江野 &amp; 岑溪 · 大理 · 96 位宾客</p>
+            <span class="tag">星空晚宴</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 策划套餐三档 ============ -->
+  <section class="section section-dark" id="plans">
+    <div class="wrap">
+      <p class="kicker kicker-gold reveal">策划套餐</p>
+      <h2 class="h2 h2-light reveal">三种陪伴方式，明码标价</h2>
+      <p class="lede lede-light reveal">不打包隐形消费。每一档的服务边界都写在合同里，多一分钱你都看得见去向。</p>
+      <div class="plans">
+        <article class="plan reveal">
+          <h3>婚礼日执行</h3>
+          <p class="plan-price">¥9,800 <span>起</span></p>
+          <p class="plan-desc">你自己筹备，我们负责婚礼当天万无一失。</p>
+          <ul>
+            <li>婚礼日全程统筹 1 位</li>
+            <li>流程表制定 + 彩排</li>
+            <li>供应商到场对接</li>
+            <li>突发状况应急预案</li>
+          </ul>
+          <a class="btn btn-outline" href="#booking" data-scroll data-plan="婚礼日执行">选这个档</a>
+        </article>
+        <article class="plan plan-hot reveal">
+          <p class="plan-badge">最多新人选</p>
+          <h3>半定制策划</h3>
+          <p class="plan-price">¥28,800 <span>起</span></p>
+          <p class="plan-desc">从定场地开始陪你，一起把婚礼的样子聊出来。</p>
+          <ul>
+            <li>专属策划师 1 对 1</li>
+            <li>场地 / 婚纱 / 摄影推荐与陪看</li>
+            <li>主题方案 + 视觉设计</li>
+            <li>预算表全程代管</li>
+            <li>婚礼日双人执行团队</li>
+          </ul>
+          <a class="btn btn-gold" href="#booking" data-scroll data-plan="半定制策划">选这个档</a>
+        </article>
+        <article class="plan reveal">
+          <h3>全案定制</h3>
+          <p class="plan-price">¥58,800 <span>起</span></p>
+          <p class="plan-desc">只管提想法，剩下的交给我们，连请柬都替你写好。</p>
+          <ul>
+            <li>策划总监亲自带案</li>
+            <li>目的地婚礼全案（含差旅统筹）</li>
+            <li>定制请柬 / 伴手礼设计</li>
+            <li>亲友住宿交通统筹</li>
+            <li>婚礼日 4 人执行团队</li>
+          </ul>
+          <a class="btn btn-outline" href="#booking" data-scroll data-plan="全案定制">选这个档</a>
+        </article>
+      </div>
+      <p class="plans-note reveal">以上为策划服务费，场地 / 餐饮 / 花艺等第三方费用实报实销，发票抬头开给你。</p>
+    </div>
+  </section>
+
+  <!-- ============ 策划流程四步 ============ -->
+  <section class="section" id="flow">
+    <div class="wrap">
+      <p class="kicker reveal">策划流程</p>
+      <h2 class="h2 reveal">四步，从聊天到「我愿意」</h2>
+      <p class="lede reveal">第一次见面不收钱，聊得来再往下走。</p>
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-no">01</span>
+          <h3>初见聊聊</h3>
+          <p>一杯咖啡的时间，听你们讲认识的故事。我们判断合不合拍，你判断放不放心。</p>
+          <span class="step-time">约 1 小时 · 免费</span>
+        </li>
+        <li class="step reveal">
+          <span class="step-no">02</span>
+          <h3>方案与预算</h3>
+          <p>7 天内出主题概念 + 逐项预算表。预算超了我们先说，不让你在执行中才发现。</p>
+          <span class="step-time">签约前 · 免费出概念</span>
+        </li>
+        <li class="step reveal">
+          <span class="step-no">03</span>
+          <h3>落地执行</h3>
+          <p>场地、花艺、灯光、乐队一项项定下来。每周一次进度同步，你永远知道进行到哪了。</p>
+          <span class="step-time">婚前 3–6 个月</span>
+        </li>
+        <li class="step reveal">
+          <span class="step-no">04</span>
+          <h3>婚礼日</h3>
+          <p>执行团队提前 3 小时到场。你负责美、负责哭、负责笑，其他的看我们眼色就行。</p>
+          <span class="step-time">当天 · 全程跟场</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 新人评价墙 ============ -->
+  <section class="section section-tint" id="voices">
+    <div class="wrap">
+      <p class="kicker reveal">新人评价</p>
+      <h2 class="h2 reveal">他们婚礼结束时说的话</h2>
+      <div class="voices">
+        <figure class="voice reveal">
+          <blockquote>「我妈在后台哭着跟策划师说谢谢，这句话比婚礼本身还让我记一辈子。」</blockquote>
+          <figcaption>林小满 · 莫干山草坪婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「下暴雨改室内只用了 40 分钟，宾客进场时完全看不出来是 Plan B。」</blockquote>
+          <figcaption>沈清 · 上海教堂婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「预算表精确到每一支蜡烛。最后结算比分项报价还少了两千。」</blockquote>
+          <figcaption>白露 · 杭州小型婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「我爸那么挑剔的人，敬酒时主动加了策划总监微信。」</blockquote>
+          <figcaption>顾青禾 · 苏州中式婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「first dance 的灯光 cue 点分毫不差，朋友以为我们排练过一百遍。」</blockquote>
+          <figcaption>岑溪 · 大理星空婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「异地筹备全靠线上同步，每周五晚上的进度会我一次没落下过，也一次没焦虑过。」</blockquote>
+          <figcaption>苏蔓 · 三亚海岛婚礼</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 档期查询 / 免费咨询 ============ -->
+  <section class="section section-dark booking" id="booking">
+    <div class="wrap booking-grid">
+      <div class="booking-copy reveal">
+        <p class="kicker kicker-gold">档期查询</p>
+        <h2 class="h2 h2-light">先查档期，再决定聊不聊</h2>
+        <p class="lede lede-light">留下婚期和联系方式，24 小时内策划师回电告诉你那天空不空、<br>大概要准备多少预算。不骚扰，不群发。</p>
+        <ul class="booking-points">
+          <li><b>24h</b> 内回电</li>
+          <li><b>0</b> 隐形消费</li>
+          <li><b>7</b> 天免费出概念</li>
+        </ul>
+        <p class="booking-tel">着急？直接打 <a data-site="phone" data-site-href="phoneHref"></a></p>
+      </div>
+      <form class="booking-form reveal" id="bookingForm" novalidate>
+        <div class="field">
+          <label for="fName">新人称呼</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你们" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="fPhone">联系电话</label>
+          <input id="fPhone" name="phone" type="tel" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">预计婚期</label>
+            <input id="fDate" name="date" type="date">
+          </div>
+          <div class="field">
+            <label for="fGuests">预计宾客</label>
+            <select id="fGuests" name="guests">
+              <option value="">请选择</option>
+              <option>50 人以内</option>
+              <option>50–100 人</option>
+              <option>100–200 人</option>
+              <option>200 人以上</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fPlan">意向套餐</label>
+          <select id="fPlan" name="plan">
+            <option value="">还没想好，先聊聊</option>
+            <option>婚礼日执行</option>
+            <option>半定制策划</option>
+            <option>全案定制</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fNote">想跟我们说的 <span class="opt">（选填）</span></label>
+          <textarea id="fNote" name="note" rows="3" placeholder="比如：在哪里办、有没有特别想要的环节……"></textarea>
+        </div>
+        <p class="form-err" id="formErr" role="alert"></p>
+        <button class="btn btn-gold btn-lg btn-block" type="submit">提交，查档期</button>
+        <p class="form-fine">提交即表示同意我们的 <button type="button" class="linklike" data-legal="privacy">隐私政策</button></p>
+        <div class="form-ok" id="formOk" hidden>
+          <svg viewBox="0 0 48 48" width="52" height="52"><circle cx="24" cy="24" r="22" fill="none" stroke="#c6a15b" stroke-width="2.5"/><path d="M15 24.5 21.5 31 33 17" fill="none" stroke="#c6a15b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>收到，我们去查档期了</h3>
+          <p>咨询编号 <b id="okNo"></b> · 策划师将在 24 小时内联系你。</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <span class="brand-seal">诺</span>
+      <p class="f-name">诺言 VOWS · 婚礼策划</p>
+      <p class="f-slogan">婚礼那天，你只需要当主角。</p>
+      <div class="f-social" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号" title="微信公众号"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 3h7A5.5 5.5 0 0 1 21 8.5v4a5.5 5.5 0 0 1-5.5 5.5H9l-4.2 3v-3.4A5.5 5.5 0 0 1 3 12.5v-4A5.5 5.5 0 0 1 8.5 3Z"/><circle cx="9" cy="10.5" r="1" fill="currentColor"/><circle cx="13" cy="10.5" r="1" fill="currentColor"/><circle cx="17" cy="10.5" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 15.5c1.8 1 4.2 1 6 0M9.5 10.5h.01M14.5 10.5h.01"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.4 2.6 2 4.2 4.5 4.5"/></svg></a>
+        <a href="#" aria-label="哔哩哔哩" title="哔哩哔哩"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="11" rx="3"/><path d="M7 7l1.5-3M17 7l-1.5-3M8.5 12.5h.01M15.5 12.5h.01"/></svg></a>
+      </div>
+    </div>
+    <nav class="f-nav" aria-label="页脚导航">
+      <h4>快速前往</h4>
+      <a href="#cases" data-scroll>婚礼案例</a>
+      <a href="#plans" data-scroll>策划套餐</a>
+      <a href="#flow" data-scroll>策划流程</a>
+      <a href="#voices" data-scroll>新人评价</a>
+      <a href="#booking" data-scroll>查档期</a>
+    </nav>
+    <div class="f-contact">
+      <h4>联系我们</h4>
+      <p>电话 <a data-site="phone" data-site-href="phoneHref"></a></p>
+      <p>微信 <span data-site="wechat"></span></p>
+      <p>地址 <span data-site="address"></span></p>
+      <p class="f-hours">营业时间 10:00–20:00（周一闭馆）</p>
+    </div>
+    <div class="f-legal">
+      <h4>网站政策</h4>
+      <button type="button" data-legal="privacy">隐私政策</button>
+      <button type="button" data-legal="terms">服务条款</button>
+      <button type="button" data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© <span id="year"></span> <span data-site="name"></span> · 版权所有</p>
+    <p class="f-icp"><span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗：单壳 + JS 灌文案 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="modal-veil" data-close></div>
+  <div class="modal-card">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

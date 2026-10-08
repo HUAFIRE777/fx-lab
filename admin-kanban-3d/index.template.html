@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D 物理感看板 · huafire3d fx-lab</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><b>huafire3d</b> · fx-lab</div>
+  <div class="title-wrap">
+    <h1 id="boardTitle">研发任务看板</h1>
+    <p id="boardSub"></p>
+  </div>
+  <div class="toolbar">
+    <button class="btn" id="btnAddCard">＋ 添加卡片</button>
+    <button class="btn" id="btnAddCol">＋ 添加列</button>
+    <button class="btn primary" id="btnReset">重置演示</button>
+  </div>
+  <span class="hint">Esc 取消拖拽 · 双击标题改名 · 点圆圈标记完成</span>
+</header>
+
+<main id="board" aria-label="任务看板"></main>
+
+<footer class="footbar">
+  <span><b>拖拽</b> 拖起放大 + 阴影，倾斜跟随指针速度</span>
+  <span><b>跨列</b> 目标列高亮，槽位指示落点</span>
+  <span><b>放下</b> FLIP 回弹落位，列头进度环联动</span>
+</footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山涧 SHANJIAN · 高山现泡茶饮</title>
+<meta name="description" content="山涧 SHANJIAN，高山现泡茶饮品牌。明前头采，一芽一叶；六个产品系列，全国门店现点现泡。把山里的雾，泡进这一杯。">
+<!-- huafire3d fx-lab — original implementation (tea-brand-page) -->
+<script>document.documentElement.classList.add('js');
+/* 兜底：main.js 若未执行，4.5s 后强制撤下 loader、直达完成态 */
+setTimeout(function(){var l=document.getElementById('loader');if(l&&!window.__sjBooted){l.style.display='none';var h=document.getElementById('season');if(h)h.classList.add('enter');var r=document.querySelectorAll('.reveal');for(var i=0;i<r.length;i++)r[i].classList.add('in');}},4500);</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- SVG 符号库：茶叶 / 茶杯 / 图钉 / 社交图标（全部手绘原创） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="leaf" viewBox="0 0 48 64">
+      <path d="M24 4C10 18 8 36 24 60 40 36 38 18 24 4Z" fill="currentColor" opacity=".92"/>
+      <path d="M24 10v44" stroke="#F7F3EA" stroke-width="1.6" opacity=".5"/>
+      <path d="M24 22l-8 3M24 30l8 3M24 38l-8 3M24 46l8 3" stroke="#F7F3EA" stroke-width="1.1" opacity=".35"/>
+    </symbol>
+    <symbol id="cup" viewBox="0 0 120 110">
+      <path d="M28 34h58l-6 52a10 10 0 0 1-10 9H48a10 10 0 0 1-10-9z" fill="currentColor" opacity=".95"/>
+      <path d="M86 42h6a12 12 0 0 1 0 24h-9" fill="none" stroke="currentColor" stroke-width="6" opacity=".95"/>
+      <path d="M30 26c-4-8 4-10 2-18M48 26c-4-8 4-10 2-18M66 26c-4-8 4-10 2-18" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" opacity=".55"/>
+      <rect x="40" y="52" width="34" height="30" rx="2" fill="#F7F3EA" opacity=".9"/>
+      <text x="57" y="74" text-anchor="middle" font-size="17" fill="currentColor" font-family="Songti SC,STSong,serif">涧</text>
+    </symbol>
+    <symbol id="pin" viewBox="0 0 24 24">
+      <path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="12" cy="9" r="2.6" fill="currentColor"/>
+    </symbol>
+    <symbol id="soc-wx" viewBox="0 0 24 24">
+      <path d="M9.5 4C5.9 4 3 6.6 3 9.8c0 1.8 1 3.4 2.5 4.4l-.6 2 2.2-1.1c.8.2 1.6.4 2.4.4h.3A5.4 5.4 0 0 1 9.5 4z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M14.5 10c-2.9 0-5.3 2-5.3 4.5 0 1.5.9 2.9 2.2 3.7l-.5 1.8 1.9-1c.6.2 1.1.2 1.7.2 2.9 0 5.3-2 5.3-4.5S17.4 10 14.5 10z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12.4" cy="14.4" r=".9" fill="currentColor"/><circle cx="16.4" cy="14.4" r=".9" fill="currentColor"/>
+    </symbol>
+    <symbol id="soc-wb" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M7.5 12.5c1-2.6 3.4-4.3 6-3.6 2.2.6 3.3 2.8 2.4 4.8-.9 2.1-3.6 2.8-5.7 1.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="9.4" cy="12.6" r="1.1" fill="currentColor"/>
+    </symbol>
+    <symbol id="soc-xhs" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="16" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M8.5 9.5l7 5m0-5l-7 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="soc-dy" viewBox="0 0 24 24">
+      <path d="M14 4v10.5a3.8 3.8 0 1 1-3.8-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M14 4c.4 2.4 1.9 3.9 4.2 4.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 加载态（仅 JS 下显示，无 JS 直接隐藏） -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">山</div>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-tip">正在沏茶…</p>
+</div>
+<noscript><style>.loader{display:none!important}.reveal{opacity:1!important;transform:none!important;translate:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="山涧首页">
+      <span class="brand-mark">山</span>
+      <span class="brand-name">山涧<small>SHANJIAN · 高山茶饮</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#season">当季新品</a>
+      <a href="#series">产品系列</a>
+      <a href="#stores">门店</a>
+      <a href="#member">会员</a>
+    </nav>
+    <a class="btn btn-ghost btn-sm nav-find" href="#stores">查找门店</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#season" style="--d:.05s">当季新品</a>
+    <a href="#series" style="--d:.11s">产品系列</a>
+    <a href="#stores" style="--d:.17s">门店</a>
+    <a href="#member" style="--d:.23s">会员</a>
+    <a href="#stores" class="m-cta" style="--d:.29s">查找门店</a>
+  </nav>
+  <p class="m-foot">山涧 SHANJIAN · 把山里的雾，泡进这一杯</p>
+</div>
+
+<main id="top">
+
+  <!-- Hero：当季新品大图 -->
+  <section class="hero" id="season" aria-label="当季新品">
+    <canvas class="hero-leaves" id="leafCanvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-in">
+      <div class="hero-copy">
+        <p class="eyebrow rl"><span class="rl-in">春 · 当季新品</span></p>
+        <h1 class="hero-title rl"><span class="rl-in">雾岭白毫</span></h1>
+        <p class="hero-sub rl"><span class="rl-in">明前头采 · 一芽一叶 · 高山云雾茶园</span></p>
+        <p class="hero-tag rl"><span class="rl-in">「把山里的雾，泡进这一杯。」</span></p>
+        <div class="hero-ctas rl"><span class="rl-in btn-row">
+          <a class="btn btn-solid" href="#stores">立即点单</a>
+          <a class="btn btn-ghost" href="#member">加入山涧会员</a>
+        </span></div>
+        <ul class="hero-facts">
+          <li class="reveal" style="--d:.55s"><b>1200m</b><span>高山茶园海拔</span></li>
+          <li class="reveal" style="--d:.65s"><b>明前</b><span>头采标准</span></li>
+          <li class="reveal" style="--d:.75s"><b>48h</b><span>采摘到锁鲜</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual reveal" style="--d:.3s" aria-hidden="true">
+        <div class="hero-disc" data-plx="0.10"></div>
+        <svg class="hero-cup" data-plx="-0.06"><use href="#cup"/></svg>
+        <svg class="hero-leaf l1" data-plx="0.16"><use href="#leaf"/></svg>
+        <svg class="hero-leaf l2" data-plx="0.22"><use href="#leaf"/></svg>
+        <svg class="hero-leaf l3" data-plx="0.12"><use href="#leaf"/></svg>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#series" aria-label="向下滚动">向下<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+  </section>
+
+  <!-- 产品系列网格 -->
+  <section class="section series" id="series" aria-label="产品系列">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">产品系列</p>
+        <h2>六款常备，一杯一山</h2>
+        <p class="sec-lead">每一款都标了产地和做法，喝得明白，才喝得放心。</p>
+      </header>
+      <div class="grid">
+        <article class="card reveal" style="--d:.02s">
+          <div class="card-art"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">绿茶 · 招牌</p>
+          <h3>涧云 <small>CLOUD MIST</small></h3>
+          <p class="card-desc">高山云雾绿茶，炒出板栗香，回甘像山泉。</p>
+          <p class="card-meta"><span>¥28 / 杯</span><span>热 / 冷 / 少冰</span></p>
+        </article>
+        <article class="card reveal" style="--d:.08s">
+          <div class="card-art alt"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">红茶 · 暖</p>
+          <h3>暖坡 <small>WARM SLOPE</small></h3>
+          <p class="card-desc">向阳坡地红茶，蜜香顺滑，冬天点它的人最多。</p>
+          <p class="card-meta"><span>¥26 / 杯</span><span>热 / 去冰</span></p>
+        </article>
+        <article class="card reveal" style="--d:.14s">
+          <div class="card-art"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">乌龙 · 焙火</p>
+          <h3>岩语 <small>ROCK RHYME</small></h3>
+          <p class="card-desc">中焙火乌龙，花香裹着岩韵，适合慢慢喝。</p>
+          <p class="card-meta"><span>¥32 / 杯</span><span>热 / 温</span></p>
+        </article>
+        <article class="card reveal" style="--d:.20s">
+          <div class="card-art alt"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">白茶 · 清</p>
+          <h3>霜降 <small>FIRST FROST</small></h3>
+          <p class="card-desc">自然萎凋的白茶，不炒不揉，喝的是本味。</p>
+          <p class="card-meta"><span>¥30 / 杯</span><span>热 / 冷泡</span></p>
+        </article>
+        <article class="card reveal" style="--d:.26s">
+          <div class="card-art"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">花果 · 鲜</p>
+          <h3>野莓青 <small>WILD BERRY</small></h3>
+          <p class="card-desc">山莓配青茶，酸甜清爽，第一次喝茶的人都从它开始。</p>
+          <p class="card-meta"><span>¥24 / 杯</span><span>冷 / 少冰</span></p>
+        </article>
+        <article class="card reveal" style="--d:.32s">
+          <div class="card-art limited"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">限定 · 一年四十天</p>
+          <h3>春汛 <small>SPRING TIDE</small></h3>
+          <p class="card-desc">只卖春茶季的限定款，卖完就等明年，不加推。</p>
+          <p class="card-meta"><span>¥36 / 杯</span><span>仅热饮</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 门店查找 -->
+  <section class="section stores" id="stores" aria-label="门店查找">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">门店</p>
+        <h2>找一家离你近的山涧</h2>
+        <p class="sec-lead">全国门店现点现泡。输入城市名，看看哪家顺路。</p>
+      </header>
+      <div class="store-search reveal">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="storeFilter" type="search" placeholder="搜城市，比如：杭州" aria-label="按城市搜索门店" autocomplete="off">
+      </div>
+      <div class="store-grid" id="storeGrid">
+        <article class="store reveal" style="--d:.02s" data-city="上海">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>上海 · 静安寺店</h3>
+          <p class="store-addr" data-site="addr1">上海市静安区愚园路 68 号</p>
+          <p class="store-hours">10:00 – 22:00 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">老洋房里的店，午后有光，适合带本书来。</p>
+        </article>
+        <article class="store reveal" style="--d:.08s" data-city="杭州">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>杭州 · 西湖店</h3>
+          <p class="store-addr">杭州市西湖区龙井路 12 号</p>
+          <p class="store-hours">9:30 – 21:30 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">离茶园最近的一家，春天能闻到炒茶香。</p>
+        </article>
+        <article class="store reveal" style="--d:.14s" data-city="北京">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>北京 · 三里屯店</h3>
+          <p class="store-addr">北京市朝阳区三里屯路 19 号</p>
+          <p class="store-hours">10:00 – 22:30 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">夜里也开着，加班人的深夜茶水间。</p>
+        </article>
+        <article class="store reveal" style="--d:.20s" data-city="深圳">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>深圳 · 海岸城店</h3>
+          <p class="store-addr">深圳市南山区海岸城东座 2 楼</p>
+          <p class="store-hours">10:00 – 22:00 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">冷泡卖得最好的一家，夏天排队是常态。</p>
+        </article>
+        <article class="store reveal" style="--d:.26s" data-city="成都">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>成都 · 太古里店</h3>
+          <p class="store-addr">成都市锦江区太古里北里 8 号</p>
+          <p class="store-hours">10:30 – 22:00 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">竹椅很多，点一杯可以坐一下午。</p>
+        </article>
+      </div>
+      <p class="store-empty" id="storeEmpty" hidden>没找到这个城市的店，换个关键词试试，比如「杭州」。</p>
+    </div>
+  </section>
+
+  <!-- 会员 CTA -->
+  <section class="member" id="member" aria-label="山涧会员">
+    <div class="member-noise" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="sec-head reveal light">
+        <p class="eyebrow">山涧会员</p>
+        <h2>喝得多，山记得你</h2>
+        <p class="sec-lead">免费加入。积分能兑茶，生日有礼，新品你先尝。</p>
+      </header>
+      <div class="tiers">
+        <article class="tier reveal" style="--d:.05s">
+          <p class="tier-name">青芽</p>
+          <p class="tier-desc">刚入山。新注册就是青芽。</p>
+          <ul>
+            <li>每杯积 1 叶，10 叶兑一杯</li>
+            <li>生日当月送一杯</li>
+          </ul>
+        </article>
+        <article class="tier tier-hot reveal" style="--d:.13s">
+          <p class="tier-badge">最多人选</p>
+          <p class="tier-name">云叶</p>
+          <p class="tier-desc">一年 30 杯，自动升级。</p>
+          <ul>
+            <li>青芽全部权益</li>
+            <li>新品上市提前三天尝</li>
+            <li>每月一张第二杯半价券</li>
+          </ul>
+        </article>
+        <article class="tier reveal" style="--d:.21s">
+          <p class="tier-name">山主</p>
+          <p class="tier-desc">一年 100 杯，山涧的自己人。</p>
+          <ul>
+            <li>云叶全部权益</li>
+            <li>春茶季受邀去茶园看采摘</li>
+            <li>专属客服，排队优先做</li>
+          </ul>
+        </article>
+      </div>
+      <div class="member-cta reveal" style="--d:.28s">
+        <a class="btn btn-solid btn-lg" href="#top" id="joinBtn">免费加入会员</a>
+        <p class="member-fine">注册即代表同意《服务条款》与《隐私政策》</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="foot-logo"><span class="brand-mark">山</span> 山涧 <small>SHANJIAN</small></p>
+        <p class="foot-blurb">高山现泡茶饮。明前头采，一芽一叶，把山里的雾，泡进每一杯。</p>
+        <div class="foot-social" aria-label="社交媒体">
+          <a href="#" aria-label="微信公众号"><svg><use href="#soc-wx"/></svg></a>
+          <a href="#" aria-label="微博"><svg><use href="#soc-wb"/></svg></a>
+          <a href="#" aria-label="小红书"><svg><use href="#soc-xhs"/></svg></a>
+          <a href="#" aria-label="抖音"><svg><use href="#soc-dy"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <p class="foot-h">探索</p>
+        <a href="#season">当季新品</a>
+        <a href="#series">产品系列</a>
+        <a href="#stores">门店</a>
+        <a href="#member">会员</a>
+      </nav>
+      <div class="foot-contact">
+        <p class="foot-h">联系我们</p>
+        <p data-site="address">浙江省杭州市西湖区龙井路 88 号山涧茶寮</p>
+        <p>电话：<a data-site-href="phoneHref"><span data-site="phone">400-800-1234</span></a></p>
+        <p>邮箱：<a data-site-href="emailHref"><span data-site="email">hello@shanjian.tea</span></a></p>
+        <p>营业时间：<span data-site="hours">每日 10:00 – 22:00</span></p>
+      </div>
+      <div class="foot-legal">
+        <p class="foot-h">网站政策</p>
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+    <p class="copyright">© <span data-site="year">2026</span> <span data-site="name">山涧 SHANJIAN</span> · 本页为设计模板演示，品牌与门店信息均为虚构</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="legal-mask" id="legalMask" hidden>
+  <div class="legal-box" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <button class="legal-x" id="legalClose" aria-label="关闭">✕</button>
+    <p class="eyebrow" id="legalEn">LEGAL</p>
+    <h3 id="legalTitle">隐私政策</h3>
+    <p class="legal-updated" id="legalUpdated">更新于 2026 年 1 月</p>
+    <div class="legal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

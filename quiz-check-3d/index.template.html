@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · quiz-check-3d -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>随堂测 · 3D 答题反馈</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --green: #58cc02;
+  --green-deep: #46a302;
+  --green-soft: rgba(88, 204, 2, .10);
+  --orange: #ff9600;
+  --orange-soft: rgba(255, 150, 0, .10);
+  --ink: #20242b;
+  --dim: #7c828c;
+  --line: #e4e6ea;
+  --soft: #f5f6f8;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+/* 暗角 + 噪点：纸面手工质感（白底用极淡灰） */
+.vignette { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(120% 95% at 50% 42%, transparent 62%, rgba(32,36,43,.07) 100%); }
+.grain { position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+/* 3D 特效叠加层 */
+#fx3d { position: fixed; inset: 0; z-index: 60; pointer-events: none; }
+
+/* 加载态 */
+#loader { position: fixed; inset: 0; z-index: 100; background: var(--bg);
+  display: flex; flex-direction: column; gap: 22px; align-items: center; justify-content: center;
+  transition: opacity .45s var(--ease-out), visibility .45s; }
+#loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.dots { display: flex; gap: 10px; }
+.dots span { width: 14px; height: 14px; border-radius: 50%; background: var(--green);
+  animation: bounce 1s infinite var(--spring); }
+.dots span:nth-child(2) { background: var(--orange); animation-delay: .15s; }
+.dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-16px); } }
+#loader p { font-size: 14px; color: var(--dim); letter-spacing: .2em; }
+
+/* 顶栏 */
+.topbar { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 28px; max-width: 720px; width: 100%; margin: 0 auto; }
+.brand { font-size: 17px; font-weight: 800; letter-spacing: .12em; }
+.brand small { display: block; margin-top: 5px; font-size: 10px; font-weight: 400; letter-spacing: .3em; color: var(--dim); }
+.brand b { color: var(--green-deep); }
+.progress { display: flex; align-items: center; gap: 12px; }
+.progress svg { width: 54px; height: 54px; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--line); stroke-width: 6; }
+.ring-fg { fill: none; stroke: var(--green); stroke-width: 6; stroke-linecap: round;
+  stroke-dasharray: 163.36; stroke-dashoffset: 163.36; transition: stroke-dashoffset .6s var(--ease-out); }
+#qNum { font-size: 14px; font-weight: 700; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* 主舞台 */
+main { position: relative; z-index: 10; width: 100%; max-width: 680px; margin: 0 auto;
+  padding: 8px 24px 72px; flex: 1; }
+.qcard { background: #fff; border: 2px solid var(--line); border-radius: 22px;
+  padding: 34px 32px 30px; box-shadow: 0 18px 44px rgba(32,36,43,.08); }
+.qtag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .18em;
+  color: var(--orange); background: var(--orange-soft); border-radius: 999px; padding: 7px 15px; }
+.qtext { margin: 18px 0 26px; font-size: 25px; line-height: 1.65; font-weight: 800; letter-spacing: .01em; }
+.opts { display: grid; gap: 12px; }
+.opt { display: flex; align-items: center; gap: 15px; width: 100%; text-align: left;
+  padding: 15px 18px; background: #fff; border: 2px solid var(--line); border-radius: 15px;
+  cursor: pointer; font-family: var(--font);
+  transition: transform .18s var(--ease-out), border-color .18s, background .18s, box-shadow .18s; }
+.opt:hover:not(.locked) { transform: translateY(-2px); border-color: #c6cbd3; box-shadow: 0 8px 20px rgba(32,36,43,.08); }
+.opt .letter { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--soft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800; color: var(--dim);
+  transition: transform .2s var(--spring), background .2s, color .2s; }
+.opt:hover:not(.locked) .letter { transform: rotate(-10deg) scale(1.1); background: var(--green-soft); color: var(--green-deep); }
+.opt .txt { font-size: 16.5px; line-height: 1.55; color: var(--ink); }
+.opt.locked { cursor: default; }
+.opt.locked:hover { transform: none; box-shadow: none; }
+/* 答对 */
+.opt.right { border-color: var(--green); background: var(--green-soft); }
+.opt.right .letter { background: var(--green); color: #fff; transform: none; }
+/* 答错 */
+.opt.wrong { border-color: var(--orange); background: var(--orange-soft); animation: shake .5s var(--ease-out); }
+.opt.wrong .letter { background: var(--orange); color: #fff; transform: none; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-9px); }
+  40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(4px); } }
+/* 正确项呼吸高亮 */
+.opt.answer { animation: breathe 1.7s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { box-shadow: 0 0 0 0 rgba(88,204,2,.45); }
+  50% { box-shadow: 0 0 0 9px rgba(88,204,2,0); } }
+
+/* 解析展开 */
+.explain { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s var(--ease-out); }
+.explain.open { grid-template-rows: 1fr; }
+.explain > div { overflow: hidden; }
+.ex-inner { margin-top: 18px; border-top: 2px dashed var(--line); padding-top: 20px; }
+.ex-head { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 800; letter-spacing: .22em; color: var(--green-deep); }
+.ex-head::before { content: ""; width: 5px; height: 16px; border-radius: 3px; background: var(--green); }
+.ex-body { margin: 12px 0 20px; font-size: 15.5px; line-height: 1.85; color: #4a4f57; }
+.cont-btn { width: 100%; padding: 16px; border: none; border-radius: 15px; background: var(--green);
+  color: #fff; font-size: 16.5px; font-weight: 800; letter-spacing: .3em; font-family: var(--font);
+  cursor: pointer; box-shadow: 0 6px 0 var(--green-deep);
+  transition: transform .15s var(--ease-out), box-shadow .15s; }
+.cont-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--green-deep); }
+.cont-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--green-deep); }
+
+/* 结算 */
+#doneView { text-align: center; padding: 30px 10px; }
+.done-ring-wrap { position: relative; width: 190px; height: 190px; margin: 6px auto 24px; }
+.done-ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.done-ring-bg { fill: none; stroke: var(--line); stroke-width: 10; }
+#doneRing { fill: none; stroke: var(--green); stroke-width: 10; stroke-linecap: round;
+  stroke-dasharray: 402.12; stroke-dashoffset: 402.12;
+  transition: stroke-dashoffset 1s var(--ease-out); }
+.done-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#donePct { font-size: 42px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.done-center small { font-size: 12px; color: var(--dim); letter-spacing: .3em; margin-top: 4px; }
+#doneTitle { font-size: 30px; font-weight: 800; letter-spacing: .06em; }
+#doneSub { margin: 12px auto 22px; max-width: 420px; font-size: 15.5px; line-height: 1.8; color: var(--dim); }
+#doneStat { display: inline-block; font-size: 14px; font-weight: 700; color: var(--orange);
+  background: var(--orange-soft); border-radius: 999px; padding: 9px 22px; letter-spacing: .1em; margin-bottom: 28px; }
+#retryBtn { padding: 16px 58px; border: none; border-radius: 15px; background: var(--orange);
+  color: #fff; font-size: 16.5px; font-weight: 800; letter-spacing: .3em; font-family: var(--font);
+  cursor: pointer; box-shadow: 0 6px 0 #d97e00;
+  transition: transform .15s var(--ease-out), box-shadow .15s; }
+#retryBtn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #d97e00; }
+#retryBtn:active { transform: translateY(3px); box-shadow: 0 2px 0 #d97e00; }
+
+.foot { position: relative; z-index: 10; text-align: center; padding: 0 0 26px;
+  font-size: 11px; letter-spacing: .24em; color: #b9bec6; }
+
+@media (max-width: 560px) {
+  .topbar { padding: 16px 18px; }
+  main { padding: 4px 16px 56px; }
+  .qcard { padding: 26px 20px 24px; border-radius: 18px; }
+  .qtext { font-size: 21px; }
+  .opt .txt { font-size: 15.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div class="vignette"></div>
+<div class="grain"></div>
+<canvas id="fx3d"></canvas>
+
+<div id="loader" aria-hidden="true">
+  <div class="dots"><span></span><span></span><span></span></div>
+  <p>正在准备题目</p>
+</div>
+
+<header class="topbar">
+  <div class="brand"><b>随堂测</b> QUIZ · CHECK<small>3D 答题反馈演示</small></div>
+  <div class="progress">
+    <svg viewBox="0 0 60 60" aria-hidden="true">
+      <circle class="ring-bg" cx="30" cy="30" r="26"></circle>
+      <circle class="ring-fg" id="ringFg" cx="30" cy="30" r="26"></circle>
+    </svg>
+    <span id="qNum">1 / 3</span>
+  </div>
+</header>
+
+<main>
+  <section id="quizView">
+    <div class="qcard" id="qcard">
+      <span class="qtag" id="qtag"></span>
+      <h1 class="qtext" id="qtext"></h1>
+      <div class="opts" id="opts"></div>
+    </div>
+    <div class="explain" id="explain">
+      <div><div class="ex-inner">
+        <div class="ex-head">解析</div>
+        <p class="ex-body" id="exBody"></p>
+        <button class="cont-btn" id="contBtn">继续</button>
+      </div></div>
+    </div>
+  </section>
+
+  <section id="doneView" hidden>
+    <div class="done-ring-wrap">
+      <svg viewBox="0 0 160 160" aria-hidden="true">
+        <circle class="done-ring-bg" cx="80" cy="80" r="64"></circle>
+        <circle id="doneRing" cx="80" cy="80" r="64"></circle>
+      </svg>
+      <div class="done-center"><span id="donePct">0%</span><small>正确率</small></div>
+    </div>
+    <h2 id="doneTitle"></h2>
+    <p id="doneSub"></p>
+    <div><span id="doneStat"></span></div>
+    <button id="retryBtn">再来一次</button>
+  </section>
+</main>
+
+<footer class="foot">随堂测 · 答对有爆发 答错有讲解</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · timeline-lesson-3d -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>光影大师课 · 手机摄影 — 章节时间线</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script src="vendor/gsap.min.js"></script>
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true"><span class="lpulse"></span><p>正在铺设时间线…</p></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="topbar reveal">
+  <div class="brand"><b id="brandName">光影大师课</b><small id="brandCode">手机摄影 · MASTERCLASS</small></div>
+  <div class="chapcount"><span id="chapCount">01 — 06</span><label>章节</label></div>
+</header>
+<div class="top-progress" aria-hidden="true"><i id="topProgress"></i></div>
+
+<main class="stage" id="stage">
+  <canvas id="tlCanvas" class="reveal" aria-label="课程章节时间线，拖拽或点击节点切换章节"></canvas>
+  <div class="hint reveal">←&nbsp; 拖拽时间线 · 点击金色节点跳转 &nbsp;→</div>
+  <section class="card-wrap">
+    <article class="card reveal" id="card" aria-live="polite"></article>
+  </section>
+</main>
+
+<footer class="foot reveal"><span>huafire3d fx-lab · timeline-lesson-3d · original implementation</span></footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

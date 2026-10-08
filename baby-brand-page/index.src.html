@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>贝安 BAYAN · 陪伴宝宝安心长大</title>
+<meta name="description" content="贝安 BAYAN —— 专注 0-6 岁婴童服饰与用品，A类面料、无荧光剂、双重质检，用妈妈的标准做每一件小衣服。">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- 颗粒噪点 + 加载幕布 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="veil" id="veil" aria-hidden="true">
+  <div class="veil-mark">
+    <svg viewBox="0 0 64 64" width="44" height="44" aria-hidden="true">
+      <circle cx="32" cy="32" r="29" fill="#A8C3D1"/>
+      <path d="M20 40c3-8 8-12 12-12s9 4 12 12" stroke="#FAF6EF" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="26" cy="27" r="3" fill="#FAF6EF"/><circle cx="38" cy="27" r="3" fill="#FAF6EF"/>
+    </svg>
+    <span>贝安 BAYAN</span>
+  </div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="贝安首页">
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true">
+        <circle cx="32" cy="32" r="29" fill="#A8C3D1"/>
+        <path d="M20 40c3-8 8-12 12-12s9 4 12 12" stroke="#FAF6EF" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <circle cx="26" cy="27" r="3" fill="#FAF6EF"/><circle cx="38" cy="27" r="3" fill="#FAF6EF"/>
+      </svg>
+      <span class="brand-word">贝安<em>BAYAN</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#ages">分龄选购</a>
+      <a href="#certs">安全承诺</a>
+      <a href="#stars">明星单品</a>
+      <a href="#know">育儿知识</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-small btn-peach" href="#cta">领新手礼包</a>
+      <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" hidden>
+  <div class="drawer-head">
+    <span class="brand-word">贝安<em>BAYAN</em></span>
+    <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  </div>
+  <nav class="drawer-links">
+    <a href="#ages">分龄选购</a>
+    <a href="#certs">安全承诺</a>
+    <a href="#stars">明星单品</a>
+    <a href="#know">育儿知识</a>
+    <a href="#cta" class="drawer-cta">领新手礼包</a>
+  </nav>
+  <p class="drawer-note">A类面料 · 无荧光剂 · 双重质检</p>
+</aside>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="clouds" aria-hidden="true">
+      <svg class="cloud c1" viewBox="0 0 200 90"><path d="M30 70c-14 0-24-10-24-22s11-21 23-19C33 17 45 9 60 9c17 0 30 12 31 27 3-1 6-2 10-2 16 0 29 11 29 25S117 70 101 70H30z" fill="#fff" opacity=".85"/></svg>
+      <svg class="cloud c2" viewBox="0 0 200 90"><path d="M30 70c-14 0-24-10-24-22s11-21 23-19C33 17 45 9 60 9c17 0 30 12 31 27 3-1 6-2 10-2 16 0 29 11 29 25S117 70 101 70H30z" fill="#fff" opacity=".6"/></svg>
+      <svg class="cloud c3" viewBox="0 0 200 90"><path d="M30 70c-14 0-24-10-24-22s11-21 23-19C33 17 45 9 60 9c17 0 30 12 31 27 3-1 6-2 10-2 16 0 29 11 29 25S117 70 101 70H30z" fill="#F4B8A0" opacity=".35"/></svg>
+      <svg class="balloon" viewBox="0 0 60 90" aria-hidden="true">
+        <ellipse cx="30" cy="26" rx="22" ry="25" fill="#F4B8A0"/>
+        <path d="M30 51l-5 8h10z" fill="#A8C3D1"/><path d="M30 59v18" stroke="#A8C3D1" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="hero-inner">
+      <p class="eyebrow" data-hero>0–6 岁婴童服饰 · 妈妈参与设计</p>
+      <h1 class="hero-title">
+        <span class="rl"><span class="rl-in" data-hero-line>把宝宝交给</span></span>
+        <span class="rl"><span class="rl-in" data-hero-line>最柔软的安心<span class="dot">。</span></span></span>
+      </h1>
+      <p class="hero-sub" data-hero>贝安只做一件事：用 A 类面料、无荧光剂工艺、双重质检，<br class="br-d">做出妈妈敢贴着脸闻的小衣服。</p>
+      <div class="hero-actions" data-hero>
+        <a class="btn btn-peach" href="#ages">按年龄选购</a>
+        <a class="btn btn-ghost" href="#certs">看看安全承诺</a>
+      </div>
+      <dl class="hero-stats" data-hero>
+        <div><dt>120万+</dt><dd>妈妈的选择</dd></div>
+        <div><dt>100%</dt><dd>A类面料覆盖</dd></div>
+        <div><dt>4.9</dt><dd>全网好评均分</dd></div>
+      </dl>
+    </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+  </section>
+
+  <!-- 分龄选购 -->
+  <section class="section ages" id="ages">
+    <div class="wrap">
+      <p class="kicker" data-reveal>分龄选购</p>
+      <h2 class="sec-title" data-reveal>不同月龄，穿得不一样</h2>
+      <p class="sec-sub" data-reveal>新生儿要的是包裹感，学步期要的是耐造，大孩子要的是自己穿得上。切换年龄段，看看贝安为这个阶段准备了什么。</p>
+      <div class="tabs" role="tablist" aria-label="年龄段" data-reveal>
+        <button class="tab is-on" role="tab" aria-selected="true" data-age="0">0–1 岁 · 襁褓期</button>
+        <button class="tab" role="tab" aria-selected="false" data-age="1">1–3 岁 · 学步期</button>
+        <button class="tab" role="tab" aria-selected="false" data-age="2">3–6 岁 · 探索期</button>
+      </div>
+      <div class="age-panels" data-reveal>
+        <div class="age-panel is-on" data-panel="0" role="tabpanel"><div class="grid" data-grid="0"></div></div>
+        <div class="age-panel" data-panel="1" role="tabpanel" hidden><div class="grid" data-grid="1"></div></div>
+        <div class="age-panel" data-panel="2" role="tabpanel" hidden><div class="grid" data-grid="2"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安全认证横带 -->
+  <section class="certs" id="certs">
+    <div class="wrap">
+      <p class="kicker kicker-light" data-reveal>安全承诺</p>
+      <h2 class="sec-title sec-title-light" data-reveal>每一件，都经得起查</h2>
+      <div class="cert-row" data-reveal>
+        <div class="cert">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="#FAF6EF" stroke-width="3"/><path d="M15 24l7 7 11-14" stroke="#FAF6EF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <strong>A类面料</strong><span>婴幼儿可贴身穿着标准</span>
+        </div>
+        <div class="cert">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l15 6v12c0 10-6.5 17-15 20C15.5 41 9 34 9 24V12z" fill="none" stroke="#FAF6EF" stroke-width="3"/><path d="M18 24l5 5 8-10" stroke="#FAF6EF" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <strong>无荧光剂</strong><span>染色助剂全项筛查</span>
+        </div>
+        <div class="cert">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="20" cy="20" r="12" fill="none" stroke="#FAF6EF" stroke-width="3"/><path d="M29 29l10 10" stroke="#FAF6EF" stroke-width="4" stroke-linecap="round"/></svg>
+          <strong>双重质检</strong><span>出厂前全检 + 抽检复核</span>
+        </div>
+        <div class="cert">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 34c4-10 8-16 14-16s10 6 14 16" fill="none" stroke="#FAF6EF" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="14" r="4" fill="none" stroke="#FAF6EF" stroke-width="3"/></svg>
+          <strong>面料可追溯</strong><span>每批次留样可查源头</span>
+        </div>
+      </div>
+      <p class="cert-note" data-reveal>检测报告随包裹寄出，也可在商品详情页扫码查看原件。</p>
+    </div>
+  </section>
+
+  <!-- 明星单品横滑 -->
+  <section class="section stars" id="stars">
+    <div class="wrap">
+      <div class="stars-head">
+        <div>
+          <p class="kicker" data-reveal>明星单品</p>
+          <h2 class="sec-title" data-reveal>妈妈们回购最多的几件</h2>
+        </div>
+        <div class="rail-btns" data-reveal>
+          <button class="rail-btn" id="railPrev" aria-label="向左滑动">←</button>
+          <button class="rail-btn" id="railNext" aria-label="向右滑动">→</button>
+        </div>
+      </div>
+      <div class="rail" id="rail" data-reveal></div>
+      <p class="rail-hint">← 左右滑动查看更多 →</p>
+    </div>
+  </section>
+
+  <!-- 育儿知识 -->
+  <section class="section know" id="know">
+    <div class="wrap">
+      <p class="kicker" data-reveal>育儿知识</p>
+      <h2 class="sec-title" data-reveal>衣服之外的事，我们也懂一点</h2>
+      <p class="sec-sub" data-reveal>贝安的育儿顾问团每周更新：不讲大道理，只写今晚就能用的小方法。</p>
+      <div class="know-grid">
+        <article class="know-card" data-reveal>
+          <div class="know-art art-a" aria-hidden="true">
+            <svg viewBox="0 0 320 150"><rect width="320" height="150" fill="#A8C3D1"/><circle cx="70" cy="60" r="26" fill="#FAF6EF" opacity=".7"/><path d="M70 60m-14 0a14 14 0 1028 0 14 14 0 10-28 0" fill="none" stroke="#A8C3D1" stroke-width="5"/><path d="M150 100c20-24 44-24 64 0s44 24 64 0" stroke="#FAF6EF" stroke-width="6" fill="none" stroke-linecap="round" opacity=".8"/></svg>
+          </div>
+          <div class="know-body">
+            <p class="know-meta">新生儿护理 · 3 分钟读完</p>
+            <h3>给宝宝洗澡，水温 38℃ 是个坎</h3>
+            <p>手肘内侧试温比手背准；室温保持 26℃ 以上，洗完 3 分钟内穿好衣服，感冒大多输在这 3 分钟。</p>
+            <button class="know-more" data-toast="文章页演示：完整内容即将上线">阅读全文 →</button>
+          </div>
+        </article>
+        <article class="know-card" data-reveal style="--d:.1s">
+          <div class="know-art art-b" aria-hidden="true">
+            <svg viewBox="0 0 320 150"><rect width="320" height="150" fill="#F4B8A0"/><ellipse cx="110" cy="80" rx="46" ry="34" fill="#FAF6EF" opacity=".85"/><ellipse cx="210" cy="60" rx="30" ry="22" fill="#FAF6EF" opacity=".6"/><circle cx="110" cy="80" r="10" fill="#F4B8A0"/></svg>
+          </div>
+          <div class="know-body">
+            <p class="know-meta">辅食添加 · 4 分钟读完</p>
+            <h3>宝宝发出这 4 个信号，可以加辅食了</h3>
+            <p>能独坐、挺舌反射消失、看见大人吃饭会凑过来、对食物表现出兴趣——齐了再动手，不抢跑。</p>
+            <button class="know-more" data-toast="文章页演示：完整内容即将上线">阅读全文 →</button>
+          </div>
+        </article>
+        <article class="know-card" data-reveal style="--d:.2s">
+          <div class="know-art art-c" aria-hidden="true">
+            <svg viewBox="0 0 320 150"><rect width="320" height="150" fill="#FAF6EF"/><circle cx="160" cy="70" r="40" fill="none" stroke="#A8C3D1" stroke-width="8"/><path d="M160 48v22l16 12" stroke="#A8C3D1" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M60 120h200" stroke="#F4B8A0" stroke-width="6" stroke-linecap="round" opacity=".7"/></svg>
+          </div>
+          <div class="know-body">
+            <p class="know-meta">睡眠习惯 · 5 分钟读完</p>
+            <h3>断夜奶不用硬熬，试试三步递减法</h3>
+            <p>先减一次喂奶量，再拉长间隔，最后用拍睡替代。每一步给宝宝 3–5 天，大人小孩都不遭罪。</p>
+            <button class="know-more" data-toast="文章页演示：完整内容即将上线">阅读全文 →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta" id="cta">
+    <div class="wrap">
+      <div class="cta-card" data-reveal>
+        <div class="cta-copy">
+          <p class="kicker kicker-light">新手妈妈礼包</p>
+          <h2>第一件小衣服，<br>贝安请你。</h2>
+          <p>留下手机号，领取 <strong>50 元新人券 + 纯棉口水巾</strong>。券 7 天内有效，口水巾随首单寄出，不领白不领。</p>
+          <ul class="cta-points">
+            <li>新人券无门槛，过期自动作废不扣费</li>
+            <li>每月一期《分龄穿衣指南》短信，可退订</li>
+          </ul>
+        </div>
+        <form class="cta-form" id="giftForm" novalidate>
+          <label>手机号码
+            <input type="tel" id="giftPhone" inputmode="numeric" maxlength="11" placeholder="请输入 11 位手机号" autocomplete="tel">
+          </label>
+          <button class="btn btn-peach btn-block" type="submit">领取礼包</button>
+          <p class="form-note">提交即表示同意《隐私政策》中关于营销短信的说明，可随时退订。</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="brand-word brand-word-light">贝安<em>BAYAN</em></span>
+      <p class="foot-slogan">陪伴宝宝安心长大。<br>用妈妈的标准，做每一件小衣服。</p>
+      <div class="socials">
+        <a href="#" aria-label="微信公众号" data-toast="演示链接：微信公众号 bayan-mom"><svg viewBox="0 0 24 24"><path d="M9 11a4 4 0 104 4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2L5 20l3.4-1.7c1.1.3 2.3.5 3.6.5.4 0 .8 0 1.2-.1A6.5 6.5 0 0112 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="11" r="1.2" fill="currentColor"/><circle cx="13.5" cy="11" r="1.2" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="微博" data-toast="演示链接：官方微博 @贝安BAYAN"><svg viewBox="0 0 24 24"><path d="M10 17.5c-2.8 0-5.5-1.6-5.5-4.2 0-2.4 2.2-4.1 4.9-4.1.4-1.9 2-3.2 4-3.2 2.2 0 4 1.6 4 3.8v.4c2 .5 3.6 2 3.6 4.3 0 2.6-2.4 4.3-5.5 4.3-1.9.4-3.9-.6-5.5-1.3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="18.5" cy="7" r="1.6" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="小红书" data-toast="演示链接：小红书 贝安母婴"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="抖音" data-toast="演示链接：抖音 贝安官方旗舰店"><svg viewBox="0 0 24 24"><path d="M14 4v9.5a3.5 3.5 0 11-3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 4c.5 2.5 2 4 4.5 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot-col" aria-label="选购">
+      <h4>选购</h4>
+      <a href="#ages">0–1 岁襁褓期</a>
+      <a href="#ages">1–3 岁学步期</a>
+      <a href="#ages">3–6 岁探索期</a>
+      <a href="#stars">明星单品</a>
+    </nav>
+    <nav class="foot-col" aria-label="帮助">
+      <h4>帮助</h4>
+      <a href="#know">育儿知识</a>
+      <a href="#certs">安全承诺</a>
+      <a href="#cta">新手礼包</a>
+      <a href="#" data-toast="演示链接：尺码对照表">尺码对照表</a>
+    </nav>
+    <div class="foot-col foot-contact">
+      <h4>联系我们</h4>
+      <p>客服热线<br><strong data-site="phone"></strong></p>
+      <p>邮箱<br><strong data-site="email"></strong></p>
+      <p>地址<br><span data-site="address"></span></p>
+      <p class="foot-hours">服务时间：每天 9:00–21:00</p>
+    </div>
+  </div>
+  <div class="wrap foot-legal">
+    <div class="legal-links">
+      <button data-modal="privacy">隐私政策</button>
+      <button data-modal="terms">服务条款</button>
+      <button data-modal="cookies">Cookie 政策</button>
+    </div>
+    <p class="copyright">© 2026 <span data-site="organizer"></span> 版权所有 · <span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-scrim" id="modalScrim" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" id="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">隐私政策</h3>
+      <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+    </div>
+    <div class="modal-body" data-body="privacy">
+      <h4>我们收集什么</h4>
+      <p>下单与领券时需要您的手机号、收货地址；浏览时会产生匿名的访问统计。我们不会收集与购物无关的通讯录、相册等权限数据。</p>
+      <h4>信息怎么用</h4>
+      <p>手机号仅用于订单通知、物流提醒和您主动订阅的育儿短信；收货地址仅用于发货。营销短信每条都附带退订方式，回复 TD 即退订，退订后不再打扰。</p>
+      <h4>信息给谁看</h4>
+      <p>订单履约需要把收货信息同步给快递公司，除此之外不向任何第三方出售、出租您的个人信息。支付环节由持牌支付机构处理，我们不存储您的银行卡号。</p>
+      <h4>您的权利</h4>
+      <p>您可以随时联系客服查询、更正或删除您的个人信息；注销账号后，除法律要求留存的订单记录外，个人信息将在 15 个工作日内删除。</p>
+      <h4>未成年人</h4>
+      <p>本站面向成年人（家长）提供服务，不会有意收集 14 岁以下儿童的个人信息。如发现误收集，请联系我们立即删除。</p>
+    </div>
+    <div class="modal-body" data-body="terms" hidden>
+      <h4>商品与价格</h4>
+      <p>页面标价为人民币含税价；促销价以提交订单时为准。商品图片为实物拍摄，因显示器色差可能存在轻微差异，介意色差的妈妈建议先咨询客服。</p>
+      <h4>退换货</h4>
+      <p>未穿洗、不影响二次销售的商品，签收后 7 天内无理由退货，运费由我们承担；有质量问题的商品 30 天内免费换新，质检报告可查。</p>
+      <h4>发货与物流</h4>
+      <p>每日 16:00 前的订单当天发出，48 小时内发出率 99%；偏远地区时效以快递公司为准。发货后可在订单页查看物流轨迹。</p>
+      <h4>优惠券规则</h4>
+      <p>新人券自领取日起 7 天内有效，过期自动作废；每单限用一张，不可叠加、不可兑现。作弊刷券一经发现，券作废且账号暂停领券资格。</p>
+      <h4>账户安全</h4>
+      <p>请勿将账号借给他人使用；因账号共享导致的损失由账号持有人承担。发现异常登录请立即联系客服冻结。</p>
+    </div>
+    <div class="modal-body" data-body="cookies" hidden>
+      <h4>我们用什么 Cookie</h4>
+      <p>必要型：记住登录态、购物车内容，关掉它网站就没法下单；偏好型：记住您选的尺码、语言；统计型：匿名统计哪些页面受欢迎，用来改进选品。</p>
+      <h4>第三方吗</h4>
+      <p>统计型 Cookie 由我们自建的统计服务处理，数据不出境；不接入广告联盟，不做跨站追踪，关掉浏览器就没有了。</p>
+      <h4>怎么管理</h4>
+      <p>您可以在浏览器设置里清除或禁用 Cookie；禁用必要型 Cookie 会导致无法登录和下单，其他类型可自由开关，不影响浏览。</p>
+      <h4>有效期</h4>
+      <p>偏好型 Cookie 最长保留 12 个月，到期自动清除；统计型数据匿名化后保留 24 个月用于趋势分析。</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

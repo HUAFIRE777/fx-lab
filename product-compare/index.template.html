@@ -1,0 +1,84 @@
+<!doctype html>
+<!-- huafire3d fx-lab — original implementation -->
+<!-- product-compare：双品 3D 对比模板（独立站对比页） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>双品对比 · huafire3d fx-lab</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/addons/"
+  }
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="brand"><b>HUAFIRE</b>&nbsp;选品</div>
+    <div class="controls">
+      <div class="ctl">
+        <button class="switch on" id="syncToggle" role="switch" aria-checked="true" aria-label="同步旋转">
+          <span class="knob"></span>
+        </button>
+        <span class="switch-label" id="syncLabel">同步旋转</span>
+      </div>
+      <div class="ctl">
+        <button class="switch" id="diffToggle" role="switch" aria-checked="false" aria-label="只看差异">
+          <span class="knob"></span>
+        </button>
+        <span class="switch-label" id="diffLabel">只看差异</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="pageTitle"></h1>
+    <p class="sub" id="pageSub"></p>
+  </section>
+
+  <section class="stage" id="stage">
+    <canvas id="gl"></canvas>
+
+    <div class="vp" data-side="a">
+      <div class="vp-meta">
+        <p class="vp-name"></p>
+        <p class="vp-tag"></p>
+      </div>
+      <div class="vp-price"></div>
+      <div class="vp-state" data-state="loading"></div>
+    </div>
+
+    <div class="vp" data-side="b">
+      <div class="vp-meta">
+        <p class="vp-name"></p>
+        <p class="vp-tag"></p>
+      </div>
+      <div class="vp-price"></div>
+      <div class="vp-state" data-state="loading"></div>
+    </div>
+
+    <div class="vs">VS</div>
+    <div class="grain"></div>
+  </section>
+
+  <section class="specs">
+    <div class="specs-head">
+      <h2>参数对照</h2>
+      <span id="specSummary"></span>
+    </div>
+    <table id="specTable"></table>
+  </section>
+
+  <p class="footnote" id="footnote"></p>
+
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

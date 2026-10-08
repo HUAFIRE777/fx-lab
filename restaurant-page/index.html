@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山外山 · 山野料理 — 杭州</title>
+<meta name="description" content="山外山 · 山野料理，杭州龙井村口十二张桌。山野之味，当季而食。人均￥680。">
+<!-- huafire3d fx-lab · MIT License — free for commercial use (restaurant-page) -->
+<style>
+/* 山外山 · 山野料理 — restaurant-page
+   暖纸 #FAF6EF / 炭黑 #1C1A17 / 陶土 #C1502E，hero 反转炭黑底。
+   全部视觉 CSS/SVG/程序化，零外部资源。 */
+:root{
+  --paper:#FAF6EF;
+  --paper-2:#F2EBDD;
+  --ink:#1C1A17;
+  --ink-2:#57504a;
+  --ink-3:#8a8178;
+  --clay:#C1502E;
+  --clay-deep:#9c3d21;
+  --line:rgba(28,26,23,.14);
+  --dark:#14110e;
+  --dark-2:#1f1a15;
+  --paper-ink:#FAF6EF;
+  --serif:"Songti SC","STSong","SimSun","Noto Serif CJK SC","Noto Serif SC",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --ease:cubic-bezier(.19,1,.22,1);      /* 物理感：快出慢收 */
+  --ease-io:cubic-bezier(.65,0,.35,1);
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+/* 全页纸纹 */
+body::after{
+  content:"";position:fixed;inset:0;z-index:2000;pointer-events:none;
+  background-image:var(--noise);opacity:.05;mix-blend-mode:multiply;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+section{scroll-margin-top:84px}
+::selection{background:var(--clay);color:#fff}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:3000;background:var(--dark);
+  display:flex;flex-direction:column;gap:22px;align-items:center;justify-content:center;
+  transition:opacity .6s var(--ease-io),visibility .6s;
+}
+.loader.done{opacity:0;visibility:hidden}
+.loader-mark{
+  width:64px;height:64px;border:1px solid rgba(250,246,239,.35);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:30px;color:var(--paper-ink);
+}
+.loader-bar{width:120px;height:2px;background:rgba(250,246,239,.15);overflow:hidden}
+.loader-bar i{display:block;height:100%;width:40%;background:var(--clay);
+  animation:loadslide 1.1s var(--ease-io) infinite}
+@keyframes loadslide{0%{transform:translateX(-110%)}100%{transform:translateX(310%)}}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-block;padding:13px 34px;border-radius:999px;
+  font-size:15px;letter-spacing:.12em;text-decoration:none;cursor:pointer;border:1px solid transparent;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .3s,color .3s,border-color .3s;
+}
+.btn-clay{background:var(--clay);color:#fff}
+.btn-clay:hover{background:var(--clay-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(193,80,46,.35)}
+.btn-ghost{border-color:rgba(250,246,239,.5);color:var(--paper-ink)}
+.btn-ghost:hover{border-color:var(--paper-ink);transform:translateY(-2px)}
+.btn-sm{padding:9px 24px;font-size:13px}
+
+/* ---------- 导航 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  transition:background .4s,box-shadow .4s,backdrop-filter .4s;
+}
+.nav-in{
+  max-width:1280px;margin:0 auto;padding:18px 28px;
+  display:flex;align-items:center;gap:36px;
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--paper-ink)}
+.brand-mark{
+  width:40px;height:40px;border:1px solid rgba(250,246,239,.6);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:20px;flex:none;
+}
+.brand-name{font-family:var(--serif);font-size:19px;letter-spacing:.14em;line-height:1.25}
+.brand-name small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:rgba(250,246,239,.65);font-weight:400}
+.nav-links{display:flex;gap:34px;margin:0 auto}
+.nav-links a{
+  color:rgba(250,246,239,.85);text-decoration:none;font-size:14px;letter-spacing:.22em;
+  position:relative;padding:4px 0;transition:color .3s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--clay);transition:width .35s var(--ease);
+}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+/* 滚动后毛玻璃 */
+.nav.scrolled{background:rgba(20,17,14,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(250,246,239,.08)}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:8px;flex:none}
+.burger span{display:block;width:24px;height:2px;background:var(--paper-ink);margin:5px 0;transition:transform .35s var(--ease),opacity .3s}
+.m-menu{display:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;
+  background:var(--dark);color:var(--paper-ink);overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.kb{
+  position:absolute;inset:-6%;
+  background:
+    radial-gradient(900px 480px at 50% 108%, rgba(193,80,46,.20), transparent 62%),
+    radial-gradient(1200px 620px at 82% -10%, rgba(250,246,239,.06), transparent 60%),
+    radial-gradient(700px 300px at 18% 78%, rgba(122,139,79,.10), transparent 65%),
+    linear-gradient(180deg,#0d0b09 0%,#161210 46%,#241a12 78%,#171310 100%);
+  animation:kenburns 26s ease-in-out infinite alternate;
+  will-change:transform;
+}
+@keyframes kenburns{from{transform:scale(1) translateY(0)}to{transform:scale(1.09) translateY(-1.5%)}}
+.hero-shade{position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 40%, transparent 30%, rgba(10,8,6,.55) 100%)}
+.hero-grain{position:absolute;inset:0;background-image:var(--noise);opacity:.09;mix-blend-mode:overlay}
+.hero-inner{position:relative;text-align:center;padding:120px 24px 80px;max-width:900px}
+.eyebrow{font-size:13px;letter-spacing:.42em;color:rgba(250,246,239,.72);margin-bottom:26px}
+.hero h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(72px,14vw,168px);letter-spacing:.1em;line-height:1.1;margin-bottom:20px;
+}
+.tagline{font-family:var(--serif);font-size:clamp(18px,3vw,26px);letter-spacing:.5em;color:rgba(250,246,239,.85);margin-bottom:44px;text-indent:.5em}
+.hero-cta{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+/* 大字升起：遮罩 + 内层位移 */
+.rl-line{display:block;overflow:hidden}
+.rl-line>span{display:block;will-change:transform}
+.js .rl-line>span{transform:translateY(112%);transition:transform 1.15s var(--ease);transition-delay:var(--d,0s)}
+.js.loaded .rl-line>span{transform:none}
+.js .hero-cta{opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease) .55s,transform .9s var(--ease) .55s}
+.js.loaded .hero-cta{opacity:1;transform:none}
+.scroll-hint{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(250,246,239,.6);text-decoration:none;font-size:11px;letter-spacing:.4em;text-indent:.4em;
+  transition:color .3s;
+}
+.scroll-hint:hover{color:var(--paper-ink)}
+.scroll-hint i{width:1px;height:44px;background:rgba(250,246,239,.35);position:relative;overflow:hidden;display:block}
+.scroll-hint i::after{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;background:var(--clay);
+  animation:drop 1.8s var(--ease-io) infinite}
+@keyframes drop{to{top:110%}}
+
+/* ---------- 通用区块 ---------- */
+.kicker{
+  font-size:12px;letter-spacing:.42em;color:var(--clay);margin-bottom:18px;font-weight:600;
+}
+.kicker-dark{color:var(--clay)}
+.sec-title{
+  font-family:var(--serif);font-size:clamp(32px,5vw,52px);line-height:1.35;
+  letter-spacing:.06em;margin-bottom:28px;font-weight:600;
+}
+.story{padding:130px 0 110px}
+.story-lead{font-size:18px;color:var(--ink-2);max-width:640px;margin-bottom:70px}
+
+/* 主厨 */
+.chef{display:flex;gap:48px;align-items:center;background:var(--paper-2);
+  border:1px solid var(--line);border-radius:20px;padding:48px 52px}
+.chef-avatar{flex:none;width:150px;height:150px}
+.chef-avatar svg{width:100%;height:100%}
+.chef-quote p{
+  font-family:var(--serif);font-size:clamp(20px,2.6vw,27px);line-height:1.8;letter-spacing:.04em;margin-bottom:18px;
+}
+.chef-quote p::before{content:"";display:block;width:44px;height:2px;background:var(--clay);margin-bottom:22px}
+.chef-quote footer{font-size:15px;letter-spacing:.2em}
+.chef-quote footer span{color:var(--ink-3);letter-spacing:.1em;margin-left:10px;font-size:13px}
+
+/* ---------- 招牌菜 ---------- */
+.dishes{padding:40px 0 130px}
+.dish-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:56px}
+.dish{
+  background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease);
+}
+.dish:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(28,26,23,.14)}
+.plate{
+  background:radial-gradient(120% 100% at 50% 0%,#2e2822 0%,#1d1814 70%);
+  padding:34px;display:flex;justify-content:center;
+}
+.plate svg{width:min(230px,60vw);height:auto;transition:transform .5s var(--ease)}
+.dish:hover .plate svg{transform:scale(1.05) rotate(2deg)}
+.steam path{animation:steam 3.2s ease-in-out infinite}
+.steam path:nth-child(2){animation-delay:.5s}
+.steam path:nth-child(3){animation-delay:1s}
+@keyframes steam{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:.6;transform:translateY(-4px)}}
+.dish-body{padding:28px 32px 34px;position:relative}
+.dish-no{
+  position:absolute;top:24px;right:28px;font-family:var(--serif);font-size:15px;color:var(--ink-3);
+  border:1px solid var(--line);width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.dish-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:10px;padding-right:44px}
+.dish-top h3{font-family:var(--serif);font-size:23px;letter-spacing:.1em;font-weight:600}
+.price{font-size:19px;color:var(--clay);font-weight:700;white-space:nowrap}
+.dish-body p{font-size:14.5px;color:var(--ink-2)}
+.menu-note{margin-top:34px;color:var(--ink-3);font-size:13.5px;letter-spacing:.06em}
+
+/* ---------- 到店三栏 ---------- */
+.visit{padding:110px 0;background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.visit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:52px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--paper)}
+.visit-col{padding:44px 40px;border-left:1px solid var(--line)}
+.visit-col:first-child{border-left:0}
+.visit-col h3{font-family:var(--serif);font-size:19px;letter-spacing:.3em;margin-bottom:18px;color:var(--clay)}
+.visit-col p{font-size:15.5px;color:var(--ink-2);line-height:2}
+.visit-col .muted{margin-top:14px;font-size:13px;color:var(--ink-3)}
+.visit-col .big{font-family:var(--serif);font-size:30px;letter-spacing:.06em;color:var(--ink)}
+
+/* ---------- 评价 ---------- */
+.reviews{padding:120px 0}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px}
+.review{
+  border-top:2px solid var(--clay);padding-top:26px;
+  transition:transform .4s var(--ease);
+}
+.review:hover{transform:translateY(-5px)}
+.review blockquote{font-family:var(--serif);font-size:18px;line-height:1.9;letter-spacing:.03em;margin-bottom:16px}
+.review figcaption{font-size:12.5px;color:var(--ink-3);letter-spacing:.14em}
+
+/* ---------- 预订 CTA ---------- */
+.reserve{
+  background:
+    radial-gradient(800px 380px at 50% 120%, rgba(193,80,46,.22), transparent 65%),
+    linear-gradient(180deg,var(--dark-2),var(--dark));
+  color:var(--paper-ink);text-align:center;padding:130px 0;position:relative;overflow:hidden;
+}
+.reserve::before{content:"";position:absolute;inset:0;background-image:var(--noise);opacity:.08;mix-blend-mode:overlay;pointer-events:none}
+.reserve-title{font-family:var(--serif);font-size:clamp(40px,7vw,76px);letter-spacing:.12em;margin:6px 0 18px;font-weight:600}
+.reserve-sub{color:rgba(250,246,239,.7);letter-spacing:.2em;font-size:15px;margin-bottom:34px}
+.reserve-phone{
+  display:inline-block;font-family:var(--serif);font-size:clamp(34px,6vw,58px);letter-spacing:.1em;
+  color:var(--paper-ink);text-decoration:none;margin-bottom:26px;position:relative;
+  transition:color .3s;
+}
+.reserve-phone::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--clay);
+  transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.reserve-phone:hover{color:#fff}
+.reserve-phone:hover::after{transform:scaleX(1)}
+.reserve-note{font-size:12.5px;letter-spacing:.3em;color:rgba(250,246,239,.5)}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#0f0d0b;color:rgba(250,246,239,.75);padding:70px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;padding-bottom:52px}
+.foot-brand{display:flex;gap:16px;align-items:flex-start}
+.foot-brand .brand-mark{border-color:rgba(250,246,239,.4);color:var(--paper-ink)}
+.foot-brand p{font-size:14px;line-height:2}
+.foot-brand p span{color:rgba(250,246,239,.45);font-size:12.5px}
+.foot-links{display:flex;flex-direction:column;gap:12px}
+.foot-links a{color:rgba(250,246,239,.65);text-decoration:none;font-size:14px;letter-spacing:.2em;transition:color .3s}
+.foot-links a:hover{color:#fff}
+.foot-contact p{font-size:12px;letter-spacing:.3em;color:rgba(250,246,239,.45);margin-bottom:10px}
+.foot-contact a{font-family:var(--serif);font-size:26px;color:var(--paper-ink);text-decoration:none;letter-spacing:.08em}
+.foot-contact a:hover{color:var(--clay)}
+.foot-hours{margin-top:12px;font-size:12.5px!important;letter-spacing:.14em!important;color:rgba(250,246,239,.45)!important}
+.foot-brand p a{color:rgba(250,246,239,.65);text-decoration:none;font-size:12.5px}
+.foot-brand p a:hover{color:#fff}
+.visit-col .big a{color:inherit;text-decoration:none}
+
+/* 社交媒体图标 */
+.socials{display:flex;gap:12px;margin-top:20px}
+.socials a{
+  width:38px;height:38px;border:1px solid rgba(250,246,239,.28);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:rgba(250,246,239,.75);
+  transition:color .3s,border-color .3s,transform .35s var(--ease);
+}
+.socials a svg{width:18px;height:18px;fill:currentColor}
+.socials a:hover{color:var(--clay);border-color:var(--clay);transform:translateY(-3px)}
+
+/* 法务三件套链接 */
+.foot-legal{border-top:1px solid rgba(250,246,239,.1);padding:20px 0}
+.legal-links{display:flex;gap:28px;flex-wrap:wrap}
+.legal-links button{
+  background:none;border:0;cursor:pointer;padding:4px 0;
+  color:rgba(250,246,239,.6);font-size:13px;letter-spacing:.18em;font-family:var(--sans);
+  position:relative;transition:color .3s;
+}
+.legal-links button::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--clay);transition:width .35s var(--ease);
+}
+.legal-links button:hover{color:#fff}
+.legal-links button:hover::after{width:100%}
+
+/* 法务弹窗 */
+.modal-overlay{
+  position:fixed;inset:0;z-index:2500;background:rgba(15,12,9,.62);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;
+}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal{
+  background:var(--paper);color:var(--ink);border-radius:18px;
+  width:100%;max-width:640px;max-height:82vh;overflow-y:auto;
+  padding:46px 50px;position:relative;
+  transform:translateY(18px) scale(.985);transition:transform .42s var(--ease);
+  box-shadow:0 40px 100px rgba(0,0,0,.35);
+}
+.modal-overlay.open .modal{transform:none}
+.modal h3{font-family:var(--serif);font-size:25px;letter-spacing:.1em;margin-bottom:6px;padding-right:44px;font-weight:600}
+.modal .kicker{margin-bottom:10px}
+.modal-body{margin-top:14px}
+.modal-body h4{font-size:15px;letter-spacing:.04em;margin:22px 0 6px;color:var(--ink)}
+.modal-body h4 b{color:var(--clay);font-weight:700;margin-right:8px}
+.modal-body p{font-size:14.5px;color:var(--ink-2);line-height:1.9}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:var(--paper);cursor:pointer;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s,color .3s,border-color .3s,transform .35s var(--ease);
+}
+.modal-close svg{width:16px;height:16px}
+.modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);transform:rotate(90deg)}
+.foot-bottom{
+  border-top:1px solid rgba(250,246,239,.1);padding:22px 0;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:12px;color:rgba(250,246,239,.4);letter-spacing:.12em;
+}
+
+/* ---------- 滚动 reveal ---------- */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+.dish-grid .dish:nth-child(2){transition-delay:.08s}
+.dish-grid .dish:nth-child(3){transition-delay:.12s}
+.dish-grid .dish:nth-child(4){transition-delay:.16s}
+.visit-grid .visit-col:nth-child(2){transition-delay:.08s}
+.visit-grid .visit-col:nth-child(3){transition-delay:.16s}
+.review-grid .review:nth-child(2){transition-delay:.08s}
+.review-grid .review:nth-child(3){transition-delay:.16s}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .dish-grid{grid-template-columns:1fr}
+  .review-grid{grid-template-columns:1fr;gap:36px}
+  .visit-grid{grid-template-columns:1fr}
+  .visit-col{border-left:0;border-top:1px solid var(--line)}
+  .visit-col:first-child{border-top:0}
+  .chef{flex-direction:column;text-align:center;padding:40px 30px;gap:30px}
+  .chef-quote p::before{margin:0 auto 22px}
+  .foot-grid{grid-template-columns:1fr;gap:32px}
+}
+@media (max-width:900px){
+  .nav-links,.nav-book{display:none}
+  .burger{display:block;margin-left:auto}
+  .m-menu{
+    display:block;position:fixed;inset:0;z-index:900;background:rgba(20,17,14,.97);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;
+  }
+  .m-menu.open{opacity:1;visibility:visible}
+  .m-menu nav{
+    height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  }
+  .m-menu nav a{
+    color:var(--paper-ink);text-decoration:none;font-family:var(--serif);
+    font-size:30px;letter-spacing:.3em;padding:14px;text-indent:.3em;
+    opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);
+  }
+  .m-menu.open nav a{opacity:1;transform:none}
+  .m-menu.open nav a:nth-child(1){transition-delay:.06s}
+  .m-menu.open nav a:nth-child(2){transition-delay:.12s}
+  .m-menu.open nav a:nth-child(3){transition-delay:.18s}
+  .m-menu.open nav a:nth-child(4){transition-delay:.24s}
+  .m-menu.open nav a:nth-child(5){transition-delay:.3s}
+  .m-menu nav a.btn{font-family:var(--sans);font-size:15px;margin-top:18px}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  .nav-in{padding:14px 20px;gap:16px}
+  .story{padding:90px 0 80px}
+  .story-lead{font-size:16px}
+  .dishes{padding:20px 0 90px}
+  .visit{padding:80px 0}
+  .visit-col{padding:32px 26px}
+  .reviews{padding:90px 0}
+  .reserve{padding:100px 0}
+  .hero-cta .btn{padding:13px 28px}
+  .dish-top{padding-right:40px}
+  /* 移动端弹窗全屏式 */
+  .modal-overlay{padding:0;align-items:stretch}
+  .modal{max-width:none;max-height:none;height:100%;border-radius:0;padding:76px 24px 48px}
+  .modal-close{top:14px;right:14px}
+  .legal-links{gap:20px}
+}
+
+/* 减少动态偏好：全部动画跳过，直接终态 */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .kb,.loader-bar i,.scroll-hint i::after,.steam path{animation:none!important}
+  .js .rl-line>span{transform:none!important;transition:none!important}
+  .js .hero-cta,.js .reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .m-menu nav a{opacity:1!important;transform:none!important}
+  .modal-overlay,.modal{transition:none!important}
+}
+
+</style>
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">山</div>
+  <div class="loader-bar"><i></i></div>
+</div>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="山外山首页">
+      <span class="brand-mark">山</span>
+      <span class="brand-name">山外山<small>山野料理 · 杭州</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#story">关于</a>
+      <a href="#dishes">菜单</a>
+      <a href="#chef">主厨</a>
+      <a href="#visit">地址</a>
+    </nav>
+    <a class="btn btn-clay btn-sm nav-book" href="#reserve">预订座位</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav>
+    <a href="#story">关于</a>
+    <a href="#dishes">菜单</a>
+    <a href="#chef">主厨</a>
+    <a href="#visit">地址</a>
+    <a class="btn btn-clay" href="#reserve">预订座位</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- 全屏氛围 hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="kb"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-grain"></div>
+    </div>
+    <div class="hero-inner">
+      <p class="eyebrow rl"><span class="rl-line"><span style="--d:.05s">杭州 · 山野料理 · 人均 ￥680</span></span></p>
+      <h1 class="rl"><span class="rl-line"><span style="--d:.15s">山外山</span></span></h1>
+      <p class="tagline rl"><span class="rl-line"><span style="--d:.28s">山野之味，当季而食</span></span></p>
+      <div class="hero-cta">
+        <a class="btn btn-clay" href="#reserve">预订座位</a>
+        <a class="btn btn-ghost" href="#dishes">看看菜单</a>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#story" aria-label="向下滚动浏览"><i></i><span>往下看</span></a>
+  </section>
+
+  <!-- 关于 + 主厨寄语 -->
+  <section class="story" id="story">
+    <div class="wrap">
+      <p class="kicker reveal">关于</p>
+      <h2 class="sec-title reveal">开在龙井村口，<br>菜单跟着山走</h2>
+      <p class="story-lead reveal">一间小院，十二张桌。春天吃笋，秋天吃菌，冬天煨一锅汤。我们不追新奇，只把当季的东西，用炭火和耐心做到位。</p>
+      <div class="chef" id="chef">
+        <div class="chef-avatar reveal" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="96" fill="none" stroke="#C1502E" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="82" fill="#1C1A17"/>
+            <path d="M45 128 L78 74 L96 104 L114 66 L155 128 Z" fill="none" stroke="#FAF6EF" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="100" cy="52" r="7" fill="#C1502E"/>
+            <path d="M60 142 h80" stroke="#C1502E" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <blockquote class="chef-quote reveal">
+          <p>“做菜跟爬山一样，急不得。火候到了，味道自己会走出来。”</p>
+          <footer>陈默 <span>主厨 · 十八年灶台</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 招牌菜 -->
+  <section class="dishes" id="dishes">
+    <div class="wrap">
+      <p class="kicker reveal">菜单</p>
+      <h2 class="sec-title reveal">四道招牌，<br>点的人最多</h2>
+      <div class="dish-grid">
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <circle cx="100" cy="100" r="64" fill="#38302a"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#57504a" stroke-width="1"/>
+              <ellipse cx="92" cy="100" rx="34" ry="13" fill="#4a3b2c"/>
+              <path d="M124 100 l22 -13 v26 z" fill="#4a3b2c"/>
+              <circle cx="80" cy="97" r="2.4" fill="#FAF6EF"/>
+              <path d="M64 92 q10 -6 20 -2 M64 108 q10 6 20 2" stroke="#C1502E" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">壹</span>
+            <div class="dish-top"><h3>炭烤青鱼干</h3><span class="price">￥128</span></div>
+            <p>千岛湖青鱼，炭火慢烤两刻钟，外皮焦香，肉质紧实。</p>
+          </div>
+        </article>
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <circle cx="100" cy="100" r="64" fill="#38302a"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#57504a" stroke-width="1"/>
+              <path d="M78 118 q-6 -26 16 -34 q20 -7 26 10 q-16 -4 -24 6 q-8 10 -4 22 q-8 2 -14 -4z" fill="#c98a5a"/>
+              <path d="M112 128 q10 -22 -8 -32 q14 2 18 14 q3 10 -2 20z" fill="#d89c6c"/>
+              <circle cx="70" cy="76" r="5" fill="#7a8b4f"/>
+              <circle cx="132" cy="80" r="4" fill="#7a8b4f"/>
+              <circle cx="118" cy="66" r="3" fill="#93a45e"/>
+              <circle cx="84" cy="66" r="3" fill="#93a45e"/>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">贰</span>
+            <div class="dish-top"><h3>龙井炒虾仁</h3><span class="price">￥168</span></div>
+            <p>明前龙井入菜，河虾仁清甜，茶香不夺鲜。</p>
+          </div>
+        </article>
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <path d="M48 108 a52 52 0 0 0 104 0 z" fill="#38302a"/>
+              <ellipse cx="100" cy="108" rx="52" ry="12" fill="#57504a"/>
+              <ellipse cx="100" cy="106" rx="44" ry="9" fill="#8a6f4d"/>
+              <circle cx="88" cy="104" r="5" fill="#4a3b2c"/>
+              <circle cx="106" cy="108" r="6" fill="#4a3b2c"/>
+              <circle cx="118" cy="103" r="4" fill="#4a3b2c"/>
+              <g class="steam" stroke="#FAF6EF" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55">
+                <path d="M84 84 q4 -8 0 -16 q-4 -8 0 -16"/>
+                <path d="M100 86 q4 -8 0 -16 q-4 -8 0 -16"/>
+                <path d="M116 84 q4 -8 0 -16 q-4 -8 0 -16"/>
+              </g>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">叁</span>
+            <div class="dish-top"><h3>山菌土鸡汤</h3><span class="price">￥98</span></div>
+            <p>松茸配走地鸡，文火吊三小时，汤清味厚。</p>
+          </div>
+        </article>
+
+        <article class="dish reveal">
+          <div class="plate" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#2b251f"/>
+              <circle cx="100" cy="100" r="64" fill="#38302a"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#57504a" stroke-width="1"/>
+              <g fill="#d9c49a">
+                <circle cx="82" cy="96" r="17"/>
+                <circle cx="116" cy="92" r="17"/>
+                <circle cx="100" cy="120" r="17"/>
+              </g>
+              <g fill="#38302a">
+                <circle cx="76" cy="92" r="2.6"/><circle cx="88" cy="96" r="2.6"/><circle cx="82" cy="104" r="2.6"/>
+                <circle cx="110" cy="88" r="2.6"/><circle cx="122" cy="92" r="2.6"/><circle cx="116" cy="100" r="2.6"/>
+                <circle cx="94" cy="116" r="2.6"/><circle cx="106" cy="120" r="2.6"/><circle cx="100" cy="128" r="2.6"/>
+              </g>
+              <circle cx="134" cy="120" r="4" fill="#C1502E"/>
+              <circle cx="66" cy="122" r="3" fill="#C1502E"/>
+            </svg>
+          </div>
+          <div class="dish-body">
+            <span class="dish-no">肆</span>
+            <div class="dish-top"><h3>桂花糖藕</h3><span class="price">￥68</span></div>
+            <p>西湖藕酿糯米，桂花蜜收汁，甜而不腻。</p>
+          </div>
+        </article>
+
+      </div>
+      <p class="menu-note reveal">完整菜单到店看，当季菜每月换。时价海鲜以当日黑板为准。</p>
+    </div>
+  </section>
+
+  <!-- 营业信息三栏 -->
+  <section class="visit" id="visit">
+    <div class="wrap">
+      <p class="kicker reveal">到店</p>
+      <h2 class="sec-title reveal">先记下这三行</h2>
+      <div class="visit-grid">
+        <div class="visit-col reveal">
+          <h3>营业时间</h3>
+          <p>周二至周日<br>午市 11:30 – 14:00<br>晚市 17:30 – 21:30</p>
+          <p class="muted">周一闭店谢客</p>
+        </div>
+        <div class="visit-col reveal">
+          <h3>地址</h3>
+          <p>杭州市西湖区<br>龙井路 88 号<br>龙井村口，青石巷里</p>
+          <p class="muted">地铁3号线龙井站 · 步行8分钟</p>
+        </div>
+        <div class="visit-col reveal">
+          <h3>电话</h3>
+          <p class="big"><a data-site-href="phoneHref" data-site="phone" href="tel:057188886666">0571-8888-6666</a></p>
+          <p class="muted">预订请提前一日<br>8 人以上包间请电话确认</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 食客评价 -->
+  <section class="reviews" id="reviews">
+    <div class="wrap">
+      <p class="kicker reveal">食客说</p>
+      <h2 class="sec-title reveal">他们吃完是这么讲的</h2>
+      <div class="review-grid">
+        <figure class="review reveal">
+          <blockquote>“鱼干烤得恰到好处，配一碗白饭，能吃出山里的炭火气。”</blockquote>
+          <figcaption>大众点评食客 · 11月</figcaption>
+        </figure>
+        <figure class="review reveal">
+          <blockquote>“环境清，菜也清。龙井虾仁是这几年吃过最对的一道。”</blockquote>
+          <figcaption>美团食客 · 10月</figcaption>
+        </figure>
+        <figure class="review reveal">
+          <blockquote>“带父母来的，土鸡汤一上桌，老父亲连喝了三碗。”</blockquote>
+          <figcaption>小红书食客 · 9月</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预订 CTA -->
+  <section class="reserve" id="reserve">
+    <div class="wrap">
+      <p class="kicker kicker-dark reveal">预订</p>
+      <h2 class="reserve-title reveal">今晚，山里见。</h2>
+      <p class="reserve-sub reveal">十二张桌，先到先得。电话预订最快。</p>
+      <a class="reserve-phone reveal" data-site-href="phoneHref" data-site="phone" href="tel:057188886666">0571-8888-6666</a>
+      <p class="reserve-note reveal">周二至周日 · 请提前一日预订 · 周一闭店谢客</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-mark">山</span>
+        <p><span data-site="name">山外山 · 山野料理</span><br><span data-site="address">杭州市西湖区龙井路 88 号</span><br><a data-site-href="mailtoHref" data-site="email" href="mailto:yuding@shanwaishan.com">yuding@shanwaishan.com</a></p>
+      </div>
+      <nav class="foot-links" aria-label="页脚导航">
+        <a href="#story">关于</a>
+        <a href="#dishes">菜单</a>
+        <a href="#chef">主厨</a>
+        <a href="#visit">地址</a>
+      </nav>
+      <div class="foot-contact">
+        <p>预订电话</p>
+        <a data-site-href="phoneHref" data-site="phone" href="tel:057188886666">0571-8888-6666</a>
+        <p class="foot-hours" data-site="hours">周二至周日 · 请提前一日预订</p>
+        <div class="socials" aria-label="社交媒体">
+          <a href="#" aria-label="微信公众号"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.4 4 2 6.9 2 10.5c0 2 1.1 3.8 2.8 5l-.7 2.5 2.9-1.5c.8.2 1.6.4 2.5.4h.3A8.6 8.6 0 0 1 9 14.6C9 11.5 11.9 9 15.5 9h.4C15.3 6.1 12.7 4 9.5 4zM7 9.5a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6zm6 0a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"/><path d="M15.4 10.5c-3.4 0-6.1 2.3-6.1 5.2 0 1.6.9 3 2.2 3.9l-.5 2 2.3-1.2c.6.2 1.3.3 2.1.3 3.4 0 6.1-2.3 6.1-5.2s-2.7-5-6.1-5zm-1.9 3.4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3.8 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg></a>
+          <a href="#" aria-label="微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.9c-4.5-.4-7.9-3.3-7.9-7.2 0-4 3.9-7.2 8.7-7.2 2.3 0 4.3.8 5.8 2.1l-1.8 1.5c-1-.9-2.4-1.4-4-1.4-3.4 0-6.2 2.3-6.2 5s2.8 5 6.2 5c1.5 0 2.9-.5 3.9-1.3l1.9 1.4c-1.6 1.2-3.9 2.1-6.6 2.1zm9.9-8.9c-.3-.1-.8-.2-1.2 0-.5.2-.8.7-.7 1.2.1.4.5.8 1 .9.4.1.9 0 1.2-.4.3-.4.4-.9.2-1.3-.1-.2-.3-.3-.5-.4zm-1.2-2.1c-.6-.2-1.4-.2-2 .2-.7.4-1.1 1.1-1 1.9l1.4.3c0-.4.2-.7.5-.9.3-.2.7-.2 1-.1l.1-1.4zm3.1-.9c-1-.4-2.3-.4-3.3.3-1.1.7-1.7 1.9-1.5 3.1l1.5.3c-.1-.8.3-1.6 1-2 .7-.4 1.5-.4 2.2-.1l.1-1.6z"/></svg></a>
+          <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24"><path d="M17.5 3H6.5A3.5 3.5 0 0 0 3 6.5v11A3.5 3.5 0 0 0 6.5 21h11a3.5 3.5 0 0 0 3.5-3.5v-11A3.5 3.5 0 0 0 17.5 3zM8.6 15.1l3.1-4.7-2.6-3.6h2.4l1.5 2.2 1.5-2.2h2.4l-2.6 3.6 3.1 4.7h-2.5l-1.9-2.9-1.9 2.9H8.6z"/></svg></a>
+          <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M16.6 3c.4 2.1 1.8 3.6 4 3.9v3c-1.6 0-3-.5-4-1.4v6.6c0 3.6-2.6 6.1-6 6.1-3.2 0-5.6-2.4-5.6-5.5 0-3.2 2.6-5.6 6-5.4v3.1c-1.6-.3-3 .8-3 2.3 0 1.4 1.1 2.5 2.6 2.5 1.6 0 2.8-1.2 2.8-3V3h3.2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <div class="legal-links" aria-label="法务政策">
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span id="copyrightLine">© 2026 山外山 · 山野料理 ｜ 京ICP备xxxxxxxxxx号-1</span>
+      <span>本页为网站模板演示</span>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-overlay" id="legalModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <button class="modal-close" id="legalClose" aria-label="关闭弹窗">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <p class="kicker" id="legalKicker">网站政策</p>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 山外山 · 山野料理 — restaurant-page 交互
+   classic script，无依赖。渐进增强：无 JS 时内容全部可见。 */
+(function () {
+  "use strict";
+
+  /* ============ 配置参数 ============ */
+  var CFG = {
+    navOffset: 40,          // 导航滚动毛玻璃触发距离(px)
+    revealThreshold: 0.12,  // 滚动 reveal 触发阈值
+    revealMargin: "0px 0px -8% 0px",
+    loaderMin: 650,         // 加载态最短展示(ms)
+    reduceMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  };
+
+  /* ============ 站点信息（买家改这里，一改全改） ============ */
+  var SITE = {
+    name: "山外山 · 山野料理",
+    address: "杭州市西湖区龙井路 88 号",
+    email: "yuding@shanwaishan.com",
+    mailtoHref: "mailto:yuding@shanwaishan.com",
+    phone: "0571-8888-6666",
+    phoneHref: "tel:057188886666",
+    hours: "周二至周日 · 请提前一日预订",
+    icp: "京ICP备xxxxxxxxxx号-1",
+    year: "2026"
+  };
+
+  /* ============ 法务三件套文案（真实感通用条款） ============ */
+  var NUM = ["一", "二", "三", "四", "五", "六"];
+  var LEGAL = {
+    privacy: {
+      title: "隐私政策",
+      points: [
+        ["我们收集哪些信息", "预订时您留下的姓名与电话；浏览网站时产生的设备型号、访问记录（详见 Cookie 政策）。不收集与预订无关的信息。"],
+        ["信息用来做什么", "确认预订、到店前短信提醒，以及新菜、时令活动通知（每条通知都可退订）。"],
+        ["我们不出售您的信息", "不会出售、出租您的个人信息。仅在您要求开具发票等场景下，经您明确同意后提供给必要的第三方。"],
+        ["信息保存多久", "预订记录保存 12 个月，到期做匿名化处理；您可随时来信要求提前删除。"],
+        ["您的权利", "您有权查阅、更正、删除自己的个人信息。来信至上方邮箱，我们在 3 个工作日内回复处理。"],
+        ["未成年人保护", "本网站不面向 14 周岁以下儿童收集信息；如发现误收集，我们会第一时间删除。"]
+      ]
+    },
+    terms: {
+      title: "服务条款",
+      points: [
+        ["预订与到店", "电话或在线预订请提前一日；座位为您保留 15 分钟，超时未到且未联系，座位自动释放。"],
+        ["取消与改期", "提前 4 小时以上免费取消或改期；8 人以上包间需提前 24 小时，临时取消可能收取 30% 餐位费。"],
+        ["价格说明", "菜单价格为人民币含税价；时价海鲜与山货以当日店内黑板为准，点单前服务员会再次确认。"],
+        ["用餐须知", "店内禁烟；谢绝自带酒水，特殊情况请提前电话沟通，我们尽量安排。"],
+        ["不可抗力", "因极端天气、政策要求等不可抗力闭店，我们会第一时间通知已预订客人，并免费改期。"],
+        ["争议解决", "本条款适用中华人民共和国法律；协商不成的，提交餐厅所在地人民法院处理。"]
+      ]
+    },
+    cookies: {
+      title: "Cookie 政策",
+      points: [
+        ["什么是 Cookie", "网站存放在您设备上的小文本文件，用来记住您的偏好，让预订流程更顺畅。"],
+        ["我们用哪些", "必要 Cookie：保障预订、表单提交正常运转；偏好 Cookie：记住您的城市与浏览偏好；统计 Cookie：匿名分析访问情况，帮我们改进网站。"],
+        ["我们不用 Cookie 做什么", "不用于跨站广告追踪，不把 Cookie 数据出售给任何第三方。"],
+        ["如何管理", "您可以在浏览器设置中随时清除或禁用 Cookie；禁用后，在线预订功能可能无法正常使用。"],
+        ["有效期", "偏好与统计 Cookie 最长保存 13 个月，到期自动失效；必要 Cookie 随会话结束清除。"]
+      ]
+    }
+  };
+
+  var doc = document.documentElement;
+  doc.classList.add("js");
+
+  /* ============ 页脚 SITE 变量渲染 ============ */
+  function renderSite() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-site]"), function (el) {
+      var v = SITE[el.getAttribute("data-site")];
+      if (v != null) el.textContent = v;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-site-href]"), function (el) {
+      var v = SITE[el.getAttribute("data-site-href")];
+      if (v != null) el.setAttribute("href", v);
+    });
+    var cp = document.getElementById("copyrightLine");
+    if (cp) cp.textContent = "© " + SITE.year + " " + SITE.name + " ｜ " + SITE.icp;
+  }
+  renderSite();
+
+  /* ============ 加载态 ============ */
+  var loader = document.getElementById("loader");
+  var t0 = Date.now();
+  function hideLoader() {
+    var wait = Math.max(0, CFG.loaderMin - (Date.now() - t0));
+    setTimeout(function () {
+      if (!loader) return;
+      loader.classList.add("done");
+      setTimeout(function () { loader.style.display = "none"; }, 700);
+      startHero();
+    }, CFG.reduceMotion ? 0 : wait);
+  }
+  if (document.readyState === "complete") hideLoader();
+  else window.addEventListener("load", hideLoader);
+  // 兜底：load 事件 4s 未到也放行
+  setTimeout(function () {
+    if (loader && !loader.classList.contains("done")) hideLoader();
+  }, 4000);
+
+  /* ============ hero 大字升起 ============ */
+  var heroStarted = false;
+  function startHero() {
+    if (heroStarted) return;
+    heroStarted = true;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        doc.classList.add("loaded");
+      });
+    });
+  }
+
+  /* ============ 导航滚动毛玻璃 ============ */
+  var nav = document.getElementById("nav");
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(function () {
+        nav.classList.toggle("scrolled", window.scrollY > CFG.navOffset);
+        ticking = false;
+      });
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ============ 移动端汉堡菜单 ============ */
+  var burger = document.getElementById("burger");
+  var mMenu = document.getElementById("mMenu");
+  function setMenu(open) {
+    burger.classList.toggle("open", open);
+    mMenu.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    burger.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+    mMenu.setAttribute("aria-hidden", open ? "false" : "true");
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+  burger.addEventListener("click", function () {
+    setMenu(!mMenu.classList.contains("open"));
+  });
+  mMenu.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { setMenu(false); });
+  });
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 900 && mMenu.classList.contains("open")) setMenu(false);
+  });
+
+  /* ============ 区块滚动 reveal ============ */
+  var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (CFG.reduceMotion || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: CFG.revealThreshold, rootMargin: CFG.revealMargin });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ============ 法务弹窗 ============ */
+  var overlay = document.getElementById("legalModal");
+  var legalTitle = document.getElementById("legalTitle");
+  var legalBody = document.getElementById("legalBody");
+  var legalClose = document.getElementById("legalClose");
+  var lastFocus = null;
+
+  function openLegal(key) {
+    var item = LEGAL[key];
+    if (!item) return;
+    legalTitle.textContent = item.title;
+    legalBody.innerHTML = item.points.map(function (p, i) {
+      return "<h4><b>" + NUM[i] + "、</b>" + p[0] + "</h4><p>" + p[1] + "</p>";
+    }).join("");
+    lastFocus = document.activeElement;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // 锁定背景滚动
+    legalClose.focus();
+  }
+  function closeLegal() {
+    if (!overlay.classList.contains("open")) return;
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-legal]"), function (btn) {
+    btn.addEventListener("click", function () { openLegal(btn.getAttribute("data-legal")); });
+  });
+  legalClose.addEventListener("click", closeLegal);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeLegal(); // 点击遮罩关闭
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeLegal(); // ESC 关闭
+  });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绒 RONG · 美发美容 — 把时间还给自己</title>
+<meta name="description" content="绒 RONG 美发美容：剪发、染发、烫发、头皮护理。在线预约，留一个下午给自己。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23161412'/%3E%3Ctext x='32' y='42' font-size='30' text-anchor='middle' fill='%23C7A35B' font-family='serif'%3E%E7%BB%92%3C/text%3E%3C/svg%3E">
+<link href="styles.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mono">绒</div>
+    <div class="loader-word">RONG · SALON</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- 全页纸纹噪点 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="绒 RONG 首页">
+      <span class="brand-mono">绒</span>
+      <span class="brand-word">RONG<em>SALON</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#services">服务价目</a>
+      <a href="#stylists">造型师</a>
+      <a href="#store">门店</a>
+      <a href="#booking">预约</a>
+    </nav>
+    <a class="btn btn-gold nav-cta" href="#booking">在线预约</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-scrim" id="drawerScrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" hidden>
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">✕</button>
+  <nav class="drawer-links">
+    <a href="#services">服务价目</a>
+    <a href="#stylists">造型师</a>
+    <a href="#store">门店</a>
+    <a href="#booking">在线预约</a>
+  </nav>
+  <div class="drawer-foot">
+    <p data-site="phone"></p>
+    <p data-site="hours"></p>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero" data-intro>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">上海 · 静安 — 开业第六年</p>
+        <h1 class="hero-title">
+          <span class="rl-mask"><span class="rl-line">把一个下午，</span></span>
+          <span class="rl-mask"><span class="rl-line">留给<em>头发</em>。</span></span>
+        </h1>
+        <p class="hero-sub reveal" data-d="0.25">剪、染、烫、护，一人一位，不赶时间。<br>绒 RONG 只做一件事：让你走出门时，觉得镜子里的人顺眼。</p>
+        <div class="hero-ctas reveal" data-d="0.35">
+          <a class="btn btn-dark" href="#booking">预约造型师</a>
+          <a class="btn btn-ghost" href="#services">看价目表</a>
+        </div>
+        <p class="hero-trust reveal" data-d="0.45"><span class="dot"></span>本周六、日下午尚有余位 · 提前 2 小时可约</p>
+      </div>
+      <div class="hero-visual reveal" data-d="0.2" aria-hidden="true">
+        <svg class="strands" viewBox="0 0 420 560" role="img" aria-label="流动的发丝">
+          <defs>
+            <linearGradient id="goldfade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#C7A35B" stop-opacity="0"/>
+              <stop offset=".5" stop-color="#C7A35B" stop-opacity=".95"/>
+              <stop offset="1" stop-color="#C7A35B" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g class="strand-base" fill="none" stroke="#161412" stroke-linecap="round">
+            <path d="M60,-20 C90,140 40,300 95,460 C120,540 105,585 130,600" stroke-width="14"/>
+            <path d="M120,-20 C150,130 95,290 150,450 C172,528 160,575 182,600" stroke-width="11"/>
+            <path d="M180,-20 C205,120 150,280 205,440 C224,515 214,568 232,600" stroke-width="16"/>
+            <path d="M240,-20 C262,110 210,270 262,430 C280,505 272,560 288,600" stroke-width="10"/>
+            <path d="M300,-20 C318,100 268,260 318,420 C334,498 328,555 342,600" stroke-width="13"/>
+            <path d="M355,-20 C370,95 322,250 370,410 C384,490 380,550 392,600" stroke-width="9"/>
+            <path d="M20,-20 C45,150 5,310 55,465 C75,540 65,580 88,600" stroke-width="8"/>
+            <path d="M405,-20 C415,100 372,260 415,415 C426,492 424,552 434,600" stroke-width="7"/>
+          </g>
+          <g class="strand-sheen" fill="none" stroke="url(#goldfade)" stroke-linecap="round">
+            <path d="M60,-20 C90,140 40,300 95,460 C120,540 105,585 130,600" stroke-width="14"/>
+            <path d="M120,-20 C150,130 95,290 150,450 C172,528 160,575 182,600" stroke-width="11"/>
+            <path d="M180,-20 C205,120 150,280 205,440 C224,515 214,568 232,600" stroke-width="16"/>
+            <path d="M240,-20 C262,110 210,270 262,430 C280,505 272,560 288,600" stroke-width="10"/>
+            <path d="M300,-20 C318,100 268,260 318,420 C334,498 328,555 342,600" stroke-width="13"/>
+            <path d="M355,-20 C370,95 322,250 370,410 C384,490 380,550 392,600" stroke-width="9"/>
+            <path d="M20,-20 C45,150 5,310 55,465 C75,540 65,580 88,600" stroke-width="8"/>
+            <path d="M405,-20 C415,100 372,260 415,415 C426,492 424,552 434,600" stroke-width="7"/>
+          </g>
+        </svg>
+        <div class="hero-card">
+          <p class="hc-k">今日空位</p>
+          <p class="hc-v">4 <span>位造型师可约</span></p>
+          <p class="hc-s">平均等待 0 分钟 · 一人一位</p>
+        </div>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#services" aria-label="向下滚动"><span></span></a>
+  </section>
+
+  <!-- 服务跑马灯 -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>剪发 ¥180 起</span><i>◆</i><span>染发 ¥680 起</span><i>◆</i><span>烫发 ¥780 起</span><i>◆</i>
+      <span>头皮护理 ¥380 起</span><i>◆</i><span>新娘盘发 ¥880 起</span><i>◆</i><span>儿童剪发 ¥120</span><i>◆</i>
+      <span>剪发 ¥180 起</span><i>◆</i><span>染发 ¥680 起</span><i>◆</i><span>烫发 ¥780 起</span><i>◆</i>
+      <span>头皮护理 ¥380 起</span><i>◆</i><span>新娘盘发 ¥880 起</span><i>◆</i><span>儿童剪发 ¥120</span><i>◆</i>
+    </div>
+  </div>
+
+  <!-- 服务价目 -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <p class="eyebrow reveal">Service &amp; Price</p>
+      <h2 class="sec-title reveal">服务价目<span>，明码标价</span></h2>
+      <p class="sec-sub reveal">价格含洗发与基础造型。染烫类免费做发质检测，方案不合适我们会直接说不合适。</p>
+      <div class="price-grid">
+        <article class="price-card reveal" data-d="0">
+          <h3>剪发造型</h3>
+          <p class="pc-note">含洗发 · 45 分钟</p>
+          <ul>
+            <li><span>总监剪发</span><b>¥380</b></li>
+            <li><span>资深剪发</span><b>¥280</b></li>
+            <li><span>设计师剪发</span><b>¥180</b></li>
+            <li><span>刘海修剪（免费·限会员）</span><b>¥0</b></li>
+          </ul>
+        </article>
+        <article class="price-card reveal hot" data-d="0.1">
+          <p class="pc-badge">约得最多</p>
+          <h3>染发</h3>
+          <p class="pc-note">含发质检测 · 2–3 小时</p>
+          <ul>
+            <li><span>单色染（短发）</span><b>¥680</b></li>
+            <li><span>单色染（长发）</span><b>¥880</b></li>
+            <li><span>挑染 / 耳圈染</span><b>¥980</b></li>
+            <li><span>褪色 + 创意色</span><b>¥1380</b></li>
+          </ul>
+        </article>
+        <article class="price-card reveal" data-d="0.2">
+          <h3>烫发</h3>
+          <p class="pc-note">含烫前护理 · 3 小时</p>
+          <ul>
+            <li><span>韩式纹理烫</span><b>¥780</b></li>
+            <li><span>法式大波浪</span><b>¥980</b></li>
+            <li><span>摩根烫 / 锡纸烫</span><b>¥880</b></li>
+            <li><span>烫后深层修复</span><b>+¥280</b></li>
+          </ul>
+        </article>
+        <article class="price-card reveal" data-d="0.3">
+          <h3>头皮护理</h3>
+          <p class="pc-note">独立护理间 · 60 分钟</p>
+          <ul>
+            <li><span>头皮深层清洁</span><b>¥380</b></li>
+            <li><span>去屑止痒疗程</span><b>¥480</b></li>
+            <li><span>生发固发护理</span><b>¥580</b></li>
+            <li><span>香薰肩颈放松（加购）</span><b>+¥120</b></li>
+          </ul>
+        </article>
+      </div>
+      <p class="price-foot reveal">所有染烫产品均为沙龙专供正品，扫码可验。会员储值享 9 折，生日当月剪发半价。</p>
+    </div>
+  </section>
+
+  <!-- 造型师墙 -->
+  <section class="section stylists" id="stylists">
+    <div class="wrap">
+      <p class="eyebrow reveal light">Our Stylists</p>
+      <h2 class="sec-title reveal light">造型师<span>，先看人再约</span></h2>
+      <p class="sec-sub reveal light">四位全职造型师，无外聘、无学徒代剪。点名字看擅长，直接约到人。</p>
+      <div class="sty-grid">
+        <article class="sty-card reveal" data-d="0">
+          <div class="sty-avatar" aria-hidden="true"><span>林</span></div>
+          <h3>林晚舟 <em>总监</em></h3>
+          <p class="sty-exp">12 年 · 曾任上海时装周后台造型</p>
+          <p class="sty-tags"><span>短发塑形</span><span>高颅顶烫</span></p>
+          <p class="sty-quote">“脸型比流行重要，先看骨相再动剪刀。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="林晚舟">约她</a>
+        </article>
+        <article class="sty-card reveal" data-d="0.1">
+          <div class="sty-avatar" aria-hidden="true"><span>陈</span></div>
+          <h3>陈默 <em>染发专家</em></h3>
+          <p class="sty-exp">9 年 · 专攻褪色与创意色</p>
+          <p class="sty-tags"><span>雾感色</span><span>耳圈染</span></p>
+          <p class="sty-quote">“褪色做到位，掉色也是好看的。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="陈默">约他</a>
+        </article>
+        <article class="sty-card reveal" data-d="0.2">
+          <div class="sty-avatar" aria-hidden="true"><span>苏</span></div>
+          <h3>苏青禾 <em>烫发专家</em></h3>
+          <p class="sty-exp">8 年 · 日系烫发研修背景</p>
+          <p class="sty-tags"><span>纹理烫</span><span>羊毛卷</span></p>
+          <p class="sty-quote">“卷度是睡出来的，不是夹出来的。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="苏青禾">约她</a>
+        </article>
+        <article class="sty-card reveal" data-d="0.3">
+          <div class="sty-avatar" aria-hidden="true"><span>江</span></div>
+          <h3>江一白 <em>护理 / 新娘造型</em></h3>
+          <p class="sty-exp">7 年 · 头皮护理认证讲师</p>
+          <p class="sty-tags"><span>头皮管理</span><span>新娘盘发</span></p>
+          <p class="sty-quote">“好发型长在健康的头皮上。”</p>
+          <a class="btn btn-line" href="#booking" data-stylist="江一白">约他</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 门店信息 -->
+  <section class="section store" id="store">
+    <div class="wrap store-grid">
+      <div class="store-copy">
+        <p class="eyebrow reveal">Visit Us</p>
+        <h2 class="sec-title reveal">门店<span>，在静安等你</span></h2>
+        <p class="sec-sub reveal">恒隆广场 3 层，扶梯上来右转第三间。门口有香槟金门牌，很好认。</p>
+        <dl class="store-list">
+          <div class="reveal" data-d="0"><dt>地址</dt><dd data-site="address"></dd></div>
+          <div class="reveal" data-d="0.08"><dt>电话</dt><dd><a data-site="phone" data-site-href="phoneHref"></a></dd></div>
+          <div class="reveal" data-d="0.16"><dt>营业时间</dt><dd data-site="hours"></dd></div>
+          <div class="reveal" data-d="0.24"><dt>交通</dt><dd>地铁 2/12/13 号线南京西路站，6 号口步行 3 分钟；商场 B2 有停车场</dd></div>
+        </dl>
+      </div>
+      <div class="store-visual reveal" data-d="0.15" aria-hidden="true">
+        <svg viewBox="0 0 400 300" class="store-svg">
+          <rect x="40" y="60" width="320" height="180" rx="6" fill="none" stroke="#161412" stroke-width="3"/>
+          <rect x="40" y="60" width="320" height="46" rx="6" fill="#161412"/>
+          <text x="200" y="90" text-anchor="middle" fill="#C7A35B" font-size="20" letter-spacing="8" font-family="serif">绒 RONG</text>
+          <rect x="150" y="130" width="100" height="110" fill="none" stroke="#C7A35B" stroke-width="2"/>
+          <line x1="200" y1="130" x2="200" y2="240" stroke="#C7A35B" stroke-width="2"/>
+          <rect x="70" y="130" width="56" height="70" fill="none" stroke="#161412" stroke-width="2"/>
+          <rect x="274" y="130" width="56" height="70" fill="none" stroke="#161412" stroke-width="2"/>
+          <circle cx="70" cy="262" r="4" fill="#C7A35B"/><circle cx="330" cy="262" r="4" fill="#C7A35B"/>
+        </svg>
+        <p class="store-cap">门店示意 · 实景以到店为准</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约 CTA -->
+  <section class="section booking" id="booking">
+    <div class="wrap booking-grid">
+      <div class="booking-copy">
+        <p class="eyebrow reveal light">Book Now</p>
+        <h2 class="sec-title reveal light">在线预约<span>，留一个下午</span></h2>
+        <p class="sec-sub reveal light">提交后 10 分钟内，店长会电话和你确认时间。<br>到店出示预约短信，免费升级一次发膜护理。</p>
+        <ul class="booking-points">
+          <li class="reveal" data-d="0"><b>01</b>一人一位，绝不拼台等位</li>
+          <li class="reveal" data-d="0.08"><b>02</b>染烫前免费发质检测，不合适直接劝退</li>
+          <li class="reveal" data-d="0.16"><b>03</b>迟到 15 分钟内保留预约，超时顺延</li>
+        </ul>
+      </div>
+      <form class="book-form reveal" data-d="0.1" id="bookForm" novalidate>
+        <div class="field">
+          <label for="fName">称呼</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name">
+          <p class="err" data-err="name"></p>
+        </div>
+        <div class="field">
+          <label for="fPhone">手机号</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号，用于确认预约" autocomplete="tel">
+          <p class="err" data-err="phone"></p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fService">服务项目</label>
+            <select id="fService" name="service">
+              <option value="">请选择服务</option>
+              <option>剪发造型</option>
+              <option>染发</option>
+              <option>烫发</option>
+              <option>头皮护理</option>
+              <option>新娘盘发（需提前 3 天）</option>
+            </select>
+            <p class="err" data-err="service"></p>
+          </div>
+          <div class="field">
+            <label for="fStylist">造型师</label>
+            <select id="fStylist" name="stylist">
+              <option value="">不指定</option>
+              <option>林晚舟</option>
+              <option>陈默</option>
+              <option>苏青禾</option>
+              <option>江一白</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">日期</label>
+            <input id="fDate" name="date" type="date">
+            <p class="err" data-err="date"></p>
+          </div>
+          <div class="field">
+            <label for="fTime">时间段</label>
+            <select id="fTime" name="time">
+              <option value="">请选择</option>
+              <option>10:00 – 12:00</option>
+              <option>12:00 – 14:00</option>
+              <option>14:00 – 16:00</option>
+              <option>16:00 – 18:00</option>
+              <option>18:00 – 20:00</option>
+            </select>
+            <p class="err" data-err="time"></p>
+          </div>
+        </div>
+        <button class="btn btn-gold btn-big" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意我们的<a href="#" data-legal="privacy">隐私政策</a>。信息仅用于预约确认，不做他用。</p>
+        <div class="form-success" id="formSuccess" hidden>
+          <p class="fs-title">预约已收到</p>
+          <p class="fs-body" id="fsBody"></p>
+          <p class="fs-note">店长将在 10 分钟内致电确认，请留意 <b data-site="phone"></b> 来电。</p>
+          <button class="btn btn-line" type="button" id="bookAgain">再约一位朋友</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <p class="f-logo"><span class="brand-mono">绒</span> RONG SALON</p>
+      <p class="f-desc">开业第六年，只做让人顺眼的头发。<br>一人一位，不赶时间。</p>
+      <div class="f-social">
+        <a href="#" aria-label="微信" title="微信"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15c3-1 4-4 3-7M10 16c4-1 6-5 5-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><path d="M10 4v10.5a3.5 3.5 0 1 0 3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 8.5c1 2.5 3 4 6 4.2V9.4c-1.6-.3-3-1.3-3.8-2.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <p class="f-h">联系我们</p>
+      <p data-site="address"></p>
+      <p><a data-site="phone" data-site-href="phoneHref"></a></p>
+      <p><a data-site="email" data-site-href="mailtoHref"></a></p>
+      <p data-site="hours"></p>
+    </div>
+    <div class="f-col">
+      <p class="f-h">网站政策</p>
+      <p><button class="f-link" data-legal="privacy">隐私政策</button></p>
+      <p><button class="f-link" data-legal="terms">服务条款</button></p>
+      <p><button class="f-link" data-legal="cookies">Cookie 政策</button></p>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · 把时间还给自己 ｜ <span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-scrim" id="modalScrim" hidden></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <button class="modal-close" id="modalClose" aria-label="关闭">✕</button>
+  <h3 id="modalTitle"></h3>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

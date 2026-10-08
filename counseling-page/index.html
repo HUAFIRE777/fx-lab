@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>听澜 · 把心里的话，找个地方说出来</title>
+<meta name="description" content="听澜心理咨询平台：个体咨询、伴侣咨询、青少年咨询，严格保密，持证咨询师，一对一匹配。">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ============ 听澜 counseling-page ============
+   配色：柔白 #FAF8F1 / 鼠尾草绿 / 深 slate，三色体系
+   动效：hero 呼吸光晕（主视觉）+ 各区块微交互
+   ========================================== */
+:root{
+  --bg:#FAF8F1;
+  --bg-alt:#F2EFE6;
+  --sage:#9DB5A0;
+  --sage-soft:#DCE5DA;
+  --sage-deep:#5E7A64;
+  --ink:#2F3A40;
+  --ink-soft:#5A666E;
+  --line:#E3DFD2;
+  --card:#FFFFFF;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","STSong",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--ink);
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--sage-deep);color:#fff}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* ---------- 纹理 ---------- */
+.grain{position:fixed;inset:0;z-index:120;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+.vignette{position:fixed;inset:0;z-index:119;pointer-events:none;
+  background:radial-gradient(120% 120% at 50% 40%,transparent 62%,rgba(47,58,64,.07) 100%)}
+
+/* ---------- 加载态 ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .5s var(--ease),visibility .5s;
+  animation:loaderKill .5s ease 5s forwards}
+@keyframes loaderKill{to{opacity:0;visibility:hidden}}
+#loader.done{opacity:0;visibility:hidden}
+.loader-inner{text-align:center}
+.loader-dot{width:14px;height:14px;margin:0 auto 18px;border-radius:50%;background:var(--sage-deep);
+  animation:breatheDot 2.2s ease-in-out infinite}
+@keyframes breatheDot{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.6);opacity:1}}
+.loader-name{font-family:var(--serif);font-size:34px;letter-spacing:.5em;text-indent:.5em}
+.loader-bar{width:150px;height:2px;background:var(--line);margin:16px auto 0;border-radius:2px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:40%;background:var(--sage-deep);border-radius:2px;
+  animation:loadSlide 1.2s var(--ease) infinite}
+@keyframes loadSlide{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+
+/* ---------- 导航 ---------- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,box-shadow .4s,backdrop-filter .4s}
+#nav .nav-inner{max-width:1120px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:28px}
+#nav.scrolled{background:rgba(250,248,241,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 var(--line)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--sage-deep)}
+.brand-text{font-family:var(--serif);font-size:22px;letter-spacing:.28em;color:var(--ink)}
+.brand-text i{font-style:normal;font-size:11px;letter-spacing:.32em;color:var(--ink-soft);margin-left:8px;vertical-align:3px}
+.menu{display:flex;gap:26px;margin-left:auto}
+.menu a{font-size:15px;color:var(--ink-soft);position:relative;padding:4px 0;transition:color .3s}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--sage-deep);transition:width .35s var(--ease)}
+.menu a:hover{color:var(--ink)}
+.menu a:hover::after{width:100%}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-block;padding:13px 30px;border-radius:999px;font-size:15px;letter-spacing:.08em;
+  border:1px solid transparent;cursor:pointer;transition:transform .35s var(--ease),box-shadow .35s,background .35s,color .35s,border-color .35s;
+  font-family:var(--sans)}
+.btn-primary{background:var(--sage-deep);color:#fff;box-shadow:0 6px 18px rgba(94,122,100,.28)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(94,122,100,.36);background:#526f58}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{border-color:var(--sage-deep);color:var(--sage-deep);background:transparent}
+.btn-ghost:hover{background:rgba(94,122,100,.08);transform:translateY(-2px)}
+.btn-nav{padding:10px 24px;font-size:14px}
+.btn-block{display:block;width:100%;text-align:center}
+
+/* ---------- 汉堡 / 抽屉 ---------- */
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px;margin-left:auto}
+.burger span{width:24px;height:2px;background:var(--ink);border-radius:2px;transition:transform .35s var(--ease),opacity .3s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.drawer-mask{position:fixed;inset:0;z-index:110;background:rgba(47,58,64,.4);opacity:0;transition:opacity .4s}
+.drawer-mask.show{opacity:1}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);z-index:111;background:var(--bg);
+  padding:26px;transform:translateX(105%);transition:transform .5s var(--ease);box-shadow:-12px 0 40px rgba(47,58,64,.12);
+  display:flex;flex-direction:column;gap:8px}
+.drawer.open{transform:translateX(0)}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.drawer-close{background:none;border:0;font-size:34px;line-height:1;cursor:pointer;color:var(--ink-soft);padding:0 4px}
+.drawer-links{display:flex;flex-direction:column}
+.drawer-links a{padding:15px 4px;font-size:17px;border-bottom:1px solid var(--line);color:var(--ink)}
+.drawer .btn-block{margin-top:auto}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;padding:120px 20px 80px}
+.aura{position:absolute;inset:0;pointer-events:none;color:var(--sage)}
+.aura-b1,.aura-b2,.aura-b3{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
+.aura-b1{width:52vmax;height:52vmax;left:-12vmax;top:-14vmax;
+  background:radial-gradient(circle,rgba(157,181,160,.75),transparent 65%);
+  animation:breathe 9s ease-in-out infinite}
+.aura-b2{width:44vmax;height:44vmax;right:-10vmax;top:22vh;
+  background:radial-gradient(circle,rgba(220,229,218,.95),transparent 65%);
+  animation:breathe 11s ease-in-out -3s infinite}
+.aura-b3{width:30vmax;height:30vmax;left:50%;top:56%;transform:translate(-50%,-30%);
+  background:radial-gradient(circle,rgba(94,122,100,.4),transparent 65%);
+  animation:breathe 7s ease-in-out -1.5s infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.14);opacity:.75}}
+.wave-line{position:absolute;left:0;right:0;bottom:6vh;width:100%;height:180px;opacity:.5;
+  animation:waveDrift 14s ease-in-out infinite}
+@keyframes waveDrift{0%,100%{transform:translateX(-24px)}50%{transform:translateX(24px)}}
+.hero-inner{position:relative;z-index:2;max-width:760px}
+.eyebrow{display:inline-block;font-size:13px;letter-spacing:.3em;color:var(--sage-deep);margin-bottom:22px;
+  padding:8px 20px;border:1px solid var(--sage-soft);border-radius:999px;background:rgba(255,255,255,.6)}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,6.4vw,72px);font-weight:600;line-height:1.5;letter-spacing:.12em;margin-bottom:24px}
+.hero h1 em{font-style:normal;color:var(--sage-deep)}
+.lede{font-size:17px;color:var(--ink-soft);letter-spacing:.04em;margin-bottom:36px}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.hero-proof{display:flex;gap:14px;justify-content:center;align-items:center;font-size:13px;color:var(--ink-soft);letter-spacing:.06em;flex-wrap:wrap}
+.hero-proof .dot{width:4px;height:4px;border-radius:50%;background:var(--sage)}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);width:26px;height:42px;
+  border:2px solid var(--sage);border-radius:14px;z-index:2}
+.scroll-hint span{display:block;width:4px;height:8px;margin:8px auto 0;border-radius:2px;background:var(--sage-deep);
+  animation:hintDrop 1.8s ease-in-out infinite}
+@keyframes hintDrop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{transform:translateY(0);opacity:0}}
+
+/* ---------- 区块通用 ---------- */
+.section{padding:110px 0}
+.section.alt{background:var(--bg-alt)}
+.section h2{font-family:var(--serif);font-size:clamp(28px,3.6vw,42px);letter-spacing:.1em;line-height:1.6;margin-bottom:14px;font-weight:600}
+.section .sub{color:var(--ink-soft);font-size:16px;letter-spacing:.03em;margin-bottom:52px;max-width:640px}
+
+/* reveal：隐藏等 JS，JS 未跑时不隐藏 */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .reveal.is-in{opacity:1;transform:none}
+
+/* ---------- 匹配问卷 ---------- */
+.quiz{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:40px 44px 44px;box-shadow:0 18px 50px rgba(47,58,64,.07);position:relative;overflow:hidden}
+.quiz::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--sage),var(--sage-deep))}
+.quiz-progress{height:6px;background:var(--bg-alt);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.quiz-progress i{display:block;height:100%;width:33.3%;background:var(--sage-deep);border-radius:3px;
+  transition:width .6s var(--ease)}
+.quiz-step{font-size:13px;color:var(--ink-soft);letter-spacing:.14em;margin-bottom:22px}
+.quiz-pane h3{font-family:var(--serif);font-size:23px;letter-spacing:.06em;margin-bottom:22px;font-weight:600}
+.quiz-pane{animation:paneIn .55s var(--ease)}
+@keyframes paneIn{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.quiz-opts{display:flex;flex-direction:column;gap:12px}
+.quiz-opts button{text-align:left;padding:17px 20px;border:1px solid var(--line);border-radius:14px;background:var(--bg);
+  font-size:15.5px;color:var(--ink);cursor:pointer;font-family:var(--sans);letter-spacing:.03em;
+  transition:border-color .3s,background .3s,transform .3s var(--ease),box-shadow .3s}
+.quiz-opts button:hover{border-color:var(--sage-deep);background:#fff;transform:translateX(6px);box-shadow:0 6px 16px rgba(94,122,100,.12)}
+.quiz-result{text-align:center;animation:paneIn .55s var(--ease)}
+.quiz-result-tag{font-size:13px;letter-spacing:.3em;color:var(--sage-deep);margin-bottom:10px}
+.quiz-result h3{font-family:var(--serif);font-size:32px;letter-spacing:.12em;margin-bottom:14px}
+.quiz-result p{color:var(--ink-soft);font-size:15px;margin-bottom:28px}
+.quiz-result .btn{margin-bottom:14px}
+.quiz-restart{display:block;margin:0 auto;background:none;border:0;color:var(--ink-soft);font-size:13.5px;
+  cursor:pointer;text-decoration:underline;text-underline-offset:4px;letter-spacing:.06em}
+.quiz-restart:hover{color:var(--sage-deep)}
+
+/* ---------- 服务 Tab ---------- */
+.tabs{position:relative;display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);
+  border-radius:999px;padding:6px;margin-bottom:40px}
+.tab{position:relative;z-index:1;border:0;background:none;padding:12px 34px;border-radius:999px;font-size:15.5px;
+  letter-spacing:.1em;cursor:pointer;color:var(--ink-soft);font-family:var(--sans);transition:color .35s}
+.tab.is-active{color:#fff}
+.tab-ink{position:absolute;top:6px;bottom:6px;border-radius:999px;background:var(--sage-deep);z-index:0;
+  transition:left .5s var(--ease),width .5s var(--ease)}
+.tab-panels{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.tab-panel{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;padding:52px 56px;align-items:center;
+  animation:paneIn .5s var(--ease)}
+.tab-panel h3{font-family:var(--serif);font-size:27px;letter-spacing:.08em;margin-bottom:16px}
+.tab-panel p{color:var(--ink-soft);font-size:15.5px;margin-bottom:20px}
+.check-list{list-style:none;margin-bottom:24px}
+.check-list li{position:relative;padding-left:30px;margin-bottom:11px;font-size:15px}
+.check-list li::before{content:"";position:absolute;left:2px;top:9px;width:14px;height:8px;
+  border-left:2.5px solid var(--sage-deep);border-bottom:2.5px solid var(--sage-deep);transform:rotate(-45deg)}
+.price{font-size:15px;color:var(--ink-soft)}
+.price strong{font-size:26px;color:var(--sage-deep);font-weight:700;margin:0 4px}
+.panel-visual{display:flex;justify-content:center;color:var(--sage-deep)}
+.panel-visual svg{width:190px;height:190px}
+
+/* ---------- 保密承诺 ---------- */
+.promise-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.promise{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 26px;
+  transition:transform .45s var(--ease),box-shadow .45s,border-color .45s}
+.promise:hover{transform:translateY(-8px);box-shadow:0 20px 44px rgba(94,122,100,.14);border-color:var(--sage)}
+.promise-icon{display:inline-flex;width:56px;height:56px;border-radius:50%;background:var(--sage-soft);
+  color:var(--sage-deep);align-items:center;justify-content:center;margin-bottom:20px;
+  transition:transform .45s var(--ease),background .45s}
+.promise:hover .promise-icon{transform:scale(1.1) rotate(-6deg);background:var(--sage-deep);color:#fff}
+.promise-icon svg{width:26px;height:26px}
+.promise h3{font-family:var(--serif);font-size:19px;letter-spacing:.08em;margin-bottom:10px}
+.promise p{font-size:14px;color:var(--ink-soft)}
+.compliance-note{margin-top:44px;padding:20px 24px;border-left:3px solid var(--sage-deep);background:var(--bg-alt);
+  border-radius:0 14px 14px 0;font-size:13.5px;color:var(--ink-soft);letter-spacing:.02em}
+
+/* ---------- 咨询师墙 ---------- */
+.wall{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px 28px;text-align:center;
+  transition:transform .45s var(--ease),box-shadow .45s}
+.tcard:hover{transform:translateY(-8px) scale(1.015);box-shadow:0 22px 48px rgba(47,58,64,.1)}
+.avatar{width:84px;height:84px;margin:0 auto 18px;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 32% 28%,var(--sage),var(--sage-deep));
+  display:flex;align-items:center;justify-content:center}
+.avatar::after{content:attr(data-i);font-family:var(--serif);font-size:32px;color:#fff;letter-spacing:0}
+.tcard h3{font-family:var(--serif);font-size:21px;letter-spacing:.14em;margin-bottom:6px}
+.t-meta{font-size:13px;color:var(--ink-soft);margin-bottom:12px;letter-spacing:.04em}
+.t-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.t-tags span{font-size:12px;padding:4px 12px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep);letter-spacing:.06em}
+.t-quote{font-size:13.5px;color:var(--ink-soft);font-style:italic;border-top:1px dashed var(--line);padding-top:14px}
+
+/* ---------- CTA ---------- */
+.cta-section{background:var(--ink);color:#F4F2EC;position:relative;overflow:hidden}
+.cta-section::before{content:"";position:absolute;width:60vmax;height:60vmax;left:-20vmax;bottom:-30vmax;border-radius:50%;
+  background:radial-gradient(circle,rgba(157,181,160,.22),transparent 65%);filter:blur(40px);
+  animation:breathe 10s ease-in-out infinite}
+.cta-wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.cta-section .eyebrow{color:var(--sage);border-color:rgba(157,181,160,.4);background:transparent}
+.cta-copy h2{color:#F4F2EC}
+.cta-copy>p{color:rgba(244,242,236,.72);font-size:16px;margin-bottom:26px}
+.cta-copy .check-list li{color:rgba(244,242,236,.85)}
+.cta-form-card{background:var(--bg);border-radius:22px;padding:40px 38px;color:var(--ink);
+  box-shadow:0 24px 60px rgba(0,0,0,.28)}
+.cta-form-card h3{font-family:var(--serif);font-size:23px;letter-spacing:.1em;margin-bottom:24px;text-align:center}
+.field{display:block;margin-bottom:18px}
+.field>span{display:block;font-size:13.5px;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:8px}
+.field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;
+  font-size:15.5px;font-family:var(--sans);background:#fff;color:var(--ink);outline:none;
+  transition:border-color .3s,box-shadow .3s}
+.field input:focus,.field select:focus{border-color:var(--sage-deep);box-shadow:0 0 0 3px rgba(94,122,100,.14)}
+.field.invalid input,.field.invalid select{border-color:#B4552D;box-shadow:0 0 0 3px rgba(180,85,45,.12)}
+.err{display:none;font-style:normal;font-size:12.5px;color:#B4552D;margin-top:6px;letter-spacing:.04em}
+.field.invalid .err{display:block}
+.form-note{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:16px}
+.form-note a{color:var(--sage-deep);text-decoration:underline;text-underline-offset:3px}
+.form-success{text-align:center;padding:24px 0;animation:paneIn .55s var(--ease)}
+.ok-ring{display:inline-flex;width:74px;height:74px;border-radius:50%;background:var(--sage-soft);color:var(--sage-deep);
+  align-items:center;justify-content:center;margin-bottom:20px;animation:popIn .6s var(--ease)}
+.ok-ring svg{width:36px;height:36px}
+@keyframes popIn{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.form-success h3{font-family:var(--serif);font-size:26px;letter-spacing:.12em;margin-bottom:12px}
+.form-success p{color:var(--ink-soft);font-size:15px;margin-bottom:20px}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#242B31;color:rgba(244,242,236,.75);padding:70px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px}
+.f-brand .brand-text{color:#F4F2EC}
+.f-brand p{font-size:14px;margin:14px 0 22px;letter-spacing:.06em}
+.socials{display:flex;gap:12px}
+.socials a{display:inline-flex;width:40px;height:40px;border-radius:50%;border:1px solid rgba(244,242,236,.25);
+  align-items:center;justify-content:center;color:rgba(244,242,236,.75);transition:all .35s var(--ease)}
+.socials a:hover{background:var(--sage-deep);border-color:var(--sage-deep);color:#fff;transform:translateY(-3px)}
+.socials svg{width:20px;height:20px}
+.f-col h4{font-size:14px;letter-spacing:.24em;margin-bottom:18px;color:#F4F2EC;font-weight:600}
+.f-col a,.f-col .linklike{display:block;font-size:14px;margin-bottom:12px;color:rgba(244,242,236,.65);
+  background:none;border:0;padding:0;cursor:pointer;font-family:var(--sans);text-align:left;letter-spacing:.04em}
+.f-col a:hover,.f-col .linklike:hover{color:var(--sage)}
+.f-col p{font-size:14px;margin-bottom:10px;color:rgba(244,242,236,.65)}
+.f-hours{font-size:12.5px;opacity:.7}
+.f-bottom{border-top:1px solid rgba(244,242,236,.14);padding:22px 28px 28px;display:flex;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;font-size:12.5px;color:rgba(244,242,236,.5)}
+
+/* ---------- 弹窗 ---------- */
+.modal-mask{position:fixed;inset:0;z-index:130;background:rgba(36,43,49,.55);opacity:0;transition:opacity .4s}
+.modal-mask.show{opacity:1}
+.modal{position:fixed;inset:0;z-index:131;display:flex;align-items:center;justify-content:center;padding:24px;pointer-events:none}
+.modal-card{pointer-events:auto;background:var(--bg);border-radius:20px;max-width:620px;width:100%;max-height:82vh;
+  display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.3);
+  transform:translateY(30px) scale(.97);opacity:0;transition:transform .5s var(--ease),opacity .4s}
+.modal.open .modal-card{transform:none;opacity:1}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:24px 30px;border-bottom:1px solid var(--line)}
+.modal-head h3{font-family:var(--serif);font-size:22px;letter-spacing:.12em}
+.modal-x{background:none;border:0;font-size:32px;line-height:1;cursor:pointer;color:var(--ink-soft);padding:0 6px;transition:color .3s,transform .3s}
+.modal-x:hover{color:var(--ink);transform:rotate(90deg)}
+.modal-body{padding:28px 30px;overflow-y:auto;font-size:14.5px;color:var(--ink-soft)}
+.modal-body h4{font-size:15.5px;color:var(--ink);margin:20px 0 8px;letter-spacing:.06em}
+.modal-body h4:first-of-type{margin-top:16px}
+.modal-body p{margin-bottom:10px}
+.modal-body .compliance-note{margin-top:22px}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+  .promise-grid{grid-template-columns:repeat(2,1fr)}
+  .wall{grid-template-columns:repeat(2,1fr)}
+  .tab-panel{grid-template-columns:1fr;padding:40px 32px;text-align:center}
+  .tab-panel .check-list{text-align:left;max-width:420px;margin:0 auto 24px}
+  .panel-visual svg{width:140px;height:140px;margin:0 auto}
+  .cta-wrap{grid-template-columns:1fr;gap:44px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .menu,.btn-nav{display:none}
+  .burger{display:flex}
+  .section{padding:80px 0}
+  .quiz{padding:30px 24px 34px}
+  .tabs{display:flex;width:100%}
+  .tab{flex:1;padding:12px 0;font-size:14px}
+  .promise-grid,.wall{grid-template-columns:1fr}
+  .cta-form-card{padding:32px 24px}
+  .hero h1{letter-spacing:.08em}
+  .footer-grid{grid-template-columns:1fr;gap:30px}
+  .f-bottom{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+</style>
+</head>
+<body>
+
+<!-- 加载态 -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-dot"></div>
+    <div class="loader-name">听澜</div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+</div>
+
+<!-- 纹理层：噪点 + 暗角 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="听澜首页">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26"><path d="M4 20c4-9 8-9 12 0s8 9 12 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="11" r="2.6" fill="currentColor"/></svg>
+      </span>
+      <span class="brand-text">听澜<i>tinglan</i></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#quiz">匹配问卷</a>
+      <a href="#services">服务</a>
+      <a href="#privacy">保密承诺</a>
+      <a href="#therapists">咨询师</a>
+    </nav>
+    <a class="btn btn-nav" href="#cta">免费匹配</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-mask" id="drawerMask" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand-text">听澜<i>tinglan</i></span>
+    <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">&times;</button>
+  </div>
+  <nav class="drawer-links">
+    <a href="#quiz">匹配问卷</a>
+    <a href="#services">服务</a>
+    <a href="#privacy">保密承诺</a>
+    <a href="#therapists">咨询师</a>
+  </nav>
+  <a class="btn btn-block" href="#cta">免费匹配咨询师</a>
+</aside>
+
+<main id="top">
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="aura" aria-hidden="true">
+      <span class="aura-b1"></span>
+      <span class="aura-b2"></span>
+      <span class="aura-b3"></span>
+      <svg class="wave-line" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-40 110 C 200 40, 420 180, 720 110 S 1240 40, 1480 110" fill="none" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="hero-inner">
+      <p class="eyebrow reveal">心理咨询平台 · 已陪伴 3 万人走出低谷</p>
+      <h1 class="reveal">把心里的话<br><em>找个地方</em>说出来</h1>
+      <p class="lede reveal">三分钟匹配问卷，帮你找到对的那位咨询师。<br>第一次倾诉，从一次免费的 15 分钟通话开始。</p>
+      <div class="hero-cta reveal">
+        <a class="btn btn-primary" href="#quiz">开始免费匹配</a>
+        <a class="btn btn-ghost" href="#services">先看看服务</a>
+      </div>
+      <div class="hero-proof reveal">
+        <span>持证咨询师 100%</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>严格保密协议</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>不满意可换咨询师</span>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#quiz" aria-label="向下滚动">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ===== 匹配问卷 ===== -->
+  <section class="section" id="quiz">
+    <div class="wrap">
+      <p class="eyebrow reveal">第一步</p>
+      <h2 class="reveal">三分钟，找到适合你的咨询方向</h2>
+      <p class="sub reveal">回答三个简单的问题，我们会为你推荐合适的咨询类型。所有回答仅保存在你的浏览器中，不会上传。</p>
+
+      <div class="quiz reveal" id="quizCard" aria-live="polite">
+        <div class="quiz-progress"><i id="quizBar"></i></div>
+        <p class="quiz-step" id="quizStep">第 1 题 / 共 3 题</p>
+
+        <div class="quiz-pane" data-pane="0">
+          <h3>最近让你最困扰的是什么？</h3>
+          <div class="quiz-opts" role="group" aria-label="困扰类型">
+            <button data-v="self" data-w="个体">情绪低落、睡不好、提不起劲</button>
+            <button data-v="couple" data-w="伴侣">和伴侣 / 家人的关系摩擦</button>
+            <button data-v="teen" data-w="青少年">孩子的学习、情绪或叛逆</button>
+          </div>
+        </div>
+
+        <div class="quiz-pane" data-pane="1" hidden>
+          <h3>你更希望以什么方式开始？</h3>
+          <div class="quiz-opts" role="group" aria-label="咨询方式">
+            <button data-v="voice" data-w="语音">语音通话，听见真人声音</button>
+            <button data-v="video" data-w="视频">视频面对面，更有在场感</button>
+            <button data-v="text" data-w="文字">文字咨询，先慢慢说</button>
+          </div>
+        </div>
+
+        <div class="quiz-pane" data-pane="2" hidden>
+          <h3>你希望咨询师是什么风格？</h3>
+          <div class="quiz-opts" role="group" aria-label="咨询师风格">
+            <button data-v="warm" data-w="温和">温和倾听型，先被接住</button>
+            <button data-v="direct" data-w="直接">直接高效型，直指问题</button>
+            <button data-v="open" data-w="开放">都可以，先聊聊看</button>
+          </div>
+        </div>
+
+        <div class="quiz-result" data-pane="3" hidden>
+          <p class="quiz-result-tag">你的匹配方向</p>
+          <h3 id="quizTitle">个体咨询</h3>
+          <p id="quizDesc"></p>
+          <a class="btn btn-primary" href="#cta" id="quizCta">预约免费 15 分钟通话</a>
+          <button class="quiz-restart" id="quizRestart">重新回答</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 服务 Tab ===== -->
+  <section class="section alt" id="services">
+    <div class="wrap">
+      <p class="eyebrow reveal">服务</p>
+      <h2 class="reveal">三种咨询，总有一种适合你</h2>
+      <p class="sub reveal">所有咨询均为一对一进行，50 分钟 / 次，可语音、视频或文字。</p>
+
+      <div class="tabs reveal" role="tablist" aria-label="咨询服务类型">
+        <button class="tab is-active" role="tab" aria-selected="true" data-tab="solo" id="tab-solo" aria-controls="panel-solo">个体咨询</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="couple" id="tab-couple" aria-controls="panel-couple">伴侣咨询</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="teen" id="tab-teen" aria-controls="panel-teen">青少年咨询</button>
+        <span class="tab-ink" id="tabInk" aria-hidden="true"></span>
+      </div>
+
+      <div class="tab-panels reveal">
+        <article class="tab-panel" id="panel-solo" role="tabpanel" aria-labelledby="tab-solo" data-panel="solo">
+          <div class="panel-copy">
+            <h3>一个只属于你的 50 分钟</h3>
+            <p>工作压力、情绪低落、失眠、自我怀疑——那些跟朋友说不出口的话，可以在这里慢慢说。咨询师不会评判你，只会陪你一起看清楚。</p>
+            <ul class="check-list">
+              <li>焦虑、抑郁情绪的疏导与陪伴</li>
+              <li>职业倦怠与人生选择的梳理</li>
+              <li>原生家庭议题的探索</li>
+            </ul>
+            <p class="price">单次 <strong>¥380</strong> 起 · 4 次套餐更优惠</p>
+          </div>
+          <div class="panel-visual" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-width="2" opacity=".35"/><circle cx="100" cy="100" r="46" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/><circle cx="100" cy="100" r="14" fill="currentColor"/></svg>
+          </div>
+        </article>
+
+        <article class="tab-panel" id="panel-couple" role="tabpanel" aria-labelledby="tab-couple" data-panel="couple" hidden>
+          <div class="panel-copy">
+            <h3>两个人，一起把话说开</h3>
+            <p>冷战、争吵、渐行渐远——很多关系不是不爱了，只是卡住了。咨询师作为中立的第三方，帮你们把真正想说的话说出来、听进去。</p>
+            <ul class="check-list">
+              <li>沟通模式的调整与练习</li>
+              <li>信任修复与冲突调解</li>
+              <li>婚前 / 婚恋关系的深度梳理</li>
+            </ul>
+            <p class="price">单次 <strong>¥520</strong> 起 · 伴侣双方共同参与</p>
+          </div>
+          <div class="panel-visual" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><circle cx="72" cy="100" r="44" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/><circle cx="128" cy="100" r="44" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/><path d="M100 78v44" stroke="currentColor" stroke-width="2" opacity=".35"/></svg>
+          </div>
+        </article>
+
+        <article class="tab-panel" id="panel-teen" role="tabpanel" aria-labelledby="tab-teen" data-panel="teen" hidden>
+          <div class="panel-copy">
+            <h3>先懂孩子，再谈教育</h3>
+            <p>厌学、沉迷手机、情绪爆发、亲子对抗——孩子的问题，常常是家庭系统的信号。咨询师分别与孩子和父母工作，重建家里的对话。</p>
+            <ul class="check-list">
+              <li>青少年情绪与行为问题干预</li>
+              <li>亲子沟通工作坊（父母专场）</li>
+              <li>升学压力与考试焦虑疏导</li>
+            </ul>
+            <p class="price">单次 <strong>¥450</strong> 起 · 含一次家长访谈</p>
+          </div>
+          <div class="panel-visual" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><path d="M40 140c20-50 45-70 60-70s40 20 60 70" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/><circle cx="100" cy="58" r="16" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="100" cy="58" r="5" fill="currentColor"/></svg>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 保密承诺 ===== -->
+  <section class="section" id="privacy">
+    <div class="wrap">
+      <p class="eyebrow reveal">保密承诺</p>
+      <h2 class="reveal">你说的每一句话，都只留在这个房间里</h2>
+      <p class="sub reveal">保密不是口号，是写进协议、刻进流程的四道防线。</p>
+      <div class="promise-grid">
+        <div class="promise reveal">
+          <span class="promise-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 7.7-8 9-4.6-1.3-8-4.5-8-9V6l8-3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <h3>书面保密协议</h3>
+          <p>首次咨询前签署正式保密协议，咨询师泄密即解除合作并承担法律责任。</p>
+        </div>
+        <div class="promise reveal">
+          <span class="promise-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="15" r="1.6" fill="currentColor"/></svg></span>
+          <h3>匿名咨询选项</h3>
+          <p>可使用昵称咨询，不强制实名。你的真实身份，只有你自己知道。</p>
+        </div>
+        <div class="promise reveal">
+          <span class="promise-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 8l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 16l6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <h3>记录加密存储</h3>
+          <p>咨询记录加密保存，仅当事咨询师可读。平台运营人员无权查看内容。</p>
+        </div>
+        <div class="promise reveal">
+          <span class="promise-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <h3>伦理督导机制</h3>
+          <p>咨询师定期接受伦理督导，个案讨论全程匿名化处理，双重保障。</p>
+        </div>
+      </div>
+      <p class="compliance-note reveal">合规提示：心理咨询不提供医疗诊断与处方建议；如你正处于严重心理危机或有伤害自己/他人的想法，请立即拨打全国心理援助热线或前往就近医院就诊。</p>
+    </div>
+  </section>
+
+  <!-- ===== 咨询师墙 ===== -->
+  <section class="section alt" id="therapists">
+    <div class="wrap">
+      <p class="eyebrow reveal">咨询师</p>
+      <h2 class="reveal">他们，都曾陪人走过至暗时刻</h2>
+      <p class="sub reveal">全部持证上岗，平均从业 8 年。匹配时可按流派、性别、擅长领域筛选。</p>
+      <div class="wall">
+        <article class="tcard reveal">
+          <div class="avatar" data-i="陈" aria-hidden="true"></div>
+          <h3>陈老师</h3>
+          <p class="t-meta">国家二级心理咨询师 · 12 年</p>
+          <p class="t-tags"><span>焦虑抑郁</span><span>人本主义</span></p>
+          <p class="t-quote">"先被好好听见，改变才会发生。"</p>
+        </article>
+        <article class="tcard reveal">
+          <div class="avatar" data-i="林" aria-hidden="true"></div>
+          <h3>林老师</h3>
+          <p class="t-meta">临床心理学硕士 · 9 年</p>
+          <p class="t-tags"><span>亲密关系</span><span>伴侣咨询</span></p>
+          <p class="t-quote">"争吵背后，藏着没被说出口的需求。"</p>
+        </article>
+        <article class="tcard reveal">
+          <div class="avatar" data-i="苏" aria-hidden="true"></div>
+          <h3>苏老师</h3>
+          <p class="t-meta">注册心理师 · 10 年</p>
+          <p class="t-tags"><span>青少年</span><span>家庭治疗</span></p>
+          <p class="t-quote">"孩子的问题，先从听懂开始。"</p>
+        </article>
+        <article class="tcard reveal">
+          <div class="avatar" data-i="周" aria-hidden="true"></div>
+          <h3>周老师</h3>
+          <p class="t-meta">CBT 认证咨询师 · 7 年</p>
+          <p class="t-tags"><span>失眠</span><span>认知行为</span></p>
+          <p class="t-quote">"睡个好觉，是很多改变的开始。"</p>
+        </article>
+        <article class="tcard reveal">
+          <div class="avatar" data-i="何" aria-hidden="true"></div>
+          <h3>何老师</h3>
+          <p class="t-meta">精神分析取向 · 11 年</p>
+          <p class="t-tags"><span>原生家庭</span><span>自我探索</span></p>
+          <p class="t-quote">"理解过去，是为了不被过去困住。"</p>
+        </article>
+        <article class="tcard reveal">
+          <div class="avatar" data-i="沈" aria-hidden="true"></div>
+          <h3>沈老师</h3>
+          <p class="t-meta">EAP 资深顾问 · 8 年</p>
+          <p class="t-tags"><span>职场压力</span><span>职业倦怠</span></p>
+          <p class="t-quote">"工作是为了生活，别搞反了。"</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA + 表单 ===== -->
+  <section class="section cta-section" id="cta">
+    <div class="wrap cta-wrap">
+      <div class="cta-copy reveal">
+        <p class="eyebrow">免费开始</p>
+        <h2>预约一次免费的<br>15 分钟匹配通话</h2>
+        <p>留下联系方式，匹配专员会在 24 小时内联系你，帮你找到合适的咨询师。首次通话完全免费，不满意随时终止。</p>
+        <ul class="check-list">
+          <li>免费 15 分钟，不推销、不设套</li>
+          <li>可匿名，咨询记录加密保存</li>
+          <li>匹配不满意，免费换一位咨询师</li>
+        </ul>
+      </div>
+      <div class="cta-form-card reveal">
+        <form id="matchForm" novalidate>
+          <h3>免费匹配咨询师</h3>
+          <label class="field">
+            <span>怎么称呼你</span>
+            <input type="text" name="name" placeholder="比如：小林（可用昵称）" autocomplete="name" maxlength="20">
+            <em class="err" data-err="name"></em>
+          </label>
+          <label class="field">
+            <span>联系方式（手机 / 微信号）</span>
+            <input type="text" name="contact" placeholder="11 位手机号或微信号" autocomplete="tel" maxlength="30">
+            <em class="err" data-err="contact"></em>
+          </label>
+          <label class="field">
+            <span>想咨询的方向</span>
+            <select name="topic">
+              <option value="">请选择…</option>
+              <option value="solo">个体咨询</option>
+              <option value="couple">伴侣咨询</option>
+              <option value="teen">青少年咨询</option>
+              <option value="unsure">还不确定，先聊聊</option>
+            </select>
+            <em class="err" data-err="topic"></em>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit">提交，预约免费通话</button>
+          <p class="form-note">提交即表示同意我们的<a href="#" data-modal="privacy">隐私政策</a>。信息仅用于匹配联系，绝不外泄。</p>
+        </form>
+        <div class="form-success" id="formSuccess" hidden>
+          <span class="ok-ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l5 5 9-11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>预约成功</h3>
+          <p id="successText">我们已收到你的预约，匹配专员将在 24 小时内与你联系。请留意陌生来电或微信好友申请。</p>
+          <button class="quiz-restart" id="formAgain">再预约一次</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <span class="brand-text">听澜<i>tinglan</i></span>
+      <p>把心里的话，找个地方说出来。</p>
+      <div class="socials" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号"><svg viewBox="0 0 24 24"><circle cx="9" cy="13" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="10.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="7.5" cy="12.5" r="1" fill="currentColor"/><circle cx="10.5" cy="12.5" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 14.5c1-3.5 5-5 8-3.5M9.5 16.5c.8-2.5 4-3.5 6-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="11" r="2.4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+        <a href="#" aria-label="哔哩哔哩"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9.5" cy="12" r="1.2" fill="currentColor"/><circle cx="14.5" cy="12" r="1.2" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>服务</h4>
+      <a href="#services">个体咨询</a>
+      <a href="#services">伴侣咨询</a>
+      <a href="#services">青少年咨询</a>
+      <a href="#quiz">匹配问卷</a>
+    </div>
+    <div class="f-col">
+      <h4>联系我们</h4>
+      <p id="fPhone"></p>
+      <p id="fAddr"></p>
+      <p id="fMail"></p>
+      <p class="f-hours">服务时间：每天 9:00 – 22:00</p>
+    </div>
+    <div class="f-col">
+      <h4>法律</h4>
+      <button class="linklike" data-modal="privacy">隐私政策</button>
+      <button class="linklike" data-modal="terms">服务条款</button>
+      <button class="linklike" data-modal="cookie">Cookie 说明</button>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p id="fCopy"></p>
+    <p class="f-icp" id="fIcp"></p>
+  </div>
+</footer>
+
+<!-- ===== 法律弹窗 ===== -->
+<div class="modal-mask" id="modalMask" hidden></div>
+
+<div class="modal" id="modal-privacy" role="dialog" aria-modal="true" aria-labelledby="mp-t" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="mp-t">隐私政策</h3><button class="modal-x" data-close aria-label="关闭">&times;</button></div>
+    <div class="modal-body">
+      <p>更新日期：2026 年 10 月 1 日。听澜（以下简称"我们"）深知心理咨询内容的高度敏感性，特制定本政策。</p>
+      <h4>一、我们收集什么</h4>
+      <p>为完成咨询师匹配与服务交付，我们仅收集：称呼（可为昵称）、联系方式、咨询方向偏好，以及你在匹配问卷中的作答。问卷作答默认仅保存在你的浏览器本地，不上传服务器。</p>
+      <h4>二、咨询内容的保密</h4>
+      <p>咨询过程中产生的一切谈话内容、记录与评估结果，均受咨询师保密协议约束，加密存储且仅当事咨询师可读。平台运营、技术人员无权查看咨询内容。个案督导讨论一律匿名化处理。</p>
+      <h4>三、保密的例外</h4>
+      <p>出现以下情形时，咨询师可能依法突破保密限制：你有严重伤害自己或他人的现实风险；涉及未成年人遭受虐待等法定报告情形。除此之外，任何情况下我们不会向第三方披露你的咨询信息。</p>
+      <h4>四、你的权利</h4>
+      <p>你可随时要求查看、更正或删除我们持有的你的个人信息，联系邮箱见页脚。我们将在 15 个工作日内响应。</p>
+      <p class="compliance-note">合规提示：心理咨询不提供医疗诊断与处方建议；如你正处于严重心理危机，请立即拨打全国心理援助热线或前往就近医院就诊。</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-terms" role="dialog" aria-modal="true" aria-labelledby="mt-t" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="mt-t">服务条款</h3><button class="modal-x" data-close aria-label="关闭">&times;</button></div>
+    <div class="modal-body">
+      <p>欢迎使用听澜心理咨询平台。使用本服务即表示你已阅读并同意以下条款。</p>
+      <h4>一、服务内容</h4>
+      <p>听澜为持证心理咨询师与来访者提供匹配与咨询服务平台。咨询以 50 分钟 / 次为标准，可通过语音、视频或文字进行。平台对咨询师资质进行审核，但咨询效果因人而异，平台不承诺特定疗效。</p>
+      <h4>二、预约与取消</h4>
+      <p>首次 15 分钟匹配通话免费。正式咨询需提前预约；开场前 24 小时以上取消可全额退款或改期，24 小时内取消将扣除当次费用的 50% 作为咨询师时间补偿。</p>
+      <h4>三、费用与退款</h4>
+      <p>费用标准见各服务页面。对匹配结果不满意，可在首次正式咨询后 48 小时内申请免费更换一位咨询师，或按剩余次数比例退款。</p>
+      <h4>四、用户行为</h4>
+      <p>咨询过程中请尊重咨询师，不得录音录像（经双方书面同意除外）、不得骚扰或辱骂。违反者平台有权终止服务且不退款。</p>
+      <h4>五、责任限制</h4>
+      <p>心理咨询不能替代精神科诊疗。如你被诊断患有精神疾病或正在服药，请在咨询前如实告知咨询师，以便评估是否适合进行谈话咨询。</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-cookie" role="dialog" aria-modal="true" aria-labelledby="mc-t" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="mc-t">Cookie 说明</h3><button class="modal-x" data-close aria-label="关闭">&times;</button></div>
+    <div class="modal-body">
+      <p>我们使用 Cookie 来保障网站正常运行并优化你的使用体验。</p>
+      <h4>一、必要型 Cookie</h4>
+      <p>用于记住你的问卷进度、表单填写状态等基础功能，关闭后部分页面功能可能无法正常使用。</p>
+      <h4>二、统计型 Cookie</h4>
+      <p>用于匿名统计页面访问情况，帮助我们改进服务。我们不会用统计数据识别你的个人身份，更不会将其与咨询内容关联。</p>
+      <h4>三、你的选择</h4>
+      <p>你可以在浏览器设置中随时清除或禁用 Cookie。需要说明的是：你的匹配问卷作答默认只存在于本地浏览器中，清除 Cookie 即一并清除，不会留存在我们服务器上。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ 听澜 counseling-page 交互 ============
+   纯原生 JS，零外部依赖（classic script，无模块） */
+
+/* 页面配置：电话 / 地址 / 邮箱 / 版权 / 备案占位 */
+const SITE = {
+  name: "听澜心理咨询",
+  phone: "400-820-8820",
+  address: "上海市静安区南京西路 1266 号 18 层",
+  email: "hello@tinglan.example.com",
+  copyright: "© 2026 听澜心理咨询（上海）有限公司 · 版权所有",
+  icp: "沪ICP备2026000000号-1（占位）"
+};
+
+(function () {
+  "use strict";
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ---------- 页脚信息渲染 ---------- */
+  $("#fPhone").textContent = "电话：" + SITE.phone;
+  $("#fAddr").textContent = "地址：" + SITE.address;
+  $("#fMail").textContent = "邮箱：" + SITE.email;
+  $("#fCopy").textContent = SITE.copyright;
+  $("#fIcp").textContent = SITE.icp;
+
+  /* ---------- 加载态：脚本在 body 末尾执行即 DOM 就绪，350ms 后确定性隐藏 ----------
+     不依赖 load 事件（headless 下 load 可能偏晚）；CSS 另有 5s 兜底动画 */
+  function hideLoader() {
+    var l = $("#loader");
+    if (l) l.classList.add("done");
+  }
+  setTimeout(hideLoader, 350);
+
+  /* ---------- 导航滚动毛玻璃 ---------- */
+  var nav = $("#nav");
+  function onScroll() {
+    if (window.scrollY > 24) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 移动端抽屉 ---------- */
+  var burger = $("#burger"), drawer = $("#drawer"), dMask = $("#drawerMask");
+  function openDrawer() {
+    drawer.removeAttribute("hidden");
+    dMask.removeAttribute("hidden");
+    requestAnimationFrame(function () {
+      drawer.classList.add("open"); dMask.classList.add("show");
+    });
+    drawer.setAttribute("aria-hidden", "false");
+    burger.classList.add("open"); burger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+  function closeDrawer() {
+    drawer.classList.remove("open"); dMask.classList.remove("show");
+    drawer.setAttribute("aria-hidden", "true");
+    burger.classList.remove("open"); burger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    setTimeout(function () { drawer.setAttribute("hidden", ""); dMask.setAttribute("hidden", ""); }, 450);
+  }
+  burger.addEventListener("click", function () {
+    drawer.classList.contains("open") ? closeDrawer() : openDrawer();
+  });
+  $("#drawerClose").addEventListener("click", closeDrawer);
+  dMask.addEventListener("click", closeDrawer);
+  $$(".drawer-links a, .drawer .btn-block").forEach(function (a) {
+    a.addEventListener("click", closeDrawer);
+  });
+
+  /* ---------- 匹配问卷 ---------- */
+  var panes = $$(".quiz-pane"), bar = $("#quizBar"), stepEl = $("#quizStep");
+  var answers = {};
+  var RESULT = {
+    solo:   { t: "个体咨询",  d: "根据你的回答，个体咨询可能是最合适的起点。选一位风格契合的咨询师，先从一次免费的 15 分钟通话开始。" },
+    couple: { t: "伴侣咨询",  d: "关系里的摩擦值得被认真对待。伴侣咨询由中立的咨询师陪你们一起，把卡住的话说开。" },
+    teen:   { t: "青少年咨询", d: "孩子的信号需要被听懂。青少年咨询会分别与孩子和父母工作，重建家里的对话。" }
+  };
+  function showPane(i) {
+    panes.forEach(function (p, idx) {
+      if (idx === i) p.removeAttribute("hidden"); else p.setAttribute("hidden", "");
+    });
+    var res = $(".quiz-result");
+    if (i === 3) {
+      res.removeAttribute("hidden");
+      panes.forEach(function (p) { p.setAttribute("hidden", ""); });
+    } else { res.setAttribute("hidden", ""); }
+    bar.style.width = ((i + 1) / 4 * 100) + "%";
+    stepEl.textContent = i < 3 ? ("第 " + (i + 1) + " 题 / 共 3 题") : "匹配完成";
+  }
+  $$(".quiz-opts button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var pane = btn.closest(".quiz-pane");
+      var idx = panes.indexOf(pane);
+      answers["q" + idx] = btn.getAttribute("data-v");
+      if (idx < 2) { showPane(idx + 1); }
+      else {
+        var key = answers.q0 === "couple" ? "couple" : answers.q0 === "teen" ? "teen" : "solo";
+        var r = RESULT[key];
+        $("#quizTitle").textContent = r.t;
+        $("#quizDesc").textContent = r.d + "你偏好" +
+          (answers.q1 === "video" ? "视频" : answers.q1 === "text" ? "文字" : "语音") +
+          "方式，希望咨询师风格" +
+          (answers.q2 === "warm" ? "温和倾听" : answers.q2 === "direct" ? "直接高效" : "随缘先聊聊") + "——我们会按这个方向为你匹配。";
+        showPane(3);
+      }
+    });
+  });
+  $("#quizRestart").addEventListener("click", function () { answers = {}; showPane(0); });
+  showPane(0);
+
+  /* ---------- 服务 Tab ---------- */
+  var tabs = $$(".tab"), panels = $$(".tab-panel"), ink = $("#tabInk");
+  function moveInk(tab) {
+    ink.style.left = tab.offsetLeft + "px";
+    ink.style.width = tab.offsetWidth + "px";
+  }
+  function selectTab(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    panels.forEach(function (p) {
+      if (p.getAttribute("data-panel") === tab.getAttribute("data-tab")) p.removeAttribute("hidden");
+      else p.setAttribute("hidden", "");
+    });
+    moveInk(tab);
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () { selectTab(t); });
+  });
+  window.addEventListener("load", function () { moveInk($(".tab.is-active")); });
+  window.addEventListener("resize", function () { moveInk($(".tab.is-active")); });
+  /* 首屏即定位，避免 ink 停在 0 宽 */
+  setTimeout(function () { moveInk($(".tab.is-active")); }, 600);
+
+  /* ---------- 表单校验 + 成功态 ---------- */
+  var form = $("#matchForm"), success = $("#formSuccess");
+  function setErr(name, msg) {
+    var label = form.querySelector('[name="' + name + '"]').closest(".field");
+    label.classList.toggle("invalid", !!msg);
+    label.querySelector(".err").textContent = msg || "";
+    return !msg;
+  }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var contact = form.contact.value.trim();
+    var topic = form.topic.value;
+    var ok = true;
+    if (!name) ok = setErr("name", "请告诉我们怎么称呼你（昵称也可以）") && ok;
+    else if (name.length > 20) ok = setErr("name", "称呼太长了，20 字以内就好") && ok;
+    else ok = setErr("name", "") && ok;
+    var phoneRe = /^1[3-9]\d{9}$/;
+    if (!contact) ok = setErr("contact", "请留下手机号或微信号，方便我们联系你") && ok;
+    else if (!(phoneRe.test(contact) || /^[a-zA-Z][a-zA-Z0-9_-]{5,19}$/.test(contact)))
+      ok = setErr("contact", "格式不太对：手机号 11 位，或微信号（字母开头，6–20 位）") && ok;
+    else ok = setErr("contact", "") && ok;
+    if (!topic) ok = setErr("topic", "请选择一个咨询方向") && ok;
+    else ok = setErr("topic", "") && ok;
+    if (!ok) {
+      var firstBad = form.querySelector(".field.invalid input, .field.invalid select");
+      if (firstBad) firstBad.focus();
+      return;
+    }
+    $("#successText").textContent = "谢谢" + name + "，我们已收到你的预约，匹配专员将在 24 小时内通过你留下的联系方式与你确认。首次 15 分钟通话完全免费。";
+    form.setAttribute("hidden", "");
+    success.removeAttribute("hidden");
+  });
+  ["name", "contact", "topic"].forEach(function (n) {
+    form[n].addEventListener("input", function () { setErr(n, ""); });
+    form[n].addEventListener("change", function () { setErr(n, ""); });
+  });
+  $("#formAgain").addEventListener("click", function () {
+    form.reset();
+    success.setAttribute("hidden", "");
+    form.removeAttribute("hidden");
+  });
+
+  /* ---------- 法律弹窗：按钮 / 遮罩 / ESC 三通道关闭 ---------- */
+  var mask = $("#modalMask"), current = null, lastFocus = null;
+  function openModal(id) {
+    closeModal(true);
+    lastFocus = document.activeElement;
+    current = $("#modal-" + id);
+    if (!current) return;
+    mask.removeAttribute("hidden"); current.removeAttribute("hidden");
+    requestAnimationFrame(function () { mask.classList.add("show"); current.classList.add("open"); });
+    document.body.style.overflow = "hidden";
+    var x = current.querySelector(".modal-x");
+    if (x) x.focus();
+  }
+  function closeModal(silent) {
+    if (!current) return;
+    mask.classList.remove("show"); current.classList.remove("open");
+    var m = current; current = null;
+    document.body.style.overflow = "";
+    setTimeout(function () { mask.setAttribute("hidden", ""); m.setAttribute("hidden", ""); }, silent ? 0 : 400);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $$("[data-modal]").forEach(function (el) {
+    el.addEventListener("click", function (e) { e.preventDefault(); openModal(el.getAttribute("data-modal")); });
+  });
+  $$("[data-close]").forEach(function (el) { el.addEventListener("click", function () { closeModal(); }); });
+  mask.addEventListener("click", function () { closeModal(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      if (current) closeModal();
+      else if (drawer.classList.contains("open")) closeDrawer();
+    }
+  });
+
+  /* ---------- reveal：滚动进入视口即显示 ---------- */
+  var reveals = $$(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    reveals.forEach(function (r) { io.observe(r); });
+    /* 兜底：8 秒后仍未进入视口的一律放行（保证完成态可达） */
+    setTimeout(function () { reveals.forEach(function (r) { r.classList.add("is-in"); }); }, 8000);
+  } else {
+    reveals.forEach(function (r) { r.classList.add("is-in"); });
+  }
+})();
+
+</script>
+</body>
+</html>

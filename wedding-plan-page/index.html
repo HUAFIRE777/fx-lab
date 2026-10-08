@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诺言 VOWS · 婚礼策划 — 婚礼那天，你只需要当主角</title>
+<meta name="description" content="诺言 VOWS 婚礼策划：1200+ 场婚礼交付，9 年深耕。从第一通电话到最后一支舞，我们替你操心所有细节。">
+<style>
+/* 诺言 VOWS · 婚礼策划 — styles.css
+   配色定死 3 色：象牙白 #faf7f0 / 墨黑 #1c1a17 / 香槟金 #c6a15b
+   无外部字体、无外部请求。 */
+:root{
+  --ivory:#faf7f0;
+  --ivory-deep:#f3ecdd;
+  --ink:#1c1a17;
+  --ink-soft:#4a443c;
+  --gold:#c6a15b;
+  --gold-deep:#a5813f;
+  --gold-soft:rgba(198,161,91,.16);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-pop:cubic-bezier(.34,1.4,.44,1);
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Noto Serif SC",Georgia,serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);background:var(--ivory);color:var(--ink);
+  font-size:16px;line-height:1.75;letter-spacing:.04em;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+.section{padding:110px 0}
+.section-tint{background:var(--ivory-deep)}
+.section-dark{background:var(--ink);color:var(--ivory)}
+
+/* ---------- 加载态（完成态必达：body.ready 关闭） ---------- */
+.loader{position:fixed;inset:0;z-index:500;background:var(--ivory);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .6s var(--ease-out),visibility .6s}
+body.ready .loader{opacity:0;visibility:hidden;pointer-events:none}
+.loader-seal{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:30px}
+.loader-word{font-size:13px;letter-spacing:.42em;color:var(--ink-soft);text-indent:.42em}
+.loader-bar{width:150px;height:2px;background:var(--gold-soft);overflow:hidden;border-radius:2px}
+.loader-bar i{display:block;height:100%;width:40%;background:var(--gold);
+  animation:loadslide 1.1s var(--ease-out) infinite}
+@keyframes loadslide{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+
+/* ---------- 纸纹噪点 / vignette ---------- */
+.grain{position:fixed;inset:0;z-index:400;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- 按钮 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 30px;border-radius:999px;font-size:15px;letter-spacing:.14em;cursor:pointer;
+  border:1px solid transparent;transition:transform .35s var(--ease-pop),box-shadow .35s var(--ease-out),background .3s,color .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{box-shadow:0 14px 30px -10px rgba(198,161,91,.65)}
+.btn-ghost{border-color:rgba(28,26,23,.35);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-outline{border-color:rgba(250,247,240,.4);color:var(--ivory);background:transparent;width:100%}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-lg{padding:15px 36px;font-size:16px}
+.btn-block{width:100%}
+.linklike{background:none;border:none;color:var(--gold);font-size:13px;cursor:pointer;letter-spacing:.06em;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- 导航 ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 34px;transition:background .4s,box-shadow .4s,padding .4s,backdrop-filter .4s}
+.nav.scrolled{background:rgba(250,247,240,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 8px 30px -12px rgba(28,26,23,.18);padding:12px 34px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-seal{width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:19px;flex:none}
+.brand-word{font-family:var(--serif);font-size:20px;letter-spacing:.18em}
+.brand-word em{font-style:normal;font-size:12px;letter-spacing:.34em;color:var(--ink-soft);margin-left:6px}
+.nav-links{display:flex;gap:34px;font-size:15px;letter-spacing:.12em}
+.nav-links a{position:relative;padding:6px 0;color:var(--ink-soft);transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:100%;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.burger{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:220}
+.burger span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;border-radius:2px;
+  transition:transform .35s var(--ease-out),opacity .3s}
+
+/* ---------- 移动端抽屉 ---------- */
+.drawer-veil{position:fixed;inset:0;z-index:205;background:rgba(28,26,23,.45);
+  opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:210;width:min(320px,84vw);background:var(--ivory);
+  padding:96px 36px 40px;display:flex;flex-direction:column;gap:8px;
+  transform:translateX(105%);transition:transform .5s var(--ease-out);box-shadow:-20px 0 60px rgba(28,26,23,.2)}
+.drawer a:not(.btn){font-size:19px;font-family:var(--serif);letter-spacing:.14em;padding:12px 0;border-bottom:1px solid var(--gold-soft)}
+.drawer .btn{margin-top:22px}
+.drawer-contact{margin-top:auto;color:var(--ink-soft);font-size:14px;letter-spacing:.1em}
+body.drawer-open{overflow:hidden}
+body.drawer-open .drawer{transform:none}
+body.drawer-open .drawer-veil{opacity:1;visibility:visible}
+body.drawer-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+body.drawer-open .burger span:nth-child(2){opacity:0}
+body.drawer-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:130px 0 90px}
+#petals{position:absolute;inset:0;width:100%;height:100%}
+.hero-arch{position:absolute;right:-40px;bottom:-24px;width:min(560px,52vw);opacity:.5;pointer-events:none}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(28,26,23,.10) 100%)}
+.hero-inner{position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:0 28px;width:100%}
+.hero-kicker{font-size:13px;letter-spacing:.5em;color:var(--gold-deep);margin-bottom:26px}
+.hero-title{font-family:var(--serif);font-size:clamp(44px,7.2vw,88px);line-height:1.32;letter-spacing:.06em;font-weight:600}
+.rl-line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.rl-inner{display:block}
+/* 无 JS 时标题直接可见；有 JS 时先藏、body.ready 后升起（完成态带 html.js 前缀） */
+html.js .rl-inner{transform:translateY(112%)}
+html.js body.ready .rl-inner{transform:none;transition:transform 1.05s var(--ease-out)}
+.hero-sub{margin-top:26px;font-size:18px;letter-spacing:.1em;color:var(--ink-soft);line-height:2}
+.hero-cta{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap}
+.hero-stats{margin-top:64px;display:flex;gap:0;max-width:560px}
+.hero-stats>div{flex:1;padding:0 26px;border-left:1px solid rgba(198,161,91,.5)}
+.hero-stats>div:first-child{padding-left:0;border-left:none}
+.hero-stats dt{font-family:var(--serif);font-size:34px;color:var(--ink);letter-spacing:.04em}
+.hero-stats dd{font-size:13px;color:var(--ink-soft);letter-spacing:.2em;margin-top:6px}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2}
+.scroll-hint i{display:block;width:1px;height:46px;background:var(--gold-deep);position:relative;overflow:hidden}
+.scroll-hint i::after{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;background:var(--ink);
+  animation:hintdrop 1.8s var(--ease-out) infinite}
+@keyframes hintdrop{0%{top:-40%}100%{top:110%}}
+
+/* ---------- 通用标题 ---------- */
+.kicker{font-size:13px;letter-spacing:.5em;color:var(--gold-deep);margin-bottom:18px;text-indent:.1em}
+.kicker-gold{color:var(--gold)}
+.h2{font-family:var(--serif);font-size:clamp(30px,4.4vw,46px);letter-spacing:.08em;line-height:1.45;font-weight:600;margin-bottom:16px}
+.h2-light{color:var(--ivory)}
+.lede{color:var(--ink-soft);font-size:16px;letter-spacing:.06em;max-width:640px;margin-bottom:54px}
+.lede-light{color:rgba(250,247,240,.72)}
+
+/* ---------- 滚动 reveal（完成态带 html.js 前缀，无 JS 不隐藏） ---------- */
+html.js .reveal{opacity:0;transform:translateY(28px);
+  transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+html.js .reveal.in{opacity:1;transform:none}
+
+/* ---------- 案例瀑布流 ---------- */
+.masonry{columns:3;column-gap:24px}
+.case{break-inside:avoid;margin-bottom:24px;border-radius:16px;overflow:hidden;background:#fff;
+  border:1px solid rgba(198,161,91,.28);box-shadow:0 10px 30px -18px rgba(28,26,23,.25);
+  transition:transform .45s var(--ease-pop),box-shadow .45s var(--ease-out)}
+.case:hover{transform:translateY(-6px);box-shadow:0 26px 50px -20px rgba(28,26,23,.35)}
+.case-art{height:190px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.case-art svg{width:78%;height:auto;transition:transform .6s var(--ease-out)}
+.case:hover .case-art svg{transform:scale(1.07)}
+.art-forest{background:linear-gradient(160deg,#2b3a2e,#43584a)}
+.art-chapel{background:linear-gradient(160deg,#e9e2d2,#d9cdae)}
+.art-sea{background:linear-gradient(160deg,#274b5a,#3d6a7d)}
+.art-chinese{background:linear-gradient(160deg,#1c1a17,#3a2e1e)}
+.art-minimal{background:linear-gradient(160deg,#f1ece1,#e2d8c2)}
+.art-night{background:linear-gradient(160deg,#14161f,#232838)}
+.case:nth-child(2) .case-art{height:230px}
+.case:nth-child(5) .case-art{height:230px}
+.case-body{padding:22px 24px 26px}
+.case-body h3{font-family:var(--serif);font-size:20px;letter-spacing:.1em;margin-bottom:8px}
+.case-body p{font-size:13.5px;color:var(--ink-soft);letter-spacing:.08em}
+.tag{display:inline-block;margin-top:12px;font-size:12px;letter-spacing:.24em;color:var(--gold-deep);
+  border:1px solid rgba(198,161,91,.55);border-radius:999px;padding:4px 14px}
+
+/* ---------- 套餐 ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.plan{position:relative;border:1px solid rgba(198,161,91,.35);border-radius:20px;padding:44px 34px 38px;
+  background:rgba(250,247,240,.03);display:flex;flex-direction:column;
+  transition:transform .45s var(--ease-pop),border-color .35s,box-shadow .45s var(--ease-out)}
+.plan:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 30px 60px -28px rgba(198,161,91,.4)}
+.plan-hot{background:rgba(198,161,91,.09);border-color:var(--gold)}
+.plan-badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;
+  font-size:12.5px;letter-spacing:.3em;text-indent:.3em;padding:6px 20px;border-radius:999px;white-space:nowrap}
+.plan h3{font-family:var(--serif);font-size:24px;letter-spacing:.12em;margin-bottom:6px}
+.plan-price{font-family:var(--serif);font-size:38px;color:var(--gold);letter-spacing:.04em;margin:10px 0 4px}
+.plan-price span{font-size:14px;font-family:var(--sans);color:rgba(250,247,240,.6);letter-spacing:.2em}
+.plan-desc{font-size:14px;color:rgba(250,247,240,.72);letter-spacing:.06em;margin-bottom:22px;min-height:48px}
+.plan ul{list-style:none;margin-bottom:30px;flex:1}
+.plan li{position:relative;font-size:14.5px;letter-spacing:.06em;color:rgba(250,247,240,.85);padding:9px 0 9px 26px;border-top:1px dashed rgba(198,161,91,.28)}
+.plan li::before{content:"";position:absolute;left:4px;top:17px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.plans-note{margin-top:34px;font-size:13px;letter-spacing:.08em;color:rgba(250,247,240,.55);text-align:center}
+
+/* ---------- 流程四步 ---------- */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps::before{content:"";position:absolute;top:34px;left:6%;right:6%;height:1px;
+  background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 16px);opacity:.55}
+.step{position:relative;padding:0 22px;text-align:center}
+.step-no{display:inline-flex;align-items:center;justify-content:center;width:68px;height:68px;border-radius:50%;
+  background:var(--ivory);border:1.5px solid var(--gold);color:var(--gold-deep);
+  font-family:var(--serif);font-size:19px;letter-spacing:.06em;position:relative;z-index:1;margin-bottom:24px;
+  transition:transform .4s var(--ease-pop),background .3s,color .3s}
+.step:hover .step-no{transform:scale(1.08);background:var(--gold);color:#fff}
+.step h3{font-family:var(--serif);font-size:21px;letter-spacing:.12em;margin-bottom:12px}
+.step p{font-size:14px;color:var(--ink-soft);letter-spacing:.05em;max-width:250px;margin:0 auto 14px}
+.step-time{display:inline-block;font-size:12.5px;letter-spacing:.2em;color:var(--gold-deep);
+  background:var(--gold-soft);border-radius:999px;padding:5px 16px}
+
+/* ---------- 评价墙 ---------- */
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.voice{background:#fff;border:1px solid rgba(198,161,91,.28);border-radius:16px;padding:32px 30px;
+  position:relative;transition:transform .45s var(--ease-pop),box-shadow .45s var(--ease-out)}
+.voice::before{content:"“";position:absolute;top:6px;left:22px;font-family:var(--serif);font-size:64px;color:var(--gold);opacity:.35}
+.voice:hover{transform:translateY(-5px);box-shadow:0 24px 48px -22px rgba(28,26,23,.3)}
+.voice blockquote{font-family:var(--serif);font-size:16.5px;line-height:1.9;letter-spacing:.05em;margin-bottom:18px}
+.voice figcaption{font-size:13px;letter-spacing:.16em;color:var(--gold-deep)}
+
+/* ---------- 预约表单区 ---------- */
+.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+.booking-points{list-style:none;display:flex;gap:34px;margin:34px 0}
+.booking-points li{font-size:14px;letter-spacing:.1em;color:rgba(250,247,240,.75)}
+.booking-points b{font-family:var(--serif);font-size:30px;color:var(--gold);margin-right:8px;font-weight:600}
+.booking-tel{font-size:15px;letter-spacing:.08em;color:rgba(250,247,240,.8)}
+.booking-tel a{color:var(--gold);font-family:var(--serif);font-size:19px;letter-spacing:.1em}
+.booking-form{background:rgba(250,247,240,.045);border:1px solid rgba(198,161,91,.35);
+  border-radius:22px;padding:44px 40px;position:relative;overflow:hidden}
+.booking-form::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(90% 60% at 50% 0%,rgba(198,161,91,.12),transparent 70%)}
+.field{margin-bottom:20px;position:relative}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label{display:block;font-size:13.5px;letter-spacing:.2em;color:rgba(250,247,240,.75);margin-bottom:9px}
+.field label .opt{color:rgba(250,247,240,.4);letter-spacing:.1em}
+.field input,.field select,.field textarea{width:100%;background:rgba(250,247,240,.07);
+  border:1px solid rgba(198,161,91,.35);border-radius:12px;color:var(--ivory);
+  font-size:15px;letter-spacing:.06em;padding:13px 16px;font-family:var(--sans);
+  transition:border-color .3s,box-shadow .3s;color-scheme:dark}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(198,161,91,.22)}
+.field select option{color:#1c1a17}
+.field textarea{resize:vertical;min-height:84px}
+.form-err{min-height:24px;font-size:13.5px;color:#e08080;letter-spacing:.06em;margin-bottom:10px}
+.form-fine{margin-top:16px;font-size:13px;letter-spacing:.06em;color:rgba(250,247,240,.55);text-align:center}
+.form-ok{text-align:center;padding:30px 10px 6px}
+.form-ok svg{margin:0 auto 18px;animation:okpop .55s var(--ease-pop)}
+@keyframes okpop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.form-ok h3{font-family:var(--serif);font-size:22px;letter-spacing:.1em;margin-bottom:10px;color:var(--ivory)}
+.form-ok p{font-size:14px;color:rgba(250,247,240,.75);letter-spacing:.06em}
+.form-ok b{color:var(--gold);font-family:var(--serif);letter-spacing:.1em}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#141210;color:rgba(250,247,240,.75);padding:80px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;padding-bottom:56px}
+.f-name{font-family:var(--serif);font-size:19px;letter-spacing:.14em;color:var(--ivory);margin:16px 0 8px}
+.f-slogan{font-size:13.5px;letter-spacing:.1em;color:rgba(250,247,240,.5)}
+.f-social{display:flex;gap:14px;margin-top:22px}
+.f-social a{width:40px;height:40px;border:1px solid rgba(198,161,91,.45);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--gold);
+  transition:transform .35s var(--ease-pop),background .3s,color .3s}
+.f-social a:hover{transform:translateY(-3px);background:var(--gold);color:#141210}
+.f-social svg{width:20px;height:20px}
+.footer h4{font-size:13px;letter-spacing:.34em;color:var(--gold);margin-bottom:20px;font-weight:600}
+.f-nav{display:flex;flex-direction:column;gap:4px}
+.f-nav a,.f-legal button{font-size:14.5px;letter-spacing:.08em;color:rgba(250,247,240,.72);padding:7px 0;
+  background:none;border:none;cursor:pointer;text-align:left;font-family:var(--sans);transition:color .3s}
+.f-nav a:hover,.f-legal button:hover{color:var(--gold)}
+.f-legal{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.f-contact p{font-size:14.5px;letter-spacing:.06em;padding:6px 0}
+.f-contact a{color:var(--gold)}
+.f-hours{font-size:13px!important;color:rgba(250,247,240,.45)!important}
+.f-bottom{border-top:1px solid rgba(198,161,91,.22);padding:24px 28px;display:flex;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;font-size:13px;letter-spacing:.08em;color:rgba(250,247,240,.45)}
+.f-icp{color:rgba(250,247,240,.35)}
+
+/* ---------- 法务弹窗（三通道关闭） ---------- */
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;
+  visibility:hidden;opacity:0;transition:opacity .35s var(--ease-out),visibility .35s}
+.modal.open{visibility:visible;opacity:1}
+.modal-veil{position:absolute;inset:0;background:rgba(20,18,16,.62)}
+.modal-card{position:relative;background:var(--ivory);border-radius:18px;max-width:620px;width:100%;
+  max-height:82vh;display:flex;flex-direction:column;padding:40px 42px;
+  transform:translateY(16px) scale(.98);transition:transform .4s var(--ease-pop);box-shadow:0 40px 90px rgba(0,0,0,.4)}
+.modal.open .modal-card{transform:none}
+.modal-x{position:absolute;top:14px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(28,26,23,.25);
+  background:none;font-size:15px;cursor:pointer;color:var(--ink);transition:transform .3s var(--ease-pop),background .3s}
+.modal-x:hover{transform:rotate(90deg);background:var(--gold-soft)}
+.modal-card h3{font-family:var(--serif);font-size:24px;letter-spacing:.12em;margin-bottom:20px;padding-right:40px}
+.modal-body{overflow-y:auto;font-size:14.5px;color:var(--ink-soft);letter-spacing:.05em}
+.modal-body ol{padding-left:22px;display:flex;flex-direction:column;gap:14px}
+.modal-body li::marker{color:var(--gold-deep);font-family:var(--serif)}
+body.modal-open{overflow:hidden}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1024px){
+  .masonry{columns:2}
+  .voices{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr);gap:44px 0}
+  .steps::before{display:none}
+  .booking-grid{grid-template-columns:1fr;gap:56px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .section{padding:78px 0}
+  .nav-links,.nav-cta{display:none}
+  .burger{display:block}
+  .hero{padding:120px 0 80px}
+  .hero-arch{width:88vw;right:-14vw;opacity:.34}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{flex:none;width:100%;white-space:nowrap}
+  .hero-stats dt{white-space:nowrap}
+  .hero-stats{flex-wrap:wrap;gap:22px}
+  .hero-stats>div{padding:0 18px}
+  .masonry{columns:1}
+  .plans{grid-template-columns:1fr}
+  .plan-hot{order:-1}
+  .steps{grid-template-columns:1fr}
+  .voices{grid-template-columns:1fr}
+  .field-row{grid-template-columns:1fr}
+  .booking-form{padding:32px 24px}
+  .footer-grid{grid-template-columns:1fr;gap:36px}
+  .modal{padding:0}
+  .modal-card{border-radius:0;max-height:100vh;height:100%;padding:64px 26px 30px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html.js .reveal{opacity:1;transform:none}
+  html.js .rl-inner{transform:none}
+}
+
+</style>
+</head>
+<body>
+<!-- 加载态：象牙白全屏 + 金印徽 + 进度线，window.load/3.5s 兜底必放行 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-seal">诺</div>
+  <div class="loader-word">VOWS · 诺言婚礼策划</div>
+  <div class="loader-bar"><i></i></div>
+</div>
+
+<!-- 全页纸纹噪点 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" data-scroll>
+    <span class="brand-seal">诺</span>
+    <span class="brand-word">诺言 <em>VOWS</em></span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#cases" data-scroll>婚礼案例</a>
+    <a href="#plans" data-scroll>策划套餐</a>
+    <a href="#flow" data-scroll>策划流程</a>
+    <a href="#voices" data-scroll>新人评价</a>
+  </nav>
+  <a class="btn btn-gold nav-cta" href="#booking" data-scroll>查档期</a>
+  <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#cases" data-scroll>婚礼案例</a>
+  <a href="#plans" data-scroll>策划套餐</a>
+  <a href="#flow" data-scroll>策划流程</a>
+  <a href="#voices" data-scroll>新人评价</a>
+  <a class="btn btn-gold" href="#booking" data-scroll>查档期 / 免费咨询</a>
+  <p class="drawer-contact"><span data-site="phone"></span></p>
+</aside>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <canvas id="petals" aria-hidden="true"></canvas>
+    <div class="hero-arch" aria-hidden="true">
+      <!-- 婚礼拱门剪影：程序化 SVG，无外链 -->
+      <svg viewBox="0 0 600 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M120 460 V190 C120 90 210 30 300 30 C390 30 480 90 480 190 V460" stroke="#c6a15b" stroke-width="3"/>
+        <path d="M150 460 V200 C150 112 228 62 300 62 C372 62 450 112 450 200 V460" stroke="#c6a15b" stroke-width="1.4" opacity=".55"/>
+        <g stroke="#c6a15b" stroke-width="1.2" opacity=".8">
+          <circle cx="300" cy="120" r="26"/>
+          <circle cx="300" cy="120" r="18" opacity=".5"/>
+          <path d="M244 156 q10 -14 22 -6 M356 156 q-10 -14 -22 -6"/>
+          <path d="M200 96 q8 -18 24 -14 M400 96 q-8 -18 -24 -14"/>
+          <path d="M170 200 q14 -8 24 2 M430 200 q-14 -8 -24 2"/>
+        </g>
+        <g fill="#c6a15b" opacity=".75">
+          <ellipse cx="244" cy="168" rx="7" ry="4" transform="rotate(-24 244 168)"/>
+          <ellipse cx="356" cy="168" rx="7" ry="4" transform="rotate(24 356 168)"/>
+          <ellipse cx="212" cy="104" rx="6" ry="3.6" transform="rotate(-30 212 104)"/>
+          <ellipse cx="388" cy="104" rx="6" ry="3.6" transform="rotate(30 388 104)"/>
+          <ellipse cx="186" cy="216" rx="6" ry="3.6" transform="rotate(-18 186 216)"/>
+          <ellipse cx="414" cy="216" rx="6" ry="3.6" transform="rotate(18 414 216)"/>
+          <ellipse cx="300" cy="72" rx="7" ry="4"/>
+        </g>
+        <path d="M120 460 H480" stroke="#c6a15b" stroke-width="3"/>
+        <text x="300" y="440" text-anchor="middle" font-size="15" letter-spacing="10" fill="#c6a15b" font-family="Georgia, serif">VOWS</text>
+      </svg>
+    </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-kicker reveal-line"><span class="rl-line"><span class="rl-inner">婚礼策划 · 全案统筹</span></span></p>
+      <h1 class="hero-title">
+        <span class="rl-line"><span class="rl-inner" style="transition-delay:.10s">婚礼那天，</span></span>
+        <span class="rl-line"><span class="rl-inner" style="transition-delay:.24s">你只需要当主角。</span></span>
+      </h1>
+      <p class="hero-sub">从第一通电话到最后一支舞，<br>所有细节我们替你操心。</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold btn-lg" href="#booking" data-scroll>查档期 · 免费咨询</a>
+        <a class="btn btn-ghost btn-lg" href="#cases" data-scroll>看看我们办过的婚礼</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>1200+</dt><dd>场婚礼交付</dd></div>
+        <div><dt>9 年</dt><dd>只做婚礼策划</dd></div>
+        <div><dt>40+</dt><dd>合作场地资源</dd></div>
+      </dl>
+    </div>
+    <a class="scroll-hint" href="#cases" data-scroll aria-label="向下滚动"><i></i></a>
+  </section>
+
+  <!-- ============ 婚礼案例瀑布流 ============ -->
+  <section class="section" id="cases">
+    <div class="wrap">
+      <p class="kicker reveal">婚礼案例</p>
+      <h2 class="h2 reveal">每一场，都是新人亲手写的故事</h2>
+      <p class="lede reveal">策划案从不在模板里复制。下面这些婚礼，主题、流程、音乐清单，全是和新人一句一句聊出来的。</p>
+      <div class="masonry">
+        <article class="case reveal">
+          <div class="case-art art-forest" aria-hidden="true">
+            <svg viewBox="0 0 300 200"><path d="M40 170 Q150 60 260 170" stroke="#faf7f0" stroke-width="4" fill="none"/><g fill="#faf7f0" opacity=".85"><ellipse cx="90" cy="90" rx="26" ry="14"/><ellipse cx="150" cy="70" rx="30" ry="16"/><ellipse cx="212" cy="92" rx="26" ry="14"/></g><path d="M60 170 h180" stroke="#faf7f0" stroke-width="3"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>雾中山林 · 草坪婚礼</h3>
+            <p>陈默 &amp; 林小满 · 莫干山 · 86 位宾客</p>
+            <span class="tag">户外草坪</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-chapel" aria-hidden="true">
+            <svg viewBox="0 0 300 240"><path d="M60 220 V110 L150 40 L240 110 V220" stroke="#1c1a17" stroke-width="4" fill="none"/><rect x="138" y="130" width="24" height="90" fill="#1c1a17"/><circle cx="150" cy="86" r="14" stroke="#1c1a17" stroke-width="3" fill="none"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>老教堂的午后</h3>
+            <p>周远 &amp; 沈清 · 上海 · 120 位宾客</p>
+            <span class="tag">复古教堂</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-sea" aria-hidden="true">
+            <svg viewBox="0 0 300 180"><path d="M0 140 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0" stroke="#faf7f0" stroke-width="3" fill="none"/><path d="M0 156 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0" stroke="#faf7f0" stroke-width="2" fill="none" opacity=".6"/><circle cx="238" cy="46" r="20" fill="#faf7f0" opacity=".9"/><path d="M90 150 q60 -70 120 0" stroke="#faf7f0" stroke-width="4" fill="none"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>退潮时的誓言</h3>
+            <p>高翔 &amp; 苏蔓 · 三亚 · 54 位宾客</p>
+            <span class="tag">海岛婚礼</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-chinese" aria-hidden="true">
+            <svg viewBox="0 0 300 220"><circle cx="150" cy="105" r="52" stroke="#c6a15b" stroke-width="4" fill="none"/><circle cx="150" cy="105" r="40" stroke="#c6a15b" stroke-width="1.6" fill="none" opacity=".6"/><text x="150" y="122" text-anchor="middle" font-size="34" fill="#c6a15b" font-family="STSong, serif">囍</text><path d="M60 190 h180" stroke="#c6a15b" stroke-width="2"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>一堂中式婚礼</h3>
+            <p>陆之昂 &amp; 顾青禾 · 苏州 · 200 位宾客</p>
+            <span class="tag">中式礼制</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-minimal" aria-hidden="true">
+            <svg viewBox="0 0 300 160"><path d="M40 130 H260" stroke="#1c1a17" stroke-width="2"/><path d="M70 130 V70 M230 130 V70 M70 70 h160" stroke="#1c1a17" stroke-width="2" fill="none"/><circle cx="150" cy="44" r="10" fill="#c6a15b"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>白 · 极简主义</h3>
+            <p>方简 &amp; 白露 · 杭州 · 38 位宾客</p>
+            <span class="tag">小型私宴</span>
+          </div>
+        </article>
+        <article class="case reveal">
+          <div class="case-art art-night" aria-hidden="true">
+            <svg viewBox="0 0 300 200"><g fill="#faf7f0"><circle cx="60" cy="40" r="2.4"/><circle cx="120" cy="70" r="1.8"/><circle cx="190" cy="36" r="2.2"/><circle cx="244" cy="80" r="1.8"/><circle cx="150" cy="110" r="2"/><circle cx="90" cy="130" r="1.6"/><circle cx="220" cy="140" r="2.2"/></g><path d="M70 170 Q150 90 230 170" stroke="#c6a15b" stroke-width="3" fill="none"/></svg>
+          </div>
+          <div class="case-body">
+            <h3>星空下的 first dance</h3>
+            <p>江野 &amp; 岑溪 · 大理 · 96 位宾客</p>
+            <span class="tag">星空晚宴</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 策划套餐三档 ============ -->
+  <section class="section section-dark" id="plans">
+    <div class="wrap">
+      <p class="kicker kicker-gold reveal">策划套餐</p>
+      <h2 class="h2 h2-light reveal">三种陪伴方式，明码标价</h2>
+      <p class="lede lede-light reveal">不打包隐形消费。每一档的服务边界都写在合同里，多一分钱你都看得见去向。</p>
+      <div class="plans">
+        <article class="plan reveal">
+          <h3>婚礼日执行</h3>
+          <p class="plan-price">¥9,800 <span>起</span></p>
+          <p class="plan-desc">你自己筹备，我们负责婚礼当天万无一失。</p>
+          <ul>
+            <li>婚礼日全程统筹 1 位</li>
+            <li>流程表制定 + 彩排</li>
+            <li>供应商到场对接</li>
+            <li>突发状况应急预案</li>
+          </ul>
+          <a class="btn btn-outline" href="#booking" data-scroll data-plan="婚礼日执行">选这个档</a>
+        </article>
+        <article class="plan plan-hot reveal">
+          <p class="plan-badge">最多新人选</p>
+          <h3>半定制策划</h3>
+          <p class="plan-price">¥28,800 <span>起</span></p>
+          <p class="plan-desc">从定场地开始陪你，一起把婚礼的样子聊出来。</p>
+          <ul>
+            <li>专属策划师 1 对 1</li>
+            <li>场地 / 婚纱 / 摄影推荐与陪看</li>
+            <li>主题方案 + 视觉设计</li>
+            <li>预算表全程代管</li>
+            <li>婚礼日双人执行团队</li>
+          </ul>
+          <a class="btn btn-gold" href="#booking" data-scroll data-plan="半定制策划">选这个档</a>
+        </article>
+        <article class="plan reveal">
+          <h3>全案定制</h3>
+          <p class="plan-price">¥58,800 <span>起</span></p>
+          <p class="plan-desc">只管提想法，剩下的交给我们，连请柬都替你写好。</p>
+          <ul>
+            <li>策划总监亲自带案</li>
+            <li>目的地婚礼全案（含差旅统筹）</li>
+            <li>定制请柬 / 伴手礼设计</li>
+            <li>亲友住宿交通统筹</li>
+            <li>婚礼日 4 人执行团队</li>
+          </ul>
+          <a class="btn btn-outline" href="#booking" data-scroll data-plan="全案定制">选这个档</a>
+        </article>
+      </div>
+      <p class="plans-note reveal">以上为策划服务费，场地 / 餐饮 / 花艺等第三方费用实报实销，发票抬头开给你。</p>
+    </div>
+  </section>
+
+  <!-- ============ 策划流程四步 ============ -->
+  <section class="section" id="flow">
+    <div class="wrap">
+      <p class="kicker reveal">策划流程</p>
+      <h2 class="h2 reveal">四步，从聊天到「我愿意」</h2>
+      <p class="lede reveal">第一次见面不收钱，聊得来再往下走。</p>
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-no">01</span>
+          <h3>初见聊聊</h3>
+          <p>一杯咖啡的时间，听你们讲认识的故事。我们判断合不合拍，你判断放不放心。</p>
+          <span class="step-time">约 1 小时 · 免费</span>
+        </li>
+        <li class="step reveal">
+          <span class="step-no">02</span>
+          <h3>方案与预算</h3>
+          <p>7 天内出主题概念 + 逐项预算表。预算超了我们先说，不让你在执行中才发现。</p>
+          <span class="step-time">签约前 · 免费出概念</span>
+        </li>
+        <li class="step reveal">
+          <span class="step-no">03</span>
+          <h3>落地执行</h3>
+          <p>场地、花艺、灯光、乐队一项项定下来。每周一次进度同步，你永远知道进行到哪了。</p>
+          <span class="step-time">婚前 3–6 个月</span>
+        </li>
+        <li class="step reveal">
+          <span class="step-no">04</span>
+          <h3>婚礼日</h3>
+          <p>执行团队提前 3 小时到场。你负责美、负责哭、负责笑，其他的看我们眼色就行。</p>
+          <span class="step-time">当天 · 全程跟场</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 新人评价墙 ============ -->
+  <section class="section section-tint" id="voices">
+    <div class="wrap">
+      <p class="kicker reveal">新人评价</p>
+      <h2 class="h2 reveal">他们婚礼结束时说的话</h2>
+      <div class="voices">
+        <figure class="voice reveal">
+          <blockquote>「我妈在后台哭着跟策划师说谢谢，这句话比婚礼本身还让我记一辈子。」</blockquote>
+          <figcaption>林小满 · 莫干山草坪婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「下暴雨改室内只用了 40 分钟，宾客进场时完全看不出来是 Plan B。」</blockquote>
+          <figcaption>沈清 · 上海教堂婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「预算表精确到每一支蜡烛。最后结算比分项报价还少了两千。」</blockquote>
+          <figcaption>白露 · 杭州小型婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「我爸那么挑剔的人，敬酒时主动加了策划总监微信。」</blockquote>
+          <figcaption>顾青禾 · 苏州中式婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「first dance 的灯光 cue 点分毫不差，朋友以为我们排练过一百遍。」</blockquote>
+          <figcaption>岑溪 · 大理星空婚礼</figcaption>
+        </figure>
+        <figure class="voice reveal">
+          <blockquote>「异地筹备全靠线上同步，每周五晚上的进度会我一次没落下过，也一次没焦虑过。」</blockquote>
+          <figcaption>苏蔓 · 三亚海岛婚礼</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 档期查询 / 免费咨询 ============ -->
+  <section class="section section-dark booking" id="booking">
+    <div class="wrap booking-grid">
+      <div class="booking-copy reveal">
+        <p class="kicker kicker-gold">档期查询</p>
+        <h2 class="h2 h2-light">先查档期，再决定聊不聊</h2>
+        <p class="lede lede-light">留下婚期和联系方式，24 小时内策划师回电告诉你那天空不空、<br>大概要准备多少预算。不骚扰，不群发。</p>
+        <ul class="booking-points">
+          <li><b>24h</b> 内回电</li>
+          <li><b>0</b> 隐形消费</li>
+          <li><b>7</b> 天免费出概念</li>
+        </ul>
+        <p class="booking-tel">着急？直接打 <a data-site="phone" data-site-href="phoneHref"></a></p>
+      </div>
+      <form class="booking-form reveal" id="bookingForm" novalidate>
+        <div class="field">
+          <label for="fName">新人称呼</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你们" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="fPhone">联系电话</label>
+          <input id="fPhone" name="phone" type="tel" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">预计婚期</label>
+            <input id="fDate" name="date" type="date">
+          </div>
+          <div class="field">
+            <label for="fGuests">预计宾客</label>
+            <select id="fGuests" name="guests">
+              <option value="">请选择</option>
+              <option>50 人以内</option>
+              <option>50–100 人</option>
+              <option>100–200 人</option>
+              <option>200 人以上</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fPlan">意向套餐</label>
+          <select id="fPlan" name="plan">
+            <option value="">还没想好，先聊聊</option>
+            <option>婚礼日执行</option>
+            <option>半定制策划</option>
+            <option>全案定制</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fNote">想跟我们说的 <span class="opt">（选填）</span></label>
+          <textarea id="fNote" name="note" rows="3" placeholder="比如：在哪里办、有没有特别想要的环节……"></textarea>
+        </div>
+        <p class="form-err" id="formErr" role="alert"></p>
+        <button class="btn btn-gold btn-lg btn-block" type="submit">提交，查档期</button>
+        <p class="form-fine">提交即表示同意我们的 <button type="button" class="linklike" data-legal="privacy">隐私政策</button></p>
+        <div class="form-ok" id="formOk" hidden>
+          <svg viewBox="0 0 48 48" width="52" height="52"><circle cx="24" cy="24" r="22" fill="none" stroke="#c6a15b" stroke-width="2.5"/><path d="M15 24.5 21.5 31 33 17" fill="none" stroke="#c6a15b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>收到，我们去查档期了</h3>
+          <p>咨询编号 <b id="okNo"></b> · 策划师将在 24 小时内联系你。</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <span class="brand-seal">诺</span>
+      <p class="f-name">诺言 VOWS · 婚礼策划</p>
+      <p class="f-slogan">婚礼那天，你只需要当主角。</p>
+      <div class="f-social" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号" title="微信公众号"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 3h7A5.5 5.5 0 0 1 21 8.5v4a5.5 5.5 0 0 1-5.5 5.5H9l-4.2 3v-3.4A5.5 5.5 0 0 1 3 12.5v-4A5.5 5.5 0 0 1 8.5 3Z"/><circle cx="9" cy="10.5" r="1" fill="currentColor"/><circle cx="13" cy="10.5" r="1" fill="currentColor"/><circle cx="17" cy="10.5" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 15.5c1.8 1 4.2 1 6 0M9.5 10.5h.01M14.5 10.5h.01"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.4 2.6 2 4.2 4.5 4.5"/></svg></a>
+        <a href="#" aria-label="哔哩哔哩" title="哔哩哔哩"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="11" rx="3"/><path d="M7 7l1.5-3M17 7l-1.5-3M8.5 12.5h.01M15.5 12.5h.01"/></svg></a>
+      </div>
+    </div>
+    <nav class="f-nav" aria-label="页脚导航">
+      <h4>快速前往</h4>
+      <a href="#cases" data-scroll>婚礼案例</a>
+      <a href="#plans" data-scroll>策划套餐</a>
+      <a href="#flow" data-scroll>策划流程</a>
+      <a href="#voices" data-scroll>新人评价</a>
+      <a href="#booking" data-scroll>查档期</a>
+    </nav>
+    <div class="f-contact">
+      <h4>联系我们</h4>
+      <p>电话 <a data-site="phone" data-site-href="phoneHref"></a></p>
+      <p>微信 <span data-site="wechat"></span></p>
+      <p>地址 <span data-site="address"></span></p>
+      <p class="f-hours">营业时间 10:00–20:00（周一闭馆）</p>
+    </div>
+    <div class="f-legal">
+      <h4>网站政策</h4>
+      <button type="button" data-legal="privacy">隐私政策</button>
+      <button type="button" data-legal="terms">服务条款</button>
+      <button type="button" data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© <span id="year"></span> <span data-site="name"></span> · 版权所有</p>
+    <p class="f-icp"><span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗：单壳 + JS 灌文案 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="modal-veil" data-close></div>
+  <div class="modal-card">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 诺言 VOWS · 婚礼策划 — src/main.js
+   配置区在顶部：SITE / LEGAL / CFG，买家只改这里。纯原生 JS，零外部库。 */
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+
+  /* ================= 配置 ================= */
+  var SITE = {
+    name: '诺言婚礼策划工作室',
+    phone: '400-880-1314',
+    phoneHref: 'tel:4008801314',
+    wechat: 'vows-wedding',
+    address: '上海市静安区南京西路 1266 号 8 楼',
+    icp: '沪ICP备2026000000号-1（占位）'
+  };
+
+  var LEGAL = {
+    privacy: {
+      title: '隐私政策',
+      points: [
+        '我们收集的信息仅限你主动留下的称呼、电话、婚期与留言，用于档期查询与回电联系，不做他用。',
+        '你的联系方式不会出售、出租或共享给任何第三方营销机构。',
+        '咨询记录保存 12 个月，到期自动删除；你可随时来电要求提前删除。',
+        '婚礼现场照片/视频用于案例展示前，会单独征求你们二人的书面同意。',
+        '网站不收集身份证号、银行卡号等敏感信息，签约付款走对公账户与纸质/电子合同。'
+      ]
+    },
+    terms: {
+      title: '服务条款',
+      points: [
+        '策划服务费按签约档位一次性或分三期（签约 40% / 婚前 30 天 40% / 婚礼日 20%）支付，第三方费用（场地、餐饮、花艺等）实报实销。',
+        '签约后 7 天内可无理由改期一次；婚期变更需提前 30 天书面确认，档期冲突时按签约顺序优先。',
+        '因不可抗力（极端天气、政策原因）导致婚礼取消，已发生且有票据的第三方费用不退，策划服务费按比例退还。',
+        '婚礼日执行团队提前 3 小时到场；若我方原因导致关键环节缺失，按合同约定赔付。',
+        '本条款最终解释权归诺言婚礼策划工作室，争议优先友好协商，协商不成提交工作室所在地法院。'
+      ]
+    },
+    cookies: {
+      title: 'Cookie 政策',
+      points: [
+        '本站仅使用维持表单填写状态所必需的本地存储，不做跨站追踪。',
+        '我们不接入任何第三方广告 Cookie，你的浏览行为不会被用于广告画像。',
+        '浏览器清掉本地数据后，下次访问看到的是全新页面，不影响任何功能。',
+        '档期查询表单的内容只存在你自己的浏览器里，点「提交」才会发给我们。',
+        '如对以上有疑问，欢迎直接拨打 400-880-1314 询问。'
+      ]
+    }
+  };
+
+  var CFG = {
+    navOffset: 40,
+    revealThreshold: 0.12,
+    loaderMin: 700,      // 加载态最短展示 ms
+    loaderMax: 3500,     // 兜底放行 ms
+    petalCount: 26
+  };
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= SITE 渲染 ================= */
+  function renderSite() {
+    var els = document.querySelectorAll('[data-site]');
+    for (var i = 0; i < els.length; i++) {
+      var key = els[i].getAttribute('data-site');
+      var hrefKey = els[i].getAttribute('data-site-href');
+      if (SITE[key] !== undefined) els[i].textContent = SITE[key];
+      if (hrefKey && SITE[hrefKey]) els[i].setAttribute('href', SITE[hrefKey]);
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+  }
+
+  /* ================= 加载态（完成态必达） ================= */
+  var loaderDone = false;
+  function releaseLoader() {
+    if (loaderDone) return;
+    loaderDone = true;
+    document.body.classList.add('ready');
+  }
+  var t0 = Date.now();
+  window.addEventListener('load', function () {
+    var wait = Math.max(0, CFG.loaderMin - (Date.now() - t0));
+    setTimeout(releaseLoader, wait);
+  });
+  setTimeout(releaseLoader, CFG.loaderMax); // 兜底：load 迟迟不来也放行
+
+  /* ================= 导航滚动毛玻璃 ================= */
+  var nav = document.getElementById('nav');
+  function onScroll() {
+    if (window.scrollY > CFG.navOffset) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ================= 移动端抽屉 ================= */
+  var burger = document.getElementById('burger');
+  var veil = document.getElementById('drawerVeil');
+  function closeDrawer() {
+    document.body.classList.remove('drawer-open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+  burger.addEventListener('click', function () {
+    var open = document.body.classList.toggle('drawer-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  veil.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.drawer [data-scroll]').forEach(function (a) {
+    a.addEventListener('click', closeDrawer);
+  });
+
+  /* ================= 平滑锚点 ================= */
+  document.querySelectorAll('[data-scroll]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (!id || id.charAt(0) !== '#') return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      if (reduceMotion) target.scrollIntoView();
+      else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', id);
+    });
+  });
+
+  /* ================= 花瓣 canvas（主视觉动效） ================= */
+  var canvas = document.getElementById('petals');
+  var ctx = canvas.getContext('2d');
+  var petals = [];
+  var PETAL_COLORS = ['#c6a15b', '#d9b978', '#e9d9b8', '#faf7f0'];
+  function sizeCanvas() {
+    var r = canvas.parentElement.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.floor(r.width));
+    canvas.height = Math.max(1, Math.floor(r.height));
+  }
+  function newPetal(anyY) {
+    return {
+      x: Math.random() * canvas.width,
+      y: anyY ? Math.random() * canvas.height : -30 - Math.random() * 60,
+      s: 7 + Math.random() * 11,          // 大小
+      a: Math.random() * Math.PI * 2,     // 朝向
+      spin: (Math.random() - 0.5) * 1.6,  // 角速度
+      fall: 24 + Math.random() * 46,      // 下落 px/s
+      swayA: 18 + Math.random() * 34,     // 摇摆幅度
+      swayF: 0.5 + Math.random() * 0.9,   // 摇摆频率
+      ph: Math.random() * Math.PI * 2,    // 相位
+      alpha: 0.35 + Math.random() * 0.45,
+      color: PETAL_COLORS[(Math.random() * PETAL_COLORS.length) | 0]
+    };
+  }
+  function drawPetal(p) {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.a);
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = p.color;
+    var s = p.s;
+    ctx.beginPath();
+    ctx.moveTo(0, -s);
+    ctx.bezierCurveTo(s * 0.9, -s * 0.6, s * 0.7, s * 0.7, 0, s);
+    ctx.bezierCurveTo(-s * 0.7, s * 0.7, -s * 0.9, -s * 0.6, 0, -s);
+    ctx.fill();
+    ctx.restore();
+  }
+  var lastT = 0, rafId = 0;
+  function tick(t) {
+    var dt = Math.min(0.05, (t - lastT) / 1000 || 0.016);
+    lastT = t;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < petals.length; i++) {
+      var p = petals[i];
+      p.ph += dt * p.swayF * 2;
+      p.y += p.fall * dt;
+      p.x += Math.sin(p.ph) * p.swayA * dt;
+      p.a += p.spin * dt;
+      if (p.y > canvas.height + 40) petals[i] = newPetal(false);
+      drawPetal(petals[i]);
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+  function startPetals() {
+    sizeCanvas();
+    petals = [];
+    for (var i = 0; i < CFG.petalCount; i++) petals.push(newPetal(true));
+    if (reduceMotion) {
+      // 静止画一帧，不跑动画
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(drawPetal);
+    } else {
+      cancelAnimationFrame(rafId);
+      lastT = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+  var rsz;
+  window.addEventListener('resize', function () {
+    clearTimeout(rsz);
+    rsz = setTimeout(startPetals, 200);
+  });
+  startPetals();
+
+  /* ================= 滚动 reveal ================= */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) {
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: CFG.revealThreshold });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  /* ================= 法务弹窗（三通道关闭） ================= */
+  var modal = document.getElementById('legalModal');
+  var mTitle = document.getElementById('legalTitle');
+  var mBody = document.getElementById('legalBody');
+  var lastFocus = null;
+  function openLegal(key) {
+    var doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    mTitle.textContent = doc.title;
+    mBody.innerHTML = '<ol>' + doc.points.map(function (p) {
+      return '<li>' + p.replace(/</g, '&lt;') + '</li>';
+    }).join('') + '</ol>';
+    modal.hidden = false;
+    requestAnimationFrame(function () { modal.classList.add('open'); });
+    document.body.classList.add('modal-open');
+    modal.querySelector('.modal-x').focus();
+  }
+  function closeLegal() {
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    setTimeout(function () { modal.hidden = true; }, 380);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-legal]').forEach(function (b) {
+    b.addEventListener('click', function () { openLegal(b.getAttribute('data-legal')); });
+  });
+  modal.querySelectorAll('[data-close]').forEach(function (b) {
+    b.addEventListener('click', closeLegal);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hidden) closeLegal();
+    if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) closeDrawer();
+  });
+
+  /* ================= 套餐直达表单预选 ================= */
+  document.querySelectorAll('[data-plan]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var sel = document.getElementById('fPlan');
+      sel.value = a.getAttribute('data-plan');
+    });
+  });
+
+  /* ================= 档期表单 ================= */
+  var form = document.getElementById('bookingForm');
+  var errBox = document.getElementById('formErr');
+  var okBox = document.getElementById('formOk');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    var date = form.date.value;
+    errBox.textContent = '';
+    if (!name) { errBox.textContent = '请留个称呼，方便策划师联系你。'; form.name.focus(); return; }
+    if (!/^1\d{10}$/.test(phone)) { errBox.textContent = '手机号好像不对，请检查 11 位数字。'; form.phone.focus(); return; }
+    if (date) {
+      var d = new Date(date + 'T00:00:00');
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      if (d < today) { errBox.textContent = '婚期选到了过去，换个未来的日子吧。'; form.date.focus(); return; }
+    }
+    // 成功态：隐藏表单控件，展示确认
+    var no = 'VOWS-' + new Date().getFullYear() +
+      String(Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('okNo').textContent = no;
+    Array.prototype.forEach.call(form.querySelectorAll('.field, .form-err, .btn-block, .form-fine'),
+      function (el) { el.style.display = 'none'; });
+    okBox.hidden = false;
+  });
+
+  renderSite();
+})();
+
+</script>
+</body>
+</html>

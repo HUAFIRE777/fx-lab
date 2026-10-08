@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · lesson-steps-3d -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>光线追踪 · 五步入门 — 课程步骤页</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script src="vendor/gsap.min.js"></script>
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true"><span class="lpulse"></span><p>正在点亮课堂…</p></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="topbar reveal">
+  <div class="brand"><b id="brandName">光影课堂</b><small id="brandCode">RAY·101</small></div>
+  <div class="stepcount"><span id="stepCount">01 / 05</span><label>课程进度</label></div>
+</header>
+
+<main class="stage" id="stage">
+  <!-- 左：纵向步骤轨道 -->
+  <aside class="rail reveal" id="rail" aria-label="课程步骤导航">
+    <canvas id="beadCanvas" aria-hidden="true"></canvas>
+    <div class="bead-fallback" id="beadFallback" style="display:none" aria-hidden="true"></div>
+    <div class="track"><div class="track-fill" id="trackFill"></div></div>
+    <div class="rail-list" id="railList" role="tablist"></div>
+    <div class="rail-hint">点击步骤 · ↑↓ 切换 · 滚轮翻页</div>
+  </aside>
+
+  <!-- 右：步骤卡片 -->
+  <section class="content">
+    <div class="chead reveal">
+      <h1 id="courseTitle">光线追踪，五步入门</h1>
+      <p id="courseSub"></p>
+    </div>
+    <div class="card-stage reveal">
+      <article class="card" id="card" aria-live="polite"></article>
+    </div>
+  </section>
+</main>
+
+<footer class="foot reveal"><span>huafire3d fx-lab · lesson-steps-3d · original implementation</span></footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>颐乐 EVERJOY · 高端养老社区 — 让每一天都安心温暖</title>
+<meta name="description" content="颐乐养老社区：自理颐养 / 协助照护 / 记忆照护三档照护等级，24 小时照护团队在楼，预约参观请致电。">
+<style>
+/* 颐乐 EVERJOY · 养老社区落地页（零外部依赖，纯原生） */
+:root{
+  --paper:#f7f2e8;
+  --paper-2:#efe7d0;
+  --card:#fffdf7;
+  --ink:#23403a;
+  --ink-2:#31544b;
+  --ink-soft:rgba(35,64,58,.62);
+  --line:rgba(35,64,58,.14);
+  --ochre:#c98a4b;
+  --ochre-d:#a96f33;
+  --ochre-soft:rgba(201,138,75,.14);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --serif:"Songti SC","STSong","Noto Serif SC",serif;
+  --sans:system-ui,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  font-size:16px;
+  overflow-x:hidden;
+}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+
+/* ---------- 加载幕布 ---------- */
+#veil{
+  position:fixed;inset:0;z-index:200;background:var(--paper);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  transition:opacity .6s var(--ease), visibility .6s;
+}
+#veil.done{opacity:0;visibility:hidden}
+.veil-sun{width:54px;height:54px;border-radius:50%;background:var(--ochre);
+  animation:veilPulse 1.6s ease-in-out infinite}
+@keyframes veilPulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
+.veil-word{font-family:var(--serif);font-size:34px;letter-spacing:.5em;text-indent:.5em;color:var(--ink)}
+.veil-sub{font-size:11px;letter-spacing:.55em;text-indent:.55em;color:var(--ochre)}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:600;border-radius:999px;cursor:pointer;border:2px solid transparent;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .3s, color .3s, border-color .3s;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.96)}
+.btn-sm{padding:9px 22px;font-size:14px}
+.btn-lg{padding:15px 38px;font-size:16px}
+.btn-block{width:100%}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:var(--ink-2);transform:translateY(-2px);box-shadow:0 12px 28px rgba(35,64,58,.28)}
+.btn-outline{border-color:var(--ink);color:var(--ink);background:transparent;padding:11px 30px;font-size:15px}
+.btn-outline:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px)}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:rgba(255,253,247,.6)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-accent{background:var(--ochre);color:#fff}
+.btn-accent:hover{background:var(--ochre-d);transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,138,75,.4)}
+
+/* ---------- 导航 ---------- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .35s, box-shadow .35s, backdrop-filter .35s}
+#nav.scrolled{background:rgba(247,242,232,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav-inner{max-width:1140px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:40px;height:40px}
+.brand-word{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:.08em;color:var(--ink);line-height:1.1}
+.brand-word em{display:block;font-style:normal;font-family:var(--sans);font-size:9px;letter-spacing:.42em;color:var(--ochre);font-weight:600}
+.brand-word-light{color:var(--paper)}
+.nav-links{display:flex;gap:30px}
+.nav-links a{font-size:15px;font-weight:500;position:relative;padding:4px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--ochre);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-right{display:flex;align-items:center;gap:14px}
+#burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+#burger span{width:24px;height:2.5px;background:var(--ink);border-radius:2px;transition:transform .3s var(--ease), opacity .3s}
+#burger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+#burger.open span:nth-child(2){opacity:0}
+#burger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+/* 移动端抽屉 */
+#drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+#drawer .drawer-panel{
+  position:absolute;top:0;right:0;bottom:0;width:min(320px,82vw);background:var(--card);
+  box-shadow:-12px 0 40px rgba(35,64,58,.18);padding:96px 34px 34px;
+  display:flex;flex-direction:column;gap:8px;
+  transform:translateX(105%);transition:transform .45s var(--ease);pointer-events:auto;
+}
+#drawer.open{pointer-events:auto}
+#drawer.open .drawer-panel{transform:none}
+.drawer-panel a:not(.btn){font-size:18px;font-weight:600;padding:12px 0;border-bottom:1px solid var(--line)}
+.drawer-panel .btn{margin-top:18px}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding:120px 0 0}
+.hero-sky{position:absolute;inset:0}
+.hero-sky svg{width:100%;height:100%}
+.hero-grain{position:absolute;inset:0;opacity:.05;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 42%, transparent 55%, rgba(35,64,58,.16) 100%)}
+
+.sun-glow{animation:sunPulse 11s ease-in-out infinite alternate;transform-origin:1060px 150px}
+@keyframes sunPulse{from{opacity:.75;transform:scale(1)}to{opacity:1;transform:scale(1.06)}}
+.cloud-a{animation:cloudDrift 64s ease-in-out infinite alternate}
+.cloud-b{animation:cloudDrift 92s ease-in-out infinite alternate-reverse}
+.cloud-c{animation:cloudDrift 78s ease-in-out infinite alternate}
+@keyframes cloudDrift{from{transform:translateX(-46px)}to{transform:translateX(46px)}}
+.birds{animation:birdBob 7s ease-in-out infinite alternate}
+@keyframes birdBob{from{transform:translateY(0)}to{transform:translateY(-9px)}}
+.shade-a{animation:shadeDrift 52s ease-in-out infinite alternate}
+.shade-b{animation:shadeDrift 70s ease-in-out infinite alternate-reverse}
+@keyframes shadeDrift{from{transform:translateX(-90px)}to{transform:translateX(90px)}}
+
+.hero-copy{position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:0 28px 96px;width:100%}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:.28em;color:var(--ochre-d);margin-bottom:22px}
+.eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--ochre)}
+.eyebrow-light{color:var(--ochre)}
+.hero-title{font-family:var(--serif);font-weight:700;font-size:clamp(42px,7vw,84px);
+  line-height:1.28;letter-spacing:.06em;color:var(--ink);margin-bottom:26px}
+.h-line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.h-line-inner{display:inline-block;will-change:transform}
+.dot{font-style:normal;color:var(--ochre)}
+.hero-sub{font-size:18px;color:var(--ink-soft);margin-bottom:36px;max-width:560px}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:52px}
+.hero-stats{display:flex;gap:0;border-top:1px solid var(--line);max-width:560px}
+.hero-stats div{flex:1;padding:18px 6px 0}
+.hero-stats div+div{border-left:1px solid var(--line);padding-left:26px}
+.hero-stats b{display:block;font-family:var(--serif);font-size:30px;color:var(--ink);line-height:1.2}
+.hero-stats span{font-size:13px;color:var(--ink-soft)}
+
+/* 隐藏等 JS：标题逐行升起（完成态带 html.js 前缀防特异性坑） */
+html.js .h-line-inner{transform:translateY(112%);transition:transform 1.05s var(--ease)}
+html.js .h-line:nth-child(2) .h-line-inner{transition-delay:.14s}
+html.js .hero.is-in .h-line-inner{transform:none}
+
+/* 滚动 reveal（完成态永远可达：3s 兜底全开） */
+html.js .reveal{opacity:0;transform:translateY(30px);
+  transition:opacity .85s var(--ease), transform .85s var(--ease);transition-delay:var(--d,0s)}
+html.js .reveal.is-in{opacity:1;transform:none}
+
+/* ---------- 通用区块 ---------- */
+.section{padding:110px 0}
+.section-tint{background:var(--paper-2)}
+.sec-title{font-family:var(--serif);font-size:clamp(30px,4.4vw,46px);font-weight:700;
+  letter-spacing:.05em;line-height:1.5;margin-bottom:16px}
+.sec-sub{font-size:17px;color:var(--ink-soft);max-width:640px;margin-bottom:56px}
+.sec-title-light{color:var(--paper)}
+
+/* ---------- 照护等级 ---------- */
+.care-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.care-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:40px 32px;display:flex;flex-direction:column;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease)}
+.care-card:hover{transform:translateY(-10px);box-shadow:0 26px 60px rgba(35,64,58,.16)}
+.care-hot{border:2px solid var(--ochre);background:#fffdf4}
+.care-badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+  background:var(--ochre);color:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;
+  padding:6px 20px;border-radius:999px;white-space:nowrap}
+.care-icon{width:64px;height:64px;margin-bottom:22px}
+.care-icon svg{width:100%;height:100%}
+.care-card h3{font-family:var(--serif);font-size:26px;letter-spacing:.08em;margin-bottom:10px}
+.care-for{font-size:14px;color:var(--ochre-d);font-weight:600;margin-bottom:20px}
+.care-list{list-style:none;margin-bottom:26px;flex:1}
+.care-list li{position:relative;padding:9px 0 9px 26px;font-size:15px;color:var(--ink-soft);border-top:1px dashed var(--line)}
+.care-list li::before{content:"";position:absolute;left:4px;top:17px;width:9px;height:9px;border-radius:50%;background:var(--ochre)}
+.care-price{font-family:var(--serif);font-size:32px;color:var(--ink);margin-bottom:22px}
+.care-price span{font-family:var(--sans);font-size:14px;color:var(--ink-soft)}
+.price-note{margin-top:30px;font-size:13px;color:var(--ink-soft);text-align:center}
+
+/* ---------- 社区环境 ---------- */
+.life-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.life-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease)}
+.life-card:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(35,64,58,.14)}
+.life-art{overflow:hidden}
+.life-art svg{width:100%;height:auto;transition:transform .6s var(--ease)}
+.life-card:hover .life-art svg{transform:scale(1.045)}
+.life-card figcaption{padding:22px 26px;display:flex;flex-direction:column;gap:4px}
+.life-card figcaption b{font-family:var(--serif);font-size:20px;letter-spacing:.08em}
+.life-card figcaption span{font-size:14px;color:var(--ink-soft)}
+
+/* ---------- 入住流程 ---------- */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.step{position:relative;padding:0 26px}
+.step+.step::before{content:"";position:absolute;left:-2px;top:34px;width:4px;height:4px;border-radius:50%;
+  background:var(--ochre);box-shadow:34px 0 0 -1px var(--ochre),68px 0 0 -1px var(--ochre);opacity:0}
+.step-num{display:flex;align-items:center;justify-content:center;width:68px;height:68px;border-radius:50%;
+  background:var(--ink);color:var(--paper);font-family:var(--serif);font-size:24px;margin-bottom:22px;
+  transition:transform .4s var(--ease), background .3s}
+.step:hover .step-num{transform:scale(1.1) rotate(-6deg);background:var(--ochre)}
+.step-body h3{font-family:var(--serif);font-size:21px;letter-spacing:.06em;margin-bottom:10px}
+.step-body p{font-size:15px;color:var(--ink-soft)}
+.steps::before{content:"";position:absolute;top:34px;left:6%;right:6%;height:2px;
+  background:repeating-linear-gradient(90deg,var(--ochre) 0 10px,transparent 10px 20px);opacity:.45}
+
+/* ---------- 家属评价 ---------- */
+.voices{columns:3;column-gap:26px}
+.voice{break-inside:avoid;background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:30px 28px;margin-bottom:26px;transition:transform .4s var(--ease), box-shadow .4s var(--ease)}
+.voice:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:0 18px 44px rgba(35,64,58,.13)}
+.stars{width:104px;margin-bottom:16px}
+.voice p{font-size:15.5px;margin-bottom:18px}
+.voice footer{font-size:14px;font-weight:700}
+.voice footer span{font-weight:400;color:var(--ink-soft)}
+
+/* ---------- CTA ---------- */
+.cta-section{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.cta-section::before{content:"";position:absolute;inset:0;opacity:.05;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+.cta-wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+.cta-sub{font-size:17px;color:rgba(247,242,232,.78);margin-bottom:30px;max-width:460px}
+.cta-points{list-style:none;margin-bottom:34px}
+.cta-points li{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:15.5px;color:rgba(247,242,232,.9)}
+.cta-points svg{width:22px;height:22px;color:var(--ochre);flex:none}
+.cta-tel{font-size:15px;color:rgba(247,242,232,.7)}
+.cta-tel a{font-family:var(--serif);font-size:26px;color:var(--paper);letter-spacing:.04em;display:block;margin:4px 0}
+.cta-tel a:hover{color:var(--ochre)}
+.visit-form{background:var(--card);color:var(--ink);border-radius:24px;padding:42px 38px;position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.field{margin-bottom:20px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field label{display:block;font-size:14px;font-weight:700;margin-bottom:8px}
+.field label .opt{font-weight:400;color:var(--ink-soft);font-size:12px}
+.field input,.field select,.field textarea{
+  width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--paper);
+  border:1.5px solid var(--line);border-radius:12px;padding:13px 15px;outline:none;
+  transition:border-color .25s, box-shadow .25s, background .25s;
+}
+.field textarea{resize:vertical;min-height:74px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ochre);background:#fff;box-shadow:0 0 0 4px var(--ochre-soft)}
+.field input.invalid,.field select.invalid{border-color:#b3402e;animation:shake .4s var(--ease)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.err{display:none;font-size:13px;color:#b3402e;margin-top:6px}
+.err.show{display:block}
+.form-privacy{font-size:12.5px;color:var(--ink-soft);margin-top:16px;line-height:1.6}
+.form-success{display:none;text-align:center;padding:36px 10px 10px}
+.visit-form.sent .form-success{display:block}
+.visit-form.sent .field,.visit-form.sent #submitBtn,.visit-form.sent .form-privacy{display:none}
+.form-success svg{width:72px;height:72px;margin:0 auto 18px}
+.form-success h3{font-family:var(--serif);font-size:24px;margin-bottom:8px}
+.form-success p{color:var(--ink-soft);font-size:15px}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#1a2f2a;color:rgba(247,242,232,.75);padding:70px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;margin-bottom:54px}
+.f-blurb{font-size:14.5px;margin:18px 0 22px;max-width:300px}
+.f-social{display:flex;gap:12px}
+.f-social a{width:42px;height:42px;border-radius:50%;border:1px solid rgba(247,242,232,.25);
+  display:flex;align-items:center;justify-content:center;transition:background .3s, transform .3s var(--ease), border-color .3s}
+.f-social a:hover{background:var(--ochre);border-color:var(--ochre);transform:translateY(-3px)}
+.f-social svg{width:20px;height:20px}
+.f-col h4{font-size:14px;letter-spacing:.2em;color:var(--paper);margin-bottom:18px}
+.f-col a,.f-col p{display:block;font-size:14.5px;padding:6px 0}
+.f-col a:hover{color:var(--ochre)}
+.f-legal{background:none;border:0;color:inherit;font:inherit;display:block;font-size:14.5px;
+  padding:6px 0;cursor:pointer;text-align:left}
+.f-legal:hover{color:var(--ochre)}
+.f-contact{line-height:1.6}
+.f-bottom{border-top:1px solid rgba(247,242,232,.14);padding:22px 28px;display:flex;
+  justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+.f-icp{color:rgba(247,242,232,.45)}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:150;display:none}
+.modal.open{display:block}
+.modal-mask{position:absolute;inset:0;background:rgba(26,47,42,.55);backdrop-filter:blur(4px);
+  animation:maskIn .3s var(--ease)}
+@keyframes maskIn{from{opacity:0}to{opacity:1}}
+.modal-box{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(680px,92vw);max-height:82vh;background:var(--card);border-radius:20px;
+  padding:40px 38px;overflow:hidden;display:flex;flex-direction:column;
+  animation:boxIn .38s var(--ease)}
+@keyframes boxIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:var(--paper);font-size:16px;cursor:pointer;color:var(--ink);
+  transition:transform .3s var(--ease), background .3s}
+.modal-x:hover{transform:rotate(90deg);background:var(--ochre-soft)}
+.modal-box h3{font-family:var(--serif);font-size:24px;letter-spacing:.06em;margin-bottom:18px;padding-right:40px}
+.modal-body{overflow-y:auto;font-size:14.5px;color:var(--ink-soft)}
+.modal-body h5{font-size:15px;color:var(--ink);margin:16px 0 6px}
+.modal-body p{margin-bottom:8px}
+body.locked{overflow:hidden}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1020px){
+  .care-grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  .care-badge{top:-15px}
+  .steps{grid-template-columns:repeat(2,1fr);gap:40px 0}
+  .steps::before{display:none}
+  .voices{columns:2}
+  .cta-wrap{grid-template-columns:1fr;gap:54px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:700px){
+  .nav-links{display:none}
+  #burger{display:flex}
+  .section{padding:76px 0}
+  .hero{min-height:92svh}
+  .hero-copy{padding-bottom:64px}
+  .life-grid{grid-template-columns:1fr}
+  .voices{columns:1}
+  .steps{grid-template-columns:1fr}
+  .step{padding:0}
+  .field-row{grid-template-columns:1fr}
+  .visit-form{padding:32px 24px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .hero-stats b{font-size:24px}
+  .modal-box{padding:32px 24px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+  html.js .reveal{opacity:1;transform:none}
+  html.js .h-line-inner{transform:none}
+}
+
+</style>
+</head>
+<body class="js-motion">
+
+<!-- 加载幕布 -->
+<div id="veil" aria-hidden="true">
+  <div class="veil-sun"></div>
+  <div class="veil-word">颐乐</div>
+  <div class="veil-sub">EVERJOY</div>
+</div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="颐乐首页">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="20" fill="#23403a"/>
+        <circle cx="24" cy="17" r="7" fill="#c98a4b"/>
+        <path d="M8 32 Q16 24 24 32 Q32 24 40 32" fill="none" stroke="#f7f2e8" stroke-width="3" stroke-linecap="round"/>
+        <path d="M12 38 Q24 32 36 38" fill="none" stroke="#f7f2e8" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="brand-word">颐乐<em>EVERJOY</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#care">照护等级</a>
+      <a href="#life">社区环境</a>
+      <a href="#steps">入住流程</a>
+      <a href="#voices">家属评价</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="#visit">预约参观</a>
+      <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div id="drawer" aria-hidden="true">
+  <div class="drawer-panel">
+    <a href="#care">照护等级</a>
+    <a href="#life">社区环境</a>
+    <a href="#steps">入住流程</a>
+    <a href="#voices">家属评价</a>
+    <a class="btn btn-primary" href="#visit">预约参观</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO：晨光 + 社区剪影 + 云影漂移 ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-sky" aria-hidden="true">
+      <svg viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fdf9ee"/>
+            <stop offset=".55" stop-color="#f7f0dc"/>
+            <stop offset="1" stop-color="#ecd9b4"/>
+          </linearGradient>
+          <radialGradient id="sunG" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="#fff6dd" stop-opacity=".95"/>
+            <stop offset=".4" stop-color="#ffe9b8" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#ffe9b8" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="bldG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2c4f46"/>
+            <stop offset="1" stop-color="#1d352f"/>
+          </linearGradient>
+        </defs>
+
+        <rect width="1440" height="620" fill="url(#skyG)"/>
+
+        <!-- 晨光 -->
+        <g class="sun-glow">
+          <circle cx="1060" cy="150" r="190" fill="url(#sunG)"/>
+          <circle cx="1060" cy="150" r="62" fill="#ffdf9e" opacity=".9"/>
+        </g>
+
+        <!-- 云 -->
+        <g class="cloud cloud-a" fill="#ffffff" opacity=".55">
+          <ellipse cx="320" cy="120" rx="120" ry="26"/>
+          <ellipse cx="400" cy="104" rx="90" ry="22"/>
+          <ellipse cx="250" cy="106" rx="70" ry="18"/>
+        </g>
+        <g class="cloud cloud-b" fill="#ffffff" opacity=".38">
+          <ellipse cx="900" cy="210" rx="150" ry="30"/>
+          <ellipse cx="1000" cy="192" rx="100" ry="24"/>
+        </g>
+        <g class="cloud cloud-c" fill="#ffffff" opacity=".45">
+          <ellipse cx="1300" cy="90" rx="110" ry="24"/>
+          <ellipse cx="1230" cy="78" rx="70" ry="18"/>
+        </g>
+
+        <!-- 飞鸟 -->
+        <g stroke="#23403a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5" class="birds">
+          <path d="M640 180 q14 -12 28 0 q14 -12 28 0"/>
+          <path d="M720 210 q10 -9 20 0 q10 -9 20 0"/>
+        </g>
+
+        <!-- 远山 -->
+        <path d="M0 470 Q 220 400 430 452 T 900 440 T 1440 462 L1440 620 L0 620 Z" fill="#d9c8a3" opacity=".55"/>
+        <path d="M0 500 Q 260 440 520 492 T 1040 484 T 1440 500 L1440 620 L0 620 Z" fill="#cbb384" opacity=".5"/>
+
+        <!-- 社区建筑剪影（淡印：保证前景文字对比度） -->
+        <g opacity=".38" transform="translate(0,60)">
+          <rect x="180" y="380" width="220" height="170" fill="url(#bldG)" rx="6"/>
+          <rect x="196" y="400" width="188" height="10" fill="#f7f2e8" opacity=".18"/>
+          <g fill="#f4e3bd" opacity=".85">
+            <rect x="210" y="424" width="26" height="34" rx="3"/><rect x="248" y="424" width="26" height="34" rx="3"/>
+            <rect x="286" y="424" width="26" height="34" rx="3"/><rect x="324" y="424" width="26" height="34" rx="3"/>
+            <rect x="210" y="474" width="26" height="34" rx="3"/><rect x="248" y="474" width="26" height="34" rx="3"/>
+            <rect x="286" y="474" width="26" height="34" rx="3"/><rect x="324" y="474" width="26" height="34" rx="3"/>
+          </g>
+          <rect x="470" y="330" width="260" height="220" fill="url(#bldG)" rx="6"/>
+          <path d="M450 332 L600 268 L750 332 Z" fill="#23403a"/>
+          <rect x="586" y="292" width="28" height="40" fill="#23403a"/>
+          <g fill="#f4e3bd" opacity=".85">
+            <rect x="500" y="360" width="30" height="38" rx="3"/><rect x="544" y="360" width="30" height="38" rx="3"/>
+            <rect x="588" y="360" width="30" height="38" rx="3"/><rect x="632" y="360" width="30" height="38" rx="3"/>
+            <rect x="500" y="414" width="30" height="38" rx="3"/><rect x="544" y="414" width="30" height="38" rx="3"/>
+            <rect x="588" y="414" width="30" height="38" rx="3"/><rect x="632" y="414" width="30" height="38" rx="3"/>
+            <rect x="500" y="468" width="30" height="38" rx="3"/><rect x="544" y="468" width="30" height="38" rx="3"/>
+            <rect x="588" y="468" width="30" height="38" rx="3"/><rect x="632" y="468" width="30" height="38" rx="3"/>
+          </g>
+          <rect x="588" y="522" width="44" height="28" fill="#c98a4b"/>
+          <rect x="800" y="400" width="200" height="150" fill="url(#bldG)" rx="6"/>
+          <g fill="#f4e3bd" opacity=".8">
+            <rect x="826" y="420" width="26" height="32" rx="3"/><rect x="864" y="420" width="26" height="32" rx="3"/>
+            <rect x="902" y="420" width="26" height="32" rx="3"/><rect x="940" y="420" width="26" height="32" rx="3"/>
+            <rect x="826" y="468" width="26" height="32" rx="3"/><rect x="864" y="468" width="26" height="32" rx="3"/>
+            <rect x="902" y="468" width="26" height="32" rx="3"/><rect x="940" y="468" width="26" height="32" rx="3"/>
+          </g>
+          <rect x="1080" y="420" width="170" height="130" fill="url(#bldG)" rx="6" opacity=".92"/>
+          <g fill="#f4e3bd" opacity=".75">
+            <rect x="1104" y="438" width="24" height="30" rx="3"/><rect x="1140" y="438" width="24" height="30" rx="3"/>
+            <rect x="1176" y="438" width="24" height="30" rx="3"/><rect x="1104" y="482" width="24" height="30" rx="3"/>
+            <rect x="1140" y="482" width="24" height="30" rx="3"/><rect x="1176" y="482" width="24" height="30" rx="3"/>
+          </g>
+        </g>
+
+        <!-- 树 -->
+        <g class="trees">
+          <g><rect x="120" y="500" width="14" height="52" fill="#5d4a33" rx="6"/><circle cx="127" cy="480" r="42" fill="#c98a4b" opacity=".85"/><circle cx="105" cy="495" r="26" fill="#d99e5f" opacity=".8"/></g>
+          <g><rect x="1300" y="496" width="14" height="56" fill="#5d4a33" rx="6"/><circle cx="1307" cy="474" r="46" fill="#c98a4b" opacity=".85"/><circle cx="1332" cy="492" r="28" fill="#d99e5f" opacity=".8"/></g>
+          <g><rect x="70" y="512" width="10" height="40" fill="#5d4a33" rx="5"/><circle cx="75" cy="496" r="30" fill="#b57a3e" opacity=".8"/></g>
+          <g><rect x="1360" y="512" width="10" height="40" fill="#5d4a33" rx="5"/><circle cx="1365" cy="496" r="30" fill="#b57a3e" opacity=".8"/></g>
+        </g>
+
+        <!-- 地面云影：缓慢漂移的光斑 -->
+        <g class="shadow-drift">
+          <ellipse class="shade shade-a" cx="420" cy="590" rx="230" ry="26" fill="#23403a" opacity=".10"/>
+          <ellipse class="shade shade-b" cx="1020" cy="596" rx="280" ry="24" fill="#23403a" opacity=".08"/>
+        </g>
+
+        <rect y="540" width="1440" height="80" fill="#e7d6ae" opacity=".65"/>
+      </svg>
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow reveal"><span class="eyebrow-dot"></span>高端养老社区 · 2016 年开业</p>
+      <h1 class="hero-title">
+        <span class="h-line"><span class="h-line-inner">把爸妈交到</span></span>
+        <span class="h-line"><span class="h-line-inner">放心的人手里<em class="dot">。</em></span></span>
+      </h1>
+      <p class="hero-sub reveal">颐乐是一座住着 320 多个家庭的养老社区。<br>三餐有人做，生病有人管，每天都有人陪着说话。</p>
+      <div class="hero-cta reveal">
+        <a class="btn btn-primary btn-lg" href="#visit">预约参观</a>
+        <a class="btn btn-ghost btn-lg" href="#care">看看照护等级</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div><b>320+</b><span>入住家庭</span></div>
+        <div><b>96</b><span>照护团队成员</span></div>
+        <div><b>24h</b><span>护士站值守</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 照护等级三档 ============ -->
+  <section class="section" id="care">
+    <div class="wrap">
+      <p class="eyebrow reveal">照护等级</p>
+      <h2 class="sec-title reveal">三种住法，总有一种合爸妈的心意</h2>
+      <p class="sec-sub reveal">先由我们的评估师和长辈聊一聊、做一次免费健康与生活评估，再定住哪一档。档与档之间可以转，不用一次定终身。</p>
+
+      <div class="care-grid">
+        <article class="care-card reveal">
+          <div class="care-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><rect x="14" y="20" width="36" height="28" rx="4" fill="none" stroke="#23403a" stroke-width="3"/><path d="M10 20 L32 8 L54 20" fill="none" stroke="#23403a" stroke-width="3" stroke-linecap="round"/><rect x="28" y="34" width="8" height="14" fill="#c98a4b"/></svg>
+          </div>
+          <h3>自理颐养</h3>
+          <p class="care-for">适合：身体硬朗、就想换个热闹地方住的长辈</p>
+          <ul class="care-list">
+            <li>独立公寓 45–86㎡，带厨房和阳台</li>
+            <li>每日三餐 + 可选送餐上门</li>
+            <li>每周 20 多种社区活动，爱凑热闹就来</li>
+            <li>房间紧急呼叫，24 小时有人响应</li>
+          </ul>
+          <p class="care-price">¥8,800 <span>/ 月起</span></p>
+          <a class="btn btn-outline" href="#visit" data-tier="自理颐养">约看这一档</a>
+        </article>
+
+        <article class="care-card care-hot reveal" style="--d:.12s">
+          <span class="care-badge">最多家庭选</span>
+          <div class="care-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="20" r="10" fill="none" stroke="#23403a" stroke-width="3"/><path d="M14 52 C14 38 24 32 32 32 C40 32 50 38 50 52" fill="none" stroke="#23403a" stroke-width="3" stroke-linecap="round"/><path d="M26 22 q6 5 12 0" fill="none" stroke="#c98a4b" stroke-width="3" stroke-linecap="round"/></svg>
+          </div>
+          <h3>协助照护</h3>
+          <p class="care-for">适合：起居、服药、用餐需要搭把手的长辈</p>
+          <ul class="care-list">
+            <li>照护员配比 1:6，呼叫随叫随到</li>
+            <li>个性化照护计划，每季度复评一次</li>
+            <li>护士站 24 小时值守，用药有人盯</li>
+            <li>家属 App：每天看到爸妈的动态</li>
+          </ul>
+          <p class="care-price">¥13,800 <span>/ 月起</span></p>
+          <a class="btn btn-primary" href="#visit" data-tier="协助照护">约看这一档</a>
+        </article>
+
+        <article class="care-card reveal" style="--d:.24s">
+          <div class="care-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M32 8 C18 8 10 20 10 30 C10 44 20 54 32 54 C44 54 54 44 54 30 C54 20 46 8 32 8 Z" fill="none" stroke="#23403a" stroke-width="3"/><path d="M24 30 q8 -8 16 0" fill="none" stroke="#c98a4b" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="42" r="3" fill="#c98a4b"/></svg>
+          </div>
+          <h3>记忆照护</h3>
+          <p class="care-for">适合：有轻中度认知障碍、需要安全陪伴的长辈</p>
+          <ul class="care-list">
+            <li>闭环安全动线，防走失设计，家属放心</li>
+            <li>专职陪伴师配比 1:4</li>
+            <li>怀旧活动室：老歌、老照片、老手艺</li>
+            <li>家属随时探视，也有家属支持小组</li>
+          </ul>
+          <p class="care-price">¥18,800 <span>/ 月起</span></p>
+          <a class="btn btn-outline" href="#visit" data-tier="记忆照护">约看这一档</a>
+        </article>
+      </div>
+      <p class="price-note reveal">以上为 2026 年参考价，实际费用以免费评估后的照护方案为准。我们不做医疗疗效承诺，只把每天的照护做到位。</p>
+    </div>
+  </section>
+
+  <!-- ============ 社区环境画廊（纯 SVG） ============ -->
+  <section class="section section-tint" id="life">
+    <div class="wrap">
+      <p class="eyebrow reveal">社区环境</p>
+      <h2 class="sec-title reveal">一天的社区，是这个样子的</h2>
+      <p class="sec-sub reveal">62% 的绿化，早上在花园里打太极，中午去餐厅吃现炒的小菜，下午活动室里有合唱队。</p>
+
+      <div class="life-grid">
+        <figure class="life-card reveal">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f3ead3"/>
+              <circle cx="320" cy="52" r="30" fill="#e9b96a"/>
+              <rect y="180" width="400" height="60" fill="#dcc896"/>
+              <g><rect x="60" y="140" width="10" height="46" fill="#6b5138" rx="4"/><circle cx="65" cy="122" r="34" fill="#c98a4b"/><circle cx="48" cy="134" r="20" fill="#d99e5f"/></g>
+              <g><rect x="150" y="148" width="10" height="40" fill="#6b5138" rx="4"/><circle cx="155" cy="132" r="28" fill="#b57a3e"/></g>
+              <g><rect x="300" y="144" width="10" height="44" fill="#6b5138" rx="4"/><circle cx="305" cy="126" r="32" fill="#c98a4b"/></g>
+              <rect x="196" y="160" width="70" height="10" fill="#8a6b45" rx="3"/><rect x="202" y="170" width="8" height="18" fill="#8a6b45"/><rect x="252" y="170" width="8" height="18" fill="#8a6b45"/>
+              <g fill="#23403a" opacity=".8"><circle cx="110" cy="172" r="7"/><rect x="104" y="178" width="12" height="12" rx="5"/><circle cx="240" cy="170" r="7"/><rect x="234" y="176" width="12" height="13" rx="5"/></g>
+            </svg>
+          </div>
+          <figcaption><b>阳光花园</b><span>早上七点，太极队已经开练了</span></figcaption>
+        </figure>
+
+        <figure class="life-card reveal" style="--d:.1s">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f6efdd"/>
+              <rect x="30" y="40" width="340" height="110" rx="8" fill="#e9dcbe"/>
+              <g stroke="#23403a" stroke-width="4"><line x1="200" y1="40" x2="200" y2="150"/><line x1="120" y1="40" x2="120" y2="150"/><line x1="280" y1="40" x2="280" y2="150"/></g>
+              <rect y="186" width="400" height="54" fill="#dcc896"/>
+              <ellipse cx="120" cy="192" rx="52" ry="12" fill="#8a6b45"/><rect x="114" y="192" width="12" height="34" fill="#6b5138"/>
+              <ellipse cx="280" cy="192" rx="52" ry="12" fill="#8a6b45"/><rect x="274" y="192" width="12" height="34" fill="#6b5138"/>
+              <g fill="#fffdf7"><ellipse cx="104" cy="182" rx="10" ry="7"/><ellipse cx="136" cy="182" rx="10" ry="7"/><ellipse cx="264" cy="182" rx="10" ry="7"/><ellipse cx="296" cy="182" rx="10" ry="7"/></g>
+              <rect x="188" y="150" width="24" height="36" fill="#c98a4b" rx="4"/>
+            </svg>
+          </div>
+          <figcaption><b>长者餐厅</b><span>少油少盐、软烂好嚼，现炒现吃</span></figcaption>
+        </figure>
+
+        <figure class="life-card reveal" style="--d:.2s">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f3ead3"/>
+              <rect y="190" width="400" height="50" fill="#dcc896"/>
+              <rect x="120" y="70" width="160" height="90" rx="6" fill="#23403a"/>
+              <rect x="132" y="82" width="136" height="66" rx="4" fill="#f7f2e8"/>
+              <path d="M150 130 q20 -18 40 0 q20 -18 40 0" stroke="#c98a4b" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <g fill="#23403a" opacity=".85"><circle cx="90" cy="170" r="8"/><rect x="83" y="178" width="14" height="14" rx="6"/><circle cx="200" cy="172" r="8"/><rect x="193" y="180" width="14" height="13" rx="6"/><circle cx="310" cy="170" r="8"/><rect x="303" y="178" width="14" height="14" rx="6"/></g>
+              <circle cx="200" cy="120" r="26" fill="#e9b96a" opacity=".9"/>
+            </svg>
+          </div>
+          <figcaption><b>活动中心</b><span>合唱、书法、手工，每天排得满满的</span></figcaption>
+        </figure>
+
+        <figure class="life-card reveal" style="--d:.3s">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f6efdd"/>
+              <path d="M0 240 Q 200 160 400 200 L400 240 Z" fill="#dcc896"/>
+              <path d="M0 240 Q 200 176 400 214" stroke="#f7f2e8" stroke-width="10" fill="none"/>
+              <g><rect x="80" y="110" width="10" height="60" fill="#6b5138" rx="4"/><circle cx="85" cy="92" r="34" fill="#c98a4b"/><circle cx="66" cy="106" r="20" fill="#d99e5f"/></g>
+              <g><rect x="180" y="96" width="10" height="64" fill="#6b5138" rx="4"/><circle cx="185" cy="78" r="36" fill="#b57a3e"/></g>
+              <g><rect x="290" y="108" width="10" height="58" fill="#6b5138" rx="4"/><circle cx="295" cy="90" r="32" fill="#c98a4b"/></g>
+              <g fill="#23403a" opacity=".8"><circle cx="140" cy="196" r="7"/><rect x="134" y="202" width="12" height="14" rx="6"/><circle cx="248" cy="188" r="7"/><rect x="242" y="194" width="12" height="14" rx="6"/></g>
+            </svg>
+          </div>
+          <figcaption><b>林荫步道</b><span>800 米环形步道，轮椅推行无障碍</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 入住流程四步 ============ -->
+  <section class="section" id="steps">
+    <div class="wrap">
+      <p class="eyebrow reveal">入住流程</p>
+      <h2 class="sec-title reveal">四步，住进来</h2>
+      <p class="sec-sub reveal">从第一次来看，到爸妈住下，平均两周。全程有专人陪着，不用你们跑来跑去。</p>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-num">01</span>
+          <div class="step-body"><h3>预约参观</h3><p>打个电话或填个表，我们约个时间。建议带上爸妈一起来看看、吃顿饭。</p></div>
+        </li>
+        <li class="step reveal" style="--d:.12s">
+          <span class="step-num">02</span>
+          <div class="step-body"><h3>免费评估</h3><p>评估师和长辈聊聊天，了解身体情况和生活习惯，出评估建议。不收费。</p></div>
+        </li>
+        <li class="step reveal" style="--d:.24s">
+          <span class="step-num">03</span>
+          <div class="step-body"><h3>定制方案</h3><p>根据评估定照护等级、房间和照护计划。费用一项一项列清楚，没有隐形收费。</p></div>
+        </li>
+        <li class="step reveal" style="--d:.36s">
+          <span class="step-num">04</span>
+          <div class="step-body"><h3>拎包入住</h3><p>房间提前布置好，管家上门接。头两周是适应期，照护团队会多留意。</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 家属评价墙 ============ -->
+  <section class="section section-tint" id="voices">
+    <div class="wrap">
+      <p class="eyebrow reveal">家属评价</p>
+      <h2 class="sec-title reveal">住进来的家庭，怎么说</h2>
+      <p class="sec-sub reveal">以下来自 2025–2026 年家属回访，发表前都征得了本人同意。</p>
+
+      <div class="voices">
+        <blockquote class="voice reveal">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>我妈刚来那两周不适应，照护员小陈每天陪她在花园里坐半小时。现在她比我还忙，合唱队、手工班全报了。</p>
+          <footer>李女士 <span>· 女儿，母亲入住 2 年</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.1s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>最打动我的是费用单，每一项都列得清清楚楚。之前看过别家，杂费多得吓人，这里没有。</p>
+          <footer>王先生 <span>· 儿子，父亲入住 1 年</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.2s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>我爸轻度认知障碍，住记忆照护区。陪伴师每天带他听老歌、看老照片，他现在认得回去的路了，我们全家都松了口气。</p>
+          <footer>赵女士 <span>· 女儿，父亲入住 8 个月</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.3s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>App 里每天能看到我妈吃了什么、参加了什么活动。在外地工作，这点最让我安心。</p>
+          <footer>陈先生 <span>· 儿子，母亲入住 1 年半</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.4s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>半夜两点我妈不舒服，按了呼叫铃，护士三分钟就到了。冲这一次，我就觉得这钱花得值。</p>
+          <footer>刘女士 <span>· 女儿，母亲入住 3 年</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA：预约参观 ============ -->
+  <section class="section cta-section" id="visit">
+    <div class="wrap cta-wrap">
+      <div class="cta-copy reveal">
+        <p class="eyebrow eyebrow-light">预约参观</p>
+        <h2 class="sec-title sec-title-light">先来看看，再决定</h2>
+        <p class="cta-sub">留个联系方式，我们的顾问会在 1 个工作日内联系您，约个时间带您和爸妈来社区转转、吃顿饭。不收费，不推销。</p>
+        <ul class="cta-points">
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>专人全程陪同参观约 1 小时</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>免费健康与生活评估一次</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>可在社区餐厅免费试吃一餐</li>
+        </ul>
+        <p class="cta-tel">也可以直接打电话：<a id="ctaPhone" href="tel:4000000000">400-000-0000</a><span>（每天 8:00–20:00）</span></p>
+      </div>
+
+      <form class="visit-form reveal" id="visitForm" novalidate style="--d:.15s">
+        <div class="field">
+          <label for="fName">您的称呼</label>
+          <input id="fName" name="name" type="text" placeholder="比如：王先生" autocomplete="name">
+          <p class="err" data-for="fName"></p>
+        </div>
+        <div class="field">
+          <label for="fPhone">手机号码</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="tel" placeholder="11 位手机号码" autocomplete="tel">
+          <p class="err" data-for="fPhone"></p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">期望参观日期</label>
+            <input id="fDate" name="date" type="date">
+            <p class="err" data-for="fDate"></p>
+          </div>
+          <div class="field">
+            <label for="fTier">意向照护等级</label>
+            <select id="fTier" name="tier">
+              <option value="">还没想好</option>
+              <option>自理颐养</option>
+              <option>协助照护</option>
+              <option>记忆照护</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fNote">想跟我们说的话 <span class="opt">（选填）</span></label>
+          <textarea id="fNote" name="note" rows="3" placeholder="比如：我爸 78 岁，腿脚不太方便……"></textarea>
+        </div>
+        <button class="btn btn-accent btn-lg btn-block" type="submit" id="submitBtn">提交预约</button>
+        <p class="form-privacy">提交即表示您同意我们通过电话与您联系。您的信息仅用于预约安排，不会用于其他用途。</p>
+        <div class="form-success" id="formSuccess" role="status">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="#c98a4b" stroke-width="4"/><path d="M20 33l8 8 16-17" fill="none" stroke="#c98a4b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>收到您的预约了</h3>
+          <p>顾问将在 1 个工作日内与您联系，请留意来电。</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <a class="brand" href="#top" aria-label="颐乐首页">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="20" fill="#f7f2e8"/>
+          <circle cx="24" cy="17" r="7" fill="#c98a4b"/>
+          <path d="M8 32 Q16 24 24 32 Q32 24 40 32" fill="none" stroke="#23403a" stroke-width="3" stroke-linecap="round"/>
+          <path d="M12 38 Q24 32 36 38" fill="none" stroke="#23403a" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+        </svg>
+        <span class="brand-word brand-word-light">颐乐<em>EVERJOY</em></span>
+      </a>
+      <p class="f-blurb">一座住着 320 多个家庭的养老社区。三餐有人做，生病有人管，每天都有人陪着说话。</p>
+      <div class="f-social">
+        <a href="#" aria-label="微信公众号" data-social="微信公众号：颐乐养老社区"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 1 0 0 .01M15 11a3.5 3.5 0 1 0 0 .01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 6h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3v3l-4-3H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="联系电话" data-social="电话"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="电子邮箱" data-social="邮箱"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>快速了解</h4>
+      <a href="#care">照护等级</a>
+      <a href="#life">社区环境</a>
+      <a href="#steps">入住流程</a>
+      <a href="#voices">家属评价</a>
+      <a href="#visit">预约参观</a>
+    </div>
+    <div class="f-col">
+      <h4>联系我们</h4>
+      <p class="f-contact" id="fPhone">电话：—</p>
+      <p class="f-contact" id="fAddr">地址：—</p>
+      <p class="f-contact" id="fMail">邮箱：—</p>
+    </div>
+    <div class="f-col">
+      <h4>法务信息</h4>
+      <button class="f-legal" data-legal="privacy">隐私政策</button>
+      <button class="f-legal" data-legal="terms">服务条款</button>
+      <button class="f-legal" data-legal="cookie">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© <span id="fYear">2026</span> <span id="fCompany">颐乐养老社区</span> · 版权所有</p>
+    <p class="f-icp" id="fIcp">ICP 备案占位</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 颐乐 EVERJOY · 交互逻辑（零外部依赖，纯原生 JS） */
+"use strict";
+
+/* ============ 配置：换主体只改这里 ============ */
+const SITE = {
+  brand: "颐乐",
+  brandEn: "EVERJOY",
+  organizer: "颐乐养老社区（杭州）有限公司",
+  phone: "400-880-6655",
+  phoneHref: "4008806655",
+  address: "杭州市西湖区留和路 318 号",
+  email: "hello@everjoy-care.example.com",
+  icp: "浙ICP备2026000000号-1",
+};
+
+/* 法务三件套文案（真实感通用条款，养老场景） */
+const LEGAL = {
+  privacy: {
+    title: "隐私政策",
+    body: `
+      <h5>一、我们收集哪些信息</h5>
+      <p>为安排参观与照护评估，我们可能收集您的称呼、手机号码、期望参观日期及您主动填写的备注信息。我们不会收集与预约无关的个人信息。</p>
+      <h5>二、信息如何使用</h5>
+      <p>所收集信息仅用于与您联系、安排参观及提供照护咨询，不会出售、出租或分享给任何第三方营销机构。</p>
+      <h5>三、信息保存与删除</h5>
+      <p>您的预约信息自提交之日起保存 2 年。如需删除，请致电 ${SITE.phone}，我们在核实身份后 7 个工作日内删除。</p>
+      <h5>四、长辈信息特别说明</h5>
+      <p>涉及长辈健康状况的信息，仅在您明确授权后由评估师用于制定照护建议，并严格保密。</p>`,
+  },
+  terms: {
+    title: "服务条款",
+    body: `
+      <h5>一、服务内容</h5>
+      <p>颐乐养老社区提供长者居住、膳食、生活照料、健康管理协助及社区文化活动。照护等级与费用以双方签署的《入住服务协议》为准。</p>
+      <h5>二、费用说明</h5>
+      <p>本页面所示价格为 2026 年参考价。实际费用根据免费评估后的照护方案确定，费用明细逐项列明，无隐形收费。</p>
+      <h5>三、合规声明</h5>
+      <p>我们提供的是生活照料与健康管理协助服务，不提供疾病诊断、治疗服务，不做任何医疗疗效承诺。医疗需求请遵医嘱并前往正规医疗机构。</p>
+      <h5>四、预约参观</h5>
+      <p>在线预约成功后，顾问将在 1 个工作日内与您联系确认时间。如需取消或改期，请至少提前 1 天告知。</p>`,
+  },
+  cookie: {
+    title: "Cookie 政策",
+    body: `
+      <h5>一、我们使用 Cookie 做什么</h5>
+      <p>本页面为单文件静态页面，仅使用浏览器本地存储记住您的表单草稿（如有），不使用第三方统计或广告 Cookie。</p>
+      <h5>二、如何管理</h5>
+      <p>您可随时通过浏览器设置清除本地存储数据，不影响页面正常浏览。</p>
+      <h5>三、政策更新</h5>
+      <p>如 Cookie 使用方式发生变化，我们将在本页面更新政策文本并注明更新日期。</p>`,
+  },
+};
+
+/* 隐藏等 JS 模式：先加 js 钩子，保证完成态选择器生效 */
+document.documentElement.classList.add("js");
+
+/* ============ 页脚信息注入 ============ */
+(function injectSite() {
+  document.getElementById("fPhone").textContent = "电话：" + SITE.phone;
+  document.getElementById("fAddr").textContent = "地址：" + SITE.address;
+  document.getElementById("fMail").textContent = "邮箱：" + SITE.email;
+  document.getElementById("fCompany").textContent = SITE.organizer;
+  document.getElementById("fIcp").textContent = SITE.icp;
+  document.getElementById("fYear").textContent = String(new Date().getFullYear());
+  const tel = document.getElementById("ctaPhone");
+  tel.textContent = SITE.phone;
+  tel.href = "tel:" + SITE.phoneHref;
+  document.querySelectorAll('[data-social="电话"]').forEach((a) => {
+    a.href = "tel:" + SITE.phoneHref;
+  });
+})();
+
+/* ============ 加载幕布 ============ */
+(function veil() {
+  const veil = document.getElementById("veil");
+  const hero = document.getElementById("hero");
+  let done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    veil.classList.add("done");
+    /* 首屏就绪：标题逐行升起（两帧后加类，保证 transition 生效） */
+    requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add("is-in")));
+    setTimeout(() => veil.remove(), 900);
+  }
+  window.addEventListener("load", () => setTimeout(finish, 350));
+  setTimeout(finish, 2600); /* 兜底：load 事件迟迟不来也不卡住 */
+})();
+
+/* ============ 导航：滚动毛玻璃 + 抽屉 ============ */
+(function nav() {
+  const nav = document.getElementById("nav");
+  const burger = document.getElementById("burger");
+  const drawer = document.getElementById("drawer");
+
+  function onScroll() {
+    nav.classList.toggle("scrolled", window.scrollY > 24);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  function setDrawer(open) {
+    burger.classList.toggle("open", open);
+    drawer.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    drawer.setAttribute("aria-hidden", String(!open));
+    document.body.classList.toggle("locked", open);
+  }
+  burger.addEventListener("click", () => setDrawer(!drawer.classList.contains("open")));
+  drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setDrawer(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer.classList.contains("open")) setDrawer(false);
+  });
+})();
+
+/* ============ 锚点平滑滚动（JS 触发，不写 CSS scroll-behavior，方便自动化验收） ============ */
+document.querySelectorAll('a[href^="#"]').forEach((a) => {
+  a.addEventListener("click", (e) => {
+    const id = a.getAttribute("href");
+    if (id.length < 2) return;
+    const el = document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
+/* ============ 滚动 reveal ============ */
+(function reveal() {
+  const els = Array.from(document.querySelectorAll(".reveal"));
+  if (!("IntersectionObserver" in window)) {
+    els.forEach((el) => el.classList.add("is-in"));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add("is-in");
+          io.unobserve(en.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  els.forEach((el) => io.observe(el));
+  /* 兜底：3 秒后全部显示，完成态永远可达 */
+  setTimeout(() => els.forEach((el) => el.classList.add("is-in")), 3000);
+})();
+
+/* ============ 照护卡 CTA：预选表单档位 ============ */
+document.querySelectorAll("[data-tier]").forEach((a) => {
+  a.addEventListener("click", () => {
+    const sel = document.getElementById("fTier");
+    sel.value = a.getAttribute("data-tier");
+  });
+});
+
+/* ============ 预约表单 ============ */
+(function form() {
+  const form = document.getElementById("visitForm");
+  const btn = document.getElementById("submitBtn");
+  const nameI = document.getElementById("fName");
+  const phoneI = document.getElementById("fPhone");
+  const dateI = document.getElementById("fDate");
+
+  /* 日期最小值 = 今天 */
+  const today = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  dateI.min = today.getFullYear() + "-" + pad(today.getMonth() + 1) + "-" + pad(today.getDate());
+
+  function setErr(input, msg) {
+    const err = form.querySelector('.err[data-for="' + input.id + '"]');
+    if (msg) {
+      input.classList.add("invalid");
+      if (err) { err.textContent = msg; err.classList.add("show"); }
+    } else {
+      input.classList.remove("invalid");
+      if (err) { err.textContent = ""; err.classList.remove("show"); }
+    }
+  }
+  [nameI, phoneI, dateI].forEach((i) => i.addEventListener("input", () => setErr(i, "")));
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let ok = true;
+    if (nameI.value.trim().length < 2) { setErr(nameI, "请填写您的称呼（至少 2 个字）"); ok = false; }
+    if (!/^1[3-9]\d{9}$/.test(phoneI.value.trim())) { setErr(phoneI, "请填写正确的 11 位手机号码"); ok = false; }
+    if (!dateI.value) { setErr(dateI, "请选择期望参观日期"); ok = false; }
+    if (!ok) return;
+
+    btn.disabled = true;
+    btn.textContent = "提交中…";
+    /* 模拟提交：900ms 后成功态（真实接入时替换为 fetch） */
+    setTimeout(() => {
+      form.classList.add("sent");
+      form.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 900);
+  });
+})();
+
+/* ============ 法务弹窗（三通道关闭：遮罩 / × / ESC） ============ */
+(function modal() {
+  const modal = document.getElementById("legalModal");
+  const title = document.getElementById("legalTitle");
+  const body = document.getElementById("legalBody");
+  let lastFocus = null;
+
+  function open(key) {
+    const item = LEGAL[key];
+    if (!item) return;
+    lastFocus = document.activeElement;
+    title.textContent = item.title;
+    body.innerHTML = item.body;
+    body.scrollTop = 0;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("locked");
+    modal.querySelector(".modal-x").focus();
+  }
+  function close() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("locked");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll("[data-legal]").forEach((b) =>
+    b.addEventListener("click", () => open(b.getAttribute("data-legal")))
+  );
+  modal.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", close));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) close();
+  });
+})();
+
+/* ============ 社交图标占位提示 ============ */
+document.querySelectorAll("[data-social]").forEach((a) => {
+  if (a.getAttribute("href") === "#") {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const tip = a.getAttribute("data-social");
+      if (tip && tip !== "电话") alert(tip + "（演示占位，接入时替换为真实链接）");
+    });
+  }
+});
+
+</script>
+</body>
+</html>

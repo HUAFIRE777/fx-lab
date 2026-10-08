@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab · MIT License — free for commercial use (see LICENSE) -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D 物理感看板 · huafire3d fx-lab</title>
+<style>
+/* huafire3d fx-lab · MIT License — free for commercial use */
+/* 配色锁死：底色 #0a0d13 / 表面 #121722 / 描边 #232b3d / 强调 #5b8cff，
+   语义色只出现在优先级小圆点（红/橙/绿），全页禁用彩虹渐变。 */
+
+:root {
+  --bg: #0a0d13;
+  --surface: #121722;
+  --surface-2: #171d2b;
+  --border: #232b3d;
+  --text: #e9edf5;
+  --muted: #8b93a8;
+  --faint: #5b6378;
+  --accent: #5b8cff;
+  --accent-soft: rgba(91, 140, 255, 0.12);
+  --high: #f0564f;
+  --med: #f0a63c;
+  --low: #43b581;
+  --radius: 12px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 手工细节：暗角 + 胶片噪点（3.5% 透明度，不干扰阅读） */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background: radial-gradient(120% 90% at 50% 20%, transparent 55%, rgba(0, 0, 0, 0.42) 100%);
+  pointer-events: none;
+  z-index: 90;
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 91;
+}
+
+/* —— 顶栏 —— */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 28px 14px;
+  border-bottom: 1px solid var(--border);
+  flex: none;
+}
+.brand {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--faint);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.brand b { color: var(--accent); font-weight: 700; }
+.title-wrap h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.title-wrap p {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.toolbar {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.btn {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, transform 0.16s ease;
+}
+.btn:hover { border-color: var(--accent); background: #1b2233; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: #6d99ff; }
+.hint {
+  font-size: 12px;
+  color: var(--faint);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* —— 看板横向滚动区 —— */
+#board {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 22px 28px 28px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#board::-webkit-scrollbar { height: 10px; }
+#board::-webkit-scrollbar-thumb { background: #262e44; border-radius: 6px; }
+#board::-webkit-scrollbar-track { background: transparent; }
+
+.column {
+  flex: none;
+  width: 308px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  animation: col-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--col-i, 0) * 70ms);
+}
+@keyframes col-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.column.drop-target {
+  border-color: var(--accent);
+  background: #141b2c;
+  box-shadow: 0 0 0 1px var(--accent), 0 12px 40px rgba(91, 140, 255, 0.14);
+}
+
+.col-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--border);
+  flex: none;
+}
+.col-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+.col-title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.count {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+.ring { width: 26px; height: 26px; margin-left: auto; display: block; }
+.ring-svg { width: 100%; height: 100%; display: block; }
+.ring-fg { transition: stroke-dashoffset 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.icon-btn:hover { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+
+.card-list {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  min-height: 120px;
+}
+.card-list::-webkit-scrollbar { width: 8px; }
+.card-list::-webkit-scrollbar-thumb { background: #262e44; border-radius: 6px; }
+
+/* —— 卡片 —— */
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 14px 12px;
+  cursor: grab;
+  touch-action: pan-x pan-y;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #33405c;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.prio-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.prio-high .prio-dot { background: var(--high); box-shadow: 0 0 8px rgba(240, 86, 79, 0.55); }
+.prio-med  .prio-dot { background: var(--med); }
+.prio-low  .prio-dot { background: var(--low); }
+.card-code {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-weight: 600;
+}
+.done-toggle {
+  margin-left: auto;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid #3a4560;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  flex: none;
+}
+.done-toggle:hover { border-color: var(--accent); transform: scale(1.1); }
+.card.is-done .done-toggle { background: var(--low); border-color: var(--low); color: #fff; }
+.card-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+.card-title[contenteditable="true"] {
+  outline: 1.5px solid var(--accent);
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin: -2px -6px 4px;
+  background: var(--bg);
+}
+.card.is-done .card-title { color: var(--muted); text-decoration: line-through; }
+.card-desc {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.tag {
+  font-size: 11px;
+  color: #a9b4cc;
+  background: rgba(91, 140, 255, 0.1);
+  border: 1px solid rgba(91, 140, 255, 0.22);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.due { font-size: 11.5px; color: var(--faint); margin-left: auto; }
+.card-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.avatar {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: #2a3350;
+  color: #c6d2ee;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.assignee { font-size: 12px; color: var(--muted); }
+
+/* —— 拖拽态 —— */
+body.is-dragging, body.is-dragging * { user-select: none !important; }
+body.is-dragging .card { cursor: grabbing; }
+
+.drag-layer {
+  position: fixed;
+  inset: 0;
+  perspective: 1200px;
+  pointer-events: none;
+  z-index: 80;
+}
+.drag-clone {
+  position: absolute;
+  left: 0; top: 0;
+  margin: 0;
+  pointer-events: none;
+  transform-origin: center center;
+  border-color: var(--accent);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--accent);
+  cursor: grabbing;
+}
+
+.drop-slot {
+  border: 1.5px dashed var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  pointer-events: none;
+  flex: none;
+  animation: slot-pulse 1.1s ease-in-out infinite;
+}
+@keyframes slot-pulse {
+  0%, 100% { background: rgba(91, 140, 255, 0.07); }
+  50%      { background: rgba(91, 140, 255, 0.14); }
+}
+
+.empty-hint {
+  display: none;
+  border: 1.5px dashed #2c3650;
+  border-radius: var(--radius);
+  color: var(--faint);
+  font-size: 12.5px;
+  text-align: center;
+  padding: 22px 10px;
+}
+.column.is-empty .empty-hint { display: block; }
+.column.is-empty .empty-hint:only-child { display: block; }
+
+/* —— 页脚 —— */
+.footbar {
+  flex: none;
+  padding: 10px 28px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--faint);
+  display: flex;
+  gap: 18px;
+}
+.footbar b { color: var(--muted); font-weight: 600; }
+
+/* —— 降级：不用动效的用户 —— */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+  }
+  .column { animation: none; }
+}
+
+@media (max-width: 760px) {
+  .topbar { flex-wrap: wrap; padding: 14px 16px 10px; }
+  .hint { display: none; }
+  #board { padding: 14px 16px 18px; }
+  .column { width: 272px; }
+  .footbar { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><b>huafire3d</b> · fx-lab</div>
+  <div class="title-wrap">
+    <h1 id="boardTitle">研发任务看板</h1>
+    <p id="boardSub"></p>
+  </div>
+  <div class="toolbar">
+    <button class="btn" id="btnAddCard">＋ 添加卡片</button>
+    <button class="btn" id="btnAddCol">＋ 添加列</button>
+    <button class="btn primary" id="btnReset">重置演示</button>
+  </div>
+  <span class="hint">Esc 取消拖拽 · 双击标题改名 · 点圆圈标记完成</span>
+</header>
+
+<main id="board" aria-label="任务看板"></main>
+
+<footer class="footbar">
+  <span><b>拖拽</b> 拖起放大 + 阴影，倾斜跟随指针速度</span>
+  <span><b>跨列</b> 目标列高亮，槽位指示落点</span>
+  <span><b>放下</b> FLIP 回弹落位，列头进度环联动</span>
+</footer>
+
+<script type="module">
+var f={boardTitle:"\u7814\u53D1\u4EFB\u52A1\u770B\u677F",boardSub:"\u62D6\u62FD\u5361\u7247\u5728\u5217\u4E4B\u95F4\u6D41\u8F6C \xB7 \u9F20\u6807\u76F4\u63A5\u62D6 / \u89E6\u5C4F\u957F\u6309\u62D6\u8D77",motion:{liftScale:1.06,liftZ:70,tiltMax:10,longPressMs:380,dragThresholdPx:6,flipMs:240,flipEasing:"cubic-bezier(0.22, 1, 0.36, 1)",scrollMargin:56,scrollSpeed:14},columns:[{id:"todo",title:"\u5F85\u529E",cards:[{id:"t1",code:"TASK-1042",title:"\u767B\u5F55\u9875\u589E\u52A0\u56FE\u5F62\u9A8C\u8BC1\u7801",desc:"\u8FDE\u7EED\u8F93\u9519 3 \u6B21\u540E\u5F39\u51FA\uFF0C\u9632\u66B4\u529B\u7834\u89E3\u3002",tags:["\u524D\u7AEF","\u5B89\u5168"],priority:"high",due:"\u660E\u5929\u5230\u671F",assignee:"\u9648\u9ED8",done:!1},{id:"t2",code:"TASK-1043",title:"\u62A5\u8868\u5BFC\u51FA\u517C\u5BB9 Excel 2007+",desc:"xlsx \u6D41\u5F0F\u5199\u5165\uFF0C10 \u4E07\u884C\u4E0D\u5361\u6B7B\u6D4F\u89C8\u5668\u3002",tags:["\u540E\u7AEF"],priority:"med",due:"\u5468\u4E94",assignee:"\u6797\u6653",done:!1},{id:"t3",code:"TASK-1044",title:"\u770B\u677F\u5217\u652F\u6301\u81EA\u5B9A\u4E49\u989C\u8272",desc:"\u5217\u5934\u5C0F\u5706\u70B9\u989C\u8272\u53EF\u914D\uFF0C\u914D\u7F6E\u5B58 D1\u3002",tags:["\u524D\u7AEF"],priority:"low",due:"\u4E0B\u5468",assignee:"\u9648\u9ED8",done:!1},{id:"t4",code:"TASK-1045",title:"\u79FB\u52A8\u7AEF\u957F\u6309\u62D6\u62FD\u624B\u52BF",desc:"380ms \u957F\u6309\u62D6\u8D77\uFF0C\u62D6\u5230\u8FB9\u7F18\u81EA\u52A8\u6EDA\u52A8\u3002",tags:["\u79FB\u52A8\u7AEF","\u4EA4\u4E92"],priority:"med",due:"\u5468\u4E09",assignee:"\u82CF\u6674",done:!1}]},{id:"doing",title:"\u8FDB\u884C\u4E2D",cards:[{id:"d1",code:"TASK-1038",title:"3D \u62D6\u62FD\u503E\u659C\u52A8\u6548\u8054\u8C03",desc:"rotateX / Y \u8DDF\u968F\u6307\u9488\u901F\u5EA6\uFF0C\u7269\u7406 easing \u843D\u4F4D\u3002",tags:["\u524D\u7AEF","\u52A8\u6548"],priority:"high",due:"\u4ECA\u5929",assignee:"\u9648\u9ED8",done:!1},{id:"d2",code:"TASK-1039",title:"D1 \u6570\u636E\u5E93\u7D22\u5F15\u4F18\u5316",desc:"\u6162\u67E5\u8BE2\u4ECE 800ms \u964D\u5230 120ms \u4EE5\u5185\u3002",tags:["\u540E\u7AEF"],priority:"med",due:"\u660E\u5929",assignee:"\u6797\u6653",done:!1}]},{id:"done",title:"\u5DF2\u5B8C\u6210",cards:[{id:"f1",code:"TASK-1031",title:"\u6697\u8272\u4E3B\u9898\u5168\u5C40\u9002\u914D",desc:"\u5168\u7AD9 42 \u4E2A\u9875\u9762\u4E00\u6B21\u8FC7\uFF0C\u65E0\u56DE\u5F52\u3002",tags:["\u524D\u7AEF"],priority:"low",due:"\u5DF2\u4EA4\u4ED8",assignee:"\u82CF\u6674",done:!0},{id:"f2",code:"TASK-1033",title:"\u5361\u7247 FLIP \u4F4D\u79FB\u52A8\u753B",desc:"\u8DE8\u5217\u79FB\u52A8 240ms ease-out \u843D\u4F4D\u3002",tags:["\u52A8\u6548"],priority:"med",due:"\u5DF2\u4EA4\u4ED8",assignee:"\u9648\u9ED8",done:!0}]}]};var L=2*Math.PI*15.5;function M(o){let t=Math.max(0,Math.min(1,o)),e=L*(1-t);return'<svg viewBox="0 0 36 36" class="ring-svg" aria-hidden="true"><circle cx="18" cy="18" r="'+15.5+'" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="3.5"/><circle cx="18" cy="18" r="'+15.5+'" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="'+L.toFixed(1)+'" stroke-dashoffset="'+e.toFixed(1)+'" transform="rotate(-90 18 18)" class="ring-fg"/></svg>'}function C(o){return o.cards.length?o.cards.filter(t=>t.done).length/o.cards.length:0}function E(o,t){o.querySelectorAll(".column").forEach(e=>{let s=t.find(d=>d.id===e.dataset.colId);if(!s)return;let r=C(s),n=e.querySelector(".ring");n&&(n.innerHTML=M(r),n.title="\u5B8C\u6210 "+Math.round(r*100)+"%");let i=e.querySelector(".count");i&&(i.textContent=s.cards.length)})}var I={high:"\u9AD8\u4F18",med:"\u4E2D\u4F18",low:"\u4F4E\u4F18"};function h(o){return String(o??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}function T(o){let t=(o.tags||[]).map(e=>'<span class="tag">'+h(e)+"</span>").join("");return'<article class="card prio-'+h(o.priority||"med")+(o.done?" is-done":"")+'" data-card-id="'+h(o.id)+'"><div class="card-top"><span class="prio-dot" title="'+h(I[o.priority]||"")+'"></span><span class="card-code">'+h(o.code||"")+'</span><button class="done-toggle" data-done-toggle aria-pressed="'+(o.done?"true":"false")+'" title="\u6807\u8BB0\u5B8C\u6210"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><h3 class="card-title">'+h(o.title)+"</h3>"+(o.desc?'<p class="card-desc">'+h(o.desc)+"</p>":"")+'<div class="card-meta">'+t+(o.due?'<span class="due">'+h(o.due)+"</span>":"")+'</div><div class="card-foot"><span class="avatar">'+h((o.assignee||"?").slice(0,1))+'</span><span class="assignee">'+h(o.assignee||"")+"</span></div></article>"}function k(o,t){let e=o.cards.map(T).join("");return'<section class="column" data-col-id="'+h(o.id)+'" style="--col-i:'+t+'"><header class="col-head"><span class="col-dot"></span><h2 class="col-title">'+h(o.title)+'</h2><span class="count">'+o.cards.length+'</span><span class="ring" data-ring></span><button class="icon-btn col-add" data-add-card title="\u5728\u6B64\u5217\u6DFB\u52A0\u5361\u7247"><svg viewBox="0 0 16 16" width="13" height="13"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></header><div class="card-list">'+e+'<div class="empty-hint">\u62D6\u5230\u6B64\u5904</div></div></section>'}function S(o,t){let e=JSON.parse(JSON.stringify({columns:t.columns})),s=100,r={root:o,get columns(){return e.columns},render(){o.innerHTML=e.columns.map(k).join(""),E(o,e.columns),o.querySelectorAll(".column").forEach(n=>{let i=n.querySelector(".card-list .card");n.classList.toggle("is-empty",!i)})},locate(n){for(let i of e.columns){let d=i.cards.findIndex(l=>l.id===n);if(d!==-1)return{colId:i.id,index:d}}return null},applyMove(n,i,d,l){let a=e.columns.find(y=>y.id===i),c=e.columns.find(y=>y.id===d);if(!a||!c)return!1;let g=a.cards.findIndex(y=>y.id===n);if(g===-1)return!1;let p=Math.max(0,Math.min(l,c.cards.length));if(a===c&&p>g&&(p-=1),a===c&&p===g)return!1;let[b]=a.cards.splice(g,1);return c.cards.splice(p,0,b),!0},addColumn(){s+=1,e.columns.push({id:"col-"+s,title:"\u65B0\u5217\u8868 "+(e.columns.length+1),cards:[]}),this.render()},addCard(n){let i=e.columns.find(d=>d.id===(n||(e.columns[0]||{}).id));i&&(s+=1,i.cards.push({id:"n"+s,code:"TASK-"+(1050+s),title:"\u65B0\u5EFA\u4EFB\u52A1\uFF08\u53CC\u51FB\u6807\u9898\u53EF\u6539\uFF09",desc:"\u8865\u5145\u4E00\u53E5\u8BDD\u8BF4\u660E\u8981\u505A\u4EC0\u4E48\u3002",tags:["\u5F85\u5206\u7C7B"],priority:"med",due:"\u5F85\u5B9A",assignee:"\u672A\u5206\u914D",done:!1}),this.render())},toggleDone(n){for(let i of e.columns){let d=i.cards.find(l=>l.id===n);if(d){d.done=!d.done,this.render();return}}},reset(){e.columns=JSON.parse(JSON.stringify(t.columns)),this.render()}};return o.addEventListener("click",n=>{let i=window.__kanban&&window.__kanban.engine;if(i&&Date.now()-i.lastDropAt<300)return;let d=n.target.closest("[data-done-toggle]");if(d){let a=d.closest(".card");a&&r.toggleDone(a.dataset.cardId);return}let l=n.target.closest("[data-add-card]");if(l){let a=l.closest(".column");a&&r.addCard(a.dataset.colId)}}),o.addEventListener("dblclick",n=>{let i=n.target.closest(".card-title");if(!i)return;let d=i.closest(".card"),l=i.textContent;i.contentEditable="true",i.focus();let a=()=>{i.contentEditable="false";let c=i.textContent.trim()||l;i.textContent=c;for(let g of e.columns){let p=g.cards.find(b=>b.id===d.dataset.cardId);p&&(p.title=c)}i.removeEventListener("blur",a)};i.addEventListener("blur",a),i.addEventListener("keydown",c=>{c.key==="Enter"&&(c.preventDefault(),i.blur())})}),r}var x=(o,t,e)=>Math.max(t,Math.min(e,o)),v=class{constructor(t,e){this.board=t,this.m=e,this.reduced=!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches),this.state="idle",this.pending=null,this.drag=null,this.target=null,this.targetList=null,this.slot=null,this.layer=null,this.lastDropAt=0,this.scrollRaf=0,this._mv=s=>this.onPointerMove(s),this._up=s=>this.onPointerUp(s),this._cc=()=>this.onPointerCancel(),this._key=s=>{s.key==="Escape"&&this.state==="dragging"&&this.finishDrop(!1)}}bind(){this.board.root.querySelectorAll(".card").forEach(t=>{t.dataset.dragBound||(t.dataset.dragBound="1",t.addEventListener("pointerdown",e=>this.onPointerDown(e)))})}onPointerDown(t){if(this.state!=="idle"||t.button!==void 0&&t.button>0)return;let e=t.target.closest(".card");if(!e||t.target.closest("[data-done-toggle]"))return;let s=t.pointerType||"mouse";this.state="pending",this.pending={cardId:e.dataset.cardId,el:e,x0:t.clientX,y0:t.clientY,ptype:s},window.addEventListener("pointermove",this._mv),window.addEventListener("pointerup",this._up),window.addEventListener("pointercancel",this._cc),s==="touch"?(clearTimeout(this._lpTimer),this._lpTimer=setTimeout(()=>{this.state==="pending"&&this.pending&&this.begin(this.pending.x0,this.pending.y0)},this.m.longPressMs)):s==="debug"&&this.begin(t.clientX,t.clientY)}onPointerMove(t){if(this.state==="pending"&&this.pending){let e=this.pending,s=t.clientX-e.x0,r=t.clientY-e.y0,n=Math.hypot(s,r);if(e.ptype==="touch"&&n>12){this.cancelPending();return}if(e.ptype==="mouse"&&n>this.m.dragThresholdPx){this.begin(t.clientX,t.clientY);return}}else this.state==="dragging"&&this.move(t.clientX,t.clientY)}onPointerUp(){this.state==="pending"?this.cancelPending():this.state==="dragging"&&this.finishDrop(!0)}onPointerCancel(){this.state==="pending"?this.cancelPending():this.state==="dragging"&&this.finishDrop(!1)}cancelPending(){clearTimeout(this._lpTimer),this.pending=null,this.state="idle",this.unbindWindow()}unbindWindow(){window.removeEventListener("pointermove",this._mv),window.removeEventListener("pointerup",this._up),window.removeEventListener("pointercancel",this._cc),window.removeEventListener("keydown",this._key)}begin(t,e){let s=this.pending;if(!s)return;clearTimeout(this._lpTimer);let r=this.board.locate(s.cardId);if(!r){this.cancelPending();return}let n=s.el.getBoundingClientRect();this.layer=document.createElement("div"),this.layer.className="drag-layer";let i=s.el.cloneNode(!0);i.classList.add("drag-clone"),i.style.width=n.width+"px",this.layer.appendChild(i),document.body.appendChild(this.layer),s.el.style.display="none",this.slot=document.createElement("div"),this.slot.className="drop-slot",this.slot.style.height=n.height+"px",s.el.parentNode.insertBefore(this.slot,s.el),document.body.classList.add("is-dragging"),s.ptype==="touch"&&(document.body.style.touchAction="none"),window.addEventListener("keydown",this._key),this.drag={cardId:s.cardId,from:r,clone:i,gx:t-n.left,gy:e-n.top,x:t,y:e,t:performance.now(),vx:0,vy:0},this.pending=null,this.state="dragging",this.positionClone(),this.hitTest(t,e),this.startScrollLoop()}move(t,e){let s=this.drag;if(!s)return;let r=performance.now(),n=Math.max(1,r-s.t),i=(t-s.x)/n*16.7,d=(e-s.y)/n*16.7;s.vx+=(i-s.vx)*.25,s.vy+=(d-s.vy)*.25,s.x=t,s.y=e,s.t=r,this.positionClone(),this.hitTest(t,e)}positionClone(){let t=this.drag;if(!t)return;let e=0,s=0,r=0,n=1,i=0;this.reduced||(e=x(-t.vy*.9,-this.m.tiltMax,this.m.tiltMax),s=x(t.vx*.9,-this.m.tiltMax,this.m.tiltMax),r=x(t.vx*.22,-4,4),n=this.m.liftScale,i=this.m.liftZ),t.clone.style.transform="translate3d("+(t.x-t.gx)+"px,"+(t.y-t.gy)+"px,"+i+"px) rotateX("+e.toFixed(2)+"deg) rotateY("+s.toFixed(2)+"deg) rotate("+r.toFixed(2)+"deg) scale("+n+")"}hitTest(t,e){let s=this.drag;if(!s)return;let r=document.elementsFromPoint(t,e),n=null;for(let a of r)if(a.closest&&(n=a.closest(".column"),n))break;if(this.board.root.querySelectorAll(".column.drop-target").forEach(a=>a.classList.remove("drop-target")),!n){this.target=null,this.targetList=null,this.slot&&this.slot.parentNode&&this.slot.parentNode.removeChild(this.slot);return}n.classList.add("drop-target");let i=n.querySelector(".card-list");this.targetList=i;let d=[...i.querySelectorAll(".card")].filter(a=>a.dataset.cardId!==s.cardId&&a.style.display!=="none"),l=0;for(let a of d){let c=a.getBoundingClientRect();if(e>c.top+c.height/2)l+=1;else break}i.insertBefore(this.slot,d[l]||null),this.target={colId:n.dataset.colId,index:l}}startScrollLoop(){cancelAnimationFrame(this.scrollRaf);let t=()=>{this.state!=="dragging"||!this.drag||(this.autoScroll(),this.scrollRaf=requestAnimationFrame(t))};this.scrollRaf=requestAnimationFrame(t)}autoScroll(){let t=this.drag,e=this.board.root,s=e.getBoundingClientRect(),r=this.m.scrollMargin,n=this.m.scrollSpeed;if(t.x>s.right-r?e.scrollLeft+=n:t.x<s.left+r&&(e.scrollLeft-=n),this.targetList){let i=this.targetList.getBoundingClientRect();t.y>i.bottom-r?this.targetList.scrollTop+=n:t.y<i.top+r&&(this.targetList.scrollTop-=n)}}finishDrop(t){let e=this.drag;if(!e)return;cancelAnimationFrame(this.scrollRaf);let s=e.clone.getBoundingClientRect(),r=new Map;this.board.root.querySelectorAll(".card").forEach(i=>{i.dataset.cardId!==e.cardId&&i.style.display!=="none"&&r.set(i.dataset.cardId,i.getBoundingClientRect())}),this.teardownDrag();let n=!1;return t&&this.target&&(n=this.board.applyMove(e.cardId,e.from.colId,this.target.colId,this.target.index)),this.board.render(),this.bind(),this.lastDropAt=Date.now(),this.reduced||this.playFlip(e.cardId,s,r),this.drag=null,this.target=null,this.targetList=null,this.state="idle",this.unbindWindow(),n}teardownDrag(){this.layer&&this.layer.parentNode&&this.layer.parentNode.removeChild(this.layer),this.layer=null,this.slot&&this.slot.parentNode&&this.slot.parentNode.removeChild(this.slot),this.slot=null,document.body.classList.remove("is-dragging"),document.body.style.touchAction="",this.board.root.querySelectorAll(".column.drop-target").forEach(t=>t.classList.remove("drop-target"))}playFlip(t,e,s){let r=this.m.flipMs,n=this.m.flipEasing;this.board.root.querySelectorAll(".card").forEach(i=>{let d=i.dataset.cardId,l=d===t?e:s.get(d);if(!l)return;let a=i.getBoundingClientRect(),c=l.left-a.left,g=l.top-a.top;Math.abs(c)<.5&&Math.abs(g)<.5||i.animate([{transform:"translate("+c+"px,"+g+"px)"},{transform:"translate(0,0)"}],{duration:r,easing:n})})}debugBeginAt(t,e,s){let r=this.board.root.querySelector('.card[data-card-id="'+t+'"]');return r?(this.state="pending",this.pending={cardId:t,el:r,x0:e,y0:s,ptype:"debug"},this.begin(e,s),this.state==="dragging"):!1}debugMoveTo(t,e,s){let r=this.drag;if(!r)return!1;let n=Math.max(1,s||10),i=r.x,d=r.y;for(let l=1;l<=n;l+=1)this.move(i+(t-i)*l/n,d+(e-d)*l/n);return!0}};var w=[];window.addEventListener("error",o=>w.push(String(o&&o.message||o)));window.addEventListener("unhandledrejection",o=>w.push("promise: "+String(o&&o.reason||o)));var A=document.getElementById("board");document.getElementById("boardTitle").textContent=f.boardTitle;document.getElementById("boardSub").textContent=f.boardSub;var u=S(A,f),m=new v(u,f.motion);u.render();m.bind();document.getElementById("btnAddCol").addEventListener("click",()=>{u.addColumn(),m.bind()});document.getElementById("btnAddCard").addEventListener("click",()=>{u.addCard(),m.bind()});document.getElementById("btnReset").addEventListener("click",()=>{u.reset(),m.bind()});var B=u.render.bind(u);u.render=(...o)=>{let t=B(...o);return m.bind(),t};window.__kanban={board:u,engine:m,config:f,errors:w};
+
+</script>
+</body>
+</html>

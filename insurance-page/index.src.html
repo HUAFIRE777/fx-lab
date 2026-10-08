@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安澜保险 ANLAN · 保障，从一笔算得清的保费开始</title>
+<meta name="description" content="安澜保险官方产品介绍：保障计算器、寿险/医疗/意外/年金产品矩阵、理赔四步流程、顾问预约。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- vignette + 噪点（手工细节） -->
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 顶栏 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="安澜保险首页">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 3 L35 10 V20 C35 29 28 35 20 37 C12 35 5 29 5 20 V10 Z" fill="none" stroke="#0F2A5C" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M11 22 C15 18 17 26 21 22 C25 18 27 26 31 22" fill="none" stroke="#2FB3A3" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-word">安澜<small>ANLAN</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#calc">保障计算器</a>
+      <a href="#products">产品保障</a>
+      <a href="#claims">理赔服务</a>
+      <a href="#advisor">顾问预约</a>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#advisor">预约顾问</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动抽屉 -->
+<div class="drawer-mask" id="drawerMask" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand-word">安澜<small>ANLAN</small></span>
+    <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">✕</button>
+  </div>
+  <nav class="drawer-links">
+    <a href="#calc">保障计算器</a>
+    <a href="#products">产品保障</a>
+    <a href="#claims">理赔服务</a>
+    <a href="#advisor">顾问预约</a>
+  </nav>
+  <a class="btn btn-primary drawer-cta" href="#advisor">预约顾问</a>
+  <p class="drawer-foot">客服 <span data-site="phone">—</span> · 7×24 小时</p>
+</aside>
+
+<main id="top">
+
+<!-- ============ HERO + 保障计算器 ============ -->
+<section class="hero" id="calc" data-intro>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="kicker rv-hero"><span class="kicker-dot"></span>官方直营 · 持牌经营</p>
+      <h1 class="hero-title">
+        <span class="rl"><span class="rl-line">保费多少，</span></span>
+        <span class="rl"><span class="rl-line">先算清楚 <em>再决定</em>。</span></span>
+      </h1>
+      <p class="hero-sub rv-hero">拖动滑杆，保额与保费实时联动。没有销售话术，只有算得清的数字——这就是安澜做保险的方式。</p>
+      <ul class="hero-points rv-hero">
+        <li>费率公开透明，条款可全文查阅</li>
+        <li>线上投保，电子保单实时生效</li>
+        <li>理赔全程线上可查，不跑腿</li>
+      </ul>
+      <p class="compliance rv-hero">保险产品说明：本页面内容仅为产品介绍，实际保障范围、免责条款以保险合同载明为准，请仔细阅读保险条款。</p>
+    </div>
+
+    <div class="calc-card rv-hero" role="region" aria-label="保障计算器">
+      <div class="calc-head">
+        <h2>保障计算器</h2>
+        <p>安澜守护终身寿险 · 预估年缴保费</p>
+      </div>
+
+      <label class="calc-row">
+        <span class="calc-label">您的年龄 <b id="ageVal">32 岁</b></span>
+        <input type="range" id="age" min="18" max="60" step="1" value="32" aria-label="年龄">
+        <span class="calc-scale"><i>18</i><i>60</i></span>
+      </label>
+
+      <label class="calc-row">
+        <span class="calc-label">保障额度 <b id="coverVal">100 万元</b></span>
+        <input type="range" id="cover" min="100000" max="5000000" step="100000" value="1000000" aria-label="保障额度">
+        <span class="calc-scale"><i>10万</i><i>500万</i></span>
+      </label>
+
+      <div class="calc-row">
+        <span class="calc-label">保障期限</span>
+        <div class="term-seg" role="group" aria-label="保障期限">
+          <button type="button" data-term="10">10 年</button>
+          <button type="button" data-term="20" class="on">20 年</button>
+          <button type="button" data-term="30">30 年</button>
+        </div>
+      </div>
+
+      <div class="calc-result">
+        <div class="calc-result-top">
+          <span>预估年缴保费</span>
+          <span class="calc-rate" id="rateNote">费率 3.4‰</span>
+        </div>
+        <div class="calc-premium"><span class="cur">¥</span><span id="premium">—</span><span class="per">/ 年</span></div>
+        <p class="calc-tip">试算结果仅供参考，实际保费以核保结论为准。</p>
+      </div>
+
+      <a class="btn btn-primary btn-block" href="#advisor">按这个方案预约顾问</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 产品矩阵 ============ -->
+<section class="section products" id="products">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="kicker"><span class="kicker-dot"></span>产品保障</p>
+      <h2>四类保障，覆盖人生每个阶段</h2>
+      <p class="sec-sub">每款产品都配有完整条款全文，投保前可逐字查阅。</p>
+    </div>
+    <div class="p-grid">
+      <article class="p-card rv">
+        <div class="p-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4l16 7v12c0 10-7 17-16 21-9-4-16-11-16-21V11z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 24l5 5 9-11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>安澜守护终身寿险</h3>
+        <p>一份保单，守护三代人。身故与全残双重给付，保额终身有效。</p>
+        <div class="p-meta"><span class="p-price">¥3,400<em>/年起</em></span><span class="p-tag">热销</span></div>
+        <a class="p-link" href="#advisor">了解详情 →</a>
+      </article>
+      <article class="p-card rv">
+        <div class="p-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="14" width="32" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M24 22v12M18 28h12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M16 14V9h16v5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <h3>安澜康健医疗险</h3>
+        <p>百万医疗额度，覆盖住院与门诊手术，二级及以上公立医院直付。</p>
+        <div class="p-meta"><span class="p-price">¥386<em>/年起</em></span><span class="p-tag">续保无忧</span></div>
+        <a class="p-link" href="#advisor">了解详情 →</a>
+      </article>
+      <article class="p-card rv">
+        <div class="p-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6c-9 0-16 7-17 16h34C40 13 33 6 24 6z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M24 22v14M17 40h14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <h3>安澜无忧意外险</h3>
+        <p>交通意外双倍赔付，猝死责任可选加，职业类别宽松可保。</p>
+        <div class="p-meta"><span class="p-price">¥180<em>/年起</em></span><span class="p-tag">高性价比</span></div>
+        <a class="p-link" href="#advisor">了解详情 →</a>
+      </article>
+      <article class="p-card rv">
+        <div class="p-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M24 14v10l7 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 40h28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <h3>安澜丰盈年金险</h3>
+        <p>确定领取的养老现金流，写进合同的利率，退休生活有底气。</p>
+        <div class="p-meta"><span class="p-price">¥10,000<em>/年起</em></span><span class="p-tag">养老规划</span></div>
+        <a class="p-link" href="#advisor">了解详情 →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 理赔流程 ============ -->
+<section class="section claims" id="claims">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="kicker"><span class="kicker-dot"></span>理赔服务</p>
+      <h2>理赔四步，全程线上可查</h2>
+      <p class="sec-sub">平均结案时效 2.3 天，小额案件最快当日到账。</p>
+    </div>
+    <ol class="steps">
+      <li class="step rv"><span class="step-n">1</span><h3>在线报案</h3><p>微信/官网/App 一键报案，拍照上传资料，无需跑网点。</p></li>
+      <li class="step rv"><span class="step-n">2</span><h3>专人跟进</h3><p>理赔顾问 30 分钟内联系，缺什么一次说清。</p></li>
+      <li class="step rv"><span class="step-n">3</span><h3>快速审核</h3><p>资料齐全 3 日内出结论，进度短信实时推送。</p></li>
+      <li class="step rv"><span class="step-n">4</span><h3>赔款到账</h3><p>审核通过即刻打款，电子回执同步送达。</p></li>
+    </ol>
+    <div class="claims-stats rv">
+      <div class="stat"><b>98.6%</b><span>获赔率（2025）</span></div>
+      <div class="stat"><b>2.3 天</b><span>平均结案时效</span></div>
+      <div class="stat"><b>¥12.6 亿</b><span>年度累计赔付</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 顾问预约 ============ -->
+<section class="section advisor" id="advisor">
+  <div class="wrap advisor-grid">
+    <div class="advisor-copy rv">
+      <p class="kicker"><span class="kicker-dot"></span>顾问预约</p>
+      <h2>和真人聊聊，再决定买不买</h2>
+      <p class="sec-sub">留下联系方式，持证顾问将在 24 小时内与您联系。不推销，只解答。</p>
+      <ul class="advisor-list">
+        <li><b>持证上岗</b>——每位顾问均通过保险从业资格认证</li>
+        <li><b>方案定制</b>——按家庭结构与预算量身搭配</li>
+        <li><b>条款讲解</b>——免责条款逐条讲清，不藏着掖着</li>
+      </ul>
+    </div>
+    <form class="adv-form rv" id="advForm" novalidate>
+      <h3>免费预约 1 对 1 顾问</h3>
+      <label>您的称呼
+        <input type="text" name="name" placeholder="如：王先生 / 李女士" maxlength="12" autocomplete="name">
+        <em class="err" data-err="name"></em>
+      </label>
+      <label>手机号码
+        <input type="tel" name="phone" placeholder="11 位手机号码" maxlength="11" inputmode="numeric" autocomplete="tel">
+        <em class="err" data-err="phone"></em>
+      </label>
+      <label>咨询方向
+        <select name="need">
+          <option value="寿险规划">寿险规划</option>
+          <option value="医疗保障">医疗保障</option>
+          <option value="意外保障">意外保障</option>
+          <option value="养老年金">养老年金</option>
+          <option value="家庭综合配置">家庭综合配置</option>
+        </select>
+      </label>
+      <button class="btn btn-primary btn-block" type="submit">提交预约</button>
+      <p class="form-note">提交即表示同意我们通过电话与您联系。您的信息仅用于本次预约。</p>
+      <div class="form-ok" id="formOk" hidden>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" fill="none" stroke="#2FB3A3" stroke-width="3"/><path d="M15 25l6 6 12-13" fill="none" stroke="#2FB3A3" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>预约成功</h4>
+        <p>顾问将在 24 小时内与您联系，请留意来电。</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta rv">
+  <div class="wrap cta-inner">
+    <h2>保障这件事，越早算清越从容</h2>
+    <p>三分钟试算，一次免费咨询，不花一分钱。</p>
+    <div class="cta-btns">
+      <a class="btn btn-light" href="#calc">重新试算保费</a>
+      <a class="btn btn-outline-light" href="#advisor">预约顾问</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="brand-word">安澜<small>ANLAN</small></span>
+      <p>把保费算清楚，把条款讲明白。<br>安澜保险，值得托付的长期保障伙伴。</p>
+      <div class="social">
+        <a href="#" aria-label="微信" title="微信"><svg viewBox="0 0 24 24"><path d="M9.5 4C5.4 4 2 6.9 2 10.4c0 2 1.1 3.7 2.8 4.9l-.7 2.2 2.5-1.3c.6.2 1.3.3 2 .3h.3A5.6 5.6 0 0 1 8.6 14C8.6 11 11 8.6 14 8.6c.4 0 .8 0 1.1.1C14.6 6 12.3 4 9.5 4zM14 9c-3 0-5.4 2.1-5.4 4.6 0 2.6 2.4 4.7 5.4 4.7.6 0 1.2-.1 1.8-.3l1.9 1-.5-1.7c1.3-.9 2.1-2.1 2.1-3.6 0-2.6-2.4-4.7-5.3-4.7zM8 10.2c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm8.8 2.6c.4 0 .7.3.7.7s-.3.7-.7.7-.7-.3-.7-.7.3-.7.7-.7z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.9c-3.9 0-7.1-2.7-7.1-6.1 0-2.9 2.1-5.4 5-6 .4 1.3 1.3 2.4 2.6 3-.4-.1-.9-.2-1.3-.2-.3 0-.5 0-.8.1.2-1.3 1.5-2.2 2.9-2.2 1.6 0 2.9 1.2 2.9 2.7v.2c2.3.4 4 2.3 4 4.6 0 3.2-4 5.9-8.2 5.9zm-3.3-5.4c-.9 0-1.7-.7-1.7-1.6 0-1 .8-1.8 1.8-1.8.3 0 .5.1.7.1-.2 1-.9 1.9-1.8 2.4.3.2.7.3 1 .3-.3.3-.7.6-1.2.6zm3.2.9c-1.7 0-3-1.3-3-2.9 0-1.5 1.2-2.7 2.7-2.7 1.5 0 2.7 1.2 2.7 2.7 0 1.6-1.1 2.9-2.4 2.9zm7.6-9.4c-.3 0-.6.3-.6.6 0 .2.1.3.2.4-1.2-.4-2.5-.3-3.6.4-.2.1-.2.4-.1.5.1.2.4.2.5.1 1-.6 2.2-.7 3.2-.3.1.2.2.3.4.3.3 0 .6-.3.6-.6 0-.8-.3-1.2-.6-1.4z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="currentColor"/><text x="12" y="16.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="sans-serif">RED</text></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><path d="M16.6 3c.4 2.1 1.8 3.5 4 3.7v3c-1.5 0-2.9-.5-4-1.3v6.4c0 3.4-2.4 5.7-5.5 5.7-3 0-5.3-2.3-5.3-5.3 0-3.1 2.5-5.4 5.8-5.2v3.1c-1.5-.3-2.7.8-2.7 2.1 0 1.3 1 2.3 2.3 2.3 1.4 0 2.4-1 2.4-2.6V3h3z" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot-col" aria-label="产品">
+      <h4>产品保障</h4>
+      <a href="#products">终身寿险</a>
+      <a href="#products">医疗险</a>
+      <a href="#products">意外险</a>
+      <a href="#products">年金险</a>
+    </nav>
+    <nav class="foot-col" aria-label="服务">
+      <h4>客户服务</h4>
+      <a href="#claims">理赔服务</a>
+      <a href="#advisor">顾问预约</a>
+      <a href="#calc">保障计算器</a>
+      <a href="#" data-modal="cookies">Cookie 设置</a>
+    </nav>
+    <div class="foot-col foot-contact">
+      <h4>联系我们</h4>
+      <p>客服热线<br><b data-site="phone">—</b></p>
+      <p data-site="address">—</p>
+      <p data-site="email">—</p>
+    </div>
+  </div>
+  <div class="wrap foot-legal">
+    <div class="legal-links">
+      <a href="#" data-modal="privacy">隐私政策</a>
+      <a href="#" data-modal="terms">服务条款</a>
+      <a href="#" data-modal="cookies">Cookie 政策</a>
+    </div>
+    <p class="copyright">© 2026 <span data-site="organizer">—</span> · <span data-site="icp">—</span></p>
+  </div>
+</footer>
+
+<!-- ============ 法务三件套弹窗 ============ -->
+<div class="modal-mask" id="modalMask" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+    <h3 id="modalTitle"></h3>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

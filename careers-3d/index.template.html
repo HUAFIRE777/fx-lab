@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · careers-3d -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>加入我们 · 北辰科技</title>
+<style>
+:root {
+  --navy: #0a1230;
+  --navy-2: #0e1740;
+  --blue: #4d7cff;
+  --blue-soft: rgba(77,124,255,.14);
+  --white: #ffffff;
+  --ink-dim: rgba(255,255,255,.64);
+  --ink-faint: rgba(255,255,255,.38);
+  --card: rgba(16,24,64,.72);
+  --line: rgba(255,255,255,.12);
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+  --ease-spring: cubic-bezier(.34,1.45,.44,1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: auto; }
+html, body { width: 100%; }
+body {
+  font-family: var(--font);
+  color: var(--white);
+  background: var(--navy);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 3D 星空：固定层 */
+#gl { position: fixed; inset: 0; z-index: 1; }
+#gl canvas { display: block; }
+
+/* 暗角 */
+.vignette {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(120% 95% at 50% 30%, transparent 52%, rgba(2,5,20,.55) 100%);
+}
+/* 胶片噪点 */
+.grain {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* 顶栏 */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 24px 36px; pointer-events: none;
+}
+.brand span { font-size: 16px; font-weight: 800; letter-spacing: .42em; }
+.brand small { display: block; margin-top: 6px; font-size: 11px; letter-spacing: .22em; color: var(--ink-faint); }
+.brand-en { font-size: 11px; letter-spacing: .3em; color: var(--ink-faint); padding-top: 4px; }
+
+/* 首屏标题 */
+.hero {
+  position: relative; z-index: 5;
+  max-width: 1180px; margin: 0 auto;
+  padding: 150px 40px 26px;
+}
+.eyebrow {
+  display: inline-block; font-size: 12px; letter-spacing: .34em; color: var(--blue);
+  border: 1px solid rgba(77,124,255,.45); border-radius: 999px;
+  padding: 9px 20px; margin-bottom: 30px; background: var(--blue-soft);
+}
+.hero h1 {
+  font-size: clamp(40px, 5.6vw, 72px);
+  font-weight: 800; letter-spacing: .06em; line-height: 1.18;
+  max-width: 16em;
+}
+.hero .sub {
+  margin-top: 22px; font-size: 16px; line-height: 2; letter-spacing: .04em;
+  color: var(--ink-dim); max-width: 560px;
+}
+
+/* 部门筛选 pills */
+.pills {
+  position: sticky; top: 0; z-index: 9;
+  display: flex; gap: 12px; flex-wrap: wrap;
+  max-width: 1180px; margin: 0 auto; padding: 18px 40px;
+  background: rgba(10,18,48,.82);
+}
+.pill {
+  font-family: var(--font); font-size: 14px; letter-spacing: .12em;
+  color: var(--ink-dim); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 10px 24px; cursor: pointer;
+  transition: all .35s var(--ease-out);
+}
+.pill:hover { color: var(--white); border-color: var(--blue); transform: translateY(-2px); }
+.pill.on {
+  color: #fff; background: var(--blue); border-color: var(--blue);
+  box-shadow: 0 6px 22px rgba(77,124,255,.42);
+}
+
+/* 卡片舞台：3D 透视容器（不用 filter 模糊，避免压平 3D） */
+.stage { position: relative; z-index: 5; perspective: 1400px; }
+.grid {
+  max-width: 1180px; margin: 0 auto; padding: 34px 40px 20px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 22px;
+  transform-style: preserve-3d;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line); border-radius: 18px;
+  padding: 28px 26px 24px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: transform .45s var(--ease-out), border-color .3s, box-shadow .45s var(--ease-out);
+  will-change: transform;
+}
+.card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--blue); opacity: 0; transition: opacity .3s;
+}
+.card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(77,124,255,.55);
+  box-shadow: 0 18px 44px rgba(2,6,24,.6), 0 0 0 1px rgba(77,124,255,.25), 0 8px 30px rgba(77,124,255,.16);
+}
+.card:hover::before { opacity: 1; }
+.card-dept {
+  display: inline-block; font-size: 11px; letter-spacing: .28em; color: var(--blue);
+  margin-bottom: 14px;
+}
+.card h3 { font-size: 22px; font-weight: 700; letter-spacing: .05em; margin-bottom: 12px; }
+.card-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-dim); letter-spacing: .04em; }
+.card-meta .salary { color: var(--white); font-weight: 600; }
+.card-meta .dot-sep { color: var(--ink-faint); }
+.card-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.card-tags span {
+  font-size: 12px; color: var(--ink-dim);
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px;
+}
+.card-more {
+  margin-top: 20px; font-size: 13px; letter-spacing: .2em; color: var(--ink-faint);
+  transition: color .3s, letter-spacing .3s var(--ease-out);
+}
+.card-more i { font-style: normal; display: inline-block; transition: transform .3s var(--ease-out); }
+.card:hover .card-more { color: var(--blue); letter-spacing: .26em; }
+.card:hover .card-more i { transform: translateX(5px); }
+
+/* 页脚 */
+.foot {
+  position: relative; z-index: 5;
+  max-width: 1180px; margin: 0 auto; padding: 30px 40px 90px;
+}
+.foot p { font-size: 13px; letter-spacing: .12em; color: var(--ink-faint); line-height: 2; }
+
+/* 详情弹窗 */
+.overlay {
+  position: fixed; inset: 0; z-index: 20;
+  background: rgba(3,6,20,.72);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity .35s var(--ease-out);
+}
+.overlay.show { opacity: 1; pointer-events: auto; }
+.sheet {
+  width: min(620px, 100%); max-height: 86vh; overflow-y: auto;
+  background: var(--navy-2);
+  border: 1px solid rgba(77,124,255,.35); border-radius: 22px;
+  padding: 40px 38px 34px; position: relative;
+  box-shadow: 0 30px 90px rgba(0,0,0,.6), 0 0 60px rgba(77,124,255,.12);
+}
+.sheet-x {
+  position: absolute; top: 18px; right: 20px;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--line); background: transparent; color: var(--ink-dim);
+  font-size: 15px; cursor: pointer; transition: all .3s var(--ease-out);
+}
+.sheet-x:hover { color: #fff; border-color: var(--blue); transform: rotate(90deg); }
+.sheet h3 { font-size: 30px; font-weight: 800; letter-spacing: .05em; margin: 12px 0 10px; }
+.sheet .card-meta { margin-bottom: 6px; }
+.sheet h4 {
+  margin: 26px 0 12px; font-size: 14px; letter-spacing: .24em; color: var(--blue); font-weight: 600;
+}
+.sheet p { font-size: 15px; line-height: 2; color: var(--ink-dim); letter-spacing: .03em; }
+.sheet ul { list-style: none; }
+.sheet ul li {
+  font-size: 15px; line-height: 2; color: var(--ink-dim); letter-spacing: .03em;
+  padding-left: 22px; position: relative;
+}
+.sheet ul li::before {
+  content: ""; position: absolute; left: 4px; top: .95em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+}
+.btn-apply {
+  display: block; width: 100%; margin-top: 32px;
+  font-family: var(--font); font-size: 16px; font-weight: 700; letter-spacing: .3em;
+  color: #fff; background: var(--blue); border: none; border-radius: 14px;
+  padding: 17px 0; cursor: pointer;
+  transition: transform .3s var(--ease-spring), box-shadow .3s;
+  box-shadow: 0 10px 30px rgba(77,124,255,.35);
+}
+.btn-apply:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 16px 40px rgba(77,124,255,.5); }
+.btn-apply:active { transform: translateY(1px) scale(.99); }
+.apply-note { margin-top: 16px; font-size: 12px; color: var(--ink-faint); letter-spacing: .08em; line-height: 1.9; text-align: center; }
+
+/* toast */
+.toast {
+  position: fixed; left: 50%; bottom: 44px; z-index: 25;
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: var(--navy-2); border: 1px solid rgba(77,124,255,.5); border-radius: 12px;
+  color: var(--white); font-size: 14px; letter-spacing: .06em; line-height: 1.8;
+  padding: 14px 26px; max-width: min(560px, 88vw); text-align: center;
+  transition: opacity .4s var(--ease-out), transform .4s var(--ease-out);
+  box-shadow: 0 14px 40px rgba(0,0,0,.5);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* loading */
+#loading {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  background: var(--navy);
+  opacity: 0; pointer-events: none; transition: opacity .45s var(--ease-out);
+}
+#loading.show { opacity: 1; pointer-events: auto; }
+#loading .spin {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,.14); border-top-color: var(--blue);
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingText { font-size: 13px; letter-spacing: .3em; color: var(--ink-dim); }
+.load-track { width: min(300px, 66vw); height: 3px; border-radius: 2px; background: rgba(255,255,255,.1); overflow: hidden; }
+#loadBar { height: 100%; width: 0%; background: var(--blue); transition: width .18s; }
+#loadPct { font-size: 11px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 760px) {
+  .topbar { padding: 18px 20px; }
+  .brand-en { display: none; }
+  .hero { padding: 120px 24px 18px; }
+  .pills { padding: 14px 24px; top: 0; }
+  .grid { padding: 26px 24px 16px; grid-template-columns: 1fr; }
+  .foot { padding: 24px 24px 70px; }
+  .sheet { padding: 32px 26px 28px; }
+  .pill { padding: 9px 18px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+<script src="vendor/gsap.min.js"></script>
+</head>
+<body>
+<div id="gl"></div>
+<!-- 文案/卡片/弹窗由 src/main.js 构建 -->
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

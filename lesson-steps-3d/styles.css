@@ -1,0 +1,134 @@
+/* huafire3d fx-lab — original implementation · lesson-steps-3d
+ * 纸白 / 墨 / 靛蓝三色。Stripe docs 式步骤导航 + Linear 式进度细节（手法自学，代码重写）。
+ */
+:root {
+  --paper: #FAFAF8;
+  --ink: #1A1A1A;
+  --ink-dim: rgba(26,26,26,.62);
+  --ink-faint: rgba(26,26,26,.36);
+  --indigo: #3B5BFD;
+  --indigo-soft: rgba(59,91,253,.12);
+  --line: rgba(26,26,26,.1);
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background:
+    radial-gradient(80vmin 52vmin at 88% -8%, rgba(59,91,253,.07), transparent 70%),
+    radial-gradient(70vmin 50vmin at -10% 108%, rgba(59,91,253,.05), transparent 70%),
+    var(--paper);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.vignette { position: fixed; inset: 0; z-index: 40; pointer-events: none;
+  background: radial-gradient(125% 100% at 50% 42%, transparent 62%, rgba(26,26,26,.10) 100%); }
+.grain { position: fixed; inset: 0; z-index: 41; pointer-events: none; opacity: .05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* 加载态 */
+.loader { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column;
+  gap: 14px; align-items: center; justify-content: center; background: var(--paper);
+  transition: opacity .5s var(--ease-out), visibility .5s; }
+.lpulse { width: 14px; height: 14px; border-radius: 50%; background: var(--indigo);
+  animation: lp 1s ease-in-out infinite; box-shadow: 0 0 24px rgba(59,91,253,.6); }
+@keyframes lp { 50% { transform: scale(1.6); opacity: .5; } }
+.loader p { font-size: 13px; letter-spacing: .28em; color: var(--ink-faint); }
+body.loaded .loader { opacity: 0; visibility: hidden; }
+
+/* 入场隐藏守卫：只在 JS 接管后生效，完成态一定可达（loaded / 3s 兜底） */
+html.js .reveal { opacity: 0; transform: translateY(22px); }
+html.js body.loaded .reveal { opacity: 1; transform: none; transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+html.js .card-stage.reveal { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal { opacity: 1; transform: none; }
+  .lpulse { animation: none; }
+}
+
+/* 顶栏 */
+.topbar { display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 40px; border-bottom: 1px solid var(--line); position: relative; z-index: 10; }
+.brand b { font-size: 17px; font-weight: 800; letter-spacing: .22em; }
+.brand small { display: block; margin-top: 3px; font-size: 10px; letter-spacing: .34em; color: var(--indigo); font-weight: 700; }
+.stepcount { text-align: right; }
+.stepcount span { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.stepcount label { display: block; font-size: 10px; letter-spacing: .3em; color: var(--ink-faint); margin-top: 2px; }
+
+/* 主舞台 */
+.stage { display: grid; grid-template-columns: 300px 1fr; gap: 48px;
+  max-width: 1160px; margin: 0 auto; padding: 44px 40px 30px; min-height: calc(100vh - 160px); }
+
+/* 左轨道 */
+.rail { position: relative; padding: 8px 0 40px; }
+#beadCanvas { position: absolute; top: 0; bottom: 0; left: -38px; width: 120px; height: 100%; pointer-events: none; z-index: 3; }
+.bead-fallback { position: absolute; left: 7px; top: 0; width: 30px; height: 30px; margin: -15px 0 0 -15px;
+  border-radius: 50%; background: radial-gradient(circle at 35% 30%, #8fa4ff, var(--indigo) 70%);
+  box-shadow: 0 0 26px rgba(59,91,253,.75); z-index: 3; }
+.track { position: absolute; top: 26px; bottom: 60px; left: 21px; width: 2px; background: var(--line); border-radius: 2px; }
+.track-fill { width: 100%; height: 0; border-radius: 2px;
+  background: linear-gradient(180deg, var(--indigo), rgba(59,91,253,.25));
+  transition: height .6s var(--ease-out); box-shadow: 0 0 12px rgba(59,91,253,.35); }
+.rail-list { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 6px; }
+.node { display: flex; align-items: center; gap: 16px; padding: 14px 10px 14px 0;
+  background: none; border: 0; cursor: pointer; text-align: left; font-family: inherit; border-radius: 12px;
+  transition: background .2s; }
+.node:hover { background: rgba(59,91,253,.06); }
+.node .dot { flex: none; width: 44px; height: 44px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; border: 2px solid var(--line); background: var(--paper);
+  transition: all .3s var(--ease-out); }
+.node .dot i { font-style: normal; font-size: 15px; font-weight: 800; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.node .nlabel b { display: block; font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+.node .nlabel small { font-size: 10px; letter-spacing: .26em; color: var(--ink-faint); }
+.node.done .dot { border-color: var(--indigo); background: var(--indigo); }
+.node.done .dot i { color: #fff; }
+.node.active .dot { border-color: var(--indigo); transform: scale(1.12);
+  box-shadow: 0 0 0 6px var(--indigo-soft), 0 0 22px rgba(59,91,253,.45); }
+.node.active .dot i { color: var(--indigo); }
+.node.active .nlabel b { color: var(--indigo); }
+.rail-hint { margin-top: 26px; font-size: 11px; letter-spacing: .14em; color: var(--ink-faint); line-height: 2; }
+
+/* 右内容 */
+.content { min-width: 0; }
+.chead h1 { font-size: clamp(30px, 4.4vw, 46px); font-weight: 800; letter-spacing: .02em; line-height: 1.2; }
+.chead p { margin-top: 12px; font-size: 15px; line-height: 1.9; color: var(--ink-dim); max-width: 56ch; }
+.card-stage { margin-top: 30px; perspective: 1400px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 20px;
+  padding: 38px 42px; box-shadow: 0 24px 60px -30px rgba(26,26,26,.22); transform-style: preserve-3d; }
+.kick { font-size: 12px; font-weight: 800; letter-spacing: .3em; color: var(--indigo); }
+.ctitle { margin-top: 12px; font-size: clamp(22px, 3vw, 30px); font-weight: 800; letter-spacing: .02em; }
+.cbody { margin-top: 14px; font-size: 15.5px; line-height: 2; color: var(--ink-dim); }
+.cmeta { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+.cmeta span { font-size: 12px; letter-spacing: .08em; padding: 7px 14px; border-radius: 999px;
+  background: var(--indigo-soft); color: var(--indigo); font-weight: 700; }
+.cfoot { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.cbtn { font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: .06em;
+  padding: 11px 20px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper);
+  cursor: pointer; transition: all .22s var(--ease-out); }
+.cbtn:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--indigo); color: var(--indigo); }
+.cbtn:disabled { opacity: .35; cursor: default; }
+.cbtn.primary { background: var(--indigo); border-color: var(--indigo); color: #fff; }
+.cbtn.primary:hover:not(:disabled) { color: #fff; box-shadow: 0 10px 24px -8px rgba(59,91,253,.6); }
+.cdots { display: flex; gap: 8px; }
+.cdots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); cursor: pointer; transition: all .25s; }
+.cdots i.done { background: var(--indigo); opacity: .5; }
+.cdots i.on { background: var(--indigo); transform: scale(1.5); box-shadow: 0 0 10px rgba(59,91,253,.5); }
+
+.foot { text-align: center; padding: 26px; font-size: 11px; letter-spacing: .2em; color: var(--ink-faint); }
+
+/* 移动端：轨道变横条，珠子隐藏（DOM 圆点代替） */
+@media (max-width: 860px) {
+  .stage { grid-template-columns: 1fr; gap: 8px; padding: 24px 20px; }
+  .topbar { padding: 16px 20px; }
+  #beadCanvas, .track { display: none; }
+  .rail { padding: 0; }
+  .rail-list { flex-direction: row; overflow-x: auto; gap: 4px; padding-bottom: 6px; }
+  .node { flex-direction: column; gap: 8px; padding: 10px 12px; min-width: 86px; align-items: center; text-align: center; }
+  .node .nlabel small { display: none; }
+  .rail-hint { display: none; }
+  .card { padding: 26px 24px; }
+  .cfoot { flex-wrap: wrap; }
+}

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>转转乐 RESALE · 好东西，转个圈继续发光</title>
+<meta name="description" content="转转乐 RESALE —— 专业验机、7天无理由退的二手交易平台。手机、电脑、家具、服饰，好东西转个圈继续发光。">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+<!-- 颗粒噪点 + 加载幕布 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="veil" id="veil" aria-hidden="true">
+  <div class="veil-mark">
+    <svg viewBox="0 0 64 64" width="46" height="46" aria-hidden="true">
+      <circle cx="32" cy="32" r="29" fill="#E9B23B"/>
+      <path d="M22 40 L38 24 M30 24h8v8" stroke="#16305C" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>转转乐<em>RESALE</em></span>
+  </div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="转转乐首页">
+      <svg viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+        <circle cx="32" cy="32" r="29" fill="#E9B23B"/>
+        <path d="M22 40 L38 24 M30 24h8v8" stroke="#16305C" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-word">转转乐<em>RESALE</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#cats">手机</a>
+      <a href="#cats">电脑</a>
+      <a href="#cats">家具</a>
+      <a href="#cats">服饰</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-sell" href="#cta" data-open-sell>发布闲置</a>
+      <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-mask" id="drawerMask" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" hidden>
+  <div class="drawer-head">
+    <span class="brand-word">转转乐<em>RESALE</em></span>
+    <button class="xbtn" id="drawerClose" aria-label="关闭菜单">✕</button>
+  </div>
+  <nav class="drawer-links">
+    <a href="#cats">手机</a>
+    <a href="#cats">电脑</a>
+    <a href="#cats">家具</a>
+    <a href="#cats">服饰</a>
+  </nav>
+  <a class="btn btn-sell btn-block" href="#cta" data-open-sell>发布闲置</a>
+  <p class="drawer-note">专业验机 · 7天无理由退</p>
+</aside>
+
+<main>
+<!-- ============ HERO：搜索 + 漂浮商品卡 ============ -->
+<section class="hero" id="hero" aria-label="搜索闲置">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-kicker"><i class="dot"></i>今日新增 3,218 件好货</p>
+      <h1 class="hero-title">
+        <span class="mask"><span class="line">好东西，</span></span>
+        <span class="mask"><span class="line">转个圈<em>继续发光</em></span></span>
+      </h1>
+      <p class="hero-sub">手机电脑都经过 56 项验机，家具服饰上门取件。<br>今天下单，最快明天就送到。</p>
+      <form class="searchbar" id="searchForm" role="search" autocomplete="off">
+        <svg class="sicon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="#16305C" stroke-width="2.4"/>
+          <path d="M16.5 16.5 L21 21" stroke="#16305C" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <input id="searchInput" type="search" aria-label="搜索闲置好物" maxlength="30">
+        <button class="btn btn-go" type="submit">搜一搜</button>
+      </form>
+      <div class="hotwords" id="hotwords">
+        <span>大家都在搜：</span>
+      </div>
+    </div>
+    <div class="hero-stage" id="heroStage" aria-hidden="true">
+      <!-- 漂浮商品卡由 JS 渲染 -->
+    </div>
+  </div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+</section>
+
+<!-- ============ 品类磁贴 ============ -->
+<section class="section cats" id="cats">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>逛逛品类</h2>
+      <p>八大类目，每一件都过过验机师的手</p>
+    </div>
+    <div class="tile-grid" id="tileGrid"><!-- JS 渲染 --></div>
+  </div>
+</section>
+
+<!-- ============ 今日捡漏 ============ -->
+<section class="section deals" id="deals">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>今日捡漏</h2>
+      <p>刚上架的实在价，手慢无</p>
+    </div>
+    <div class="tabs rv" id="dealTabs" role="tablist" aria-label="按品类筛选">
+      <button class="tab on" data-f="all" role="tab" aria-selected="true">全部</button>
+      <button class="tab" data-f="手机" role="tab" aria-selected="false">手机</button>
+      <button class="tab" data-f="电脑" role="tab" aria-selected="false">电脑</button>
+      <button class="tab" data-f="家具" role="tab" aria-selected="false">家具</button>
+      <button class="tab" data-f="服饰" role="tab" aria-selected="false">服饰</button>
+    </div>
+    <div class="deal-grid" id="dealGrid"><!-- JS 渲染 --></div>
+    <p class="deals-note rv">价格均为卖家实拍实价，成色标签由验机师人工确认</p>
+  </div>
+</section>
+
+<!-- ============ 保障区 ============ -->
+<section class="section trust" id="trust">
+  <div class="wrap">
+    <div class="sec-head rv sec-head-light">
+      <h2>买得放心，卖得省心</h2>
+      <p>平台兜底的四件事，写进服务条款里</p>
+    </div>
+    <div class="trust-grid" id="trustGrid"><!-- JS 渲染 --></div>
+  </div>
+</section>
+
+<!-- ============ CTA：发布第一件闲置 ============ -->
+<section class="section cta" id="cta">
+  <div class="wrap">
+    <div class="cta-card rv">
+      <div class="cta-copy">
+        <h2>家里那件「落灰神器」，<br>明天就能变成钱</h2>
+        <p>拍三张照片，写两句话，剩下的交给我们：<br>验机、上架、发货、售后，全程有人管。</p>
+        <button class="btn btn-big" data-open-sell>发布第一件闲置</button>
+        <p class="cta-fine">已有 128,406 位卖家在这里出掉了第一件闲置</p>
+      </div>
+      <div class="cta-art" aria-hidden="true">
+        <svg viewBox="0 0 320 240" width="100%" height="100%">
+          <rect x="88" y="46" width="144" height="150" rx="18" fill="#16305C"/>
+          <rect x="104" y="66" width="112" height="70" rx="8" fill="#F7F4EC"/>
+          <path d="M104 108 L140 74 L164 96 L192 62 L216 84 L216 136 L104 136 Z" fill="#E9B23B" opacity=".85"/>
+          <circle cx="196" cy="86" r="8" fill="#16305C"/>
+          <rect x="128" y="150" width="64" height="12" rx="6" fill="#E9B23B"/>
+          <rect x="140" y="170" width="40" height="8" rx="4" fill="#F7F4EC" opacity=".55"/>
+          <g class="float-a">
+            <rect x="30" y="120" width="52" height="64" rx="10" fill="#E9B23B"/>
+            <rect x="38" y="130" width="36" height="8" rx="4" fill="#16305C" opacity=".8"/>
+            <rect x="38" y="144" width="24" height="6" rx="3" fill="#16305C" opacity=".5"/>
+          </g>
+          <g class="float-b">
+            <circle cx="272" cy="96" r="26" fill="#F7F4EC"/>
+            <path d="M260 96 L284 96 M272 84 L272 108" stroke="#16305C" stroke-width="5" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-word">转转乐<em>RESALE</em></span>
+        <p>让每一件好东西，都有第二次机会。</p>
+        <div class="socials" id="socials" aria-label="社交媒体"><!-- JS 渲染 --></div>
+      </div>
+      <div class="foot-col">
+        <h4>联系我们</h4>
+        <ul id="footContact"><!-- JS 渲染 SITE --></ul>
+      </div>
+      <div class="foot-col">
+        <h4>帮助中心</h4>
+        <ul>
+          <li><a href="#trust">验机标准</a></li>
+          <li><a href="#trust">退货政策</a></li>
+          <li><a href="#cta">卖家指南</a></li>
+          <li><a href="#deals">捡漏攻略</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>法务</h4>
+        <ul class="legal-links">
+          <li><button data-modal="privacy">隐私政策</button></li>
+          <li><button data-modal="terms">服务条款</button></li>
+          <li><button data-modal="cookies">Cookie 政策</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span id="copyLine">© 2026</span>
+      <span class="icp" id="icpLine"></span>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-mask" id="modalMask" hidden></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="xbtn" id="modalClose" aria-label="关闭">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 发布闲置弹窗 -->
+<div class="sell-mask" id="sellMask" hidden></div>
+<div class="sell" id="sellModal" role="dialog" aria-modal="true" aria-labelledby="sellTitle" hidden>
+  <div class="sell-card">
+    <div class="modal-head">
+      <h3 id="sellTitle">发布一件闲置</h3>
+      <button class="xbtn" id="sellClose" aria-label="关闭">✕</button>
+    </div>
+    <form id="sellForm" novalidate>
+      <label class="field">
+        <span>宝贝叫什么</span>
+        <input id="sellName" maxlength="20" placeholder="比如：自用两年的 ThinkPad T14">
+      </label>
+      <label class="field">
+        <span>想卖多少钱</span>
+        <input id="sellPrice" inputmode="decimal" placeholder="比如：2350">
+      </label>
+      <label class="field">
+        <span>联系电话</span>
+        <input id="sellPhone" inputmode="tel" maxlength="11" placeholder="11 位手机号，验机师会上门">
+      </label>
+      <p class="sell-tip">提交后验机师会在 24 小时内联系你，免费上门验机。</p>
+      <button class="btn btn-big btn-block" type="submit">提交，约验机师上门</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

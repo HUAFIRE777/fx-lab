@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="田集 TIÁNJÍ：当季农产品订阅，每周二凌晨采摘直送，48小时从田间到你家。首单8折。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 6 C10 14 8 24 14 34 C18 26 20 18 20 6Z' fill='%233E7046'/%3E%3Cpath d='M20 6 C30 14 32 24 26 34 C22 26 20 18 20 6Z' fill='%232E5B34'/%3E%3C/svg%3E">
+<link href="src/styles.css" rel="stylesheet">
+<noscript><style>#loader{display:none!important}</style></noscript>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div id="loader" aria-hidden="true">
+  <svg class="l-sprout" viewBox="0 0 64 64">
+    <path d="M32 8 C20 18 18 30 24 42 C27 34 29 24 32 8Z" fill="#3E7046"/>
+    <path d="M32 8 C44 18 46 30 40 42 C37 34 35 24 32 8Z" fill="#2E5B34"/>
+    <path d="M32 40 L32 56" stroke="#8A5A33" stroke-width="4" stroke-linecap="round"/>
+  </svg>
+  <div class="l-name">田集</div>
+  <div class="l-bar"><i></i></div>
+  <div class="l-tip">正在从田间装箱…</div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="田集首页">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 4 C10 12 8 24 14 36 C17 27 18 16 20 4Z" fill="#3E7046"/>
+        <path d="M20 4 C30 12 32 24 26 36 C23 27 22 16 20 4Z" fill="#1F3D26"/>
+        <path d="M20 22 L20 34" stroke="#8A5A33" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="b-name">田集<small>TIÁNJÍ</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#box">当季菜箱</a><a href="#farm">农场故事</a><a href="#plans">订阅计划</a><a href="#delivery">配送范围</a>
+    </nav>
+    <a class="nav-cta" href="#offer">我要订阅</a>
+    <button class="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <button class="drawer-close" aria-label="关闭菜单">×</button>
+  <a href="#box">当季菜箱</a>
+  <a href="#farm">农场故事</a>
+  <a href="#plans">订阅计划</a>
+  <a href="#delivery">配送范围</a>
+  <a href="#offer">我要订阅</a>
+  <div class="d-note">每周二更新 · 首单 8 折</div>
+</div>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <canvas id="leaves" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow fade-u">本周菜箱 · 每周日 20:00 更新</span>
+        <h1>
+          <span class="mask"><i>从田间到你家</i></span>
+          <span class="mask m2"><i>只隔一夜</i></span>
+        </h1>
+        <p class="hero-sub fade-u d1">每周二凌晨采摘、直装成箱，<b>48 小时内</b>从合作农场送到你家门口。不囤货、不打蜡、不催熟。</p>
+        <div class="hero-ctas fade-u d2">
+          <a class="btn btn-primary" href="#offer">我要订阅</a>
+          <a class="btn btn-ghost" href="#box">先看本周菜箱</a>
+        </div>
+        <div class="trust fade-u d3">
+          <div class="t"><b>12<i> 年</i></b><span>合作农户</span></div>
+          <div class="t"><b>34<i> 城</i></b><span>配送覆盖</span></div>
+          <div class="t"><b>92<i>%</i></b><span>用户复购</span></div>
+        </div>
+      </div>
+      <div class="crate-stage fade-u d2">
+        <div class="crate-halo" aria-hidden="true"></div>
+        <svg id="crate" viewBox="0 0 340 300" role="img" aria-label="装满新鲜蔬菜的木箱">
+          <!-- 箱内阴影 -->
+          <rect x="54" y="98" width="232" height="26" rx="6" fill="#132A18"/>
+          <!-- 探出箱口的菜 -->
+          <g>
+            <ellipse cx="112" cy="96" rx="16" ry="20" fill="#3E7046"/>
+            <ellipse cx="138" cy="88" rx="13" ry="17" fill="#4E8A57"/>
+            <circle cx="172" cy="92" r="17" fill="#C4432F"/>
+            <circle cx="205" cy="88" r="15" fill="#C4432F"/>
+            <path d="M228 108 L244 108 L237 66 Z" fill="#D9712B"/>
+            <path d="M237 66 C235 56 230 52 226 48 M237 66 C239 56 244 52 248 48" stroke="#3E7046" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <ellipse cx="258" cy="96" rx="15" ry="19" fill="#A9C08A"/>
+          </g>
+          <!-- 箱体 -->
+          <rect x="40" y="120" width="260" height="142" rx="8" fill="#A9713F"/>
+          <path d="M40 155 H300 M40 190 H300 M40 225 H300" stroke="#8A5A33" stroke-width="4"/>
+          <rect x="40" y="120" width="20" height="142" rx="8" fill="#6B4426"/>
+          <rect x="280" y="120" width="20" height="142" rx="8" fill="#6B4426"/>
+          <text x="170" y="200" text-anchor="middle" font-family="Songti SC,serif" font-size="34" letter-spacing="10" fill="#6B4426" opacity=".8">田集</text>
+          <rect x="40" y="250" width="260" height="12" rx="6" fill="rgba(31,61,38,.18)"/>
+          <!-- 箱盖（合上→弹开） -->
+          <g class="lid">
+            <rect x="34" y="70" width="272" height="28" rx="8" fill="#B9834E"/>
+            <path d="M34 84 H306" stroke="#8A5A33" stroke-width="3"/>
+            <rect x="60" y="62" width="14" height="10" rx="3" fill="#6B4426"/>
+            <rect x="266" y="62" width="14" height="10" rx="3" fill="#6B4426"/>
+          </g>
+        </svg>
+        <div class="crate-cap">本周箱 · 8 样当季菜约 5kg</div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span>下滑</span><i></i></div>
+  </section>
+
+  <!-- ============ 当季菜箱 ============ -->
+  <section class="sec" id="box">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">本周菜箱 · 10月第1周</span>
+        <h2>这个星期，田里正好有这些</h2>
+        <p>清单每周日 20:00 更新，跟着节气走。以下 8 样是本周月度箱的全部内容，单买也可以。</p>
+      </div>
+      <div class="box-note reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A5A33" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <span>每周二凌晨配送 · 下单截止每周一 12:00 · 迟到超 2 小时赔 20 元券</span>
+      </div>
+      <div class="veg-grid" id="vegGrid"></div>
+      <p class="box-foot reveal">整箱带走比单买<b>省 32 元</b>，而且不用你动脑子配菜。</p>
+    </div>
+  </section>
+
+  <!-- ============ 农场故事 ============ -->
+  <section class="sec farm" id="farm">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">农场直供 · 无中间商</span>
+        <h2>菜是谁种的，你都查得到</h2>
+        <p>每箱附一张「出身卡」：哪块地、谁采的、几点装的箱，全写清楚。</p>
+      </div>
+      <div class="farm-grid">
+        <div class="farmer reveal">
+          <div class="q">“</div>
+          <blockquote>我种了十八年生菜。以前菜贩子来收，论筐压价，烂在地里是常事。现在田集每周二准时来拉，价格写进合同，我只管把菜种好。</blockquote>
+          <div class="who">
+            <div class="avatar">陈</div>
+            <div><b>陈建国</b><span>安吉基地 · 合作第 9 年 · 供奶油生菜</span></div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step reveal" data-d="0">
+            <div class="n">01</div>
+            <div><h3>凌晨 4 点采摘</h3><p>带露水下地，菜最脆的时候进筐。采完 1 小时内预冷，锁住田间那口鲜。</p></div>
+          </div>
+          <div class="step reveal" data-d=".12">
+            <div class="n">02</div>
+            <div><h3>产地直装冷链</h3><p>基地旁的分拣仓直接装箱，0–4℃ 全程冷链，不进批发市场转一手。</p></div>
+          </div>
+          <div class="step reveal" data-d=".24">
+            <div class="n">03</div>
+            <div><h3>次晨 8 点前到家</h3><p>前一晚 22:00 前发出，保温箱 + 冰袋，早上开门菜还在"睡觉"。</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="farm-stats reveal">
+        <div class="s"><b>320+</b><span>合作农户</span></div>
+        <div class="s"><b>48</b><span>直供基地</span></div>
+        <div class="s"><b>14h</b><span>平均运输时长</span></div>
+        <div class="s"><b>0</b><span>中间商环节</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 订阅三档 ============ -->
+  <section class="sec" id="plans">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">订阅计划</span>
+        <h2>三档，总有一档适合你家</h2>
+        <p>随时暂停、随时取消。未配送的周期按天退款，不玩文字游戏。</p>
+      </div>
+      <div class="plans">
+        <div class="plan reveal" data-d="0">
+          <h3>试吃箱</h3>
+          <p class="pd">先尝一口，好吃再说</p>
+          <div class="price"><b><i>¥</i>49</b><small> / 箱 · 一次性</small></div>
+          <ul>
+            <li>当季 6 样菜，约 3kg</li>
+            <li>一次性购买，不自动续费</li>
+            <li>冷链配送，48 小时达</li>
+            <li>附赠出身卡 + 食谱卡</li>
+          </ul>
+          <a class="btn btn-ghost" href="#offer" data-plan="try">尝一箱</a>
+        </div>
+        <div class="plan hot reveal" data-d=".12">
+          <span class="tag">最受欢迎</span>
+          <h3>月度订阅</h3>
+          <p class="pd">一周一箱，吃得不重样</p>
+          <div class="price"><b><i>¥</i>149</b><small> / 月 · 4 箱</small></div>
+          <ul>
+            <li>每周一箱，每箱 8 样约 5kg</li>
+            <li>清单提前 3 天可换 2 样</li>
+            <li>随时暂停，缺席周不扣费</li>
+            <li>腐烂包赔，拍照即退</li>
+            <li>续费前 3 天短信提醒</li>
+          </ul>
+          <a class="btn btn-primary" href="#offer" data-plan="month">开始订阅</a>
+        </div>
+        <div class="plan reveal" data-d=".24">
+          <h3>季度家庭箱</h3>
+          <p class="pd">一家老小，一季不愁</p>
+          <div class="price"><b><i>¥</i>399</b><small> / 季 · 13 箱</small></div>
+          <ul>
+            <li>每周一箱，每箱 10 样约 7kg</li>
+            <li>折合每箱不到 31 元</li>
+            <li>专属客服，换菜优先</li>
+            <li>季度末送时令果篮一份</li>
+          </ul>
+          <a class="btn btn-ghost" href="#offer" data-plan="season">订一季</a>
+        </div>
+      </div>
+      <p class="plans-note reveal">价格含冷链运费 · 开具电子发票 · 企业团购 10 箱起请致电 <span data-site="phone">400-880-2636</span></p>
+    </div>
+  </section>
+
+  <!-- ============ 配送范围 ============ -->
+  <section class="sec delivery" id="delivery">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">配送范围</span>
+        <h2>这 12 城，周二早上能吃上</h2>
+        <p>其余城市正在开城，留下手机号，到货第一时间通知你。</p>
+      </div>
+      <div class="cities reveal" id="cityChips"></div>
+      <div class="d-cols">
+        <div class="d-card reveal" data-d="0">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#8A5A33" stroke-width="2" stroke-linecap="round"><path d="M6 26h28l-3 8H9z"/><circle cx="13" cy="34" r="2.4"/><circle cx="27" cy="34" r="2.4"/><path d="M10 26V16h12l4 6"/></svg>
+          <h3>每周二 8:00–18:00 送达</h3>
+          <p>前一晚 22:00 前从基地发出，保温箱加冰袋续航 36 小时，夏天也不怕。</p>
+        </div>
+        <div class="d-card reveal" data-d=".12">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#8A5A33" stroke-width="2" stroke-linecap="round"><rect x="8" y="10" width="24" height="20" rx="3"/><path d="M8 18h24M14 10v8M26 10v8"/></svg>
+          <h3>开箱验货再签收</h3>
+          <p>当场发现压烂、缺斤少两，直接拒收该品，拍照给客服，24 小时内退款到账。</p>
+        </div>
+        <div class="d-card reveal" data-d=".24">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#8A5A33" stroke-width="2" stroke-linecap="round"><path d="M20 6v24M20 30c-6 0-10-3-12-8M20 30c6 0 10-3 12-8"/><path d="M12 12c2-4 6-6 8-6-1 3-3 6-8 6zM28 12c-2-4-6-6-8-6 1 3 3 6 8 6z"/></svg>
+          <h3>缺货拿当季好货补</h3>
+          <p>极端天气某样菜绝收，用同等价值当季品类替换，装箱前短信告诉你换了什么。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA 订阅 ============ -->
+  <section class="sec offer" id="offer">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap offer-grid">
+      <div class="offer-copy reveal">
+        <span class="eyebrow">首单优惠</span>
+        <h2>第一箱，<span class="off">8 折</span>尝鲜</h2>
+        <p>留下手机号，客服 2 小时内（9:00–21:00）致电确认本周清单与配送时间。不骚扰，不群发广告。</p>
+        <p>试吃箱 ¥49 → 首单 <b style="color:#D8B98A">¥39.2</b>；月度订阅 ¥149/月 → 首月 <b style="color:#D8B98A">¥119.2</b>。</p>
+        <p class="offer-fine">首单 8 折每个手机号限享一次，与其他满减不可叠加。<br>48 小时内未接到确认电话，本次预约自动作废，不扣任何费用。</p>
+      </div>
+      <div class="form-card reveal" data-d=".15">
+        <div id="formFields">
+          <h3>预约首单</h3>
+          <p class="fd">30 秒填完，客服来电确认后才算下单成功。</p>
+          <form id="subForm" novalidate>
+            <div class="field">
+              <label for="fName">姓名</label>
+              <input id="fName" type="text" placeholder="怎么称呼您" autocomplete="name">
+              <p class="f-err" id="fNameErr"></p>
+            </div>
+            <div class="field">
+              <label for="fPhone">手机号</label>
+              <input id="fPhone" type="tel" inputmode="numeric" placeholder="11 位手机号，仅用于配送联系" autocomplete="tel">
+              <p class="f-err" id="fPhoneErr"></p>
+            </div>
+            <div class="field">
+              <label for="fCity">城市</label>
+              <select id="fCity"><option value="">请选择…</option></select>
+              <p class="f-err" id="fCityErr"></p>
+            </div>
+            <div class="field">
+              <label>想订哪档</label>
+              <div class="plan-pick">
+                <label data-v="try">试吃箱<br>¥49<input type="radio" name="plan" value="try"></label>
+                <label data-v="month" class="sel">月度订阅<br>¥149/月<input type="radio" name="plan" value="month" checked></label>
+                <label data-v="season">季度箱<br>¥399/季<input type="radio" name="plan" value="season"></label>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">提交预约 · 首单 8 折</button>
+          </form>
+        </div>
+        <div class="form-ok" id="formOk" hidden>
+          <div class="ok-ring">
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" stroke="#FAF5EC" stroke-width="3.5" stroke-linecap="round"><path d="M8 20l8 8 14-16"/></svg>
+          </div>
+          <h3>预约成功</h3>
+          <p class="ok-plan"></p>
+          <p>客服将在 2 小时内（9:00–21:00）致电确认。</p>
+          <div class="order"></div>
+          <p style="font-size:12.5px">请记下预约号，配送疑问凭号查询。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <div class="f-brand">
+        <a class="brand" href="#top" aria-label="田集首页">
+          <svg viewBox="0 0 40 40" aria-hidden="true" width="38" height="38">
+            <path d="M20 4 C10 12 8 24 14 36 C17 27 18 16 20 4Z" fill="#4E8A57"/>
+            <path d="M20 4 C30 12 32 24 26 36 C23 27 22 16 20 4Z" fill="#D8B98A"/>
+          </svg>
+          <span class="b-name">田集<small>TIÁNJÍ</small></span>
+        </a>
+        <p data-site="slogan">从田间到你家，只隔一夜。当季农产品订阅，每周二准时送达。</p>
+        <div class="socials">
+          <a href="#" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M4 6h13a3 3 0 013 3v5a3 3 0 01-3 3H9l-4 3v-3H4a3 3 0 01-3-3V9a3 3 0 013-3z"/><circle cx="8" cy="12" r=".8"/><circle cx="12" cy="12" r=".8"/><circle cx="16" cy="12" r=".8"/></svg></a>
+          <a href="#" aria-label="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8 13c1.5 1.5 6.5 1.5 8 0M9 10.5c2-1 5-1 6.5.5"/></svg></a>
+          <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M9 17a3.5 3.5 0 103.5-3.5"/><path d="M12.5 4v10M12.5 6c.8 2.4 2.6 4 5 4.2"/></svg></a>
+          <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24"><path d="M6 4h9l4 4v12H6z"/><path d="M15 4v4h4M10 12h5M10 15.5h5"/></svg></a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>联系我们</h4>
+        <ul class="f-contact">
+          <li><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg><a data-site-href="phoneHref" href="tel:4008802636"><span data-site="phone">400-880-2636</span></a></li>
+          <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><a data-site-href="mailtoHref" href="mailto:hello@tianji.farm"><span data-site="email">hello@tianji.farm</span></a></li>
+          <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-site="address">浙江省杭州市余杭区仓前街道良睦路 999 号</span></li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span data-site="hours">周一至周六 9:00–21:00</span></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>网站政策</h4>
+        <button class="linklike" data-legal="privacy">隐私政策</button>
+        <button class="linklike" data-legal="terms">服务条款</button>
+        <button class="linklike" data-legal="cookies">Cookie 政策</button>
+        <a href="#box">当季菜箱</a>
+        <a href="#plans">订阅计划</a>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© <span data-site="year">2026</span> <span data-site="name">田集</span> · 从田间到你家，只隔一夜</span>
+      <span data-site="icp">浙ICP备xxxxxxxxxx号-1</span>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-mask" id="modalMask" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-x" aria-label="关闭">×</button>
+    </div>
+    <div class="modal-body"></div>
+    <div class="modal-foot"><button class="btn btn-primary">我知道了</button></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

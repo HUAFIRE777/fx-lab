@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>远望 · 从深空到黎明</title>
+<style>
+/* —— 配色定死三色：深靛蓝 #0B1026 / 青色 #67E8F9 / 琥珀 #F59E0B —— */
+:root{
+  --ink:#0B1026; --cyan:#67E8F9; --amber:#F59E0B;
+  --paper:rgba(232,240,255,.92); --dim:rgba(232,240,255,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+html.js body{opacity:0;transition:opacity .6s ease}
+html.js.ready body{opacity:1} /* 完成态选择器带 html.js 前缀：可达 */
+body{background:var(--ink);color:var(--paper);font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC",system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#stage{position:fixed;inset:0;z-index:0}
+#stage canvas{display:block;width:100%;height:100%}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 46%,transparent 52%,rgba(3,6,18,.55) 100%)}
+.grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.07;mix-blend-mode:overlay}
+/* 噪点：canvas 程序化生成，不用外部图 */
+main{position:relative;z-index:5}
+.chapter{height:120vh;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.chapter .card{max-width:620px;padding:0 24px;text-align:center}
+.chapter h2{font-size:clamp(34px,6vw,64px);font-weight:800;letter-spacing:.18em;margin-bottom:14px;
+  color:#fff;text-shadow:0 0 26px rgba(103,232,249,.35)}
+.chapter p{font-size:clamp(14px,2vw,18px);line-height:2.1;letter-spacing:.28em;color:var(--dim)}
+.chapter .kicker{font-size:12px;letter-spacing:.5em;color:var(--cyan);margin-bottom:18px}
+.chapter.amber h2{text-shadow:0 0 26px rgba(245,158,11,.35)}
+.chapter.amber .kicker{color:var(--amber)}
+/* HUD：左侧细进度轨道 */
+#rail{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:10;width:2px;height:38vh;
+  background:rgba(255,255,255,.12);border-radius:2px}
+#railFill{position:absolute;top:0;left:0;width:100%;height:0;background:var(--cyan);border-radius:2px;
+  box-shadow:0 0 12px rgba(103,232,249,.8)}
+#railChapters{position:absolute;top:-6px;left:-3px;width:8px;height:calc(100% + 12px);pointer-events:none}
+#railChapters i{position:absolute;left:0;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25)}
+#railChapters i.on{background:var(--amber);box-shadow:0 0 10px rgba(245,158,11,.9)}
+/* 章节大标题（左下） */
+#hudTitle{position:fixed;left:48px;bottom:44px;z-index:10;pointer-events:none}
+#hudTitle .no{font-size:11px;letter-spacing:.5em;color:var(--cyan);margin-bottom:8px}
+#hudTitle h1{font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:.3em;color:#fff;white-space:nowrap}
+#hudTitle h1 .swap{display:inline-block;will-change:transform,opacity}
+/* 章节切换出场动效：向上浮入 + 透明度，cubic-bezier 物理感 */
+#hudTitle h1 .swap.enter{animation:titleIn .7s cubic-bezier(.22,1,.36,1) both}
+@keyframes titleIn{0%{transform:translateY(26px);opacity:0;filter:blur(6px)}60%{filter:blur(0)}100%{transform:translateY(0);opacity:1}}
+/* 品牌角标 */
+#brand{position:fixed;right:26px;top:24px;z-index:10;font-size:12px;letter-spacing:.4em;color:var(--dim);pointer-events:none}
+#brand b{color:#fff;font-weight:700}
+/* 加载态 */
+#loader{position:fixed;inset:0;z-index:50;background:var(--ink);display:flex;flex-direction:column;
+  gap:18px;align-items:center;justify-content:center;transition:opacity .8s ease}
+html.js.ready #loader{opacity:0;pointer-events:none} /* 完成态可达 */
+#loader .ring{width:46px;height:46px;border-radius:50%;border:2px solid rgba(103,232,249,.2);
+  border-top-color:var(--cyan);animation:spin 1s cubic-bezier(.6,.15,.4,.85) infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loader p{font-size:12px;letter-spacing:.5em;color:var(--dim)}
+/* hover 手工细节：轨道节点悬停发光 */
+#railChapters i{transition:box-shadow .25s ease}
+#rail:hover #railChapters i.on{box-shadow:0 0 16px rgba(245,158,11,1)}
+/* 移动端 */
+@media (max-width:640px){
+  #rail{left:12px;height:30vh}
+  #hudTitle{left:26px;bottom:30px}
+  #brand{right:16px;top:16px}
+}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div class="vignette"></div>
+<canvas class="grain" id="grain" aria-hidden="true"></canvas>
+
+<div id="loader"><div class="ring"></div><p>远望号正在升空</p></div>
+
+<main>
+  <section class="chapter" data-ch="0">
+    <div class="card"><div class="kicker">序章 · 星海</div><h2>深空，是起点</h2>
+    <p>把目光抬高三万光年<br>所有喧嚣都安静下来</p></div>
+  </section>
+  <section class="chapter" data-ch="1">
+    <div class="card"><div class="kicker">第一章 · 穿越</div><h2>穿过光的隧道</h2>
+    <p>把时间折叠成一条线<br>下一站，是月亮</p></div>
+  </section>
+  <section class="chapter" data-ch="2">
+    <div class="card"><div class="kicker">第二章 · 落月</div><h2>在月面着陆</h2>
+    <p>环形山记得每一次撞击<br>也记得每一次出发</p></div>
+  </section>
+  <section class="chapter" data-ch="3">
+    <div class="card"><div class="kicker">第三章 · 晶洞</div><h2>坠入水晶深处</h2>
+    <p>黑暗里藏着光<br>只需要走近一点</p></div>
+  </section>
+  <section class="chapter" data-ch="4">
+    <div class="card"><div class="kicker">终章 · 破晓</div><h2>回到黎明</h2>
+    <p>云海之上，太阳升起<br>远望，带你回家</p></div>
+  </section>
+</main>
+
+<div id="rail"><div id="railFill"></div><div id="railChapters">
+  <i style="top:0%"></i><i style="top:25%"></i><i style="top:50%"></i><i style="top:75%"></i><i style="top:100%"></i>
+</div></div>
+<div id="hudTitle"><div class="no" id="hudNo">CHAPTER 01</div><h1><span class="swap" id="hudSwap">序章 · 星海</span></h1></div>
+<div id="brand"><b>远望</b> YUANWANG</div>
+
+<script type="importmap">{"imports":{"three":"vendor/three.module.js"}}</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合座 COBASE · 好坐的地方，好做的事</title>
+<meta name="description" content="合座 COBASE —— 灵活工位、专属工位与独立办公室。12 城 86 家空间，按天按月，随时搬进来办公。">
+<script>document.documentElement.className += ' js';</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark"><span></span><span></span><span></span></div>
+  <p>正在点亮空间…</p>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+
+<!-- 噪点 + 暗角 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ============ 导航 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="合座 COBASE 首页">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+        <rect x="4" y="4" width="14" height="14" rx="4" fill="#E3A82B"/>
+        <rect x="14" y="14" width="14" height="14" rx="4" fill="#22211F"/>
+      </svg>
+      <span>合座<em>COBASE</em></span>
+    </a>
+    <nav class="menu" aria-label="主导航">
+      <a href="#spaces">空间</a>
+      <a href="#cities">城市</a>
+      <a href="#plans">方案</a>
+      <a href="#visit">参观</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="signin" href="#visit">登录</a>
+      <a class="btn btn-primary btn-sm" href="#visit">预约参观</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-veil" id="drawerVeil" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单">
+  <a href="#spaces">空间</a>
+  <a href="#cities">城市</a>
+  <a href="#plans">方案</a>
+  <a href="#visit">参观</a>
+  <div class="drawer-actions">
+    <a class="signin" href="#visit">登录</a>
+    <a class="btn btn-primary" href="#visit">预约参观</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="badge reveal" data-d="0"><span class="badge-dot"></span>上海浦江中心店 · 本周新开幕</p>
+        <h1 class="reveal" data-d="1">好坐的地方，<br>好做的事。</h1>
+        <p class="hero-sub reveal" data-d="2">合座把一张桌子该有的东西都备齐了：<br class="br-desktop">好光、好椅、好咖啡，以及准时到账的发票。</p>
+        <div class="cta-row reveal" data-d="3">
+          <a class="btn btn-primary btn-lg" href="#visit">预约免费参观</a>
+          <a class="btn btn-ghost btn-lg" href="#spaces">先看空间</a>
+        </div>
+        <p class="hero-note reveal" data-d="4">参观免费 · 按天起租 · 随时退租</p>
+      </div>
+
+      <!-- hero 空间大图：纯 SVG 绘制的黄昏工位区，hover 时吊灯微晃 -->
+      <figure class="hero-art reveal" data-d="2" id="heroArt">
+        <svg viewBox="0 0 640 460" role="img" aria-label="合座开放式工位区黄昏插画">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#F4E4C1"/><stop offset="1" stop-color="#E8C98B"/>
+            </linearGradient>
+            <radialGradient id="lampGlow" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#FFE9B0" stop-opacity=".9"/><stop offset="1" stop-color="#FFE9B0" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="640" height="460" fill="#FAF7F2"/>
+          <rect x="60" y="40" width="520" height="240" fill="url(#sky)"/>
+          <rect x="60" y="40" width="520" height="240" fill="#22211F" opacity=".06"/>
+          <g stroke="#22211F" stroke-width="10" opacity=".85">
+            <line x1="320" y1="40" x2="320" y2="280"/><line x1="60" y1="160" x2="580" y2="160"/>
+            <line x1="190" y1="40" x2="190" y2="280"/><line x1="450" y1="40" x2="450" y2="280"/>
+          </g>
+          <circle cx="505" cy="105" r="34" fill="#F5B841" opacity=".85"/>
+          <g fill="#22211F" opacity=".12"><rect x="80" y="215" width="110" height="16" rx="8"/><rect x="430" y="235" width="90" height="14" rx="7"/></g>
+          <rect x="40" y="280" width="560" height="180" fill="#EAD9B8"/>
+          <rect x="40" y="280" width="560" height="14" fill="#D9C093"/>
+          <g class="lamp-sway">
+            <line x1="170" y1="0" x2="170" y2="60" stroke="#22211F" stroke-width="4"/>
+            <path d="M150 60 h40 l10 26 h-60 z" fill="#22211F"/>
+            <ellipse cx="170" cy="96" rx="44" ry="14" fill="url(#lampGlow)"/>
+          </g>
+          <g class="lamp-sway d2">
+            <line x1="470" y1="0" x2="470" y2="76" stroke="#22211F" stroke-width="4"/>
+            <path d="M450 76 h40 l10 26 h-60 z" fill="#22211F"/>
+            <ellipse cx="470" cy="112" rx="44" ry="14" fill="url(#lampGlow)"/>
+          </g>
+          <g>
+            <rect x="120" y="330" width="180" height="14" rx="7" fill="#8A6F4D"/>
+            <rect x="140" y="344" width="10" height="56" fill="#6E5739"/><rect x="270" y="344" width="10" height="56" fill="#6E5739"/>
+            <rect x="160" y="296" width="52" height="34" rx="3" fill="#22211F" opacity=".88"/>
+            <rect x="230" y="302" width="44" height="28" rx="3" fill="#22211F" opacity=".7"/>
+            <rect x="340" y="330" width="180" height="14" rx="7" fill="#8A6F4D"/>
+            <rect x="360" y="344" width="10" height="56" fill="#6E5739"/><rect x="490" y="344" width="10" height="56" fill="#6E5739"/>
+            <rect x="380" y="296" width="52" height="34" rx="3" fill="#22211F" opacity=".8"/>
+            <rect x="448" y="306" width="40" height="24" rx="3" fill="#22211F" opacity=".65"/>
+          </g>
+          <g>
+            <rect x="196" y="360" width="34" height="10" rx="5" fill="#22211F" opacity=".8"/>
+            <rect x="205" y="370" width="16" height="34" fill="#22211F" opacity=".8"/>
+            <rect x="190" y="404" width="46" height="8" rx="4" fill="#22211F" opacity=".8"/>
+            <rect x="408" y="360" width="34" height="10" rx="5" fill="#22211F" opacity=".8"/>
+            <rect x="417" y="370" width="16" height="34" fill="#22211F" opacity=".8"/>
+            <rect x="402" y="404" width="46" height="8" rx="4" fill="#22211F" opacity=".8"/>
+          </g>
+          <g>
+            <rect x="560" y="360" width="26" height="44" rx="4" fill="#C96F3B"/>
+            <path d="M573 360 q-26 -34 -8 -64 M573 360 q22 -30 6 -60" stroke="#3E6B35" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <ellipse cx="565" cy="300" rx="14" ry="9" fill="#3E6B35" transform="rotate(-24 565 300)"/>
+            <ellipse cx="582" cy="310" rx="13" ry="9" fill="#4C7D42" transform="rotate(20 582 310)"/>
+          </g>
+          <g fill="#E3A82B">
+            <rect x="236" y="330" width="34" height="10" rx="2"/><rect x="456" y="330" width="30" height="10" rx="2"/>
+          </g>
+          <rect x="40" y="280" width="560" height="180" fill="#E3A82B" opacity="0"/>
+        </svg>
+        <figcaption>黄昏七点 · 开放式工位区 —— hover 时吊灯会轻晃</figcaption>
+      </figure>
+    </div>
+
+    <dl class="stats reveal" data-d="5">
+      <div><dt>12</dt><dd>覆盖城市</dd></div>
+      <div><dt>86</dt><dd>在营空间</dd></div>
+      <div><dt>3 万+</dt><dd>在租会员</dd></div>
+      <div><dt>98%</dt><dd>续租率</dd></div>
+    </dl>
+  </section>
+
+  <!-- ============ 空间一览：核心动效① hover 切换 ============ -->
+  <section class="section spaces" id="spaces">
+    <div class="wrap">
+      <p class="kicker reveal">空间一览</p>
+      <h2 class="reveal" data-d="1">把鼠标放上去，<br>逛一圈再决定。</h2>
+      <p class="lead reveal" data-d="2">每一家合座都是这四种房间的组合，只是配比不同。hover 下面任意一张，看看它长什么样。</p>
+
+      <div class="gallery reveal" data-d="3">
+        <figure class="stage" id="stage" aria-live="polite">
+          <div class="stage-inner" id="stageInner"></div>
+          <figcaption id="stageCap"></figcaption>
+        </figure>
+        <div class="thumbs" role="tablist" aria-label="空间类型">
+          <button class="thumb is-active" role="tab" aria-selected="true" data-room="open">
+            <svg viewBox="0 0 120 80"><rect width="120" height="80" fill="#F4E4C1"/><rect x="14" y="46" width="52" height="8" rx="4" fill="#8A6F4D"/><rect x="20" y="30" width="20" height="14" rx="2" fill="#22211F"/><rect x="56" y="46" width="50" height="8" rx="4" fill="#8A6F4D"/><rect x="62" y="30" width="20" height="14" rx="2" fill="#22211F"/><circle cx="100" cy="20" r="8" fill="#F5B841"/></svg>
+            <span>开放式工位</span>
+          </button>
+          <button class="thumb" role="tab" aria-selected="false" data-room="booth">
+            <svg viewBox="0 0 120 80"><rect width="120" height="80" fill="#EADFCB"/><rect x="18" y="14" width="30" height="52" rx="6" fill="#22211F"/><rect x="24" y="22" width="18" height="30" rx="3" fill="#E3A82B"/><rect x="56" y="14" width="30" height="52" rx="6" fill="#22211F"/><rect x="62" y="22" width="18" height="30" rx="3" fill="#E3A82B"/></svg>
+            <span>静音电话亭</span>
+          </button>
+          <button class="thumb" role="tab" aria-selected="false" data-room="meet">
+            <svg viewBox="0 0 120 80"><rect width="120" height="80" fill="#F6EDDC"/><ellipse cx="60" cy="48" rx="42" ry="12" fill="#8A6F4D"/><rect x="24" y="52" width="8" height="18" fill="#6E5739"/><rect x="88" y="52" width="8" height="18" fill="#6E5739"/><rect x="30" y="16" width="60" height="20" rx="4" fill="#22211F"/><circle cx="60" cy="4" r="5" fill="#E3A82B"/></svg>
+            <span>会议室</span>
+          </button>
+          <button class="thumb" role="tab" aria-selected="false" data-room="cafe">
+            <svg viewBox="0 0 120 80"><rect width="120" height="80" fill="#F4E9D2"/><rect x="18" y="50" width="84" height="8" rx="4" fill="#8A6F4D"/><path d="M34 50 v-18 h10 v18 M52 50 v-24 h10 v24 M70 50 v-16 h10 v16" stroke="#22211F" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="98" cy="22" r="10" fill="#C96F3B"/></svg>
+            <span>咖啡水吧</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 城市选择 ============ -->
+  <section class="section cities" id="cities">
+    <div class="wrap">
+      <p class="kicker reveal">选城市</p>
+      <h2 class="reveal" data-d="1">你在哪办公，<br>我们就在哪。</h2>
+      <div class="city-tabs reveal" data-d="2" role="tablist" aria-label="城市">
+        <button class="city-tab is-active" role="tab" aria-selected="true" data-city="sh">上海</button>
+        <button class="city-tab" role="tab" aria-selected="false" data-city="bj">北京</button>
+        <button class="city-tab" role="tab" aria-selected="false" data-city="sz">深圳</button>
+        <button class="city-tab" role="tab" aria-selected="false" data-city="hz">杭州</button>
+      </div>
+      <div class="city-cards" id="cityCards" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ============ 会员方案：核心动效② 3D 倾斜 ============ -->
+  <section class="section plans" id="plans">
+    <div class="wrap">
+      <p class="kicker reveal">会员方案</p>
+      <h2 class="reveal" data-d="1">三种坐法，<br>按你舒服的来。</h2>
+      <p class="lead reveal" data-d="2">价格都是月付价，含水电网、会议室额度与咖啡。把鼠标放到卡上试试——它会跟着你转。</p>
+      <div class="plan-grid">
+        <article class="plan tilt reveal" data-d="0">
+          <div class="tilt-inner">
+            <p class="plan-tag">灵活工位</p>
+            <p class="plan-price"><b>¥680</b>/月</p>
+            <p class="plan-desc">每天先到先得，背包客和自由职业者的快乐老家。</p>
+            <ul>
+              <li>全城空间通用，不限次数</li>
+              <li>高速 Wi-Fi 与储物柜</li>
+              <li>每月 4 小时会议室</li>
+            </ul>
+            <a class="btn btn-ghost" href="#visit">选这个方案</a>
+          </div>
+        </article>
+        <article class="plan tilt hot reveal" data-d="1">
+          <div class="tilt-inner">
+            <p class="plan-badge">最多人选</p>
+            <p class="plan-tag">专属工位</p>
+            <p class="plan-price"><b>¥1,480</b>/月</p>
+            <p class="plan-desc">固定座位、固定邻居，显示器和绿植都能留下过夜。</p>
+            <ul>
+              <li>专属升降桌与人体工学椅</li>
+              <li>24 小时门禁，随时加班</li>
+              <li>每月 10 小时会议室</li>
+              <li>公司注册地址可用</li>
+            </ul>
+            <a class="btn btn-primary" href="#visit">选这个方案</a>
+          </div>
+        </article>
+        <article class="plan tilt reveal" data-d="2">
+          <div class="tilt-inner">
+            <p class="plan-tag">独立办公室</p>
+            <p class="plan-price"><b>¥2,880</b>/月起</p>
+            <p class="plan-desc">2–20 人团队的整间办公室，门一关就是你们公司。</p>
+            <ul>
+              <li>独立门禁与隔音墙</li>
+              <li>按团队规模定制              <li>每月 20 小时会议室</li>
+              <li>专属客户经理</li>
+            </ul>
+            <a class="btn btn-ghost" href="#visit">选这个方案</a>
+          </div>
+        </article>
+      </div>
+      <p class="plan-note reveal">都需要先参观再签约 —— 我们坚持让你亲眼看过桌子再掏钱。</p>
+    </div>
+  </section>
+
+  <!-- ============ 预约参观 ============ -->
+  <section class="section visit" id="visit">
+    <div class="wrap visit-grid">
+      <div class="visit-copy">
+        <p class="kicker reveal">预约参观</p>
+        <h2 class="reveal" data-d="1">来看一眼，<br>咖啡我们请。</h2>
+        <p class="lead reveal" data-d="2">留个联系方式，空间经理会在 2 个工作小时内联系你，约一个你方便的时间。参观全程约 30 分钟，不推销。</p>
+        <ul class="visit-points reveal" data-d="3">
+          <li><svg viewBox="0 0 20 20" width="18" height="18"><path d="M3 10.5l4.5 4.5L17 5" stroke="#E3A82B" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>带你看工位、会议室和电话亭实物</li>
+          <li><svg viewBox="0 0 20 20" width="18" height="18"><path d="M3 10.5l4.5 4.5L17 5" stroke="#E3A82B" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>当场试坐，椅子合不合身你说了算</li>
+          <li><svg viewBox="0 0 20 20" width="18" height="18"><path d="M3 10.5l4.5 4.5L17 5" stroke="#E3A82B" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>报价单纸质版带走，回去慢慢比</li>
+        </ul>
+      </div>
+      <form class="visit-form reveal" data-d="2" id="visitForm" novalidate>
+        <label>姓名
+          <input type="text" name="name" placeholder="怎么称呼你" autocomplete="name">
+          <em class="err" data-err="name"></em>
+        </label>
+        <label>手机
+          <input type="tel" name="phone" placeholder="11 位手机号" inputmode="numeric" autocomplete="tel">
+          <em class="err" data-err="phone"></em>
+        </label>
+        <div class="form-row">
+          <label>想看哪个城市
+            <select name="city">
+              <option value="sh">上海</option><option value="bj">北京</option>
+              <option value="sz">深圳</option><option value="hz">杭州</option>
+            </select>
+          </label>
+          <label>方便参观的日期
+            <input type="date" name="date">
+            <em class="err" data-err="date"></em>
+          </label>
+        </div>
+        <label>感兴趣的方案
+          <select name="plan">
+            <option>灵活工位 ¥680/月</option>
+            <option selected>专属工位 ¥1,480/月</option>
+            <option>独立办公室 ¥2,880/月起</option>
+            <option>还没想好，先看看</option>
+          </select>
+        </label>
+        <button class="btn btn-primary btn-lg" type="submit">提交预约</button>
+        <p class="form-note">提交即表示同意我们为安排参观而联系你。号码仅用于本次预约，不做营销外呼。</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section cta" id="cta">
+    <div class="wrap">
+      <div class="cta-panel reveal">
+        <h2>下一张桌子，<br>离你只有一个预约。</h2>
+        <p>今天约，明天就能坐进来试一天 —— 试坐日免费，带电脑来就行。</p>
+        <a class="btn btn-primary btn-lg" href="#visit">约个时间看看</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <a class="logo" href="#top" aria-label="合座 COBASE 首页">
+        <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+          <rect x="4" y="4" width="14" height="14" rx="4" fill="#E3A82B"/>
+          <rect x="14" y="14" width="14" height="14" rx="4" fill="#FAF7F2"/>
+        </svg>
+        <span>合座<em>COBASE</em></span>
+      </a>
+      <p class="f-tag">好坐的地方，好做的事。</p>
+      <div class="socials" aria-label="社交媒体">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 11a2.6 2.6 0 1 0 0-5.2A2.6 2.6 0 0 0 9 11zm7.5.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4zM3.5 15c-1.7 0-3-1.2-3-2.9 0-1.6 1.4-2.9 3.1-2.9l.9.1.5-.8c.7-1.1 2.2-1.9 3.9-1.9 2.9 0 5.2 2 5.2 4.4 0 .4-.1.9-.2 1.2l1.5-.3c1.5-.3 2.6.7 2.6 2 0 1.2-1 2.1-2.3 2.1h-.6l-.5 1c-.3.7-1.2 1.1-2.2 1.1-1.4 0-2.5-.8-2.5-1.7 0-.2 0-.4.1-.5l-1.4.4c-.6.2-1.3.3-2 .3L3.5 15z" fill="currentColor" transform="scale(.92) translate(1,1)"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M10.1 20.9c-3.9 0-7-2.4-7-5.9 0-2 .9-3.6 2.3-4.7-.1-.3-.2-.7-.2-1.1 0-1.9 1.8-3.5 4-3.5 1.4 0 2.7.7 3.4 1.7l1.6-1c.3-.2.7-.2 1 0l1 .7c.4.3.5.8.2 1.2l-1.2 1.5c.3.6.4 1.3.4 2 0 3.5-3.1 5.9-7 5.9zm0-2c2.8 0 5-1.8 5-3.9s-2.2-3.9-5-3.9-5 1.8-5 3.9 2.2 3.9 5 3.9zm9.9-6.9c-.3 0-.5-.2-.5-.5 0-1.9-1.6-3.5-3.5-3.5-.3 0-.5-.2-.5-.5s.2-.5.5-.5c2.5 0 4.5 2 4.5 4.5 0 .3-.2.5-.5.5zm2 2c-.3 0-.5-.2-.5-.5 0-3-2.4-5.5-5.5-5.5-.3 0-.5-.2-.5-.5s.2-.5.5-.5c3.6 0 6.5 2.9 6.5 6.5 0 .3-.2.5-.5.5z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="X"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M17.7 3H21l-7.3 8.3L22 21h-6.7l-5.2-6.2L4.2 21H1l7.8-8.9L2 3h6.9l4.7 5.7L17.7 3zm-1.2 16h1.9L7.1 4.9H5.1L16.5 19z" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+    <nav class="f-col" aria-label="空间">
+      <p>空间</p>
+      <a href="#spaces">开放式工位</a><a href="#spaces">静音电话亭</a>
+      <a href="#spaces">会议室</a><a href="#spaces">咖啡水吧</a>
+    </nav>
+    <nav class="f-col" aria-label="公司">
+      <p>公司</p>
+      <a href="#cities">城市与地址</a><a href="#plans">会员方案</a>
+      <a href="#visit">预约参观</a><a href="#cta">试坐一日</a>
+    </nav>
+    <div class="f-col f-contact" aria-label="联系方式">
+      <p>联系我们</p>
+      <span data-site="address"></span>
+      <a data-site="phone" href="#"></a>
+      <a data-site="email" href="#"></a>
+    </div>
+    <nav class="f-col" aria-label="法律">
+      <p>法律</p>
+      <button data-modal="privacy">隐私政策</button>
+      <button data-modal="terms">服务条款</button>
+      <button data-modal="cookie">Cookie 政策</button>
+    </nav>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© 2026 <span data-site="name"></span> · <span data-site="icp"></span></p>
+    <p class="f-made">模板演示页 · 文案与品牌均为虚构</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-veil" id="modalVeil" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+  <h3 id="modalTitle"></h3>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<!-- 预约成功 toast -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-hidden="true"></div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

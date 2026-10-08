@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云汀度假酒店 · 滨湖而居</title>
+<meta name="description" content="云汀度假酒店，滨湖而建，228 间湖景客房，800 米私家湖岸线。推开窗，湖面比床先醒。">
+<!-- huafire3d fx-lab · MIT License — free for commercial use (hotel-page) -->
+<style>
+/* 云汀度假酒店 · hotel-page —— 全页三色：深海蓝 #0C2340 / 沙金 #C8A96A / 纯白 #FFFFFF */
+:root{
+  --blue:#0C2340;
+  --blue-deep:#081A30;
+  --blue-ink:#061224;
+  --gold:#C8A96A;
+  --gold-soft:rgba(200,169,106,.14);
+  --gold-line:rgba(200,169,106,.38);
+  --white:#FFFFFF;
+  --ink:rgba(12,35,64,.92);
+  --ink-soft:rgba(12,35,64,.62);
+  --ink-faint:rgba(12,35,64,.44);
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Noto Serif SC",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --ease:cubic-bezier(.19,1,.22,1);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--white);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* 全页纸纹噪点 + 顶部 vignette（手工细节） */
+body::after{
+  content:"";position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--gold);color:var(--blue-ink)}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:4000;background:var(--blue-ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .7s var(--ease),visibility .7s;
+}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-mark{display:flex;flex-direction:column;align-items:center;gap:10px}
+.loader-word{font-family:var(--serif);font-size:26px;letter-spacing:.5em;text-indent:.5em;color:var(--white)}
+.loader-bar{width:180px;height:2px;background:rgba(255,255,255,.14);overflow:hidden;border-radius:2px}
+.loader-bar span{display:block;height:100%;width:40%;background:var(--gold);border-radius:2px;animation:loadslide 1.1s ease-in-out infinite}
+@keyframes loadslide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+
+/* ---------- 导航 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 34px;color:var(--white);
+  transition:background .45s var(--ease),padding .45s var(--ease),box-shadow .45s;
+}
+.nav.scrolled{
+  background:rgba(8,26,48,.82);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  padding:12px 34px;box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;color:var(--white)}
+.nav-logo svg{color:var(--gold)}
+.nav-logo-text{font-family:var(--serif);font-size:19px;letter-spacing:.18em}
+.nav-links{display:flex;gap:34px;font-size:14.5px;letter-spacing:.14em}
+.nav-links a{position:relative;padding:4px 0;opacity:.92}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-right{display:flex;align-items:center;gap:16px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:none;border-radius:999px;font-size:15px;letter-spacing:.12em;
+  padding:14px 34px;transition:transform .35s var(--ease),box-shadow .35s,background .35s,color .35s;
+}
+.btn-gold{background:var(--gold);color:var(--blue-ink);font-weight:600}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(200,169,106,.35)}
+.btn-outline{background:transparent;color:var(--blue);border:1px solid var(--gold-line);width:100%}
+.btn-outline:hover{background:var(--blue);border-color:var(--blue);color:var(--white);transform:translateY(-2px)}
+.btn-sm{padding:10px 24px;font-size:13.5px}
+
+.burger{display:none;flex-direction:column;gap:6px;background:none;border:none;padding:8px}
+.burger span{width:24px;height:2px;background:var(--white);border-radius:2px;transition:.35s var(--ease)}
+
+/* 移动抽屉 */
+.drawer{
+  position:fixed;inset:0;z-index:1500;background:rgba(6,18,36,.97);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;
+}
+.drawer.open{opacity:1;visibility:visible}
+.drawer-close{
+  position:absolute;top:22px;right:28px;background:none;border:none;
+  color:var(--white);font-size:34px;line-height:1;opacity:.8;
+}
+.drawer-links{display:flex;flex-direction:column;align-items:center;gap:26px}
+.drawer-links a{
+  font-family:var(--serif);font-size:26px;letter-spacing:.3em;text-indent:.3em;color:var(--white);
+  opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s;
+}
+.drawer.open .drawer-links a{opacity:1;transform:none}
+.drawer.open .drawer-links a:nth-child(1){transition-delay:.08s}
+.drawer.open .drawer-links a:nth-child(2){transition-delay:.16s}
+.drawer.open .drawer-links a:nth-child(3){transition-delay:.24s}
+.drawer.open .drawer-links a:nth-child(4){transition-delay:.32s}
+.drawer.open .drawer-links a:nth-child(5){transition-delay:.4s}
+.drawer-links a:hover{color:var(--gold)}
+.drawer-cta{font-family:var(--sans)!important;font-size:16px!important;letter-spacing:.2em!important;
+  border:1px solid var(--gold);border-radius:999px;padding:12px 44px!important;color:var(--gold)!important}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--blue-ink)}
+.hero-lake{position:absolute;inset:0;width:100%;height:100%}
+.hero-shade{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(6,18,36,.62) 0%,rgba(6,18,36,0) 26%,rgba(6,18,36,0) 55%,rgba(6,18,36,.78) 100%),
+    radial-gradient(120% 90% at 50% 40%,rgba(0,0,0,0) 55%,rgba(3,10,22,.55) 100%);
+}
+.hero-inner{position:relative;z-index:2;text-align:center;color:var(--white);padding:120px 24px 90px;max-width:880px}
+.eyebrow{
+  font-size:13px;letter-spacing:.42em;text-indent:.42em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:22px;
+}
+.eyebrow-dark{color:#a5814a}
+.hero-title{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(58px,11vw,124px);letter-spacing:.14em;text-indent:.14em;
+  line-height:1.18;margin-bottom:20px;
+  text-shadow:0 6px 40px rgba(0,0,0,.4);
+}
+.hero-sub{font-family:var(--serif);font-size:clamp(18px,2.6vw,24px);letter-spacing:.24em;text-indent:.24em;opacity:.94;margin-bottom:14px}
+.hero-meta{font-size:13.5px;letter-spacing:.3em;text-indent:.3em;opacity:.62;margin-bottom:44px}
+
+/* hero 入场：遮罩式升起（JS 加 .loaded 后逐行 stagger） */
+html.js [data-hero]{opacity:0;transform:translateY(34px)}
+html.js body.loaded [data-hero]{opacity:1;transform:none;transition:opacity .9s var(--ease),transform .9s var(--ease)}
+html.js body.loaded [data-hero]:nth-of-type(1){transition-delay:.05s}
+html.js body.loaded .hero-title{transition-delay:.18s}
+html.js body.loaded .hero-sub{transition-delay:.34s}
+html.js body.loaded .hero-meta{transition-delay:.46s}
+html.js body.loaded .booking{transition-delay:.58s}
+
+/* 预订引擎条 */
+.booking{
+  position:relative;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0;
+  background:var(--white);border-radius:var(--radius);color:var(--ink);text-align:left;
+  box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden;max-width:860px;margin:0 auto;
+}
+.booking-field{padding:16px 22px;border-right:1px solid rgba(12,35,64,.1);display:flex;flex-direction:column;gap:6px;min-width:0}
+.booking-field label{font-size:12px;letter-spacing:.24em;color:var(--ink-faint)}
+.booking-field input,.booking-field select{
+  border:none;background:none;font-family:inherit;font-size:16px;color:var(--ink);
+  outline:none;width:100%;padding:2px 0;
+}
+.booking-field input[type="date"]{cursor:pointer}
+.booking-go{border-radius:0;padding:0 40px;font-size:16px}
+.booking-result{
+  grid-column:1/-1;padding:0 22px;max-height:0;overflow:hidden;
+  font-size:14px;color:var(--blue);background:var(--gold-soft);
+  transition:max-height .5s var(--ease),padding .5s var(--ease);
+}
+.booking-result.show{max-height:120px;padding:14px 22px}
+.booking-result strong{color:#8a6a35}
+
+.hero-scroll{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;opacity:.7}
+.hero-scroll span{display:block;width:1px;height:44px;background:var(--gold);position:relative;overflow:hidden}
+.hero-scroll span::after{content:"";position:absolute;top:-40%;left:0;width:100%;height:40%;background:var(--white);animation:scrolldot 1.8s var(--ease) infinite}
+@keyframes scrolldot{to{top:110%}}
+
+/* ---------- 内容区块通用 ---------- */
+.section{padding:110px 0}
+.section-tint{background:var(--gold-soft)}
+.sec-title{font-family:var(--serif);font-size:clamp(30px,4.4vw,44px);letter-spacing:.1em;font-weight:600;margin-bottom:14px}
+.sec-sub{color:var(--ink-soft);font-size:16px;margin-bottom:54px;letter-spacing:.06em}
+
+/* 滚动 reveal：只在有 JS 时隐藏，终态可达 */
+html.js [data-reveal]{opacity:0;transform:translateY(30px)}
+html.js [data-reveal].in{opacity:1;transform:none;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.room-grid [data-reveal].in:nth-child(2),.fac-grid [data-reveal].in:nth-child(2),.rev-grid [data-reveal].in:nth-child(2){transition-delay:.12s}
+.room-grid [data-reveal].in:nth-child(3),.fac-grid [data-reveal].in:nth-child(3),.rev-grid [data-reveal].in:nth-child(3){transition-delay:.24s}
+.fac-grid [data-reveal].in:nth-child(4){transition-delay:.36s}
+
+/* ---------- 房型卡 ---------- */
+.room-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.room-card{
+  background:var(--white);border:1px solid rgba(12,35,64,.09);border-radius:var(--radius);
+  overflow:hidden;transition:transform .45s var(--ease),box-shadow .45s;
+}
+.room-visual{position:relative;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.room-visual svg{width:78%;transition:transform .6s var(--ease)}
+.v-lake{background:linear-gradient(135deg,#0C2340 0%,#123058 60%,#1B3E6E 100%)}
+.v-suite{background:linear-gradient(135deg,#081A30 0%,#0C2340 55%,#274a76 100%)}
+.v-villa{background:linear-gradient(135deg,#061224 0%,#0C2340 50%,#33507e 100%)}
+.room-badge{
+  position:absolute;top:14px;left:14px;background:var(--gold);color:var(--blue-ink);
+  font-size:12px;letter-spacing:.2em;padding:6px 14px;border-radius:999px;font-weight:600;
+}
+.room-body{padding:28px 28px 30px}
+.room-body h3{font-family:var(--serif);font-size:24px;letter-spacing:.12em;margin-bottom:6px}
+.room-line{color:var(--ink-soft);font-size:15px;margin-bottom:14px}
+.room-price{margin-bottom:16px}
+.room-price strong{font-family:var(--serif);font-size:32px;color:var(--blue);font-weight:600}
+.room-price span{font-size:13px;color:var(--ink-faint);margin-left:6px}
+.room-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.room-tags li{
+  font-size:12.5px;color:var(--blue);border:1px solid var(--gold-line);
+  border-radius:999px;padding:5px 13px;letter-spacing:.06em;background:rgba(200,169,106,.07);
+}
+.room-spec{font-size:13px;color:var(--ink-faint);letter-spacing:.08em;margin-bottom:20px}
+
+/* ---------- 设施画廊 ---------- */
+.fac-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.fac-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(12,35,64,.09);
+  transition:transform .45s var(--ease),box-shadow .45s}
+.fac-visual{height:230px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fac-visual svg{width:64%;transition:transform .6s var(--ease)}
+.f-pool{background:linear-gradient(140deg,#0C2340,#1c4a7e 70%,#2f639c)}
+.f-dine{background:linear-gradient(140deg,#081A30,#14315a 60%,#8a6a35 130%)}
+.f-spa{background:linear-gradient(140deg,#061224,#0C2340 55%,#3d5a34 140%)}
+.f-kids{background:linear-gradient(140deg,#0C2340,#1B3E6E 60%,#7c5a2e 130%)}
+.fac-body{padding:24px 28px 28px}
+.fac-body h3{font-family:var(--serif);font-size:21px;letter-spacing:.14em;margin-bottom:6px}
+.fac-body p{color:var(--ink-soft);font-size:15px}
+.fac-time{font-size:13px;color:#a5814a;letter-spacing:.1em;margin-top:10px}
+
+/* hover 微交互：只在可 hover 设备生效 */
+@media (hover:hover){
+  .room-card:hover{transform:translateY(-10px);box-shadow:0 26px 60px rgba(12,35,64,.16)}
+  .room-card:hover .room-visual svg{transform:scale(1.07)}
+  .fac-card:hover{transform:translateY(-8px);box-shadow:0 22px 55px rgba(12,35,64,.15)}
+  .fac-card:hover .fac-visual svg{transform:scale(1.08) rotate(1.5deg)}
+  .social a:hover{color:var(--gold);transform:translateY(-3px)}
+}
+
+/* ---------- 住客评价 ---------- */
+.sec-score{font-size:17px;color:var(--ink-soft);margin-bottom:44px;letter-spacing:.08em}
+.sec-score strong{font-family:var(--serif);font-size:34px;color:var(--blue);margin-right:6px}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.rev-card{
+  background:var(--white);border:1px solid rgba(12,35,64,.09);border-radius:var(--radius);
+  padding:30px 28px;border-top:3px solid var(--gold);
+  transition:transform .45s var(--ease),box-shadow .45s;
+}
+.rev-stars svg{width:110px;margin-bottom:18px}
+.rev-card blockquote{font-family:var(--serif);font-size:17.5px;line-height:1.85;margin-bottom:20px}
+.rev-card figcaption{font-size:13px;color:var(--ink-faint);letter-spacing:.1em}
+@media (hover:hover){
+  .rev-card:hover{transform:translateY(-8px);box-shadow:0 22px 55px rgba(12,35,64,.13)}
+}
+
+/* ---------- 交通 ---------- */
+.loc-wrap{max-width:760px}
+.loc-line{font-family:var(--serif);font-size:clamp(19px,3vw,25px);letter-spacing:.06em;margin-bottom:34px}
+.loc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 30px;margin-bottom:30px}
+.loc-list li{display:flex;align-items:center;gap:12px;font-size:16px}
+.loc-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.loc-note{font-size:15px;color:var(--ink-soft)}
+.loc-note a{color:var(--blue);font-weight:600;border-bottom:1px solid var(--gold)}
+
+/* ---------- CTA ---------- */
+.cta{background:var(--blue-ink);color:var(--white);padding:120px 0;position:relative;overflow:hidden}
+.cta::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(60% 55% at 50% 0%,rgba(200,169,106,.14),rgba(0,0,0,0) 70%);
+}
+.cta-inner{position:relative;text-align:center;max-width:640px}
+.cta .eyebrow{margin-bottom:18px}
+.cta-title{font-family:var(--serif);font-size:clamp(32px,5.4vw,52px);letter-spacing:.12em;font-weight:600;margin-bottom:16px}
+.cta-sub{color:rgba(255,255,255,.72);margin-bottom:36px;font-size:16px;letter-spacing:.06em}
+.cta-form{display:flex;gap:12px;max-width:520px;margin:0 auto}
+.cta-form input{
+  flex:1;border:1px solid rgba(200,169,106,.4);background:rgba(255,255,255,.06);
+  border-radius:999px;padding:15px 26px;font-size:16px;color:var(--white);outline:none;
+  font-family:inherit;letter-spacing:.06em;transition:border-color .3s,box-shadow .3s;
+}
+.cta-form input::placeholder{color:rgba(255,255,255,.4)}
+.cta-form input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,169,106,.18)}
+.cta-hint{min-height:28px;margin-top:16px;font-size:15px;letter-spacing:.06em;color:var(--gold)}
+.cta-hint.err{color:#e8a0a0}
+.cta-fine{font-size:12.5px;color:rgba(255,255,255,.42);margin-top:8px;letter-spacing:.06em}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--blue-deep);color:rgba(255,255,255,.78);padding:80px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:56px}
+.footer-logo{font-family:var(--serif);font-size:22px;letter-spacing:.2em;color:var(--white);margin-bottom:14px}
+.footer-desc{font-size:14px;line-height:1.9;color:rgba(255,255,255,.55);margin-bottom:24px;max-width:300px}
+.footer-h{font-size:13px;letter-spacing:.3em;color:var(--gold);margin-bottom:18px}
+.footer-nav a{display:block;font-size:14.5px;padding:6px 0;color:rgba(255,255,255,.7);transition:color .3s,padding-left .3s}
+.footer-nav a:hover{color:var(--gold);padding-left:8px}
+.footer-contact p{font-size:14.5px;padding:6px 0;color:rgba(255,255,255,.7)}
+.footer-contact a{color:var(--white);border-bottom:1px solid var(--gold-line)}
+.legal-link{
+  display:block;background:none;border:none;color:rgba(255,255,255,.7);
+  font-size:14.5px;padding:6px 0;transition:color .3s,padding-left .3s;text-align:left;
+}
+.legal-link:hover{color:var(--gold);padding-left:8px}
+.social{display:flex;gap:14px}
+.social a{
+  width:40px;height:40px;border:1px solid rgba(255,255,255,.22);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.75);
+  transition:color .3s,transform .3s var(--ease),border-color .3s;
+}
+.social a:hover{border-color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:24px 28px 30px}
+.footer-bottom p{font-size:13px;color:rgba(255,255,255,.45);letter-spacing:.08em}
+
+/* ---------- 法务弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
+.modal.open{opacity:1;visibility:visible}
+.modal-backdrop{position:absolute;inset:0;background:rgba(4,12,24,.6);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.modal-box{
+  position:relative;background:var(--white);border-radius:var(--radius);
+  width:min(620px,calc(100vw - 48px));max-height:78vh;overflow:auto;
+  padding:44px 44px 40px;transform:translateY(24px) scale(.98);
+  transition:transform .45s var(--ease);box-shadow:0 40px 100px rgba(0,0,0,.4);
+}
+.modal.open .modal-box{transform:none}
+.modal-close{
+  position:absolute;top:14px;right:18px;background:none;border:none;
+  font-size:30px;line-height:1;color:var(--ink-faint);padding:6px;
+}
+.modal-close:hover{color:var(--blue)}
+.modal-title{font-family:var(--serif);font-size:24px;letter-spacing:.14em;margin-bottom:20px;color:var(--blue)}
+.modal-body{font-size:14.5px;color:var(--ink-soft)}
+.modal-body h4{font-size:15px;color:var(--blue);margin:18px 0 8px;letter-spacing:.06em}
+.modal-body h4:first-child{margin-top:0}
+.modal-body p{margin-bottom:10px}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .room-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+  .fac-grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  .rev-grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .nav-links{display:none}
+  .nav .btn-sm{display:none}
+  .burger{display:flex}
+  .booking{grid-template-columns:1fr 1fr}
+  .booking-field:nth-child(2){border-right:none}
+  .booking-field{border-bottom:1px solid rgba(12,35,64,.1)}
+  .booking-go{grid-column:1/-1;border-radius:0;padding:18px}
+  .section{padding:80px 0}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  .nav{padding:16px 20px}
+  .nav.scrolled{padding:10px 20px}
+  .booking{grid-template-columns:1fr}
+  .booking-field{border-right:none}
+  .loc-list{grid-template-columns:1fr}
+  .cta-form{flex-direction:column}
+  .cta-form .btn{width:100%}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .modal-box{width:100vw;max-height:100vh;height:100%;border-radius:0;padding:64px 26px 40px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  html.js [data-reveal],html.js [data-hero]{opacity:1;transform:none}
+}
+
+</style>
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="#C8A96A" stroke-width="1.5"/>
+      <path d="M10 27 q7 -6 14 0 t14 0" fill="none" stroke="#C8A96A" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M12 32 q6 -5 12 0 t12 0" fill="none" stroke="#C8A96A" stroke-width="1.2" stroke-linecap="round" opacity=".6"/>
+    </svg>
+    <p class="loader-word">云汀</p>
+  </div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#top" aria-label="云汀度假酒店 首页">
+    <svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M10 27 q7 -6 14 0 t14 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 32 q6 -5 12 0 t12 0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
+    </svg>
+    <span class="nav-logo-text">云汀度假酒店</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#rooms">房型</a>
+    <a href="#facilities">设施</a>
+    <a href="#reviews">住客评价</a>
+    <a href="#location">交通</a>
+  </nav>
+  <div class="nav-right">
+    <a class="btn btn-gold btn-sm" href="#booking">立即预订</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="菜单">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <nav class="drawer-links">
+    <a href="#rooms">房型</a>
+    <a href="#facilities">设施</a>
+    <a href="#reviews">住客评价</a>
+    <a href="#location">交通</a>
+    <a href="#booking" class="drawer-cta">立即预订</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- hero -->
+  <section class="hero">
+    <canvas class="hero-lake" id="lake" aria-hidden="true"></canvas>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow" data-hero>滨湖度假 · 隐于烟波之上</p>
+      <h1 class="hero-title" data-hero>云汀度假酒店</h1>
+      <p class="hero-sub" data-hero>推开窗，湖面比床先醒。</p>
+      <p class="hero-meta" data-hero>228 间湖景客房 · 800 米私家湖岸线</p>
+
+      <!-- 预订引擎条 -->
+      <form class="booking" id="booking" aria-label="预订查询">
+        <div class="booking-field">
+          <label for="inDate">入住日期</label>
+          <input type="date" id="inDate" name="in" required>
+        </div>
+        <div class="booking-field">
+          <label for="outDate">离店日期</label>
+          <input type="date" id="outDate" name="out" required>
+        </div>
+        <div class="booking-field">
+          <label for="roomType">房型</label>
+          <select id="roomType" name="room">
+            <option value="湖景大床房">湖景大床房</option>
+            <option value="行政套房">行政套房</option>
+            <option value="独栋别墅">独栋别墅</option>
+          </select>
+        </div>
+        <button class="btn btn-gold booking-go" type="submit">查询房态</button>
+        <p class="booking-result" id="bookingResult" role="status"></p>
+      </form>
+    </div>
+    <a class="hero-scroll" href="#rooms" aria-label="向下滚动">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- 房型 -->
+  <section class="section" id="rooms">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-dark" data-reveal>住进风景里</p>
+      <h2 class="sec-title" data-reveal>三档房型，各有各的湖</h2>
+      <p class="sec-sub" data-reveal>所有房型都朝湖。区别只在于，你想离湖多近。</p>
+      <div class="room-grid">
+        <article class="room-card" data-reveal>
+          <div class="room-visual v-lake">
+            <svg viewBox="0 0 400 220" aria-hidden="true">
+              <rect x="60" y="30" width="280" height="120" rx="6" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <line x1="200" y1="30" x2="200" y2="150" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M70 165 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 182 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+            </svg>
+            <span class="room-badge">最受欢迎</span>
+          </div>
+          <div class="room-body">
+            <h3>湖景大床房</h3>
+            <p class="room-line">面朝湖，躺平看云走。</p>
+            <p class="room-price"><strong>¥1,288</strong><span> 起 / 晚</span></p>
+            <ul class="room-tags">
+              <li>180° 湖景落地窗</li><li>双人早餐</li><li>免费停车</li><li>24h 免费取消</li>
+            </ul>
+            <p class="room-spec">42㎡ · 大床 1.8m · 可住 2 人</p>
+            <button class="btn btn-outline room-book" data-room="湖景大床房">预订此房型</button>
+          </div>
+        </article>
+        <article class="room-card" data-reveal>
+          <div class="room-visual v-suite">
+            <svg viewBox="0 0 400 220" aria-hidden="true">
+              <rect x="60" y="30" width="280" height="120" rx="6" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <line x1="200" y1="30" x2="200" y2="150" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <circle cx="200" cy="90" r="26" fill="none" stroke="#C8A96A" stroke-width="3"/>
+              <path d="M70 165 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 182 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="room-body">
+            <h3>行政套房</h3>
+            <p class="room-line">把客厅搬到湖边。</p>
+            <p class="room-price"><strong>¥2,388</strong><span> 起 / 晚</span></p>
+            <ul class="room-tags">
+              <li>行政酒廊</li><li>双卫干湿分离</li><li>免费洗衣</li><li>延迟退房至 14:00</li>
+            </ul>
+            <p class="room-spec">86㎡ · 一室一厅 · 可住 3 人</p>
+            <button class="btn btn-outline room-book" data-room="行政套房">预订此房型</button>
+          </div>
+        </article>
+        <article class="room-card" data-reveal>
+          <div class="room-visual v-villa">
+            <svg viewBox="0 0 400 220" aria-hidden="true">
+              <path d="M120 130 L200 70 L280 130" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round" opacity=".85"/>
+              <rect x="150" y="110" width="100" height="50" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M70 178 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 194 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+            </svg>
+            <span class="room-badge">仅 6 栋</span>
+          </div>
+          <div class="room-body">
+            <h3>独栋别墅</h3>
+            <p class="room-line">一栋房子，一片湖。</p>
+            <p class="room-price"><strong>¥5,888</strong><span> 起 / 晚</span></p>
+            <ul class="room-tags">
+              <li>私人泳池</li><li>专属管家</li><li>私家码头</li><li>双人 SPA 一次</li>
+            </ul>
+            <p class="room-spec">320㎡ · 三室两厅 · 可住 6 人</p>
+            <button class="btn btn-outline room-book" data-room="独栋别墅">预订此房型</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 设施画廊 -->
+  <section class="section section-tint" id="facilities">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-dark" data-reveal>不出酒店，玩一天</p>
+      <h2 class="sec-title" data-reveal>设施，是第二位房东</h2>
+      <p class="sec-sub" data-reveal>泳池、餐厅、SPA、亲子乐园，住客全部免费或住客价。</p>
+      <div class="fac-grid">
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-pool">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <path d="M40 120 q60 -28 120 0 t120 0 t80 0" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".8"/>
+              <path d="M40 150 q60 -28 120 0 t120 0 t80 0" fill="none" stroke="#C8A96A" stroke-width="3" opacity=".8"/>
+              <path d="M40 180 q60 -28 120 0 t120 0 t80 0" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".45"/>
+              <circle cx="300" cy="60" r="22" fill="none" stroke="#C8A96A" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>无边际泳池</h3>
+            <p>游出去的那一秒，湖和池分不清。</p>
+            <p class="fac-time">06:30–22:00 · 恒温 28℃</p>
+          </div>
+        </article>
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-dine">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <ellipse cx="200" cy="150" rx="90" ry="26" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M160 120 q40 -34 80 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+              <line x1="120" y1="70" x2="150" y2="105" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+              <line x1="280" y1="70" x2="250" y2="105" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>湖畔餐厅</h3>
+            <p>当天的鱼，不隔夜。</p>
+            <p class="fac-time">早餐 07:00–10:30 · 正餐 11:30–21:00</p>
+          </div>
+        </article>
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-spa">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <path d="M170 200 q-14 -50 6 -80 q16 -24 4 -52" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+              <path d="M205 200 q-14 -50 6 -80 q16 -24 4 -52" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+              <path d="M240 200 q-14 -50 6 -80 q16 -24 4 -52" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+              <ellipse cx="205" cy="212" rx="80" ry="12" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>云汀 SPA</h3>
+            <p>按完这一个钟，肩膀会谢你。</p>
+            <p class="fac-time">10:00–22:00 · 需提前预约</p>
+          </div>
+        </article>
+        <article class="fac-card" data-reveal>
+          <div class="fac-visual f-kids">
+            <svg viewBox="0 0 400 260" aria-hidden="true">
+              <rect x="110" y="90" width="180" height="110" rx="10" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".85"/>
+              <path d="M110 140 L70 200 M290 140 L330 200" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+              <circle cx="200" cy="65" r="18" fill="none" stroke="#C8A96A" stroke-width="3"/>
+              <path d="M150 165 q50 -22 100 0" fill="none" stroke="#C8A96A" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="fac-body">
+            <h3>亲子乐园</h3>
+            <p>孩子放电，大人充电。</p>
+            <p class="fac-time">09:00–18:00 · 适合 3–12 岁</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 住客评价 -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <p class="eyebrow eyebrow-dark" data-reveal>他们住过之后说</p>
+      <h2 class="sec-title" data-reveal>住客评价</h2>
+      <p class="sec-score" data-reveal><strong>4.9</strong> 分 · 2,314 条住客评价</p>
+      <div class="rev-grid">
+        <figure class="rev-card" data-reveal>
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#C8A96A"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.5 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/><path d="M32 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L32 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M54 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L54 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M76 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L76 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M98 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L98 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z" transform="translate(-8 0)"/></g></svg>
+          </div>
+          <blockquote>带父母来的，湖景房早上真能听见水声。早餐的鱼片粥，老爷子连吃了三天。</blockquote>
+          <figcaption>陈女士 · 家庭出游 · 2026 年 9 月</figcaption>
+        </figure>
+        <figure class="rev-card" data-reveal>
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#C8A96A"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.5 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/><path d="M32 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L32 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M54 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L54 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M76 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L76 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M98 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L98 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z" transform="translate(-8 0)"/></g></svg>
+          </div>
+          <blockquote>出差顺路住一晚，结果多续了两天。行政酒廊的夜景，谈事都变顺了。</blockquote>
+          <figcaption>王先生 · 商务出差 · 2026 年 8 月</figcaption>
+        </figure>
+        <figure class="rev-card" data-reveal>
+          <div class="rev-stars" aria-label="5 星">
+            <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#C8A96A"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.5 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/><path d="M32 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L32 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M54 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L54 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M76 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L76 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z"/><path d="M98 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L98 14.5l-5.4 2.8 1.2-5.9-4.4-4.1 6-.7z" transform="translate(-8 0)"/></g></svg>
+          </div>
+          <blockquote>别墅的私人泳池值回票价，管家连烧烤架都支好了。孩子说明年还要来。</blockquote>
+          <figcaption>李女士 · 亲子度假 · 2026 年 7 月</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 交通位置 -->
+  <section class="section section-tint" id="location">
+    <div class="wrap loc-wrap" data-reveal>
+      <p class="eyebrow eyebrow-dark">怎么来</p>
+      <h2 class="sec-title">交通位置</h2>
+      <p class="loc-line">酒店临湖而建，出门就是 800 米私家湖岸线。</p>
+      <ul class="loc-list">
+        <li><span class="loc-dot"></span>湖滨高铁站 — 车程约 18 分钟</li>
+        <li><span class="loc-dot"></span>市中心 — 车程约 25 分钟</li>
+        <li><span class="loc-dot"></span>国际机场 — 车程约 40 分钟</li>
+        <li><span class="loc-dot"></span>湖畔古镇 — 车程约 10 分钟</li>
+      </ul>
+      <p class="loc-note">需要接送？致电 <a data-site-href="phone" data-site="phone"></a>，礼宾部提前帮你安排好车。</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="wrap cta-inner" data-reveal>
+      <p class="eyebrow">会员直订</p>
+      <h2 class="cta-title">多一晚，不如少花钱</h2>
+      <p class="cta-sub">留个手机号，880 元新客券包发你，官网直订直接抵。</p>
+      <form class="cta-form" id="couponForm" novalidate>
+        <input type="tel" id="couponPhone" inputmode="numeric" maxlength="11" placeholder="请输入手机号" aria-label="手机号" autocomplete="tel">
+        <button class="btn btn-gold" type="submit">领取优惠券</button>
+      </form>
+      <p class="cta-hint" id="couponHint" role="status"></p>
+      <p class="cta-fine">提交即代表同意接收酒店优惠短信，可随时退订。</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <p class="footer-logo">云汀度假酒店</p>
+      <p class="footer-desc">滨湖而居的一家度假酒店。228 间湖景客房，800 米私家湖岸线，离湖最近的那几扇窗，都在这儿。</p>
+      <div class="social">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.5h8M12 8.5v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 14c1.5 2 8.5 2 10-1M9 10.5c2.5-1.5 6-1 7.5 1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="小红书"><svg viewBox="0 0 24 24" width="20" height="20"><rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 4c.5 3 2.5 4.5 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-nav">
+      <p class="footer-h">快速导航</p>
+      <a href="#rooms">房型</a>
+      <a href="#facilities">设施</a>
+      <a href="#reviews">住客评价</a>
+      <a href="#booking">预订查询</a>
+    </div>
+    <div class="footer-contact">
+      <p class="footer-h">联系我们</p>
+      <p>电话：<a data-site-href="phone" data-site="phone"></a></p>
+      <p>地址：<span data-site="address"></span></p>
+    </div>
+    <div class="footer-legal">
+      <p class="footer-h">网站政策</p>
+      <button class="legal-link" data-legal="privacy">隐私政策</button>
+      <button class="legal-link" data-legal="terms">服务条款</button>
+      <button class="legal-link" data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© <span data-site="year"></span> <span data-site="name"></span> · <span data-site="icp"></span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-backdrop" id="legalBackdrop"></div>
+  <div class="modal-box">
+    <button class="modal-close" id="legalClose" aria-label="关闭">×</button>
+    <h3 class="modal-title" id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 云汀度假酒店 · hotel-page —— 零依赖 vanilla JS */
+document.documentElement.classList.add('js');
+
+var CFG = {
+  navOffset: 40,        // 导航毛玻璃触发距离 px
+  revealThreshold: 0.12, // 滚动 reveal 阈值
+  loaderMin: 700,        // 加载态最短展示 ms
+  loaderMax: 4000        // 加载态兜底上限 ms
+};
+
+/* ============ SITE：买家改这里，一改全改 ============ */
+var SITE = {
+  name: '云汀度假酒店',
+  phone: '0571-8888 6666',
+  phoneHref: 'tel:+8657188886666',
+  address: '杭州市西湖区湖滨路 88 号',
+  icp: '浙ICP备2026000000号-1',
+  year: '2026'
+};
+
+/* ============ 法务三件套文案：真实感通用条款 ============ */
+var LEGAL = {
+  privacy: {
+    title: '隐私政策',
+    sections: [
+      { h: '我们收集什么', ps: ['预订时你留下的姓名、手机号与入住偏好，仅用于完成订单与入住服务。', '浏览网站时产生的设备与访问日志，用于排查故障与优化页面，不会关联你的真实身份。'] },
+      { h: '信息怎么用', ps: ['只做三件事：确认订单、入住前短信提醒、会员优惠通知。', '优惠短信可随时回复 TD 退订，退订后不再打扰。'] },
+      { h: '信息给谁看', ps: ['你的信息只在酒店前台、预订系统与支付通道之间流转，不出售、不出租给任何第三方营销公司。', '法律要求或你明确授权时除外。'] },
+      { h: '保存多久', ps: ['订单信息按财务规定保存 5 年，到期匿名化处理；浏览日志 90 天滚动删除。'] },
+      { h: '你的权利', ps: ['随时致电 ' + SITE.phone + ' 查询、更正或删除你的个人信息，我们在 3 个工作日内处理。'] }
+    ]
+  },
+  terms: {
+    title: '服务条款',
+    sections: [
+      { h: '预订与确认', ps: ['官网提交预订需求后，以酒店短信或电话确认为准，确认前不产生合同关系。', '预订成功后请在入住当日 18:00 前到店，超时未到且未提前联系，房间可能被释放。'] },
+      { h: '取消政策', ps: ['入住前 24 小时以上取消，全额退款；24 小时以内取消，收取首晚房费 30% 作为违约金。', '独栋别墅需提前 72 小时取消，规则以预订确认短信为准。'] },
+      { h: '入住须知', ps: ['办理入住请出示有效身份证件，未成年人需由监护人陪同。', '全店室内禁烟，吸烟请至指定区域；宠物暂不接待，导盲犬除外。'] },
+      { h: '价格说明', ps: ['页面标价为门市价，节假日可能上浮，实际以预订确认时的价格为准。', '会员直订价不与其它券包叠加使用，券包规则以领取页面说明为准。'] },
+      { h: '免责', ps: ['因台风、暴雨等不可抗力导致无法入住的，全额退款，酒店不承担行程损失。'] }
+    ]
+  },
+  cookies: {
+    title: 'Cookie 政策',
+    sections: [
+      { h: '我们用什么 Cookie', ps: ['必要型：记住你的预订日期选择与弹窗关闭状态，关掉它页面没法正常用。', '统计型：匿名统计哪个房型被看得最多，帮我们决定先翻新哪一层。'] },
+      { h: '管多久', ps: ['必要型 Cookie 随会话结束自动失效；统计型保留 13 个月，到期自动清除。'] },
+      { h: '怎么关', ps: ['浏览器设置里随时可以禁用 Cookie，禁用后预订日期可能需要每次手动重选。', '继续使用本网站，即视为你理解并接受上述 Cookie 用途。'] }
+    ]
+  }
+};
+
+/* ============ SITE 渲染 ============ */
+(function renderSite(){
+  document.querySelectorAll('[data-site]').forEach(function(el){
+    var k = el.getAttribute('data-site');
+    if (SITE[k] !== undefined) el.textContent = SITE[k];
+  });
+  document.querySelectorAll('[data-site-href]').forEach(function(el){
+    var k = el.getAttribute('data-site-href');
+    if (k === 'phone') el.setAttribute('href', SITE.phoneHref);
+  });
+})();
+
+/* ============ 加载态 ============ */
+(function loader(){
+  var el = document.getElementById('loader');
+  var t0 = Date.now(), done = false;
+  function hide(){
+    if (done) return; done = true;
+    var wait = Math.max(0, CFG.loaderMin - (Date.now() - t0));
+    setTimeout(function(){
+      el.classList.add('done');
+      document.body.classList.add('loaded');
+      setTimeout(function(){ el.remove(); }, 900);
+    }, wait);
+  }
+  window.addEventListener('load', hide);
+  setTimeout(hide, CFG.loaderMax); // 兜底：4s 必定消失
+})();
+
+/* ============ 导航滚动 ============ */
+(function nav(){
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > CFG.navOffset); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+/* ============ 移动抽屉 ============ */
+(function drawer(){
+  var drawer = document.getElementById('drawer'),
+      burger = document.getElementById('burger'),
+      close = document.getElementById('drawerClose');
+  function open(){ drawer.classList.add('open'); burger.setAttribute('aria-expanded','true'); document.body.style.overflow = 'hidden'; }
+  function shut(){ drawer.classList.remove('open'); burger.setAttribute('aria-expanded','false'); document.body.style.overflow = ''; }
+  burger.addEventListener('click', open);
+  close.addEventListener('click', shut);
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') shut(); });
+})();
+
+/* ============ 滚动 reveal ============ */
+(function reveal(){
+  var items = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: CFG.revealThreshold, rootMargin: '0px 0px -6% 0px' });
+  items.forEach(function(el){ io.observe(el); });
+})();
+
+/* ============ hero 湖面波纹（主视觉动效 · Canvas 程序化） ============ */
+(function lake(){
+  var cv = document.getElementById('lake');
+  var hero = cv.closest('.hero');
+  var ctx = cv.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 0, H = 0, dpr = 1, running = true, t = 0, last = 0;
+
+  function size(){
+    var r = hero.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size();
+  window.addEventListener('resize', size);
+
+  var mx = 0.78, my = 0.2; // 月亮位置（相对）
+
+  function draw(){
+    // 夜空
+    var sky = ctx.createLinearGradient(0, 0, 0, H * 0.46);
+    sky.addColorStop(0, '#061224');
+    sky.addColorStop(1, '#0C2340');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H * 0.46);
+
+    // 远山剪影
+    ctx.fillStyle = '#050e1d';
+    ctx.beginPath();
+    ctx.moveTo(0, H * 0.46);
+    var n = 24;
+    for (var i = 0; i <= n; i++) {
+      var x = (W / n) * i;
+      var y = H * 0.46 - (Math.sin(i * 1.7) * 0.5 + 0.5) * H * 0.075 - Math.sin(i * 0.6 + 2) * H * 0.03;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H * 0.46);
+    ctx.closePath();
+    ctx.fill();
+
+    // 月亮与光晕
+    var mX = W * mx, mY = H * my, mR = Math.min(W, H) * 0.045;
+    var glow = ctx.createRadialGradient(mX, mY, 0, mX, mY, mR * 7);
+    glow.addColorStop(0, 'rgba(232,214,175,.5)');
+    glow.addColorStop(1, 'rgba(232,214,175,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(mX - mR * 7, mY - mR * 7, mR * 14, mR * 14);
+    ctx.fillStyle = '#efe3c8';
+    ctx.beginPath(); ctx.arc(mX, mY, mR, 0, Math.PI * 2); ctx.fill();
+
+    // 湖面基底
+    var hz = H * 0.46;
+    var water = ctx.createLinearGradient(0, hz, 0, H);
+    water.addColorStop(0, '#0e2a4d');
+    water.addColorStop(0.5, '#0C2340');
+    water.addColorStop(1, '#061224');
+    ctx.fillStyle = water;
+    ctx.fillRect(0, hz, W, H - hz);
+
+    // 月影：随时间抖动的金色碎片
+    ctx.fillStyle = 'rgba(200,169,106,.5)';
+    var rows = 26;
+    for (var r2 = 0; r2 < rows; r2++) {
+      var yy = hz + 8 + r2 * ((H - hz - 20) / rows);
+      var spread = (r2 / rows);
+      var wob = Math.sin(t * 1.3 + r2 * 1.9) * (6 + spread * 26);
+      var ww = mR * (0.7 + spread * 2.6) * (0.75 + 0.25 * Math.sin(t * 2.1 + r2 * 2.7));
+      ctx.globalAlpha = 0.34 * (1 - spread * 0.75);
+      ctx.fillRect(mX - ww / 2 + wob, yy, ww, 2.2);
+    }
+    ctx.globalAlpha = 1;
+
+    // 波纹带：四层正弦波，速度错峰
+    var bands = [
+      { y: 0.06, amp: 5,  len: 0.010, sp: 0.55, col: 'rgba(160,200,240,.16)', lw: 2 },
+      { y: 0.24, amp: 7,  len: 0.008, sp: 0.38, col: 'rgba(200,169,106,.20)', lw: 1.6 },
+      { y: 0.48, amp: 9,  len: 0.006, sp: 0.27, col: 'rgba(160,200,240,.12)', lw: 2.4 },
+      { y: 0.76, amp: 11, len: 0.005, sp: 0.18, col: 'rgba(200,169,106,.14)', lw: 2 }
+    ];
+    bands.forEach(function(b, bi){
+      var yy = hz + (H - hz) * b.y;
+      ctx.strokeStyle = b.col;
+      ctx.lineWidth = b.lw;
+      ctx.beginPath();
+      for (var x = 0; x <= W; x += 8) {
+        var y2 = yy + Math.sin(x * b.len * 6.28 + t * b.sp * 2 + bi * 2.1) * b.amp
+                   + Math.sin(x * b.len * 17.3 - t * b.sp * 3.2) * b.amp * 0.35;
+        if (x === 0) ctx.moveTo(x, y2); else ctx.lineTo(x, y2);
+      }
+      ctx.stroke();
+    });
+
+    // 薄雾：两团缓慢漂移的径向渐变
+    function mist(px, py, pr, a){
+      var g = ctx.createRadialGradient(px, py, 0, px, py, pr);
+      g.addColorStop(0, 'rgba(190,210,235,' + a + ')');
+      g.addColorStop(1, 'rgba(190,210,235,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(px - pr, py - pr, pr * 2, pr * 2);
+    }
+    mist(W * (0.3 + 0.06 * Math.sin(t * 0.11)), H * 0.5, W * 0.22, 0.10);
+    mist(W * (0.72 + 0.05 * Math.cos(t * 0.09)), H * 0.62, W * 0.26, 0.08);
+  }
+
+  function frame(ts){
+    if (!running) return;
+    if (!last) last = ts;
+    var dt = Math.min(0.05, (ts - last) / 1000); last = ts;
+    t += dt;
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  if (reduce) { draw(); return; } // 减弱动效：只画一帧静态
+
+  // 离开视口暂停，省电
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){
+      var vis = es[0].isIntersecting && !document.hidden;
+      if (vis && !running) { running = true; last = 0; requestAnimationFrame(frame); }
+      else if (!vis) running = false;
+    }).observe(hero);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && running === false) { running = true; last = 0; requestAnimationFrame(frame); }
+  });
+  requestAnimationFrame(frame);
+})();
+
+/* ============ 预订引擎 ============ */
+(function booking(){
+  var form = document.getElementById('booking');
+  var inEl = document.getElementById('inDate'),
+      outEl = document.getElementById('outDate'),
+      roomEl = document.getElementById('roomType'),
+      result = document.getElementById('bookingResult');
+  var PRICE = { '湖景大床房': 1288, '行政套房': 2388, '独栋别墅': 5888 };
+
+  function fmt(d){ return d.toISOString().slice(0, 10); }
+  function zh(dstr){
+    var d = new Date(dstr + 'T00:00:00');
+    return (d.getMonth() + 1) + '月' + d.getDate() + '日';
+  }
+  function money(n){ return '¥' + n.toLocaleString('en-US'); }
+
+  var today = new Date();
+  var dIn = new Date(today); dIn.setDate(dIn.getDate() + 7);
+  var dOut = new Date(today); dOut.setDate(dOut.getDate() + 9);
+  inEl.min = fmt(today); outEl.min = fmt(today);
+  inEl.value = fmt(dIn); outEl.value = fmt(dOut);
+  inEl.addEventListener('change', function(){
+    if (outEl.value <= inEl.value) {
+      var d = new Date(inEl.value + 'T00:00:00');
+      d.setDate(d.getDate() + 1);
+      outEl.value = fmt(d);
+    }
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var nights = Math.round((new Date(outEl.value) - new Date(inEl.value)) / 86400000);
+    if (!(nights > 0)) {
+      result.innerHTML = '离店日期得晚于入住日期，麻烦再选一下。';
+      result.classList.add('show');
+      return;
+    }
+    var room = roomEl.value, p = PRICE[room] || 1288;
+    result.innerHTML = '查到啦：<strong>' + zh(inEl.value) + ' → ' + zh(outEl.value) + '</strong> · ' + room +
+      ' · 共 ' + nights + ' 晚有房，总价 <strong>' + money(p * nights) + '</strong> 起。致电 <strong>' +
+      SITE.phone + '</strong> 锁定会员价。';
+    result.classList.add('show');
+  });
+
+  // 房型卡"预订此房型"：把房型填进引擎并滚回去
+  document.querySelectorAll('.room-book').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      roomEl.value = btn.getAttribute('data-room');
+      result.classList.remove('show');
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function(){ inEl.focus({ preventScroll: true }); }, 700);
+    });
+  });
+})();
+
+/* ============ 会员领券 ============ */
+(function coupon(){
+  var form = document.getElementById('couponForm'),
+      input = document.getElementById('couponPhone'),
+      hint = document.getElementById('couponHint');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v = input.value.replace(/\D/g, '');
+    hint.classList.remove('err');
+    if (!/^1\d{10}$/.test(v)) {
+      hint.textContent = '手机号好像少了位，再检查一下。';
+      hint.classList.add('err');
+      input.focus();
+      return;
+    }
+    var masked = v.slice(0, 3) + '****' + v.slice(7);
+    hint.textContent = '券包已发往 ' + masked + '，官网预订时自动抵扣。';
+    input.value = '';
+  });
+})();
+
+/* ============ 法务弹窗 ============ */
+(function legal(){
+  var modal = document.getElementById('legalModal'),
+      title = document.getElementById('legalTitle'),
+      body = document.getElementById('legalBody'),
+      closeBtn = document.getElementById('legalClose'),
+      backdrop = document.getElementById('legalBackdrop'),
+      lastFocus = null;
+
+  function open(key){
+    var doc = LEGAL[key];
+    if (!doc) return;
+    lastFocus = document.activeElement;
+    title.textContent = doc.title;
+    body.innerHTML = '';
+    doc.sections.forEach(function(s){
+      var h = document.createElement('h4'); h.textContent = s.h; body.appendChild(h);
+      s.ps.forEach(function(p){
+        var el = document.createElement('p'); el.textContent = p; body.appendChild(el);
+      });
+    });
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function shut(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-legal]').forEach(function(btn){
+    btn.addEventListener('click', function(){ open(btn.getAttribute('data-legal')); });
+  });
+  closeBtn.addEventListener('click', shut);
+  backdrop.addEventListener('click', shut);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) shut(); });
+})();
+
+</script>
+</body>
+</html>

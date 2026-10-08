@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>目屿 MUYU — 看清世界，先看清自己</title>
+<meta name="description" content="目屿 MUYU 眼镜：136 款镜框，免费在家试戴，预约验光 ¥599 起配。">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body id="top">
+
+<!-- 加载态：品牌印记脉冲，最长 4.5s 自动消退（CSS 兜底） -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark"><span>目</span></div>
+  <div class="loader-bar"><i></i></div>
+</div>
+
+<!-- 噪点颗粒（SVG turbulence data URI，非外链） -->
+<div class="grain" aria-hidden="true"></div>
+<!-- 暗角 -->
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="#top" aria-label="目屿 MUYU 首页">
+      <span class="logo-cn">目屿</span><span class="logo-en">MUYU</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#series">系列镜框</a>
+      <a href="#tryon">在家试戴</a>
+      <a href="#booking">验光预约</a>
+    </nav>
+    <a class="btn btn-ink btn-sm nav-cta" href="#booking">预约验光</a>
+  </div>
+</header>
+
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="drawer" id="drawer" aria-label="移动端菜单" aria-hidden="true">
+  <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">×</button>
+  <a class="drawer-logo" href="#top"><span>目屿</span><em>MUYU</em></a>
+  <nav class="drawer-links">
+    <a href="#series">系列镜框</a>
+    <a href="#tryon">在家试戴</a>
+    <a href="#booking">验光预约</a>
+  </nav>
+  <a class="btn btn-amber drawer-cta" href="#booking">预约免费验光</a>
+  <p class="drawer-tel">客服 <a href="tel:4000882026" data-site="phone">400-088-2026</a></p>
+</aside>
+
+<main>
+  <!-- ============ HERO：居中大字 + 镜框 360° 旋转 ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <p class="eyebrow rv">目屿 MUYU · 2026 秋季系列「雾屿」</p>
+      <h1 class="hero-title">
+        <span class="mask"><span class="rl-line">看清世界，</span></span>
+        <span class="mask"><span class="rl-line">先看清<em>自己</em>。</span></span>
+      </h1>
+      <p class="hero-sub rv">全框 / 半框 / 无框，136 款镜框全部支持免费在家试戴。<br>验光、配镜，一副 ¥599 起。</p>
+      <div class="hero-ctas rv">
+        <a class="btn btn-ink" href="#series">挑选镜框</a>
+        <a class="btn btn-ghost" href="#tryon">免费在家试戴</a>
+      </div>
+    </div>
+
+    <div class="stage rv" id="stage" aria-label="镜框 360 度旋转展示，拖动可旋转">
+      <div class="turntable">
+        <div class="rotor" id="rotor"><!-- JS 注入 5 层挤出镜框 --></div>
+        <div class="glare" id="glare" aria-hidden="true"></div>
+      </div>
+      <div class="stage-shadow" id="stageShadow" aria-hidden="true"></div>
+      <div class="dial" aria-hidden="true">
+        <svg viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="30" class="dial-bg"/>
+          <circle cx="36" cy="36" r="30" class="dial-arc" id="dialArc"/>
+        </svg>
+        <span class="dial-deg" id="dialDeg">0°</span>
+      </div>
+      <p class="stage-hint" id="stageHint">← 拖动旋转 · 360° →</p>
+    </div>
+
+    <ul class="hero-stats rv">
+      <li><b>136</b><span>款镜框在售</span></li>
+      <li><b>30<i>天</i></b><span>无理由退换</span></li>
+      <li><b>2<i>年</i></b><span>镜架质保</span></li>
+    </ul>
+
+    <a class="scroll-cue" href="#series" aria-label="向下滚动"><i></i></a>
+  </section>
+
+  <!-- ============ 系列横滑陈列 ============ -->
+  <section class="series" id="series">
+    <div class="section-head rv">
+      <p class="eyebrow">FRAME COLLECTION</p>
+      <h2>镜框系列</h2>
+      <p class="section-sub">六款主打，横滑浏览。每一副都可以在家免费试戴五天。</p>
+    </div>
+    <div class="rail-wrap rv">
+      <button class="rail-btn prev" id="railPrev" aria-label="向左滚动">‹</button>
+      <div class="rail" id="rail" tabindex="0" aria-label="镜框系列横滑列表"><!-- JS 渲染卡片 --></div>
+      <button class="rail-btn next" id="railNext" aria-label="向右滚动">›</button>
+    </div>
+  </section>
+
+  <!-- ============ 在家试戴 3 步骤 ============ -->
+  <section class="tryon" id="tryon">
+    <div class="section-head rv">
+      <p class="eyebrow">HOME TRY-ON</p>
+      <h2>在家试戴，三步就好</h2>
+      <p class="section-sub">不用出门，不用将就。镜框寄到你手上，慢慢挑。</p>
+    </div>
+    <ol class="steps">
+      <li class="step rv">
+        <span class="step-no">01</span>
+        <h3>线上挑选五副</h3>
+        <p>在系列里勾选最多五副心仪镜框，加入试戴盒。近视度数先不填，试戴的是版型。</p>
+      </li>
+      <li class="step rv" style="--d:.12s">
+        <span class="step-no">02</span>
+        <h3>顺丰包邮到家</h3>
+        <p>48 小时内发出，运费我们付。试戴盒里附赠清洁布、鼻托贴和一张手写卡。</p>
+      </li>
+      <li class="step rv" style="--d:.24s">
+        <span class="step-no">03</span>
+        <h3>七天免费体验</h3>
+        <p>戴出门、拍照、问朋友。看中的那副下单配镜，其余四副免费寄回即可。</p>
+      </li>
+    </ol>
+    <div class="tryon-cta rv">
+      <a class="btn btn-amber" href="#booking">开始挑选试戴盒</a>
+      <p class="fine">试戴全程 ¥0 · 损坏不用赔 · 顺丰上门取回</p>
+    </div>
+  </section>
+
+  <!-- ============ 验光预约表单 ============ -->
+  <section class="booking" id="booking">
+    <div class="booking-card rv">
+      <div class="booking-info">
+        <p class="eyebrow">EYE EXAM</p>
+        <h2>预约免费验光</h2>
+        <p>25 分钟，一对一。验光师会给你一份完整的视力档案，配不配镜都归你。</p>
+        <ul class="booking-points">
+          <li>电脑验光 + 综合验光仪双检</li>
+          <li>镜框佩戴舒适度现场调校</li>
+          <li>档案同步到你的试戴账户</li>
+        </ul>
+        <p class="booking-tel">电话预约 <a data-site="phone" href="tel:4000882026">400-088-2026</a><br><span data-site="hours">每日 10:00 – 22:00</span></p>
+      </div>
+      <form class="booking-form" id="bookForm" novalidate>
+        <div class="field">
+          <label for="fName">姓名</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="fPhone">手机</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="11 位手机号" autocomplete="tel" required>
+          <p class="field-err" id="errPhone" hidden>手机号格式不对，再检查一下</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fCity">城市</label>
+            <select id="fCity" name="city" required>
+              <option value="">选择城市</option>
+              <option>上海</option><option>北京</option><option>广州</option>
+              <option>深圳</option><option>杭州</option><option>成都</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fDate">日期</label>
+            <input id="fDate" name="date" type="date" required>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">时段</span>
+          <div class="slots" role="radiogroup" aria-label="预约时段">
+            <label><input type="radio" name="slot" value="10:00–12:00" checked><span>上午</span></label>
+            <label><input type="radio" name="slot" value="14:00–17:00"><span>下午</span></label>
+            <label><input type="radio" name="slot" value="18:00–21:00"><span>晚上</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fNote">备注 <em>（选填）</em></label>
+          <textarea id="fNote" name="note" rows="2" placeholder="比如：第一次配镜 / 孩子验光"></textarea>
+        </div>
+        <button class="btn btn-ink btn-block" type="submit">提交预约</button>
+        <p class="fine">提交即表示同意我们的 <button type="button" class="linklike" data-legal="privacy">隐私政策</button></p>
+      </form>
+      <div class="booking-done" id="bookDone" hidden>
+        <div class="done-mark">✓</div>
+        <h3>预约收到</h3>
+        <p id="doneSummary"></p>
+        <p class="fine">验光师将在 24 小时内电话与你确认具体时间。<br>如需改期，直接回复短信即可。</p>
+        <button class="btn btn-ghost" id="bookAgain" type="button">再约一位家人</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="cta-inner rv">
+      <p class="eyebrow eyebrow-light">FIRST PAIR</p>
+      <h2>第一副眼镜，<br>我们请你重新认识世界。</h2>
+      <p>新客首单立减 ¥100 · 免费验光 · 30 天无理由退换</p>
+      <a class="btn btn-amber btn-lg" href="#booking">预约免费验光</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <p class="logo"><span class="logo-cn">目屿</span><span class="logo-en">MUYU</span></p>
+      <p class="footer-desc">为每天戴 12 小时的人，做戴 12 小时也不累的眼镜。</p>
+      <div class="social" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号" title="微信公众号"><svg viewBox="0 0 24 24"><title>微信</title><path d="M9.5 4C5.9 4 3 6.5 3 9.6c0 1.8 1 3.4 2.5 4.4l-.6 2 2.2-1.1c.8.2 1.6.4 2.4.4h.3A5.6 5.6 0 0 1 9 13.4c0-2.5 2.3-4.6 5.2-4.6h.4C14.2 6 12 4 9.5 4zM15.4 10c-2.4 0-4.4 1.7-4.4 3.8s2 3.8 4.4 3.8c.6 0 1.2-.1 1.7-.3l1.6.8-.4-1.4c1.1-.8 1.7-1.8 1.7-3 0-2-2-3.7-4.6-3.7z"/><circle cx="13.4" cy="13.7" r=".9"/><circle cx="17.2" cy="13.7" r=".9"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><title>微博</title><path d="M10.1 20.2c-3.4.3-6.4-1.4-6.7-3.9-.3-2.4 2.2-4.7 5.6-5 3.1-.3 5.9 1.2 6.5 3.3l1.9-.6c-1-2.9-4.4-4.6-7.9-4.2-4.2.4-7.3 3.2-6.9 6.2.4 3.1 4 5.2 8.1 4.8 3-.3 5.3-1.9 5.9-3.9l-1.9.5c-.4 1.2-2.2 2.5-4.6 2.8zm8.3-9.1c-.3-.4-.8-.5-1.2-.3-.4.2-.5.8-.3 1.2.9 1.5.4 3.2-1 4.3 2-1.2 2.9-3.4 2.5-5.2zm2.2-1.3c-.3-.4-.9-.6-1.3-.3-.5.2-.6.9-.3 1.3 1.5 2.4.9 5.3-1.3 7.1 3-2 4.2-5.3 2.9-8.1z"/></svg></a>
+        <a href="#" aria-label="小红书" title="小红书"><svg viewBox="0 0 24 24"><title>小红书</title><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3.2 5.2c-.5 0-.9.4-.9.9v4.6c0 .5.4.9.9.9h3.6c.5 0 .9-.4.9-.9V9.1c0-.5-.4-.9-.9-.9h-3.6zm.5 1.4h2.6v3.8h-2.6V9.6zM9 16.4c-.4 0-.7.3-.7.7s.3.7.7.7h6c.4 0 .7-.3.7-.7s-.3-.7-.7-.7H9z"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><title>抖音</title><path d="M16.5 3c.4 2.3 1.9 3.8 4.2 4v3c-1.6 0-3-.5-4.2-1.4v6.6c0 3.4-2.5 5.8-5.8 5.8A5.6 5.6 0 0 1 5 15.4c0-3.2 2.6-5.7 6-5.4v3.1c-1.6-.3-3 .8-3 2.3 0 1.4 1.1 2.5 2.6 2.5 1.6 0 2.7-1.2 2.7-2.9V3h3.2z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>联系我们</h4>
+      <ul>
+        <li>客服电话 <a data-site="phone" href="tel:4000882026">400-088-2026</a></li>
+        <li>邮箱 <a data-site="email" href="mailto:hello@muyu-eyewear.com">hello@muyu-eyewear.com</a></li>
+        <li>门店 <span data-site="address">上海市静安区南京西路 1266 号 2 层 L201</span></li>
+        <li>营业时间 <span data-site="hours">每日 10:00 – 22:00</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>服务</h4>
+      <ul>
+        <li><a href="#series">系列镜框</a></li>
+        <li><a href="#tryon">在家试戴</a></li>
+        <li><a href="#booking">验光预约</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>法律</h4>
+      <ul>
+        <li><button class="linklike" data-legal="privacy">隐私政策</button></li>
+        <li><button class="linklike" data-legal="terms">服务条款</button></li>
+        <li><button class="linklike" data-legal="cookies">Cookie 政策</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 目屿光学 MUYU OPTICAL · <span data-site="icp">沪ICP备2026000000号-1</span></p>
+    <p class="fine">本站为品牌概念演示模板，信息均为虚构。</p>
+  </div>
+</footer>
+
+<!-- 法务三件套弹窗 -->
+<div class="modal" id="legalModal" hidden role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="document">
+    <button class="modal-close" data-close aria-label="关闭">×</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/tween.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

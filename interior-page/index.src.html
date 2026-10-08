@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>造宅 · 全案整装 — 把家装成你想要的样子</title>
+<meta name="description" content="造宅整装，12 年深耕全案整装。免费量房、效果图先行、签约价=结算价，1280 套真实交付。在线测算你家装修要花多少钱。">
+<!-- huafire3d fx-lab — original implementation (interior-page) -->
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">宅</div>
+  <div class="loader-word">造宅整装</div>
+  <div class="loader-bar"><i></i></div>
+</div>
+<noscript><style>.loader{display:none}</style></noscript>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="造宅首页">
+      <span class="brand-mark">宅</span>
+      <span class="brand-name">造宅<small>全案整装 · 12年</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#cases">真实案例</a>
+      <a href="#flow">装修流程</a>
+      <a href="#quote">报价测算</a>
+      <a href="#team">设计师</a>
+    </nav>
+    <a class="btn btn-solid btn-sm nav-cta" href="#cta">免费量房</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#cases">真实案例</a>
+    <a href="#flow">装修流程</a>
+    <a href="#quote">报价测算</a>
+    <a href="#team">设计师</a>
+    <a class="btn btn-solid" href="#cta">免费量房</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- hero -->
+  <section class="hero" id="hero">
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">12 年深耕 · 1280 套交付</p>
+        <h1>
+          <span class="rl"><span style="--d:.12s">把家，</span></span>
+          <span class="rl"><span style="--d:.24s">装成<span class="hl">你想要的</span>样子</span></span>
+        </h1>
+        <p class="hero-sub">从免费量房到拎包入住，全案整装一口价。<b>签约价就是结算价</b>，合同之外多一分钱，我们全赔。</p>
+        <div class="hero-ctas">
+          <a class="btn btn-solid" href="#quote">算算我家多少钱</a>
+          <a class="btn btn-ghost" href="#cases">看看真实案例</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><b>12<em>年</em></b><span>深耕整装</span></div>
+          <div class="hstat"><b>1280<em>套</em></b><span>累计交付</span></div>
+          <div class="hstat"><b>98.2<em>%</em></b><span>业主满意度</span></div>
+          <div class="hstat"><b>45<em>天</em></b><span>平均工期</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="scene-card" data-scene="living" data-ratio="4:3.4" role="img" aria-label="现代简约客厅效果示意"></div>
+        <div class="float-chip chip-a"><b><span class="dot"></span>签约价 = 结算价</b><span>增项全额赔付 · 写进合同</span></div>
+        <div class="float-chip chip-b"><b>工地 24 小时直播</b><span>手机随时看进度</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 案例瀑布流 -->
+  <section class="sec" id="cases">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">真实案例</p>
+        <h2 class="sec-title">每一套，都是业主住进去的家</h2>
+        <p class="sec-desc">小区、面积、造价全部真实可查。想看哪套的完整施工记录，预约量房时让设计师带上门。</p>
+      </div>
+      <div class="case-flow">
+        <article class="case reveal" style="--d:.05s">
+          <div class="case-pic"><div data-scene="living" data-ratio="4:3" role="img" aria-label="客厅案例示意"></div><span class="case-tag">现代简约</span></div>
+          <div class="case-body">
+            <h3 class="case-title">万科 · 翡翠滨江</h3>
+            <div class="case-meta"><span>128㎡</span><i>·</i><span>三居</span><i>·</i><span>工期 52 天</span></div>
+            <p class="case-price">全案落地 <b>32.8万</b></p>
+          </div>
+        </article>
+        <article class="case reveal" style="--d:.12s">
+          <div class="case-pic"><div data-scene="bedroom" data-ratio="3:3.8" role="img" aria-label="卧室案例示意"></div><span class="case-tag">奶油原木</span></div>
+          <div class="case-body">
+            <h3 class="case-title">保利 · 天悦</h3>
+            <div class="case-meta"><span>89㎡</span><i>·</i><span>两居</span><i>·</i><span>工期 44 天</span></div>
+            <p class="case-price">全案落地 <b>21.5万</b></p>
+          </div>
+        </article>
+        <article class="case reveal" style="--d:.19s">
+          <div class="case-pic"><div data-scene="kitchen" data-ratio="1:1" role="img" aria-label="厨房案例示意"></div><span class="case-tag">北欧</span></div>
+          <div class="case-body">
+            <h3 class="case-title">龙湖 · 春江郦城</h3>
+            <div class="case-meta"><span>72㎡</span><i>·</i><span>两居</span><i>·</i><span>工期 40 天</span></div>
+            <p class="case-price">全案落地 <b>16.9万</b></p>
+          </div>
+        </article>
+        <article class="case reveal" style="--d:.05s">
+          <div class="case-pic"><div data-scene="dining" data-ratio="4:3" role="img" aria-label="餐厅案例示意"></div><span class="case-tag">新中式</span></div>
+          <div class="case-body">
+            <h3 class="case-title">绿城 · 桃源小镇</h3>
+            <div class="case-meta"><span>168㎡</span><i>·</i><span>四居</span><i>·</i><span>工期 68 天</span></div>
+            <p class="case-price">全案落地 <b>58.6万</b></p>
+          </div>
+        </article>
+        <article class="case reveal" style="--d:.12s">
+          <div class="case-pic"><div data-scene="study" data-ratio="3:3.8" role="img" aria-label="书房案例示意"></div><span class="case-tag">轻奢</span></div>
+          <div class="case-body">
+            <h3 class="case-title">融创 · 文旅城</h3>
+            <div class="case-meta"><span>105㎡</span><i>·</i><span>三居</span><i>·</i><span>工期 48 天</span></div>
+            <p class="case-price">全案落地 <b>29.8万</b></p>
+          </div>
+        </article>
+        <article class="case reveal" style="--d:.19s">
+          <div class="case-pic"><div data-scene="bath" data-ratio="4:3" role="img" aria-label="卫浴案例示意"></div><span class="case-tag">旧房翻新</span></div>
+          <div class="case-body">
+            <h3 class="case-title">老西门 · 96 年公房</h3>
+            <div class="case-meta"><span>68㎡</span><i>·</i><span>两居</span><i>·</i><span>工期 46 天</span></div>
+            <p class="case-price">全案落地 <b>19.2万</b></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 装修流程 4 步 -->
+  <section class="sec" id="flow">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">装修流程</p>
+        <h2 class="sec-title">四步，从毛坯到入住</h2>
+        <p class="sec-desc">每一步都有明确的交付物和时间点。你随时知道现在进行到哪、下一步是什么。</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal" style="--d:.05s">
+          <div class="step-num">01</div>
+          <h3>免费量房<small>上门实测</small></h3>
+          <p>预约后 48 小时内上门，出一套平面布局建议。先看方案，再谈花钱，不花一分钱。</p>
+        </div>
+        <div class="step reveal" style="--d:.15s">
+          <div class="step-num">02</div>
+          <h3>设计签约<small>图纸先行</small></h3>
+          <p>效果图、材料清单逐项列清；签约价就是结算价，合同外增项全额赔付，写进合同。</p>
+        </div>
+        <div class="step reveal" style="--d:.25s">
+          <div class="step-num">03</div>
+          <h3>施工交付<small>全程透明</small></h3>
+          <p>工地 24 小时直播，项目经理每日播报进度；节点验收你签字，我们再收下一笔款。</p>
+        </div>
+        <div class="step reveal" style="--d:.35s">
+          <div class="step-num">04</div>
+          <h3>售后质保<small>终身维护</small></h3>
+          <p>隐蔽工程保 5 年，整体保 2 年；一个电话，48 小时内上门，人一直在。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 报价计算器 -->
+  <section class="sec" id="quote">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <p class="eyebrow">报价测算</p>
+        <h2 class="sec-title">你家装修，大概要花多少钱</h2>
+        <p class="sec-desc">拖动滑杆、选户型和档次，30 秒算出参考总价。设计费限时全免。</p>
+      </div>
+      <div class="calc reveal" style="--d:.1s">
+        <div class="calc-controls">
+          <div class="ctl-label"><label for="areaRange">建筑面积</label><output id="areaOut" for="areaRange">100㎡</output></div>
+          <input type="range" id="areaRange" min="40" max="200" step="1" value="100" aria-label="建筑面积（平方米）">
+          <div class="range-scale"><span>40㎡</span><span>200㎡</span></div>
+          <div class="ctl-label"><span>户型</span></div>
+          <div class="chip-row" id="roomRow" role="group" aria-label="户型选择">
+            <button class="chip" data-mult="0.94">一居</button>
+            <button class="chip active" data-mult="1">两居</button>
+            <button class="chip" data-mult="1.06">三居</button>
+            <button class="chip" data-mult="1.12">四居及以上</button>
+          </div>
+          <div class="ctl-label"><span>装修档次</span></div>
+          <div class="tier-row" id="tierRow" role="group" aria-label="装修档次选择">
+            <button class="tier" data-rate="1299"><b>简装</b><span>1299 元/㎡</span><small>精选国产品牌</small></button>
+            <button class="tier active" data-rate="1899"><b>精装</b><span>1899 元/㎡</span><small>一线品牌主材</small></button>
+            <button class="tier" data-rate="2699"><b>豪装</b><span>2699 元/㎡</span><small>进口品牌全案</small></button>
+          </div>
+        </div>
+        <div class="calc-result">
+          <p class="calc-kicker">测算总价</p>
+          <p class="calc-total">约</p>
+          <p class="calc-num"><span id="totalNum">19.0</span><em>万</em></p>
+          <p class="calc-note">含硬装 + 主材 + 软装 · 设计费限时免</p>
+          <div class="calc-lines">
+            <div class="cline"><span>硬装</span><div class="bar"><i id="barHard"></i></div><b id="valHard">10.4万</b></div>
+            <div class="cline"><span>主材</span><div class="bar"><i id="barMain"></i></div><b id="valMain">5.7万</b></div>
+            <div class="cline"><span>软装</span><div class="bar"><i id="barSoft"></i></div><b id="valSoft">2.8万</b></div>
+          </div>
+          <div class="calc-cta-row"><a class="btn btn-solid" href="#cta">预约免费量房</a></div>
+          <p class="calc-disclaimer">* 测算基于本市 2026 年市场均价，仅供参考。<br>实际报价以免费量房后的设计方案与合同为准。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 设计师团队 -->
+  <section class="sec" id="team">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">设计师团队</p>
+        <h2 class="sec-title">给你画图的人，先看作品</h2>
+        <p class="sec-desc">每位设计师每年只接 12 套，保证每套都亲自跟工地。</p>
+      </div>
+      <div class="team">
+        <article class="member reveal" style="--d:.05s">
+          <div class="member-pic"><div data-avatar="1" role="img" aria-label="陈屿设计师形象示意"></div><span class="member-exp">12 年经验</span></div>
+          <div class="member-body">
+            <h3>陈屿</h3><p class="member-role">首席设计师</p>
+            <p>擅长<b>现代简约、大平层全案</b>。代表作：翡翠滨江 198㎡，业主说"住进来三年，还跟第一天一样喜欢"。</p>
+          </div>
+        </article>
+        <article class="member reveal" style="--d:.12s">
+          <div class="member-pic"><div data-avatar="2" role="img" aria-label="林晚设计师形象示意"></div><span class="member-exp">8 年经验</span></div>
+          <div class="member-body">
+            <h3>林晚</h3><p class="member-role">主任设计师</p>
+            <p>擅长<b>奶油原木、小户型扩容</b>。代表作：天悦 89㎡，两居做出三居的住感，收纳多出一倍。</p>
+          </div>
+        </article>
+        <article class="member reveal" style="--d:.19s">
+          <div class="member-pic"><div data-avatar="3" role="img" aria-label="沈括设计师形象示意"></div><span class="member-exp">6 年经验</span></div>
+          <div class="member-body">
+            <h3>沈括</h3><p class="member-role">高级设计师</p>
+            <p>擅长<b>新中式、旧房翻新</b>。代表作：桃源小镇 168㎡，96 年老公房翻新，水电全改零返工。</p>
+          </div>
+        </article>
+        <article class="member reveal" style="--d:.26s">
+          <div class="member-pic"><div data-avatar="4" role="img" aria-label="苏蔓设计师形象示意"></div><span class="member-exp">5 年经验</span></div>
+          <div class="member-body">
+            <h3>苏蔓</h3><p class="member-role">软装设计师</p>
+            <p>擅长<b>轻奢风、色彩与灯光</b>。代表作：文旅城 105㎡，灯光一开，朋友圈问爆了"哪家装的"。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="sec" id="cta">
+    <div class="cta-glow" aria-hidden="true"></div>
+    <div class="wrap cta-inner reveal">
+      <div id="ctaForm">
+        <h2>现在预约，<span class="hl">48 小时内</span>上门量房</h2>
+        <p>留个电话，设计师带方案上门。不推销，不群发，一次说清。</p>
+        <form class="cta-form" id="bookForm" novalidate>
+          <input type="text" id="fName" name="name" placeholder="怎么称呼您" autocomplete="name" maxlength="12">
+          <input type="tel" id="fPhone" name="phone" placeholder="手机号码" autocomplete="tel" inputmode="numeric" maxlength="11">
+          <input type="number" id="fArea" name="area" placeholder="面积（㎡）" min="20" max="500" inputmode="numeric">
+          <button class="btn btn-solid" type="submit">免费预约量房</button>
+        </form>
+        <p class="cta-tip">提交即表示同意我们的<button type="button" data-legal="privacy" style="background:none;border:0;color:var(--clay);text-decoration:underline;text-underline-offset:3px;font-size:inherit">隐私政策</button>，信息仅用于预约回访。</p>
+      </div>
+      <div class="cta-done" id="ctaDone" aria-live="polite">
+        <div class="ok">✓</div>
+        <h3>预约收到</h3>
+        <p id="ctaDoneMsg">设计师将在 24 小时内与您联系，确认上门时间。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="造宅首页">
+          <span class="brand-mark">宅</span>
+          <span class="brand-name">造宅<small>全案整装 · 12年</small></span>
+        </a>
+        <p>12 年只做一件事：把装修这件麻烦事，变成一件确定的事。签约价=结算价，写进合同。</p>
+        <div class="social" aria-label="社交媒体">
+          <a href="#top" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M8 5C4.7 5 2 7.6 2 10.8c0 1.8 1 3.4 2.5 4.4L4 18l3-1.5c.9.3 1.9.4 3 .4h.3A5.6 5.6 0 0 1 10 14c0-3.2 2.7-5.8 6-5.8h1C15.4 6 11.9 5 8 5z"/><path d="M16 9c-3 0-5.5 2.3-5.5 5.1 0 2.9 2.5 5.2 5.5 5.2.7 0 1.4-.1 2-.3l2.4 1.2-.4-2.2c1-1 1.6-2.2 1.6-3.6C21.6 11.3 19 9 16 9z"/></svg></a>
+          <a href="#top" aria-label="微博"><svg viewBox="0 0 24 24"><circle cx="9" cy="13" r="5.5"/><path d="M14.5 8.5c2.8-.4 5.5 1.2 6 3.8M15.5 5.8c3.9-.3 7.3 2 7.6 5.2"/></svg></a>
+          <a href="#top" aria-label="小红书"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9 12.5l2.2 2.2L15.5 10"/></svg></a>
+          <a href="#top" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M14 4v10.5a3.75 3.75 0 1 1-3.75-3.75"/><path d="M14 4c.4 2.6 2 4.3 4.8 4.6"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>快速导航</h4>
+        <ul>
+          <li><a href="#cases">真实案例</a></li>
+          <li><a href="#flow">装修流程</a></li>
+          <li><a href="#quote">报价测算</a></li>
+          <li><a href="#team">设计师团队</a></li>
+          <li><a href="#cta">免费量房</a></li>
+        </ul>
+      </div>
+      <div class="foot-col foot-contact">
+        <h4>联系我们</h4>
+        <ul>
+          <li><b>地址</b> · <span data-site="address"></span></li>
+          <li><b>电话</b> · <a data-site="phone" data-site-href="phoneHref"></a></li>
+          <li><b>邮箱</b> · <a data-site="email" data-site-href="mailtoHref"></a></li>
+          <li><b>营业</b> · <span data-site="hours"></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <div class="legal-btns" role="group" aria-label="网站政策">
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+      <p class="copyright">© <span data-site="year"></span> <span data-site="name"></span> ｜ <span data-site="icp"></span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h3 id="modalTitle">隐私政策</h3>
+      <button class="modal-close" id="modalClose" aria-label="关闭弹窗">✕</button>
+    </div>
+    <div class="modal-body"><ol id="modalList"></ol></div>
+    <div class="modal-foot"><span data-site="name"></span> · 本政策更新于 2026 年 1 月</div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

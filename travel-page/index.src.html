@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>远行 Yuanxing — 把世界装进行囊</title>
+<meta name="description" content="远行旅行社：热门目的地、主题线路、定制旅行。12 年深耕，40 万+ 出行人次。">
+<link href="styles.css" rel="stylesheet">
+<script>document.documentElement.classList.replace('no-js','js');</script>
+</head>
+<body>
+
+<!-- 全站共用 SVG 定义：噪点 / 渐变（仅限三色系） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <linearGradient id="skySand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FAF7F0"/><stop offset="1" stop-color="#F1E9DA"/>
+    </linearGradient>
+    <linearGradient id="seaNavy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12345F"/><stop offset="1" stop-color="#0B2545"/>
+    </linearGradient>
+    <radialGradient id="sunCoral" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FF8A6B"/><stop offset="1" stop-color="#FF6B4A"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<!-- 加载态 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 64 64" width="56" height="56"><circle cx="32" cy="32" r="29" fill="none" stroke="#FF6B4A" stroke-width="3"/><path d="M12 40 L26 20 L34 32 L40 24 L52 40 Z" fill="#FAF7F0"/></svg>
+  </div>
+  <div class="loader-name">远 行</div>
+  <div class="loader-bar"><span id="loaderFill"></span></div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="远行首页">
+    <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="#0B2545"/><path d="M12 40 L26 20 L34 32 L40 24 L52 40 Z" fill="#FAF7F0"/><circle cx="44" cy="18" r="6" fill="#FF6B4A"/></svg>
+    <span class="brand-word">远行<em>YUANXING</em></span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#dest">目的地</a>
+    <a href="#routes">主题线路</a>
+    <a href="#reviews">旅行家说</a>
+    <a href="#about">关于我们</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="btn btn-coral btn-sm" href="#cta">开始规划</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="drawer-mask" id="drawerMask"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="移动端菜单">
+  <div class="drawer-head">
+    <span class="brand-word">远行<em>YUANXING</em></span>
+    <button class="drawer-close" id="drawerClose" aria-label="关闭菜单">✕</button>
+  </div>
+  <nav class="drawer-links">
+    <a href="#dest">目的地</a>
+    <a href="#routes">主题线路</a>
+    <a href="#reviews">旅行家说</a>
+    <a href="#about">关于我们</a>
+  </nav>
+  <a class="btn btn-coral btn-block" href="#cta">开始规划旅程</a>
+  <p class="drawer-foot">客服 <a data-site="phone" data-site-href="phoneHref">—</a> · 每天 9:00–21:00</p>
+</aside>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <svg viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+        <rect width="1440" height="620" fill="url(#skySand)"/>
+        <circle cx="1150" cy="150" r="86" fill="url(#sunCoral)"/>
+        <circle cx="1150" cy="150" r="120" fill="none" stroke="#FF6B4A" stroke-opacity="0.25" stroke-width="2"/>
+        <path d="M0 470 L180 300 L330 430 L520 250 L700 430 L880 290 L1060 450 L1240 330 L1440 470 L1440 620 L0 620 Z" fill="#0B2545" opacity="0.92"/>
+        <path d="M0 520 L220 400 L420 500 L640 380 L860 510 L1080 410 L1300 510 L1440 450 L1440 620 L0 620 Z" fill="#0B2545"/>
+        <path d="M0 560 Q 200 545 400 558 T 800 556 T 1200 558 T 1440 554 L1440 620 L0 620 Z" fill="#12345F" opacity="0.55"/>
+        <g stroke="#FAF7F0" stroke-width="3" stroke-linecap="round" opacity="0.5">
+          <path d="M470 330 l14 -22 l14 22"/><path d="M520 318 l10 -16 l10 16"/>
+        </g>
+        <g fill="#FAF7F0" opacity="0.35">
+          <circle cx="240" cy="120" r="3"/><circle cx="700" cy="90" r="2.5"/><circle cx="420" cy="180" r="2"/><circle cx="960" cy="70" r="3"/>
+        </g>
+        <rect width="1440" height="620" filter="url(#grain)" opacity="0.05"/>
+      </svg>
+      <div class="hero-vignette"></div>
+    </div>
+
+    <div class="hero-inner">
+      <p class="eyebrow" data-rv>12 年 · 带 40 万人看过世界</p>
+      <h1 class="hero-title">
+        <span class="line"><span>把世界，</span></span>
+        <span class="line"><span>装进<em>行囊</em>里。</span></span>
+      </h1>
+      <p class="hero-sub" data-rv style="--d:.25s">目的地、线路、住宿、领队——一次搜齐。<br>剩下的，交给远行的旅行顾问。</p>
+
+      <!-- 搜索条 -->
+      <form class="searchbar" id="searchbar" data-rv style="--d:.38s" autocomplete="off">
+        <label class="sb-field">
+          <span class="sb-label">目的地</span>
+          <input class="sb-input" id="sbDest" type="text" placeholder="想去哪里？比如 丽江" list="destList">
+          <datalist id="destList">
+            <option value="丽江"></option><option value="三亚"></option><option value="敦煌"></option>
+            <option value="拉萨"></option><option value="杭州"></option><option value="张家界"></option>
+            <option value="川西"></option><option value="新疆"></option>
+          </datalist>
+        </label>
+        <span class="sb-div"></span>
+        <label class="sb-field">
+          <span class="sb-label">出发日期</span>
+          <input class="sb-input" id="sbDate" type="date">
+        </label>
+        <span class="sb-div"></span>
+        <div class="sb-field">
+          <span class="sb-label">出行人数</span>
+          <div class="stepper">
+            <button type="button" class="step-btn" id="stepMinus" aria-label="减少人数">−</button>
+            <span class="step-val" id="stepVal">2 位</span>
+            <button type="button" class="step-btn" id="stepPlus" aria-label="增加人数">＋</button>
+          </div>
+        </div>
+        <button class="btn btn-coral sb-go" type="submit">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16.5 16.5 L21 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          搜索
+        </button>
+      </form>
+
+      <ul class="hero-stats" data-rv style="--d:.5s">
+        <li><b>120+</b><span>目的地</span></li>
+        <li><b>40万+</b><span>出行人次</span></li>
+        <li><b>4.9</b><span>平均评分</span></li>
+        <li><b>98%</b><span>好评率</span></li>
+      </ul>
+    </div>
+    <a class="scroll-hint" href="#dest" aria-label="向下滚动"><span></span></a>
+  </section>
+
+  <!-- ============ 热门目的地 ============ -->
+  <section class="section" id="dest">
+    <div class="wrap">
+      <header class="sec-head" data-rv>
+        <p class="eyebrow eyebrow-coral">本周热门</p>
+        <h2>大家都在去的<br>六个地方</h2>
+        <p class="sec-sub">真实出发人数周榜，每周一更新。价格为淡季 3 天 2 晚自由行参考价。</p>
+      </header>
+
+      <div class="dest-grid" data-rv-group>
+        <!-- 卡片 1 丽江 -->
+        <article class="dest-card" data-rv>
+          <div class="card-scene">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="300" fill="#FAF7F0"/>
+              <circle cx="310" cy="70" r="34" fill="#FF6B4A"/>
+              <path d="M0 240 L110 110 L190 210 L260 90 L340 200 L400 150 L400 300 L0 300 Z" fill="#0B2545"/>
+              <path d="M110 110 L135 145 L110 160 L88 142 Z M260 90 L282 120 L260 134 L240 118 Z" fill="#FAF7F0"/>
+              <path d="M0 262 Q 100 250 200 260 T 400 258 L400 300 L0 300 Z" fill="#0B2545" opacity="0.25"/>
+              <rect width="400" height="300" filter="url(#grain)" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top"><h3>丽江</h3><span class="card-tag">雪山 · 古城</span></div>
+            <p>玉龙雪山脚下发呆三天，古城里找一家有猫的客栈。</p>
+            <div class="card-foot"><span class="price">¥2,380 <em>起/人</em></span><span class="go">看看线路 →</span></div>
+          </div>
+        </article>
+        <!-- 卡片 2 三亚 -->
+        <article class="dest-card" data-rv>
+          <div class="card-scene">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="300" fill="#FAF7F0"/>
+              <circle cx="200" cy="110" r="44" fill="url(#sunCoral)"/>
+              <path d="M0 210 Q 60 190 120 208 T 240 206 T 400 210 L400 300 L0 300 Z" fill="#0B2545" opacity="0.85"/>
+              <path d="M0 240 Q 80 224 160 240 T 320 238 T 400 242 L400 300 L0 300 Z" fill="#0B2545"/>
+              <path d="M60 170 q10 -26 20 0 q10 26 20 0" stroke="#FF6B4A" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M300 150 q8 -20 16 0 q8 20 16 0" stroke="#FF6B4A" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <rect width="400" height="300" filter="url(#grain)" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top"><h3>三亚</h3><span class="card-tag">海岛 · 亲子</span></div>
+            <p>冬天就该穿着短袖吃椰子，看一场海上日落。</p>
+            <div class="card-foot"><span class="price">¥3,180 <em>起/人</em></span><span class="go">看看线路 →</span></div>
+          </div>
+        </article>
+        <!-- 卡片 3 敦煌 -->
+        <article class="dest-card" data-rv>
+          <div class="card-scene">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="300" fill="#FAF7F0"/>
+              <circle cx="120" cy="90" r="36" fill="#FF6B4A"/>
+              <path d="M0 230 Q 120 170 240 225 T 400 215 L400 300 L0 300 Z" fill="#0B2545" opacity="0.9"/>
+              <path d="M0 258 Q 140 220 280 252 T 400 246 L400 300 L0 300 Z" fill="#0B2545"/>
+              <g stroke="#FAF7F0" stroke-width="3" opacity="0.6"><path d="M80 250 q30 -12 60 0"/><path d="M250 270 q30 -12 60 0"/></g>
+              <rect x="300" y="120" width="46" height="70" fill="#0B2545" opacity="0.85"/>
+              <path d="M300 120 L323 96 L346 120 Z" fill="#0B2545" opacity="0.85"/>
+              <rect width="400" height="300" filter="url(#grain)" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top"><h3>敦煌</h3><span class="card-tag">大漠 · 石窟</span></div>
+            <p>莫高窟里看一千年的颜色，鸣沙山上等一场日落。</p>
+            <div class="card-foot"><span class="price">¥4,580 <em>起/人</em></span><span class="go">看看线路 →</span></div>
+          </div>
+        </article>
+        <!-- 卡片 4 拉萨 -->
+        <article class="dest-card" data-rv>
+          <div class="card-scene">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="300" fill="#FAF7F0"/>
+              <circle cx="200" cy="80" r="30" fill="#FF6B4A" opacity="0.9"/>
+              <path d="M120 220 L140 150 L160 150 L150 220 Z M240 220 L260 150 L280 150 L270 220 Z" fill="#0B2545"/>
+              <rect x="110" y="200" width="180" height="34" fill="#0B2545"/>
+              <rect x="140" y="168" width="120" height="36" fill="#0B2545"/>
+              <rect x="170" y="140" width="60" height="32" fill="#0B2545"/>
+              <g fill="#FAF7F0"><rect x="150" y="176" width="14" height="10"/><rect x="176" y="176" width="14" height="10"/><rect x="202" y="176" width="14" height="10"/><rect x="228" y="176" width="14" height="10"/></g>
+              <path d="M0 250 L400 250 L400 300 L0 300 Z" fill="#0B2545" opacity="0.2"/>
+              <rect width="400" height="300" filter="url(#grain)" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top"><h3>拉萨</h3><span class="card-tag">高原 · 朝圣</span></div>
+            <p>在布达拉宫广场看第一缕阳光，慢，是这里的规矩。</p>
+            <div class="card-foot"><span class="price">¥5,280 <em>起/人</em></span><span class="go">看看线路 →</span></div>
+          </div>
+        </article>
+        <!-- 卡片 5 杭州 -->
+        <article class="dest-card" data-rv>
+          <div class="card-scene">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="300" fill="#FAF7F0"/>
+              <circle cx="320" cy="80" r="30" fill="#FF6B4A"/>
+              <path d="M0 190 Q 200 150 400 190 L400 210 Q 200 170 0 210 Z" fill="#0B2545"/>
+              <rect x="180" y="120" width="40" height="70" fill="#0B2545"/>
+              <path d="M172 120 L228 120 L200 96 Z" fill="#0B2545"/>
+              <path d="M0 220 Q 100 210 200 218 T 400 216 L400 300 L0 300 Z" fill="#0B2545" opacity="0.85"/>
+              <g stroke="#FAF7F0" stroke-width="3" opacity="0.5" fill="none"><path d="M60 244 q20 -8 40 0 t40 0"/><path d="M240 262 q20 -8 40 0 t40 0"/></g>
+              <rect width="400" height="300" filter="url(#grain)" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top"><h3>杭州</h3><span class="card-tag">湖畔 · 茶香</span></div>
+            <p>清晨六点的西湖属于早起的人，龙井村的茶要趁新喝。</p>
+            <div class="card-foot"><span class="price">¥1,880 <em>起/人</em></span><span class="go">看看线路 →</span></div>
+          </div>
+        </article>
+        <!-- 卡片 6 张家界 -->
+        <article class="dest-card" data-rv>
+          <div class="card-scene">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="300" fill="#FAF7F0"/>
+              <circle cx="90" cy="70" r="28" fill="#FF6B4A"/>
+              <g fill="#0B2545">
+                <path d="M60 300 L60 120 L80 100 L100 120 L100 300 Z"/>
+                <path d="M140 300 L140 70 L165 45 L190 70 L190 300 Z"/>
+                <path d="M230 300 L230 130 L250 112 L270 130 L270 300 Z"/>
+                <path d="M310 300 L310 150 L330 132 L350 150 L350 300 Z"/>
+              </g>
+              <g fill="#FAF7F0" opacity="0.85">
+                <ellipse cx="165" cy="45" rx="26" ry="10"/><ellipse cx="80" cy="100" rx="20" ry="8"/><ellipse cx="250" cy="112" rx="20" ry="8"/>
+              </g>
+              <path d="M0 280 Q 200 264 400 280 L400 300 L0 300 Z" fill="#0B2545" opacity="0.25"/>
+              <rect width="400" height="300" filter="url(#grain)" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top"><h3>张家界</h3><span class="card-tag">奇峰 · 云海</span></div>
+            <p>三千奇峰拔地而起，云来的时候，山会走路。</p>
+            <div class="card-foot"><span class="price">¥2,980 <em>起/人</em></span><span class="go">看看线路 →</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 主题线路横滑 ============ -->
+  <section class="section section-navy" id="routes">
+    <div class="wrap">
+      <header class="sec-head sec-head-light" data-rv>
+        <div class="sec-head-row">
+          <div>
+            <p class="eyebrow eyebrow-coral">领队带队 · 小团出行</p>
+            <h2>主题线路</h2>
+            <p class="sec-sub">每团不超过 12 人，配双领队。左右滑动查看，价格含住宿与门票。</p>
+          </div>
+          <div class="rail-btns">
+            <button class="rail-btn" id="railPrev" aria-label="上一批线路">←</button>
+            <button class="rail-btn" id="railNext" aria-label="下一批线路">→</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="rail" id="rail" data-rv-group>
+        <article class="route-card" data-rv>
+          <span class="route-days">7 天 6 晚</span>
+          <h3>川西秘境环线</h3>
+          <p class="route-spots">四姑娘山 · 丹巴 · 稻城亚丁 · 新都桥</p>
+          <ul class="route-feats"><li>越野车队进山</li><li>藏寨住一晚</li><li>星空摄影指导</li></ul>
+          <div class="route-foot"><span class="price price-light">¥6,980 <em>起/人</em></span><span class="route-left">本月余 3 席</span></div>
+        </article>
+        <article class="route-card" data-rv>
+          <span class="route-days">5 天 4 晚</span>
+          <h3>丝路敦煌研学</h3>
+          <p class="route-spots">莫高窟 · 鸣沙山月牙泉 · 雅丹魔鬼城</p>
+          <ul class="route-feats"><li>特窟讲解员</li><li>沙漠露营一晚</li><li>壁画临摹体验</li></ul>
+          <div class="route-foot"><span class="price price-light">¥4,580 <em>起/人</em></span><span class="route-left">本月余 6 席</span></div>
+        </article>
+        <article class="route-card" data-rv>
+          <span class="route-days">9 天 8 晚</span>
+          <h3>滇藏茶马古道</h3>
+          <p class="route-spots">丽江 · 香格里拉 · 梅里雪山 · 盐井</p>
+          <ul class="route-feats"><li>徒步雨崩村</li><li>藏民家访</li><li>日照金山守候</li></ul>
+          <div class="route-foot"><span class="price price-light">¥8,880 <em>起/人</em></span><span class="route-left">本月余 2 席</span></div>
+        </article>
+        <article class="route-card" data-rv>
+          <span class="route-days">4 天 3 晚</span>
+          <h3>海岛慢生活</h3>
+          <p class="route-spots">三亚 · 蜈支洲岛 · 亚龙湾 · 槟榔谷</p>
+          <ul class="route-feats"><li>帆船出海半日</li><li>海鲜市场代购</li><li>旅拍跟拍 2 小时</li></ul>
+          <div class="route-foot"><span class="price price-light">¥3,280 <em>起/人</em></span><span class="route-left">天天发团</span></div>
+        </article>
+        <article class="route-card" data-rv>
+          <span class="route-days">6 天 5 晚</span>
+          <h3>新疆北疆秋色</h3>
+          <p class="route-spots">喀纳斯 · 禾木 · 赛里木湖 · 独库公路</p>
+          <ul class="route-feats"><li>图瓦人木屋</li><li>湖畔日出机位</li><li>哈萨克毡房宴</li></ul>
+          <div class="route-foot"><span class="price price-light">¥7,680 <em>起/人</em></span><span class="route-left">秋色季 9–10 月</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 旅行家评价 ============ -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <header class="sec-head" data-rv>
+        <p class="eyebrow eyebrow-coral">旅行家说</p>
+        <h2>他们刚回来</h2>
+        <p class="sec-sub">以下评价来自真实出行订单，订单号可查，未做任何修改。</p>
+      </header>
+      <div class="review-grid" data-rv-group>
+        <figure class="review-card" data-rv>
+          <div class="stars" aria-label="5 星好评">★★★★★</div>
+          <blockquote>“领队阿哲把高反这事安排得明明白白，第一天只在丹巴住，第二天才进高海拔。我们团 11 个人，没一个难受的。亚丁牛奶海那天，他 5 点就叫我们起床占机位。”</blockquote>
+          <figcaption>
+            <span class="avatar avatar-1">陈</span>
+            <span class="who"><b>陈晓</b><i>上海 · 川西秘境环线 · 9 月出行</i></span>
+          </figcaption>
+        </figure>
+        <figure class="review-card" data-rv>
+          <div class="stars" aria-label="5 星好评">★★★★★</div>
+          <blockquote>“带 7 岁的女儿去的，最怕她走不动。结果行程里每天下午都留了 2 小时酒店休息，女儿在鸣沙山滑沙滑到不想走。特窟的讲解员讲得连我都听入迷了。”</blockquote>
+          <figcaption>
+            <span class="avatar avatar-2">林</span>
+            <span class="who"><b>林晚</b><i>杭州 · 丝路敦煌研学 · 8 月出行</i></span>
+          </figcaption>
+        </figure>
+        <figure class="review-card" data-rv>
+          <div class="stars" aria-label="5 星好评">★★★★★</div>
+          <blockquote>“第三次跟远行了。这次三亚，本来只想躺着，领队硬拉我们去看了场海上日出——值。返程那天台风预警，他们连夜给全团改签了航班，一分钱没多收。”</blockquote>
+          <figcaption>
+            <span class="avatar avatar-3">周</span>
+            <span class="who"><b>老周</b><i>成都 · 海岛慢生活 · 7 月出行</i></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta" id="cta">
+    <div class="wrap cta-inner" data-rv>
+      <p class="eyebrow eyebrow-coral">免费咨询 · 不下单也欢迎</p>
+      <h2>下一段旅程，<br>从一次聊天开始。</h2>
+      <p class="cta-sub">告诉旅行顾问你的假期天数和预算，24 小时内给你三套方案。对比看看，不合适就当交个朋友。</p>
+      <div class="cta-actions">
+        <a class="btn btn-coral btn-lg" href="#top" id="ctaChat">找旅行顾问聊聊</a>
+        <a class="btn btn-ghost-light btn-lg" data-site-href="phoneHref"><span data-site="phone">—</span></a>
+      </div>
+      <p class="cta-note">每天 9:00–21:00 · 平均等待 40 秒</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer" id="about">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-word brand-word-light">远行<em>YUANXING</em></span>
+        <p>2014 年成立的旅行社。只做一件事：把每一段路，都安排得像为你一个人准备的。</p>
+        <ul class="foot-contact">
+          <li>电话 <a data-site="phone" data-site-href="phoneHref">—</a></li>
+          <li>邮箱 <a data-site="email" data-site-href="mailtoHref">—</a></li>
+          <li>地址 <span data-site="address">—</span></li>
+        </ul>
+        <div class="socials">
+          <a href="#top" aria-label="微信公众号" class="soc"><svg viewBox="0 0 24 24"><path d="M8 4C4.7 4 2 6.6 2 9.8c0 1.8.9 3.4 2.4 4.4L4 17l3.2-1.6c.6.2 1.2.2 1.8.2h.4A6.4 6.4 0 0 1 9 9.9V9.8C9 6.6 11.6 4 15 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7" cy="10" r="1.2" fill="currentColor"/><circle cx="11" cy="10" r="1.2" fill="currentColor"/></svg></a>
+          <a href="#top" aria-label="微博" class="soc"><svg viewBox="0 0 24 24"><path d="M4 14c2.5 0 4.5-2 4.5-4.5S6.5 5 4 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 20c3.9 0 7-2.5 7-6 0-1.2-.4-2.3-1-3.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="13" cy="17" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
+          <a href="#top" aria-label="小红书" class="soc"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 12.5l1.8 1.8 3.2-3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#top" aria-label="抖音" class="soc"><svg viewBox="0 0 24 24"><path d="M14 3v10.5a3.75 3.75 0 1 1-3.75-3.75" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 5.5c.6 2.3 2.2 3.6 4.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-col" aria-label="探索">
+        <h4>探索</h4>
+        <a href="#dest">热门目的地</a><a href="#routes">主题线路</a><a href="#cta">定制旅行</a><a href="#cta">企业团建</a>
+      </nav>
+      <nav class="foot-col" aria-label="帮助">
+        <h4>帮助</h4>
+        <a href="#cta">联系客服</a><a href="#cta">出行须知</a><a href="#cta">退款政策</a><a href="#cta">常见问题</a>
+      </nav>
+      <div class="foot-col">
+        <h4>网站政策</h4>
+        <button class="legal-link" data-legal="privacy">隐私政策</button>
+        <button class="legal-link" data-legal="terms">服务条款</button>
+        <button class="legal-link" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span data-site="year">2026</span> <span data-site="name">远行旅行社</span> ｜ <span data-site="icp">京ICP备xxxxxxxxxx号-1</span></p>
+      <p class="foot-slogan">世界很大，慢慢走。</p>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="legal-modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="legal-mask" id="legalMask"></div>
+  <div class="legal-panel" role="document">
+    <div class="legal-head">
+      <h3 id="legalTitle">隐私政策</h3>
+      <button class="legal-close" id="legalClose" aria-label="关闭">✕</button>
+    </div>
+    <div class="legal-body" id="legalBody"></div>
+    <div class="legal-foot">
+      <button class="btn btn-coral btn-sm" id="legalOk">我知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FF6B4A"/><path d="M8 12.5l2.6 2.6L16 9.5" stroke="#FAF7F0" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <p id="toastText"></p>
+</div>
+
+<noscript><style>.loader{display:none}</style></noscript>
+<script src="src/main.js"></script>
+</body>
+</html>

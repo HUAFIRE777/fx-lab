@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>驰电 CHIDIAN · 充电桩品牌 — 快充，下一刻就满</title>
+<meta name="description" content="驰电充电桩品牌模板：找桩、充电、家用/商用方案、加盟合作。深空灰×荧光绿科技能源风。">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 加载态 -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-bolt" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="44" height="44"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2z" fill="#8CFF57"/></svg>
+  </div>
+  <div class="loader-bar"><span></span></div>
+  <p class="loader-txt">正在接入充电网络…</p>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="驰电首页">
+      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect x="3" y="7" width="26" height="18" rx="4" fill="none" stroke="#8CFF57" stroke-width="2.4"/><path d="M17 4 10 17h5l-1.5 11L21 14h-5l1-10z" fill="#8CFF57"/></svg>
+      <span class="logo-name">驰电<em>CHIDIAN</em></span>
+    </a>
+    <nav class="nav-menu" aria-label="主导航">
+      <a href="#finder" data-nav>找桩</a>
+      <a href="#steps" data-nav>充电三步</a>
+      <a href="#plans" data-nav>解决方案</a>
+      <a href="#join" data-nav>加盟合作</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="#join">免费咨询</a>
+      <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-mask" id="drawerMask"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#finder">找桩</a>
+    <a href="#steps">充电三步</a>
+    <a href="#plans">解决方案</a>
+    <a href="#join">加盟合作</a>
+  </nav>
+  <a class="btn btn-primary btn-block" href="#join">免费咨询</a>
+  <p class="drawer-foot">驰电 · 快充，下一刻就满</p>
+</aside>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <canvas id="current" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-kicker rv">全国 12 万 + 充电终端在线</p>
+        <h1 class="hero-title rv">快充，<br>下一刻<em>就满</em></h1>
+        <p class="hero-sub rv">扫码即充，峰谷自动计价；找桩、排队、结算，一个 App 全搞定。<br>充电这件小事，交给驰电。</p>
+        <div class="hero-cta rv">
+          <a class="btn btn-primary" href="#finder">找附近的桩</a>
+          <a class="btn btn-ghost" href="#join">加盟合作</a>
+        </div>
+        <ul class="hero-stats">
+          <li class="rv"><b><span data-count="12">0</span>万+</b><i>充电终端</i></li>
+          <li class="rv"><b><span data-count="380">0</span>+</b><i>覆盖城市</i></li>
+          <li class="rv"><b><span data-count="98">0</span>%</b><i>一次充电成功率</i></li>
+        </ul>
+      </div>
+      <div class="hero-ring rv">
+        <svg viewBox="0 0 260 260" role="img" aria-label="充电中 96%">
+          <defs>
+            <linearGradient id="ringGlow" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8CFF57"/>
+              <stop offset="1" stop-color="#4DC93F"/>
+            </linearGradient>
+          </defs>
+          <circle cx="130" cy="130" r="104" class="ring-bg"/>
+          <circle cx="130" cy="130" r="104" class="ring-fg" id="ringFg"/>
+          <g class="ring-bolt">
+            <path d="M137 74 96 141h25l-7 45 43-69h-26l6-43z" fill="#8CFF57"/>
+          </g>
+        </svg>
+        <div class="ring-label">
+          <b><span id="socNum">0</span>%</b>
+          <i id="socState">正在充电…</i>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- 找桩入口 -->
+  <section class="section" id="finder">
+    <div class="wrap">
+      <p class="kicker rv">FIND A STATION</p>
+      <h2 class="h2 rv">出门前，先看一眼桩</h2>
+      <p class="lede rv">实时桩态、价格、空闲枪数，出发前心里有数。不绕路，不排队。</p>
+      <div class="finder-bar rv">
+        <div class="search">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="text" id="stationSearch" placeholder="搜索站点名称，如「国贸」" aria-label="搜索充电站">
+        </div>
+        <div class="chips" role="tablist" aria-label="城市筛选">
+          <button class="chip on" data-city="all">全部</button>
+          <button class="chip" data-city="北京">北京</button>
+          <button class="chip" data-city="上海">上海</button>
+          <button class="chip" data-city="深圳">深圳</button>
+        </div>
+      </div>
+      <div class="cards" id="stationCards">
+        <article class="card rv" data-city="北京" data-name="国贸商城地下充电站">
+          <div class="card-top"><h3>国贸商城地下充电站</h3><span class="tag free">空闲</span></div>
+          <p class="card-addr">北京市朝阳区建国门外大街 1 号 B2</p>
+          <div class="card-meta"><span>距你 1.2 km</span><span>快充 24 枪 · 空闲 11</span><span class="price">¥1.48/度</span></div>
+        </article>
+        <article class="card rv" data-city="北京" data-name="望京 SOHO 塔三快充站">
+          <div class="card-top"><h3>望京 SOHO 塔三快充站</h3><span class="tag busy">较忙</span></div>
+          <p class="card-addr">北京市朝阳区阜通西大街 115 号 P1</p>
+          <div class="card-meta"><span>距你 3.6 km</span><span>快充 18 枪 · 空闲 2</span><span class="price">¥1.32/度</span></div>
+        </article>
+        <article class="card rv" data-city="上海" data-name="陆家嘴中心绿地充电站">
+          <div class="card-top"><h3>陆家嘴中心绿地充电站</h3><span class="tag free">空闲</span></div>
+          <p class="card-addr">上海市浦东新区陆家嘴环路 1088 号</p>
+          <div class="card-meta"><span>距你 0.8 km</span><span>快充 30 枪 · 空闲 19</span><span class="price">¥1.51/度</span></div>
+        </article>
+        <article class="card rv" data-city="上海" data-name="虹桥枢纽 P9 充电站">
+          <div class="card-top"><h3>虹桥枢纽 P9 充电站</h3><span class="tag free">空闲</span></div>
+          <p class="card-addr">上海市闵行区申贵路 1588 号</p>
+          <div class="card-meta"><span>距你 5.4 km</span><span>快充 40 枪 · 空闲 26</span><span class="price">¥1.39/度</span></div>
+        </article>
+        <article class="card rv" data-city="深圳" data-name="海岸城购物中心充电站">
+          <div class="card-top"><h3>海岸城购物中心充电站</h3><span class="tag busy">较忙</span></div>
+          <p class="card-addr">深圳市南山区文心五路 33 号 B1</p>
+          <div class="card-meta"><span>距你 2.1 km</span><span>快充 22 枪 · 空闲 3</span><span class="price">¥1.44/度</span></div>
+        </article>
+        <article class="card rv" data-city="深圳" data-name="科技园南区充电站">
+          <div class="card-top"><h3>科技园南区充电站</h3><span class="tag free">空闲</span></div>
+          <p class="card-addr">深圳市南山区科技南十二路 6 号</p>
+          <div class="card-meta"><span>距你 4.7 km</span><span>快充 26 枪 · 空闲 14</span><span class="price">¥1.28/度</span></div>
+        </article>
+      </div>
+      <p class="finder-note rv">以上为演示数据。真实桩态请下载 App 查看实时信息。</p>
+    </div>
+  </section>
+
+  <!-- 充电三步 -->
+  <section class="section section-alt" id="steps">
+    <div class="wrap">
+      <p class="kicker rv">HOW IT WORKS</p>
+      <h2 class="h2 rv">充电，只需三步</h2>
+      <p class="lede rv">第一次用也能一次搞定。平均 38 分钟，从 20% 充到 90%。</p>
+      <ol class="steps">
+        <li class="step rv">
+          <span class="step-num">01</span>
+          <div class="step-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="42" height="42"><rect x="14" y="4" width="20" height="26" rx="4" fill="none" stroke="#8CFF57" stroke-width="2.5"/><rect x="19" y="9" width="10" height="8" rx="1.5" fill="#8CFF57"/><path d="M20 36h8v8h-8z" fill="#8CFF57"/></svg>
+          </div>
+          <h3>扫码启动</h3>
+          <p>打开 App 扫枪身二维码，选枪、确认价格，一键启动。不用办卡，不用押金。</p>
+        </li>
+        <li class="step rv">
+          <span class="step-num">02</span>
+          <div class="step-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="42" height="42"><path d="M26 4 14 27h9l-2 17 12-23h-9l2-17z" fill="none" stroke="#8CFF57" stroke-width="2.5" stroke-linejoin="round"/><path d="M8 34h6M34 34h6" stroke="#8CFF57" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>插枪充电</h3>
+          <p>插枪后自动握手，功率实时显示在 App 里。去喝杯咖啡，回来电量已过半。</p>
+        </li>
+        <li class="step rv">
+          <span class="step-num">03</span>
+          <div class="step-ico" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="42" height="42"><rect x="6" y="12" width="36" height="24" rx="4" fill="none" stroke="#8CFF57" stroke-width="2.5"/><path d="M16 12v-3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3" fill="none" stroke="#8CFF57" stroke-width="2.5"/><path d="m20 24 4 4 7-8" fill="none" stroke="#8CFF57" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>结算拔枪</h3>
+          <p>充满自动停机，按实际电量结算。峰谷价自动匹配，账单明细一目了然。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 家用/商用方案 -->
+  <section class="section" id="plans">
+    <div class="wrap">
+      <p class="kicker rv">SOLUTIONS</p>
+      <h2 class="h2 rv">一种充电，两种装法</h2>
+      <p class="lede rv">家里装一台，出门省一半；场地装一片，躺着也赚钱。</p>
+      <div class="tabs rv" role="tablist" aria-label="方案切换">
+        <button class="tab on" id="tab-home" role="tab" aria-selected="true" aria-controls="panel-home" data-tab="home">家用方案</button>
+        <button class="tab" id="tab-biz" role="tab" aria-selected="false" aria-controls="panel-biz" data-tab="biz">商用方案</button>
+      </div>
+      <div class="panel on" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
+        <div class="panel-grid">
+          <div class="panel-visual" aria-hidden="true">
+            <svg viewBox="0 0 320 240">
+              <rect x="40" y="30" width="240" height="180" rx="14" fill="#14191E" stroke="#2A333B" stroke-width="2"/>
+              <path d="M40 90h240M40 150h240" stroke="#2A333B" stroke-width="2"/>
+              <rect x="110" y="52" width="100" height="120" rx="10" fill="#0C0F12" stroke="#8CFF57" stroke-width="2.5"/>
+              <path d="M166 70l-22 34h14l-4 26 24-38h-14l6-22z" fill="#8CFF57"/>
+              <circle cx="160" cy="196" r="4" fill="#8CFF57"/>
+              <path d="M110 130h-24a8 8 0 0 0-8 8v14" fill="none" stroke="#8CFF57" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <div class="panel-copy">
+            <h3>家用充电桩 · 7kW 交流</h3>
+            <p>一夜充满，谷电低至 3 毛一度。安装团队上门勘测，物业报装我们代办。</p>
+            <ul class="ticks">
+              <li>谷电定时充，自动错峰省电费</li>
+              <li>IP54 防护，-30℃ 照常工作</li>
+              <li>App 远程启停 + 用电统计</li>
+              <li>整机质保 5 年，48 小时上门</li>
+            </ul>
+            <p class="panel-price">¥2,999 <span>起 · 含基础安装</span></p>
+            <a class="btn btn-primary" href="#join">预约上门勘测</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="panel-biz" role="tabpanel" aria-labelledby="tab-biz">
+        <div class="panel-grid">
+          <div class="panel-visual" aria-hidden="true">
+            <svg viewBox="0 0 320 240">
+              <rect x="24" y="170" width="272" height="10" rx="5" fill="#2A333B"/>
+              <g>
+                <rect x="48" y="70" width="52" height="100" rx="8" fill="#14191E" stroke="#8CFF57" stroke-width="2.5"/>
+                <rect x="60" y="86" width="28" height="16" rx="3" fill="#8CFF57" opacity=".9"/>
+                <path d="M74 108v30" stroke="#8CFF57" stroke-width="3" stroke-linecap="round"/>
+              </g>
+              <g>
+                <rect x="134" y="70" width="52" height="100" rx="8" fill="#14191E" stroke="#8CFF57" stroke-width="2.5"/>
+                <rect x="146" y="86" width="28" height="16" rx="3" fill="#8CFF57" opacity=".55"/>
+                <path d="M160 108v30" stroke="#8CFF57" stroke-width="3" stroke-linecap="round"/>
+              </g>
+              <g>
+                <rect x="220" y="70" width="52" height="100" rx="8" fill="#14191E" stroke="#2A333B" stroke-width="2.5"/>
+                <rect x="232" y="86" width="28" height="16" rx="3" fill="#2A333B"/>
+              </g>
+            </svg>
+          </div>
+          <div class="panel-copy">
+            <h3>商用充电站 · 60–480kW 直流</h3>
+            <p>商场、园区、高速服务区整站交付。从选址测算到上线运营，全程有人跟。</p>
+            <ul class="ticks">
+              <li>选址大数据测算，回本周期先算清</li>
+              <li>峰谷套利 + 有序充电，度电多赚 2 毛</li>
+              <li>运营后台实时看板，故障 2 小时响应</li>
+              <li>支持分润模式，零资金也能建站</li>
+            </ul>
+            <p class="panel-price">整站定制 <span>· 免费出投资测算</span></p>
+            <a class="btn btn-primary" href="#join">获取投资测算</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 加盟合作 CTA + 表单 -->
+  <section class="section section-alt" id="join">
+    <div class="wrap join-grid">
+      <div class="join-copy">
+        <p class="kicker rv">PARTNER WITH US</p>
+        <h2 class="h2 rv">有场地？<br>一起把电卖出去</h2>
+        <p class="lede rv">商场、写字楼、社区、高速服务区——有空车位，就有生意。留下联系方式，城市经理 24 小时内联系你。</p>
+        <ul class="join-points">
+          <li class="rv"><b>0 元加盟费</b><i>设备分期，电费分成 cover</i></li>
+          <li class="rv"><b>45 天建站</b><i>从签约到通电的标准工期</i></li>
+          <li class="rv"><b>全托管运营</b><i>你只管收分润，运维我们来</i></li>
+        </ul>
+      </div>
+      <div class="join-form rv">
+        <form id="partnerForm" novalidate>
+          <h3>获取合作方案</h3>
+          <label>姓名
+            <input type="text" name="name" id="fName" placeholder="怎么称呼您" autocomplete="name">
+            <span class="err" id="eName"></span>
+          </label>
+          <label>手机
+            <input type="tel" name="phone" id="fPhone" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric">
+            <span class="err" id="ePhone"></span>
+          </label>
+          <label>城市
+            <input type="text" name="city" id="fCity" placeholder="如：杭州">
+            <span class="err" id="eCity"></span>
+          </label>
+          <label>合作意向
+            <select name="type" id="fType">
+              <option value="">请选择…</option>
+              <option>加盟充电站</option>
+              <option>场地合作（出租车位）</option>
+              <option>安装家用桩</option>
+              <option>其他合作</option>
+            </select>
+            <span class="err" id="eType"></span>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit" id="fSubmit">提交，获取方案</button>
+          <p class="form-note">提交即表示同意我们通过电话与您联系。信息仅用于合作洽谈。</p>
+        </form>
+        <div class="form-success" id="formSuccess" role="status">
+          <svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true"><circle cx="24" cy="24" r="21" fill="none" stroke="#8CFF57" stroke-width="3"/><path d="m15 24 7 7 12-14" fill="none" stroke="#8CFF57" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>已收到，合作愉快</h3>
+          <p>城市经理将在 24 小时内联系您，<br>请留意 <b id="okPhone"></b> 的来电。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <a class="logo" href="#top">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect x="3" y="7" width="26" height="18" rx="4" fill="none" stroke="#8CFF57" stroke-width="2.4"/><path d="M17 4 10 17h5l-1.5 11L21 14h-5l1-10z" fill="#8CFF57"/></svg>
+        <span class="logo-name">驰电<em>CHIDIAN</em></span>
+      </a>
+      <p class="f-desc">快充，下一刻就满。演示模板，文案与数据为虚构。</p>
+      <div class="social">
+        <a href="#" aria-label="微信公众号"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 11a3.5 3.5 0 1 0 0 .01M15 13a3 3 0 1 0 0 .01M12 3C6.5 3 2 6.9 2 11.7c0 2.7 1.4 5.1 3.7 6.7L5 21l2.8-1.5c1 .3 2.1.5 3.2.6v-2.6c-4.4-.5-7.8-3.4-7.8-6.9 0-3.8 3.9-6.9 8.8-6.9s8.8 3.1 8.8 6.9c0 1.5-.6 2.9-1.6 4.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 14c.5 3 3.5 5.5 8 5.5 3 0 5.5-1.2 7-3M4 14c-.3-3.5 2.5-6.5 6-7M4 14h16M8 21c2 1 5 1.5 8 1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M14 4v10.5a3.75 3.75 0 1 1-3.75-3.75M14 4c.5 2.5 2 4 4.5 4.5M14 4v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>产品</h4>
+      <a href="#finder">找桩</a><a href="#steps">充电三步</a><a href="#plans">家用方案</a><a href="#plans">商用方案</a>
+    </div>
+    <div class="f-col">
+      <h4>合作</h4>
+      <a href="#join">加盟充电站</a><a href="#join">场地合作</a><a href="#join">城市经理联系</a>
+    </div>
+    <div class="f-col">
+      <h4>联系</h4>
+      <p data-site="phone">400-xxx-xxxx</p>
+      <p data-site="email">hi@example.com</p>
+      <p data-site="address">示例地址</p>
+    </div>
+  </div>
+  <div class="wrap footer-legal">
+    <div class="legal-links">
+      <button data-legal="privacy">隐私政策</button>
+      <button data-legal="terms">服务条款</button>
+      <button data-legal="cookie">Cookie 说明</button>
+    </div>
+    <p class="copyright">© <span data-site="year">2026</span> <span data-site="brand">驰电新能源</span> · <span data-site="icp">京ICP备xxxxxx号-1</span></p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal-mask" id="modalMask"></div>
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle">隐私政策</h3>
+      <button class="modal-x" id="modalX" aria-label="关闭">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

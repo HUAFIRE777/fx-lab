@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>玖时 MERIDIAN · 3D 腕表配置器</title>
+<meta name="description" content="玖时 MERIDIAN 子午线系列自动腕表 · 实时 3D 配置">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">玖</div>
+      <div class="brand-text">
+        <h1>玖时 MERIDIAN</h1>
+        <p>自动腕表 · 子午线系列</p>
+      </div>
+    </div>
+    <div class="top-cta">
+      <div class="price">
+        <span class="price-label">合计</span>
+        <span class="price-num" id="priceNum">¥12,800</span>
+      </div>
+      <button class="bag-btn" id="bagBtn" type="button">加入购物袋</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="viewport" id="viewport" aria-label="3D 腕表预览">
+      <canvas id="gl"></canvas>
+      <div class="vignette" aria-hidden="true"></div>
+
+      <div class="loader" id="loader" aria-live="polite">
+        <div class="loader-mark">玖</div>
+        <div class="loader-title">玖时 MERIDIAN</div>
+        <div class="loader-bar"><i id="loadBar"></i></div>
+        <div class="loader-tip" id="loadTip">正在打磨表盘…</div>
+      </div>
+
+      <div class="hud">
+        <div class="hud-pill" id="hud360"><b>360°</b><span>拖拽旋转 · 滚轮缩放 · 双指开合</span></div>
+        <div class="hud-env" id="envTag">影棚</div>
+      </div>
+    </section>
+
+    <aside class="panel" id="panel" aria-label="配置面板">
+      <button class="drawer-grip" id="drawerGrip" type="button" aria-label="展开或收起配置面板" aria-expanded="false"><i></i></button>
+      <div class="panel-scroll">
+        <section class="opt">
+          <h2>表盘 <span class="opt-val" id="dialName">曜石黑</span></h2>
+          <div class="swatches" id="dialSwatches" role="radiogroup" aria-label="表盘颜色"></div>
+        </section>
+
+        <section class="opt">
+          <h2>表带 <span class="opt-val" id="strapName">意大利皮革</span></h2>
+          <div class="seg" id="strapSeg" role="radiogroup" aria-label="表带材质"></div>
+          <p class="opt-note" id="strapNote">头层小牛皮，手工缝线</p>
+        </section>
+
+        <section class="opt">
+          <h2>场景 <span class="opt-val" id="envName">影棚</span></h2>
+          <div class="seg" id="envSeg" role="radiogroup" aria-label="灯光场景"></div>
+          <p class="opt-note">切换影棚灯光，看腕表不同气质</p>
+        </section>
+
+        <section class="opt row">
+          <div>
+            <h2>夜光刻度</h2>
+            <p class="opt-note">Super-LumiNova 夜光涂层</p>
+          </div>
+          <button class="switch" id="lumeSwitch" type="button" role="switch" aria-checked="false" aria-label="夜光刻度开关"><i></i></button>
+        </section>
+
+        <section class="spec">
+          <h2>规格</h2>
+          <ul>
+            <li><span>机芯</span><b>Cal.9015 自动上链</b></li>
+            <li><span>表径</span><b>40 毫米</b></li>
+            <li><span>防水</span><b>10 ATM</b></li>
+            <li><span>动力储存</span><b>72 小时</b></li>
+          </ul>
+        </section>
+
+        <p class="panel-foot">时间，自有分量。</p>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Words — 3D Testimonial Wall</title>
+<meta name="description" content="A reusable 3D testimonial wall template: depth-stacked review cards, drag to switch, canvas-generated avatars, logo marquee. Original implementation.">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.className += " js";document.addEventListener("DOMContentLoaded", function () { requestAnimationFrame(function () { document.body.classList.add("ready"); }); });</script>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow reveal" style="--d:.0s">Client words</p>
+    <h1 class="reveal" style="--d:.08s">Loved by teams<br>who <em>ship</em>.</h1>
+    <p class="sub reveal" style="--d:.16s">Unedited notes from founders, engineers and marketers who put these templates into production — drag the cards, or let them speak for themselves.</p>
+  </header>
+
+  <section class="wall reveal" style="--d:.22s" aria-label="Testimonials">
+    <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Customer testimonials. Use left and right arrow keys to navigate.">
+      <div class="viewport">
+        <div class="deck"><!-- cards injected by src/carousel.js --></div>
+      </div>
+      <button class="nav prev" aria-label="Previous testimonial">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="nav next" aria-label="Next testimonial">
+        <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="controls">
+      <div class="dots" role="tablist" aria-label="Choose testimonial"></div>
+      <div class="progress" aria-hidden="true"><i></i></div>
+      <div class="counter" aria-hidden="true">01 — 06</div>
+    </div>
+  </section>
+
+  <section class="stats reveal" style="--d:.28s" aria-label="Highlights">
+    <div class="stat"><div class="v">4.9<sup>/5</sup></div><div class="l">average rating</div></div>
+    <div class="stat"><div class="v">2,400+</div><div class="l">teams shipping</div></div>
+    <div class="stat"><div class="v">38</div><div class="l">countries</div></div>
+  </section>
+
+  <section class="logos reveal" style="--d:.34s" id="logos" aria-label="Trusted by">
+    <p class="cap">In good company</p>
+    <div class="marquee"><div class="track"><!-- wordmarks injected by src/logos.js --></div></div>
+  </section>
+
+  <footer class="colophon">
+    <div class="rule"></div>
+    A reusable template — edit <span style="font-family:var(--mono)">src/config.js</span> to make it yours.<br>
+    huafire3d fx-lab · original implementation
+  </footer>
+
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

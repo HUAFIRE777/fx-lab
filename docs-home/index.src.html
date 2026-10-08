@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flowbase 帮助中心</title>
+<meta name="description" content="Flowbase 帮助中心：搜索文档、指南与 API 参考，几分钟解决你的问题。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<header class="nav" id="topnav" data-intro>
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Flowbase 帮助中心首页">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+          <rect x="2" y="2" width="28" height="28" rx="8" fill="#2563EB"/>
+          <path d="M10 20.5c2.4 0 2.4-3 4.8-3s2.4 3 4.8 3 2.4-3 4.8-3" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M10 13.5c2.4 0 2.4-3 4.8-3s2.4 3 4.8 3 2.4-3 4.8-3" stroke="#BFD4FF" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">Flowbase<em>帮助中心</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#categories">文档</a>
+      <a href="#articles">API 参考</a>
+      <a href="#categories" data-nav-changelog>更新日志</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-search-btn" id="navSearchBtn" aria-label="搜索文档">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="9" cy="9" r="6.2"/><path d="M13.8 13.8 17.5 17.5"/>
+        </svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="#support">联系支持</a>
+      <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#categories">文档</a>
+    <a href="#articles">API 参考</a>
+    <a href="#categories">更新日志</a>
+    <a href="#support" class="btn btn-primary btn-sm">联系支持</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 搜索 Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="hero-title" data-intro>Flowbase 帮助中心</h1>
+      <p class="hero-sub" data-intro>搜索文档、指南和 API 参考，几分钟解决你的问题。</p>
+      <div class="search-wrap" data-intro id="searchWrap">
+        <div class="search-box" id="searchBox">
+          <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="9" cy="9" r="6.2"/><path d="M13.8 13.8 17.5 17.5"/>
+          </svg>
+          <input type="search" id="searchInput" placeholder="搜索文档，例如：创建流程、账单、API 密钥…" autocomplete="off" aria-label="搜索帮助文档">
+          <kbd class="search-kbd">/</kbd>
+        </div>
+      </div>
+      <div class="chips" data-intro>
+        <span class="chips-label">热门搜索：</span>
+        <button class="chip" data-q="创建流程">创建流程</button>
+        <button class="chip" data-q="Webhook">Webhook</button>
+        <button class="chip" data-q="账单">账单</button>
+        <button class="chip" data-q="API 密钥">API 密钥</button>
+        <button class="chip" data-q="执行失败">执行失败</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分类卡片 -->
+  <section class="section" id="categories">
+    <div class="container">
+      <h2 class="section-title" data-intro>浏览分类</h2>
+      <div class="cat-grid">
+        <button class="cat-card" data-intro data-cat="快速开始">
+          <span class="cat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2z"/></svg>
+          </span>
+          <span class="cat-title">快速开始</span>
+          <span class="cat-desc">从零搭建你的第一条自动化流程</span>
+        </button>
+        <button class="cat-card" data-intro data-cat="API 参考">
+          <span class="cat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M13 4l-2 16"/></svg>
+          </span>
+          <span class="cat-title">API 参考</span>
+          <span class="cat-desc">接口、鉴权与 Webhook 完整说明</span>
+        </button>
+        <button class="cat-card" data-intro data-cat="账单与订阅">
+          <span class="cat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18M7 15.5h4"/></svg>
+          </span>
+          <span class="cat-title">账单与订阅</span>
+          <span class="cat-desc">套餐、发票与额度管理指南</span>
+        </button>
+        <button class="cat-card" data-intro data-cat="SDK 与集成">
+          <span class="cat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3H5.5A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/></svg>
+          </span>
+          <span class="cat-title">SDK 与集成</span>
+          <span class="cat-desc">接入主流应用与自研系统的实战</span>
+        </button>
+        <button class="cat-card" data-intro data-cat="故障排查">
+          <span class="cat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5l3.5 2"/></svg>
+          </span>
+          <span class="cat-title">故障排查</span>
+          <span class="cat-desc">执行报错、延迟与限流的排查清单</span>
+        </button>
+        <button class="cat-card" data-intro data-cat="更新日志">
+          <span class="cat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/><path d="M9 2.5h6"/></svg>
+          </span>
+          <span class="cat-title">更新日志</span>
+          <span class="cat-desc">版本发布与功能变更记录</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 热门文章 -->
+  <section class="section section-alt" id="articles">
+    <div class="container">
+      <div class="articles-head">
+        <h2 class="section-title" data-intro>热门文章</h2>
+        <div class="filter-bar" id="filterBar" hidden>
+          <span class="filter-text" id="filterText"></span>
+          <button class="filter-clear" id="filterClear">清除筛选</button>
+        </div>
+      </div>
+      <div class="article-list" id="articleList">
+        <a class="article" data-intro href="#articles" data-cat="快速开始" data-keywords="创建 流程 新手 入门 第一条 自动化">
+          <span class="article-main">
+            <span class="article-title">如何创建第一条自动化流程</span>
+            <span class="article-meta"><span class="tag">快速开始</span><span class="readtime">5 分钟</span></span>
+          </span>
+          <span class="article-arrow" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg></span>
+        </a>
+        <a class="article" data-intro href="#articles" data-cat="API 参考" data-keywords="webhook 触发器 签名 校验 回调 事件">
+          <span class="article-main">
+            <span class="article-title">Webhook 触发器配置与签名校验</span>
+            <span class="article-meta"><span class="tag">API 参考</span><span class="readtime">8 分钟</span></span>
+          </span>
+          <span class="article-arrow" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg></span>
+        </a>
+        <a class="article" data-intro href="#articles" data-cat="账单与订阅" data-keywords="账单 套餐 升级 降级 发票 付款 订阅 额度">
+          <span class="article-main">
+            <span class="article-title">更换套餐与下载发票</span>
+            <span class="article-meta"><span class="tag">账单与订阅</span><span class="readtime">4 分钟</span></span>
+          </span>
+          <span class="article-arrow" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg></span>
+        </a>
+        <a class="article" data-intro href="#articles" data-cat="SDK 与集成" data-keywords="sdk node.js 批量 触发 集成 代码">
+          <span class="article-main">
+            <span class="article-title">用 Node.js SDK 批量触发流程</span>
+            <span class="article-meta"><span class="tag">SDK 与集成</span><span class="readtime">10 分钟</span></span>
+          </span>
+          <span class="article-arrow" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg></span>
+        </a>
+        <a class="article" data-intro href="#articles" data-cat="故障排查" data-keywords="执行失败 报错 排查 原因 超时 限流">
+          <span class="article-main">
+            <span class="article-title">流程执行失败的 6 种常见原因</span>
+            <span class="article-meta"><span class="tag">故障排查</span><span class="readtime">7 分钟</span></span>
+          </span>
+          <span class="article-arrow" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg></span>
+        </a>
+      </div>
+      <div class="no-result" id="noResult" hidden>
+        <p class="no-result-title">没有找到相关文章</p>
+        <p class="no-result-sub">换个关键词试试，或浏览上方的分类。</p>
+        <button class="btn btn-ghost" id="noResultClear">清除搜索</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 支持 CTA -->
+  <section class="section" id="support">
+    <div class="container">
+      <div class="cta-grid">
+        <div class="cta-card" data-intro>
+          <span class="cta-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>
+          </span>
+          <h3>加入社区</h3>
+          <p>和上万名自动化爱好者交流玩法、分享模板，官方工程师常驻答疑。</p>
+          <a class="btn btn-ghost" href="#support">进入社区论坛</a>
+        </div>
+        <div class="cta-card cta-card-primary" data-intro>
+          <span class="cta-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+          </span>
+          <h3>联系支持团队</h3>
+          <p>工作日 2 小时内响应。附上流程 ID，我们能更快定位问题。</p>
+          <a class="btn btn-primary" href="#support">提交支持工单</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="24" height="24" fill="none">
+          <rect x="2" y="2" width="28" height="28" rx="8" fill="#2563EB"/>
+          <path d="M10 20.5c2.4 0 2.4-3 4.8-3s2.4 3 4.8 3 2.4-3 4.8-3" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M10 13.5c2.4 0 2.4-3 4.8-3s2.4 3 4.8 3 2.4-3 4.8-3" stroke="#BFD4FF" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="footer-note">Flowbase 帮助中心</span>
+    </div>
+    <nav class="footer-cols" aria-label="页脚导航">
+      <div class="footer-col">
+        <h4>产品</h4>
+        <a href="#top">功能总览</a><a href="#top">定价</a><a href="#top">模板库</a>
+      </div>
+      <div class="footer-col">
+        <h4>资源</h4>
+        <a href="#categories">文档</a><a href="#articles">API 参考</a><a href="#support">社区</a>
+      </div>
+      <div class="footer-col">
+        <h4>公司</h4>
+        <a href="#top">关于我们</a><a href="#top">博客</a><a href="#support">联系我们</a>
+      </div>
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <span id="copyrightLine">© 2026 Flowbase. 保留所有权利。</span>
+    <span class="footer-legal">
+      <button type="button" data-legal="privacy">隐私政策</button><i>·</i>
+      <button type="button" data-legal="terms">服务条款</button><i>·</i>
+      <button type="button" data-legal="cookies">Cookie 政策</button>
+    </span>
+  </div>
+  <div class="container footer-sitebar">
+    <span class="site-info" id="siteInfo"></span>
+    <span class="social" aria-label="社交媒体">
+      <a href="#top" aria-label="X" class="social-link"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg></a>
+      <a href="#top" aria-label="LinkedIn" class="social-link"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg></a>
+      <a href="#top" aria-label="GitHub" class="social-link"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.15c0 .3.21.66.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+      <a href="#top" aria-label="YouTube" class="social-link"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a>
+    </span>
+    <span class="status-line"><span class="status-dot" aria-hidden="true"></span><span id="statusText">All Systems Operational</span></span>
+  </div>
+</footer>
+
+<!-- 法务三件套模态弹窗 -->
+<div class="modal-overlay" id="legalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <div class="modal-head">
+      <h3 id="legalTitle"></h3>
+      <button class="modal-close" id="legalClose" aria-label="关闭弹窗">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

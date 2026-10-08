@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab · MIT License — free for commercial use (see LICENSE) -->
+<!-- pricing-3d: 3D tilt pricing cards / monthly-annual toggle / odometer prices -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Driftline — Pricing</title>
+<meta name="description" content="Simple pricing that grows with you. Start free, upgrade when the graphs get steep.">
+<style>
+/* huafire3d fx-lab · MIT License — free for commercial use */
+/* pricing-3d styles: ink + amber, restrained 3-tier SaaS pricing */
+
+:root{
+  --bg:#0a0c0f;
+  --card:#12161c;
+  --card-hi:#171c24;
+  --line:rgba(244,240,232,.09);
+  --ink:#f4f0e8;
+  --mut:#a7adb8;
+  --dim:#6f7580;
+  --acc:#ffb224;
+  --acc-ink:#1a1206;
+  --acc-soft:rgba(255,178,36,.13);
+  --r:20px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--font);
+  min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+::selection{background:rgba(255,178,36,.28)}
+
+/* backdrop: top glow + dot texture + vignette */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(900px 480px at 50% -8%, rgba(255,178,36,.10), transparent 62%),
+    radial-gradient(700px 500px at 88% 110%, rgba(120,140,255,.05), transparent 60%);
+}
+.bg::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(244,240,232,.055) 1px, transparent 1.4px);
+  background-size:26px 26px;
+  mask-image:radial-gradient(75% 60% at 50% 0%, #000 30%, transparent 100%);
+  -webkit-mask-image:radial-gradient(75% 60% at 50% 0%, #000 30%, transparent 100%);
+}
+body::after{content:"";position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0,0,0,.5) 100%);}
+#fx{position:fixed;inset:0;z-index:4;pointer-events:none}
+
+.wrap{width:min(1080px,92vw);margin:0 auto;position:relative;z-index:1}
+
+/* nav */
+.nav{padding:22px 0;position:relative;z-index:2}
+.nav-in{display:flex;align-items:center;gap:28px}
+.logo{display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;
+  font-weight:650;letter-spacing:-.01em;font-size:17px}
+.logo-dot{width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #ffd97a, var(--acc) 70%);
+  box-shadow:0 0 14px rgba(255,178,36,.55)}
+.nav-links{display:flex;gap:22px;margin-left:8px}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:14.5px;transition:color .25s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links .is-here{color:var(--ink)}
+.nav-cta{margin-left:auto;color:var(--ink);text-decoration:none;font-size:14.5px;
+  border:1px solid var(--line);padding:8px 18px;border-radius:999px;transition:border-color .25s, background .25s}
+.nav-cta:hover{border-color:rgba(255,178,36,.5);background:rgba(255,178,36,.06)}
+
+/* hero */
+.hero{text-align:left;padding:64px 0 40px;max-width:720px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;color:var(--acc);
+  text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(44px,6.4vw,76px);line-height:1.02;font-weight:700;
+  letter-spacing:-.035em;margin-bottom:20px}
+.hero .sub{font-size:17.5px;line-height:1.62;color:var(--mut);max-width:560px;margin-bottom:34px}
+
+/* billing toggle */
+.billing{position:relative;display:inline-flex;background:#141920;border:1px solid var(--line);
+  border-radius:999px;padding:4px;isolation:isolate}
+.b-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;
+  background:linear-gradient(180deg,#2a2f38,#20252d);
+  border:1px solid rgba(244,240,232,.12);
+  box-shadow:0 4px 14px rgba(0,0,0,.4);
+  transition:transform .45s var(--ease);z-index:0}
+.billing[data-b="a"] .b-thumb{transform:translateX(100%)}
+.b-opt{position:relative;z-index:1;border:0;background:none;color:var(--dim);font-family:var(--font);
+  font-size:14.5px;font-weight:600;padding:10px 26px;border-radius:999px;cursor:pointer;
+  transition:color .3s;white-space:nowrap}
+.b-opt em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--acc);
+  background:rgba(255,178,36,.12);border:1px solid rgba(255,178,36,.3);
+  padding:2px 8px;border-radius:999px;margin-left:7px;letter-spacing:.02em}
+.b-opt.is-on{color:var(--ink)}
+.b-opt:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  padding:14px 0 8px;perspective:1400px}
+.card{position:relative;transform-style:preserve-3d;will-change:transform}
+.card-in{position:relative;height:100%;background:linear-gradient(180deg,var(--card-hi),var(--card));
+  border:1px solid var(--line);border-radius:var(--r);padding:30px 28px 28px;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(244,240,232,.06);
+  transition:border-color .35s}
+.card:hover .card-in{border-color:rgba(244,240,232,.2)}
+.glare{position:absolute;inset:0;border-radius:var(--r);pointer-events:none;opacity:0;transition:opacity .4s;z-index:2}
+.card:hover .glare{opacity:1}
+/* popular halo */
+.card.pop{z-index:1}
+.card.pop .card-in{border:1px solid transparent;
+  background:
+    linear-gradient(180deg,#1a1e26,#141821) padding-box,
+    conic-gradient(from 210deg, rgba(255,178,36,.65), rgba(255,178,36,.08) 30%, rgba(255,178,36,.08) 70%, rgba(255,178,36,.65)) border-box;}
+.card.pop::before{content:"";position:absolute;inset:-26px;z-index:-1;border-radius:34px;
+  background:radial-gradient(closest-side, rgba(255,178,36,.16), transparent 72%);
+  animation:halo 5s ease-in-out infinite}
+@keyframes halo{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.badge{position:absolute;top:18px;right:18px;font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--acc-ink);background:linear-gradient(180deg,#ffd97a,var(--acc));
+  padding:6px 12px;border-radius:999px;box-shadow:0 4px 16px rgba(255,178,36,.35)}
+.card h3{font-size:15px;font-weight:650;letter-spacing:.02em;color:var(--ink);margin-bottom:6px}
+.card .tag{font-size:13.5px;color:var(--dim);margin-bottom:22px;min-height:20px}
+
+.price-row{display:flex;align-items:baseline;gap:2px;margin-bottom:6px;min-height:64px}
+.price{display:inline-flex;align-items:baseline;font-weight:700;letter-spacing:-.03em;
+  font-size:52px;line-height:1;font-variant-numeric:tabular-nums}
+.price .cur{font-size:.62em;font-weight:600;color:var(--mut);margin-right:2px;align-self:flex-start;padding-top:.18em}
+.reel{display:inline-block;height:1em;overflow:hidden}
+.reel-inner{display:flex;flex-direction:column;transition:transform .7s var(--ease);will-change:transform}
+.reel-d{height:1em;line-height:1}
+.price-custom{font-size:40px;font-weight:700;letter-spacing:-.03em}
+.per{font-size:14px;color:var(--dim);margin-left:8px}
+.bill-note{font-size:12.5px;color:var(--dim);min-height:19px;margin-bottom:22px}
+.bill-note b{color:var(--acc);font-weight:600}
+
+.btn{position:relative;display:block;text-align:center;text-decoration:none;font-weight:650;font-size:15px;
+  padding:14px 20px;border-radius:13px;color:var(--ink);
+  background:rgba(244,240,232,.06);border:1px solid var(--line);
+  transition:background .3s,border-color .3s;will-change:transform}
+.btn:hover{background:rgba(244,240,232,.1);border-color:rgba(244,240,232,.22)}
+.btn.primary{background:linear-gradient(180deg,#ffcf6e,var(--acc));color:var(--acc-ink);border:0;
+  box-shadow:0 10px 28px rgba(255,178,36,.28), inset 0 1px 0 rgba(255,255,255,.4)}
+.btn.primary:hover{box-shadow:0 14px 34px rgba(255,178,36,.4), inset 0 1px 0 rgba(255,255,255,.4)}
+.btn:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+.features{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:13px}
+.features li{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--mut);line-height:1.5}
+.features li.hi{color:var(--ink)}
+.features svg{flex:none;width:16px;height:16px;margin-top:2.5px;color:var(--acc)}
+.features li.dim-li{color:var(--dim)}
+.features li.dim-li svg{color:var(--dim)}
+
+.fine{margin:34px 0 70px;font-size:13px;color:var(--dim);line-height:1.7;max-width:640px}
+
+/* intro reveal — pure CSS keyframes, end state guaranteed visible */
+.rise{animation:rise .9s var(--ease) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.cards .card{animation:rise .9s var(--ease) both;animation-delay:var(--d,0s)}
+
+/* responsive */
+@media (max-width:900px){
+  .cards{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+  .hero{padding:44px 0 30px}
+  .nav-links{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .rise,.cards .card{animation:none}
+  .card.pop::before{animation:none}
+  .b-thumb{transition:none}
+  .reel-inner{transition:none}
+}
+
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="bg" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#"><span class="logo-dot"></span>Driftline</a>
+    <nav class="nav-links">
+      <a href="#">Product</a><a href="#">Docs</a><a href="#" class="is-here">Pricing</a>
+    </nav>
+    <a class="nav-cta" href="#">Sign in</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow rise" style="--d:.05s">Pricing</p>
+    <h1 class="rise" style="--d:.12s">Pay for growth,<br>not seats.</h1>
+    <p class="sub rise" style="--d:.2s">Start free, upgrade when the graphs get steep. Every plan opens with a
+      14-day Pro trial — no credit card required.</p>
+    <div class="billing rise" style="--d:.28s" role="group" aria-label="Billing period">
+      <span class="b-thumb" aria-hidden="true"></span>
+      <button class="b-opt is-on" data-b="m" aria-pressed="true">Monthly</button>
+      <button class="b-opt" data-b="a" aria-pressed="false">Annual <em>−20%</em></button>
+    </div>
+  </section>
+
+  <section class="cards" id="cards" aria-label="Plans"></section>
+
+  <p class="fine rise" style="--d:.5s">All plans include unlimited viewers, SOC&nbsp;2 Type&nbsp;II,
+    and 99.99% uptime. Prices in USD, taxes may apply.</p>
+</main>
+
+<script type="module">
+var g={currency:"$",billing:{monthly:"m",annual:"a",annualSave:20},plans:[{name:"Starter",tagline:"For side projects finding shape.",monthly:"0",annual:"0",per:"",note:"free forever",cta:"Start for free",featured:!1,features:["Up to 3 projects","10k events / month","7-day data retention","Community support"]},{name:"Growth",tagline:"For teams with graphs going up.",monthly:"29",annual:"23",per:"/mo",noteM:"per editor, billed monthly",noteA:"per editor, billed annually",cta:"Start 14-day trial",featured:!0,features:["Unlimited projects","1M events / month","13-month data retention","Custom dashboards","Slack + email support"],hi:[1,3]},{name:"Enterprise",tagline:"For companies with procurement.",monthly:null,annual:null,per:"",note:"annual agreement",cta:"Talk to sales",featured:!1,features:["Everything in Growth","Dedicated infrastructure","SSO / SAML","99.99% uptime SLA","Solutions engineer"]}]},M=window.matchMedia("(prefers-reduced-motion: reduce)").matches,k=window.matchMedia("(pointer: fine)").matches,A='<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-opacity=".35" stroke-width="1.4"/><path d="M5.2 8.2l1.9 1.9 3.7-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',C=document.getElementById("cards");function T(e){return e.monthly===null?'<span class="price-custom">Custom</span>':'<span class="price" aria-live="polite"></span>'}function q(){C.innerHTML="",g.plans.forEach((e,a)=>{let n=document.createElement("article");n.className="card"+(e.featured?" pop":""),n.style.setProperty("--d",.34+a*.1+"s"),n.dataset.pop=e.featured?"1":"0";let t=e.features.map((o,i)=>'<li class="'+(e.hi&&e.hi.includes(i)?"hi":"")+'">'+A+"<span>"+o+"</span></li>").join("");n.innerHTML='<div class="glare"></div><div class="card-in">'+(e.featured?'<span class="badge">Most popular</span>':"")+"<h3>"+e.name+'</h3><p class="tag">'+e.tagline+'</p><div class="price-row">'+T(e)+(e.per?'<span class="per">'+e.per+"</span>":"")+'</div><p class="bill-note">'+(e.note||e.noteM||"")+'</p><a class="btn'+(e.featured?" primary":"")+'" href="#">'+e.cta+'</a><ul class="features">'+t+"</ul></div>",C.appendChild(n),e._el=n,e._reels=null;let r=n.querySelector(".price");r&&(e._reels=F(r,e.monthly),e._noteEl=n.querySelector(".bill-note"))})}function F(e,a){let n=document.createElement("span");n.className="cur",n.textContent=g.currency,e.appendChild(n);let t=[];return[...a].forEach(r=>{let o=document.createElement("span");o.className="reel";let i=document.createElement("span");i.className="reel-inner";for(let l=0;l<10;l++){let d=document.createElement("span");d.className="reel-d",d.textContent=l,i.appendChild(d)}let c=parseInt(r,10);i.style.transition="none",i.style.transform="translateY("+-c+"em)",o.appendChild(i),e.appendChild(o),t.push(i)}),e.offsetWidth,t.forEach(r=>{r.style.transition=""}),t}function H(e,a){if(!e._reels)return;let n=a.length;if(e._reels.length!==n){let t=e._el.querySelector(".price");t.innerHTML="",e._reels=F(t,a);return}[...a].forEach((t,r)=>{let o=e._reels[r];o.style.transitionDelay=r*55+"ms",o.style.transform="translateY("+-parseInt(t,10)+"em)"}),setTimeout(()=>e._reels.forEach(t=>{t.style.transitionDelay=""}),900)}var y=document.querySelector(".billing"),f="m",x=document.getElementById("fx"),s=x.getContext("2d"),p=[],E=0;function L(){let e=Math.min(window.devicePixelRatio||1,2);x.width=innerWidth*e,x.height=innerHeight*e,s.setTransform(e,0,0,e,0,0)}L();window.addEventListener("resize",L);function R(e,a){if(M)return;let n=["#ffb224","#ffd97a","#f4f0e8","#ff9d1f"];for(let t=0;t<42;t++){let r=Math.random()*Math.PI*2,o=1.5+Math.random()*4.5;p.push({x:e,y:a,vx:Math.cos(r)*o,vy:Math.sin(r)*o-1.2,life:1,decay:.014+Math.random()*.02,size:1+Math.random()*2.4,color:n[Math.random()*n.length|0]})}E||_()}function _(){s.clearRect(0,0,innerWidth,innerHeight),p=p.filter(e=>e.life>0);for(let e of p)e.x+=e.vx,e.y+=e.vy,e.vy+=.11,e.vx*=.985,e.life-=e.decay,s.globalAlpha=Math.max(e.life,0),s.fillStyle=e.color,s.beginPath(),s.arc(e.x,e.y,e.size*e.life+.4,0,Math.PI*2),s.fill();s.globalAlpha=1,E=p.length?requestAnimationFrame(_):0,E||s.clearRect(0,0,innerWidth,innerHeight)}y.addEventListener("click",e=>{let a=e.target.closest(".b-opt");if(!a||a.dataset.b===f)return;f=a.dataset.b,y.dataset.b=f,y.querySelectorAll(".b-opt").forEach(t=>{let r=t.dataset.b===f;t.classList.toggle("is-on",r),t.setAttribute("aria-pressed",r?"true":"false")});let n=y.getBoundingClientRect();R(n.left+n.width/2,n.top+n.height/2),g.plans.forEach(t=>{if(t._reels&&(H(t,f==="m"?t.monthly:t.annual),t._noteEl)){let r=f==="a";t._noteEl.innerHTML=r?"per editor, billed annually \u2014 <b>save "+g.billing.annualSave+"%</b>":t.noteM||t.note||""}})});function B(e){if(!k||M)return;let a=e.querySelector(".glare"),n=e.dataset.pop==="1",t=0,r=0,o=0,i=0,c=50,l=50,d=50,b=50,u=0;e.addEventListener("pointermove",m=>{if(m.pointerType!=="mouse")return;let h=e.getBoundingClientRect(),S=(m.clientX-h.left)/h.width,w=(m.clientY-h.top)/h.height;r=(S-.5)*13,t=(.5-w)*11,d=S*100,b=w*100,u||(u=requestAnimationFrame(v))}),e.addEventListener("pointerleave",()=>{t=0,r=0,u||(u=requestAnimationFrame(v))});function v(){o+=(t-o)*.14,i+=(r-i)*.14,c+=(d-c)*.2,l+=(b-l)*.2;let m=n?" translateY(-10px)":"";e.style.transform="perspective(1100px) rotateX("+o.toFixed(2)+"deg) rotateY("+i.toFixed(2)+"deg)"+m,a.style.background="radial-gradient(440px circle at "+c.toFixed(1)+"% "+l.toFixed(1)+"%, rgba(255,178,36,.15), transparent 65%)",Math.abs(t-o)>.02||Math.abs(r-i)>.02?u=requestAnimationFrame(v):(u=0,e.style.transform="",a.style.background="")}}function I(e){!k||M||(e.addEventListener("pointermove",a=>{if(a.pointerType!=="mouse")return;let n=e.getBoundingClientRect(),t=a.clientX-(n.left+n.width/2),r=a.clientY-(n.top+n.height/2);Math.hypot(t,r)<120&&(e.style.transition="transform .1s ease-out",e.style.transform="translate("+(t*.2).toFixed(1)+"px,"+(r*.26).toFixed(1)+"px)")}),e.addEventListener("pointerleave",()=>{e.style.transition="transform .5s cubic-bezier(.22,1,.36,1)",e.style.transform=""}))}q();document.querySelectorAll(".card").forEach(B);document.querySelectorAll(".btn").forEach(I);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+/* huafire3d fx-lab — original implementation */
+/* launch-countdown-3d 样式：暗黑电影感。系统字体栈，零外部字体。 */
+
+:root {
+  --bg: #060607;
+  --ink: #f4f1e8;
+  --dim: rgba(244, 241, 232, 0.55);
+  --faint: rgba(244, 241, 232, 0.28);
+  --amber: #ffb454;
+  --card: #101014;
+  --line: #1e1e26;
+  --dw: clamp(46px, 8.5vw, 92px); /* 数字卡宽度 */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- 3D 舞台 ---------- */
+#gl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- 暗角 + 颗粒 ---------- */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 90% 75% at 50% 42%,
+    transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  z-index: 3;
+}
+.grain {
+  position: fixed;
+  inset: -60px;
+  pointer-events: none;
+  opacity: 0.055;
+  z-index: 4;
+  animation: grainShift 0.9s steps(4) infinite;
+}
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-18px, 12px); }
+  50% { transform: translate(14px, -16px); }
+  75% { transform: translate(-10px, -8px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 34px;
+  z-index: 10;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--dim);
+}
+.brand { font-weight: 600; color: var(--ink); letter-spacing: 0.42em; }
+.brand sup { font-size: 7px; letter-spacing: 0; }
+
+/* ---------- 主舞台 ---------- */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 15vh;
+  pointer-events: none;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  color: var(--dim);
+  margin-bottom: 26px;
+  font-weight: 500;
+}
+
+/* ---------- 翻牌时钟 ---------- */
+.clock {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(10px, 2vw, 22px);
+}
+.unit { display: flex; flex-direction: column; align-items: center; }
+.pair { display: flex; gap: clamp(5px, 1vw, 10px); }
+.ulabel {
+  margin-top: 14px;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  color: var(--faint);
+}
+.colon {
+  font-size: calc(var(--dw) * 0.9);
+  font-weight: 200;
+  color: var(--faint);
+  line-height: calc(var(--dw) * 1.42);
+  animation: colonPulse 2s ease-in-out infinite;
+}
+@keyframes colonPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.9; }
+}
+
+.flip {
+  position: relative;
+  width: var(--dw);
+  height: calc(var(--dw) * 1.42);
+  perspective: calc(var(--dw) * 5);
+  font-variant-numeric: tabular-nums;
+}
+.half, .flap {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #141419 0%, #0c0c10 100%);
+  border: 1px solid var(--line);
+}
+.half.top, .flap.top {
+  top: 0;
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+}
+.half.bottom, .flap.bottom {
+  bottom: 0;
+  border-radius: 0 0 8px 8px;
+  border-top: 1px solid #000;
+}
+.half span, .flap span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--dw) * 0.98);
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-shadow: 0 0 26px rgba(255, 180, 84, 0.28);
+}
+.half.top span, .flap.top span { top: 0; }
+.half.bottom span, .flap.bottom span { bottom: 0; }
+/* 中缝线：翻牌的灵魂 */
+.flip::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+  z-index: 5;
+}
+.flap { visibility: hidden; z-index: 4; backface-visibility: hidden; }
+.flap.top { transform-origin: 50% 100%; }
+.flap.bottom { transform-origin: 50% 0%; }
+
+/* ---------- 产品名 ---------- */
+.product-name {
+  margin-top: 30px;
+  font-size: 13px;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: var(--ink);
+  font-weight: 500;
+}
+.product-name span {
+  color: var(--faint);
+  font-weight: 400;
+}
+
+/* ---------- 底部订阅 ---------- */
+.bottombar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 26px 20px 30px;
+  pointer-events: none;
+}
+.bottombar > * { pointer-events: auto; }
+.notify-form { display: flex; gap: 0; }
+.notify-form input {
+  width: min(260px, 52vw);
+  background: rgba(16, 16, 20, 0.72);
+  border: 1px solid var(--line);
+  border-right: none;
+  border-radius: 999px 0 0 999px;
+  padding: 12px 20px;
+  color: var(--ink);
+  font-size: 13px;
+  outline: none;
+  backdrop-filter: blur(8px);
+}
+.notify-form input:focus { border-color: rgba(255, 180, 84, 0.55); }
+.notify-form input.shake { animation: shake 0.45s; border-color: #e05656; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.notify-form button {
+  border: 1px solid var(--amber);
+  background: rgba(255, 180, 84, 0.1);
+  color: var(--amber);
+  border-radius: 0 999px 999px 0;
+  padding: 12px 22px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background 0.25s, box-shadow 0.25s;
+}
+.notify-form button:hover {
+  background: rgba(255, 180, 84, 0.22);
+  box-shadow: 0 0 24px rgba(255, 180, 84, 0.25);
+}
+.notify-ok {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--amber);
+}
+.fine {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--faint);
+}
+
+/* ---------- 揭幕 ---------- */
+.reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  text-align: center;
+  padding: 0 24px;
+}
+.reveal.show { opacity: 1; transform: none; pointer-events: auto; }
+.reveal h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3rem, 10vw, 7.5rem);
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 60px rgba(255, 180, 84, 0.35);
+}
+.reveal .price {
+  font-size: 13px;
+  letter-spacing: 0.45em;
+  text-indent: 0.45em;
+  color: var(--dim);
+}
+.cta {
+  margin-top: 14px;
+  display: inline-block;
+  padding: 16px 54px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: #131006;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s;
+}
+.cta:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 44px rgba(255, 180, 84, 0.45);
+}
+
+/* 淡出 */
+.gone {
+  opacity: 0 !important;
+  transform: translateY(14px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  pointer-events: none !important;
+}
+#countdownWrap, #notifyWrap { transition: opacity 0.8s ease, transform 0.8s ease; }
+
+/* ---------- 闪光 ---------- */
+#flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 42%, #fff8ea 0%, rgba(255, 244, 220, 0.6) 40%, transparent 75%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* ---------- 加载 ---------- */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  transition: opacity 0.8s ease;
+}
+#loader.done { opacity: 0; pointer-events: none; }
+#loader .lword {
+  font-size: 11px;
+  letter-spacing: 0.6em;
+  text-indent: 0.6em;
+  color: var(--dim);
+}
+#loader .ltrack {
+  width: 180px;
+  height: 1px;
+  background: #1a1a20;
+  overflow: hidden;
+}
+#loadBar {
+  width: 100%;
+  height: 100%;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+#loadPct {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 模型失败占位 ---------- */
+#modelError {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -70%);
+  z-index: 6;
+  text-align: center;
+  color: var(--faint);
+}
+#modelError svg { opacity: 0.5; margin-bottom: 14px; }
+#modelError p { font-size: 11px; letter-spacing: 0.3em; }
+
+/* ---------- 移动端 ---------- */
+@media (max-width: 640px) {
+  :root { --dw: clamp(40px, 11.5vw, 60px); }
+  .topbar { padding: 16px 20px; }
+  .stage { padding-bottom: 19vh; }
+  .eyebrow { margin-bottom: 18px; }
+  .product-name { margin-top: 20px; font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .colon { animation: none; }
+  .reveal { transition-duration: 0.2s; }
+}

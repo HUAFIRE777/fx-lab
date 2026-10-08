@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>栖智 · 让家听懂你</title>
+<meta name="description" content="栖智智能家居：音箱、门锁、灯光、温控，一套生态全屋联动。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="grain"></div>
+<div class="vig"></div>
+
+<!-- 加载态 -->
+<div id="loader"><div class="mark">栖</div><div class="dots"><i></i><i></i><i></i></div><p>正在点亮你的家</p></div>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="bar">
+    <a class="brand" href="#"><span class="logo">栖</span>栖智</a>
+    <nav>
+      <a href="#scenes">场景模式</a>
+      <a href="#matrix">产品生态</a>
+      <a href="#app">栖智 App</a>
+      <a href="#specs">技术规格</a>
+    </nav>
+    <span class="sp"></span>
+    <a class="btn btn-p" href="#cta" style="padding:10px 22px">立即选购</a>
+    <button class="burger" id="burger" aria-label="菜单"><i></i><i></i><i></i></button>
+  </div>
+</header>
+<aside class="drawer" id="drawer">
+  <a href="#scenes">场景模式</a>
+  <a href="#matrix">产品生态</a>
+  <a href="#app">栖智 App</a>
+  <a href="#specs">技术规格</a>
+  <a class="btn btn-p" href="#cta">立即选购</a>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="glowblob g1"></div><div class="glowblob g2"></div>
+  <div class="wrap grid">
+    <div>
+      <span class="kicker"><span class="dot"></span>全屋智能 · 一套生态</span>
+      <h1>让家，<span class="hl">听懂你</span><br>的一举一动</h1>
+      <p class="sub">栖智把音箱、门锁、灯光、温控做进同一套生态。推门回家灯就亮了，深夜起夜只剩一盏柔光——不用开口，家自己知道。</p>
+      <div class="cta">
+        <a class="btn btn-p" href="#scenes">体验场景联动</a>
+        <a class="btn btn-g" href="#matrix">浏览产品矩阵</a>
+      </div>
+      <p class="note"><b>2,300,000+</b> 家庭正在用栖智 · 平均 <b>9 分钟</b>完成全屋配网</p>
+    </div>
+    <div class="room reveal in">
+      <div class="cap"><b>我家 · 实时状态</b><span class="live" id="heroMode">● 回家模式</span></div>
+      <svg viewBox="0 0 420 300" role="img" aria-label="户型设备状态示意">
+        <rect x="8" y="8" width="404" height="284" rx="14" fill="none" stroke="#2C313B" stroke-width="2"/>
+        <line x1="212" y1="8" x2="212" y2="180" stroke="#2C313B" stroke-width="2"/>
+        <line x1="212" y1="180" x2="412" y2="180" stroke="#2C313B" stroke-width="2"/>
+        <text x="100" y="46" fill="#5A6272" font-size="13">客厅</text>
+        <text x="300" y="46" fill="#5A6272" font-size="13">卧室</text>
+        <text x="100" y="216" fill="#5A6272" font-size="13">玄关</text>
+        <text x="300" y="216" fill="#5A6272" font-size="13">全屋</text>
+        <g class="dev on" data-device="light">
+          <circle class="halo" cx="100" cy="110" r="30" fill="#3E7BFA" opacity=".28"/>
+          <circle class="lamp" cx="100" cy="110" r="10"/>
+          <text x="100" y="148" fill="#A8AEC0" font-size="12" text-anchor="middle">客厅灯光</text>
+        </g>
+        <g class="dev on" data-device="speaker">
+          <circle class="halo" cx="170" cy="120" r="26" fill="#3E7BFA" opacity=".28"/>
+          <circle class="lamp" cx="170" cy="120" r="9"/>
+          <text x="170" y="154" fill="#A8AEC0" font-size="12" text-anchor="middle">音箱</text>
+        </g>
+        <g class="dev dim" data-device="light2">
+          <circle class="halo" cx="300" cy="110" r="30" fill="#3E7BFA" opacity=".28"/>
+          <circle class="lamp" cx="300" cy="110" r="10"/>
+          <text x="300" y="148" fill="#A8AEC0" font-size="12" text-anchor="middle">卧室夜灯</text>
+        </g>
+        <g class="dev on" data-device="lock">
+          <circle class="halo" cx="100" cy="252" r="26" fill="#3E7BFA" opacity=".28"/>
+          <circle class="lamp" cx="100" cy="252" r="9"/>
+          <text x="100" y="284" fill="#A8AEC0" font-size="12" text-anchor="middle">智能门锁</text>
+        </g>
+        <g class="dev on" data-device="doorbell">
+          <circle class="halo" cx="176" cy="252" r="24" fill="#3E7BFA" opacity=".28"/>
+          <circle class="lamp" cx="176" cy="252" r="8"/>
+          <text x="176" y="284" fill="#A8AEC0" font-size="12" text-anchor="middle">门铃</text>
+        </g>
+        <g class="dev on" data-device="thermo">
+          <circle class="halo" cx="300" cy="252" r="28" fill="#3E7BFA" opacity=".28"/>
+          <circle class="lamp" cx="300" cy="252" r="10"/>
+          <text x="300" y="284" fill="#A8AEC0" font-size="12" text-anchor="middle">温控 26°</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 场景模式 -->
+<section class="sec" id="scenes">
+  <div class="wrap">
+    <p class="eyebrow reveal">场景模式</p>
+    <h2 class="reveal">一键，整屋跟着换心情</h2>
+    <p class="lead reveal">点一个模式试试：全页的设备卡片会跟着点亮、变暗、熄灭——这就是栖智的联动，一处指令，处处响应。</p>
+    <div class="modebar reveal" id="modebar">
+      <button class="mode cur" data-mode="home">回家模式</button>
+      <button class="mode" data-mode="away">离家模式</button>
+      <button class="mode" data-mode="sleep">睡眠模式</button>
+    </div>
+    <div class="scene-panel reveal">
+      <div class="zones">
+        <div class="zone">
+          <h3>客厅</h3>
+          <div class="dchip on" data-device="light"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></span><div class="tx"><b>栖智灯带 L2</b><span data-st>已点亮 · 80% 亮度</span></div></div>
+          <div class="dchip on" data-device="speaker"><span class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="5"/><circle cx="12" cy="15" r="2.5"/></svg></span><div class="tx"><b>栖智音箱 X1</b><span data-st>播放中 · 爵士歌单</span></div></div>
+        </div>
+        <div class="zone">
+          <h3>卧室</h3>
+          <div class="dchip dim" data-device="light2"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></span><div class="tx"><b>卧室夜灯</b><span data-st>微亮 · 15% 亮度</span></div></div>
+          <div class="dchip on" data-device="thermo"><span class="ic"><svg viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0z"/></svg></span><div class="tx"><b>栖智温控 T2</b><span data-st>恒温 26° · 舒适</span></div></div>
+        </div>
+        <div class="zone">
+          <h3>玄关</h3>
+          <div class="dchip on" data-device="lock"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><div class="tx"><b>栖智门锁 S3</b><span data-st>已解锁 · 指纹开门</span></div></div>
+          <div class="dchip on" data-device="doorbell"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></span><div class="tx"><b>栖智门铃 C1</b><span data-st>布防中 · 有人即提醒</span></div></div>
+        </div>
+      </div>
+      <div class="scene-line"><span class="pulse"></span><span id="sceneDesc"><b>回家模式</b>：推门即亮灯，音箱接上你常听的歌单，空调提前调到 26°。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 产品生态矩阵 -->
+<section class="sec" id="matrix">
+  <div class="wrap">
+    <p class="eyebrow reveal">产品生态</p>
+    <h2 class="reveal">四件套，撑起一个家</h2>
+    <p class="lead reveal">每一件都能单独用，凑齐一套才叫栖智。切换上面的场景模式，看这四张卡片跟着亮起来。</p>
+    <div class="mgrid">
+      <article class="pcard on reveal" data-device="speaker">
+        <span class="st" data-st>运行中</span>
+        <div class="art"><span class="pill">音频中枢</span><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="5"/><circle cx="12" cy="15" r="2.5"/><path d="M12 6.5h.01"/></svg></div>
+        <h3>栖智音箱 X1</h3><p class="en">QIZHI SPEAKER X1</p>
+        <p class="desc">全屋语音中枢，0.8 秒唤醒。两只组立体声，洗澡也能喊它换歌。</p>
+        <p class="price">¥399<small>起</small></p>
+      </article>
+      <article class="pcard on reveal" data-device="lock">
+        <span class="st" data-st>运行中</span>
+        <div class="art"><span class="pill">安全入口</span><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.4"/></svg></div>
+        <h3>栖智门锁 S3</h3><p class="en">QIZHI LOCK S3</p>
+        <p class="desc">指纹 0.5 秒开锁，虚位密码防偷窥。离家自动反锁并布防门铃。</p>
+        <p class="price">¥1,899<small>含安装</small></p>
+      </article>
+      <article class="pcard on reveal" data-device="light">
+        <span class="st" data-st>运行中</span>
+        <div class="art"><span class="pill">氛围</span><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></div>
+        <h3>栖智灯带 L2</h3><p class="en">QIZHI LIGHT L2</p>
+        <p class="desc">1600 万色，跟着电影、音乐变氛围。睡眠模式自动降到 15% 夜灯。</p>
+        <p class="price">¥499<small>/ 5 米</small></p>
+      </article>
+      <article class="pcard on reveal" data-device="thermo">
+        <span class="st" data-st>运行中</span>
+        <div class="art"><span class="pill">舒适</span><svg viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v4"/></svg></div>
+        <h3>栖智温控 T2</h3><p class="en">QIZHI THERMO T2</p>
+        <p class="desc">学习你的作息：回家前半小时预调，离家自动进节能，省电看得见。</p>
+        <p class="price">¥699<small>起</small></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- App 联动 -->
+<section class="sec" id="app">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow reveal">栖智 App</p>
+      <h2 class="reveal">不在家，家也在手上</h2>
+      <p class="lead reveal">出门忘关灯？App 里一眼全屋状态。右边这台手机会跟着场景模式一起变——点上面的模式回来看看。</p>
+      <ul class="applist">
+        <li class="reveal"><span class="n">1</span><div><b>9 分钟全屋配网</b><p>扫码即连，不用记 Wi-Fi 密码。老人跟着三步图也能自己装好。</p></div></li>
+        <li class="reveal"><span class="n">2</span><div><b>家人共享，一人设全家用</b><p>给爸妈开子账号，权限分得清清楚楚：能开灯，不能改你的歌单。</p></div></li>
+        <li class="reveal"><span class="n">3</span><div><b>离线也能用</b><p>断网不断联：本地联动照常跑，门锁、灯光一个都不少。</p></div></li>
+      </ul>
+    </div>
+    <div class="phone reveal">
+      <div class="notch"></div>
+      <div class="scr">
+        <p class="ah">QIZHI HOME</p>
+        <p class="ahome">我家</p>
+        <div class="mrow" id="phoneModes">
+          <button class="cur" data-mode="home">回家</button>
+          <button data-mode="away">离家</button>
+          <button data-mode="sleep">睡眠</button>
+        </div>
+        <div class="drow lit" data-device="light"><span>客厅灯光</span><span class="s" data-st>已点亮</span></div>
+        <div class="drow lit" data-device="speaker"><span>音箱 X1</span><span class="s" data-st>播放中</span></div>
+        <div class="drow lit" data-device="thermo"><span>温控 T2 · 26°</span><span class="s" data-st>恒温中</span></div>
+        <div class="drow lit" data-device="lock"><span>门锁 S3</span><span class="s" data-st>已解锁</span></div>
+        <div class="drow lit" data-device="doorbell"><span>门铃 C1</span><span class="s" data-st>布防中</span></div>
+        <div class="abtn">一键执行场景</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 技术规格 -->
+<section class="sec" id="specs">
+  <div class="wrap">
+    <p class="eyebrow reveal">技术规格</p>
+    <h2 class="reveal">参数党，请进</h2>
+    <p class="lead reveal">不玩虚标，每一项都能在说明书里找到出处。</p>
+    <div class="specs reveal">
+      <div class="srow"><span class="k">连接协议</span><span class="v">Matter over Thread / Wi-Fi 6 / 蓝牙 5.3，自动选最稳的一条</span><span class="tag">全系标配</span></div>
+      <div class="srow"><span class="k">本地联动延迟</span><span class="v">≤ 200ms，断网照常执行；云端场景 ≤ 800ms</span><span class="tag">实验室实测</span></div>
+      <div class="srow"><span class="k">门锁安全</span><span class="v">C 级锁芯 · 半导体指纹 · 虚位密码 · 防小黑盒电磁攻击</span><span class="tag">S3</span></div>
+      <div class="srow"><span class="k">灯带显色</span><span class="v">1600 万色 · 2700K–6500K 无极调温 · 显指 Ra&gt;90</span><span class="tag">L2</span></div>
+      <div class="srow"><span class="k">温控节能</span><span class="v">学习作息自动调温，实测月均省电 18%（vs 常开 26°）</span><span class="tag">T2</span></div>
+      <div class="srow"><span class="k">隐私</span><span class="v">语音本地唤醒识别，录音不出户；App 数据 AES-256 加密</span><span class="tag">全系</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="ring"></div>
+  <div class="wrap">
+    <h2 class="reveal">今晚，就让家听懂你</h2>
+    <p class="reveal">四件套装限时 ¥2,999（原价 ¥3,595），30 天无理由退货。</p>
+    <div class="row reveal">
+      <a class="btn btn-p" href="#">选购四件套装</a>
+      <a class="btn btn-g" href="#matrix">单件慢慢挑</a>
+    </div>
+    <p class="fine reveal">顺丰包邮 · 7 天无理由 · 门锁免费上门安装</p>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a class="brand" href="#"><span class="logo">栖</span><span data-site="name">栖智</span></a>
+        <p>一套生态，全屋智能。我们相信：最好的科技，是让你感觉不到它的存在。</p>
+        <div class="social">
+          <a href="#" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M9.5 3C5.4 3 2 6 2 9.7c0 2.1 1.2 4 3 5.2l-.7 2.3 2.6-1.3c.8.2 1.7.4 2.6.4h.5A8.6 8.6 0 0 1 9.5 3zm11 7c-3.3 0-6 2.4-6 5.3s2.7 5.2 6 5.2c.6 0 1.2-.1 1.8-.2l2 1-.5-1.8c1-1 1.7-2.2 1.7-3.7 0-2.9-2.7-5.8-5-5.8zM8 8.2h.01M11 8.2h.01M18.5 13.7h.01M21.5 13.7h.01" stroke-width="1.6" stroke="currentColor" fill="none" stroke-linecap="round"/></svg></a>
+          <a href="#" aria-label="微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.9c-3.9-.5-6.9-3.4-6.9-6.9 0-3.8 3.4-6.9 7.6-6.9 2.9 0 5.4 1.5 6.6 3.7.4-.1.9-.1 1.4-.1 2.5 0 4.2 1.3 4.2 3 0 2.3-3.4 3.6-7.2 4.4-2.1.5-4 .4-5.7-.2zm-1-4.2c-1.7-.4-2.8-1.8-2.4-3.2.4-1.3 2-2.1 3.7-1.7 1.7.4 2.8 1.8 2.4 3.2-.4 1.3-2 2.1-3.7 1.7z"/></svg></a>
+          <a href="#" aria-label="哔哩哔哩"><svg viewBox="0 0 24 24"><path d="M4 7l1.5-3h13L20 7M4 7h16v11H4V7zm6 3.5v4l3.5-2L10 10.5z"/></svg></a>
+          <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M14.5 3v10.8a3.9 3.9 0 1 1-3.1-3.8M14.5 5.5A5.6 5.6 0 0 0 19 8.6M14.5 3h2.5"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <ul><li><a href="#matrix">栖智音箱 X1</a></li><li><a href="#matrix">栖智门锁 S3</a></li><li><a href="#matrix">栖智灯带 L2</a></li><li><a href="#matrix">栖智温控 T2</a></li></ul>
+      </div>
+      <div>
+        <h4>支持</h4>
+        <ul><li><a href="#specs">技术规格</a></li><li><a href="#app">App 下载</a></li><li><a href="#">安装服务</a></li><li><a href="#">保修政策</a></li></ul>
+      </div>
+      <div>
+        <h4>联系我们</h4>
+        <ul class="fcontact">
+          <li data-site="address">地址加载中</li>
+          <li><a data-site-href="email" href="#">邮箱加载中</a></li>
+          <li><a data-site-href="phone" href="#">电话加载中</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 <span data-site="name">栖智</span> · <span data-site="icp">备案号加载中</span></span>
+      <div class="legal">
+        <button data-modal="privacy">隐私政策</button>
+        <button data-modal="terms">服务条款</button>
+        <button data-modal="cookie">Cookie 政策</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="m-privacy" role="dialog" aria-modal="true" aria-label="隐私政策">
+  <div class="mask" data-close></div>
+  <div class="box">
+    <div class="hd"><h3>隐私政策</h3><button class="x" data-close aria-label="关闭">✕</button></div>
+    <div class="bd">
+      <h5>一、我们收集什么</h5>
+      <ul><li>账号信息：手机号、昵称，用于登录与家人共享。</li><li>设备状态：灯光亮度、温控温度等运行数据，用于执行你的场景指令。</li><li>语音指令：仅在你说出唤醒词后处理，本地识别，录音默认不出户。</li></ul>
+      <h5>二、用来做什么</h5>
+      <ul><li>执行场景联动、生成用电周报、推送固件更新。</li><li>绝不将你的数据出售给第三方；广告画像？不存在的。</li></ul>
+      <h5>三、数据存哪儿</h5>
+      <p>境内服务器，AES-256 加密存储。设备日志保留 90 天后自动删除，你可以在 App 里随时手动清空。</p>
+      <h5>四、你的权利</h5>
+      <p>查看、更正、删除个人信息，注销账号——App「我的 - 隐私」里都能一键操作，注销后 15 天内彻底删除。</p>
+      <h5>五、联系我们</h5>
+      <p>隐私问题请发邮件至 <span data-site="email">邮箱加载中</span>，我们会在 7 个工作日内回复。</p>
+      <p class="ver">版本 v2.3 · 更新于 2026 年 9 月</p>
+    </div>
+  </div>
+</div>
+<div class="modal" id="m-terms" role="dialog" aria-modal="true" aria-label="服务条款">
+  <div class="mask" data-close></div>
+  <div class="box">
+    <div class="hd"><h3>服务条款</h3><button class="x" data-close aria-label="关闭">✕</button></div>
+    <div class="bd">
+      <h5>一、账号</h5>
+      <p>一个手机号注册一个账号，请保管好登录方式。家人共享的子账号行为，视同主账号授权。</p>
+      <h5>二、服务可用性</h5>
+      <p>我们承诺云端服务 99.9% 可用；本地联动不依赖云端，断网照常工作。</p>
+      <h5>三、合理使用</h5>
+      <p>禁止破解固件、批量注册账号、利用设备进行任何违法活动。违反者我们有权暂停服务。</p>
+      <h5>四、购买与退货</h5>
+      <p>官网购买支持 7 天无理由退货（门锁已安装除外）；整机保修 2 年，灯带等耗材类保修 1 年。</p>
+      <h5>五、固件更新</h5>
+      <p>安全更新会自动推送并在深夜安装；功能更新会先征求你的同意。</p>
+      <h5>六、责任限制</h5>
+      <p>因不可抗力或你自行改装导致的损失，我们不承担责任；我们的赔偿上限为你购买该产品的金额。</p>
+      <p class="ver">版本 v2.3 · 更新于 2026 年 9 月</p>
+    </div>
+  </div>
+</div>
+<div class="modal" id="m-cookie" role="dialog" aria-modal="true" aria-label="Cookie 政策">
+  <div class="mask" data-close></div>
+  <div class="box">
+    <div class="hd"><h3>Cookie 政策</h3><button class="x" data-close aria-label="关闭">✕</button></div>
+    <div class="bd">
+      <h5>一、什么是 Cookie</h5>
+      <p>访问官网时，浏览器会存一些小文本文件，帮我们记住你的偏好（比如选购车里的商品）。</p>
+      <h5>二、必要型</h5>
+      <p>登录状态、安全校验——关掉它们网站就没法正常用了，所以这类无法拒绝。</p>
+      <h5>三、分析型</h5>
+      <p>统计哪些页面受欢迎，帮我们把官网做得更好看。数据匿名处理，你可以在页脚随时关闭。</p>
+      <h5>四、第三方</h5>
+      <p>支付环节会跳转到持牌支付机构页面，遵循它们各自的隐私政策，我们不经手你的银行卡信息。</p>
+      <p class="ver">版本 v2.3 · 更新于 2026 年 9 月</p>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

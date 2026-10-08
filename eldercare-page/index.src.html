@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>颐乐 EVERJOY · 高端养老社区 — 让每一天都安心温暖</title>
+<meta name="description" content="颐乐养老社区：自理颐养 / 协助照护 / 记忆照护三档照护等级，24 小时照护团队在楼，预约参观请致电。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="js-motion">
+
+<!-- 加载幕布 -->
+<div id="veil" aria-hidden="true">
+  <div class="veil-sun"></div>
+  <div class="veil-word">颐乐</div>
+  <div class="veil-sub">EVERJOY</div>
+</div>
+
+<!-- 顶部导航 -->
+<header id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="颐乐首页">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="20" fill="#23403a"/>
+        <circle cx="24" cy="17" r="7" fill="#c98a4b"/>
+        <path d="M8 32 Q16 24 24 32 Q32 24 40 32" fill="none" stroke="#f7f2e8" stroke-width="3" stroke-linecap="round"/>
+        <path d="M12 38 Q24 32 36 38" fill="none" stroke="#f7f2e8" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="brand-word">颐乐<em>EVERJOY</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#care">照护等级</a>
+      <a href="#life">社区环境</a>
+      <a href="#steps">入住流程</a>
+      <a href="#voices">家属评价</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="#visit">预约参观</a>
+      <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div id="drawer" aria-hidden="true">
+  <div class="drawer-panel">
+    <a href="#care">照护等级</a>
+    <a href="#life">社区环境</a>
+    <a href="#steps">入住流程</a>
+    <a href="#voices">家属评价</a>
+    <a class="btn btn-primary" href="#visit">预约参观</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO：晨光 + 社区剪影 + 云影漂移 ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-sky" aria-hidden="true">
+      <svg viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fdf9ee"/>
+            <stop offset=".55" stop-color="#f7f0dc"/>
+            <stop offset="1" stop-color="#ecd9b4"/>
+          </linearGradient>
+          <radialGradient id="sunG" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="#fff6dd" stop-opacity=".95"/>
+            <stop offset=".4" stop-color="#ffe9b8" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#ffe9b8" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="bldG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2c4f46"/>
+            <stop offset="1" stop-color="#1d352f"/>
+          </linearGradient>
+        </defs>
+
+        <rect width="1440" height="620" fill="url(#skyG)"/>
+
+        <!-- 晨光 -->
+        <g class="sun-glow">
+          <circle cx="1060" cy="150" r="190" fill="url(#sunG)"/>
+          <circle cx="1060" cy="150" r="62" fill="#ffdf9e" opacity=".9"/>
+        </g>
+
+        <!-- 云 -->
+        <g class="cloud cloud-a" fill="#ffffff" opacity=".55">
+          <ellipse cx="320" cy="120" rx="120" ry="26"/>
+          <ellipse cx="400" cy="104" rx="90" ry="22"/>
+          <ellipse cx="250" cy="106" rx="70" ry="18"/>
+        </g>
+        <g class="cloud cloud-b" fill="#ffffff" opacity=".38">
+          <ellipse cx="900" cy="210" rx="150" ry="30"/>
+          <ellipse cx="1000" cy="192" rx="100" ry="24"/>
+        </g>
+        <g class="cloud cloud-c" fill="#ffffff" opacity=".45">
+          <ellipse cx="1300" cy="90" rx="110" ry="24"/>
+          <ellipse cx="1230" cy="78" rx="70" ry="18"/>
+        </g>
+
+        <!-- 飞鸟 -->
+        <g stroke="#23403a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5" class="birds">
+          <path d="M640 180 q14 -12 28 0 q14 -12 28 0"/>
+          <path d="M720 210 q10 -9 20 0 q10 -9 20 0"/>
+        </g>
+
+        <!-- 远山 -->
+        <path d="M0 470 Q 220 400 430 452 T 900 440 T 1440 462 L1440 620 L0 620 Z" fill="#d9c8a3" opacity=".55"/>
+        <path d="M0 500 Q 260 440 520 492 T 1040 484 T 1440 500 L1440 620 L0 620 Z" fill="#cbb384" opacity=".5"/>
+
+        <!-- 社区建筑剪影（淡印：保证前景文字对比度） -->
+        <g opacity=".38" transform="translate(0,60)">
+          <rect x="180" y="380" width="220" height="170" fill="url(#bldG)" rx="6"/>
+          <rect x="196" y="400" width="188" height="10" fill="#f7f2e8" opacity=".18"/>
+          <g fill="#f4e3bd" opacity=".85">
+            <rect x="210" y="424" width="26" height="34" rx="3"/><rect x="248" y="424" width="26" height="34" rx="3"/>
+            <rect x="286" y="424" width="26" height="34" rx="3"/><rect x="324" y="424" width="26" height="34" rx="3"/>
+            <rect x="210" y="474" width="26" height="34" rx="3"/><rect x="248" y="474" width="26" height="34" rx="3"/>
+            <rect x="286" y="474" width="26" height="34" rx="3"/><rect x="324" y="474" width="26" height="34" rx="3"/>
+          </g>
+          <rect x="470" y="330" width="260" height="220" fill="url(#bldG)" rx="6"/>
+          <path d="M450 332 L600 268 L750 332 Z" fill="#23403a"/>
+          <rect x="586" y="292" width="28" height="40" fill="#23403a"/>
+          <g fill="#f4e3bd" opacity=".85">
+            <rect x="500" y="360" width="30" height="38" rx="3"/><rect x="544" y="360" width="30" height="38" rx="3"/>
+            <rect x="588" y="360" width="30" height="38" rx="3"/><rect x="632" y="360" width="30" height="38" rx="3"/>
+            <rect x="500" y="414" width="30" height="38" rx="3"/><rect x="544" y="414" width="30" height="38" rx="3"/>
+            <rect x="588" y="414" width="30" height="38" rx="3"/><rect x="632" y="414" width="30" height="38" rx="3"/>
+            <rect x="500" y="468" width="30" height="38" rx="3"/><rect x="544" y="468" width="30" height="38" rx="3"/>
+            <rect x="588" y="468" width="30" height="38" rx="3"/><rect x="632" y="468" width="30" height="38" rx="3"/>
+          </g>
+          <rect x="588" y="522" width="44" height="28" fill="#c98a4b"/>
+          <rect x="800" y="400" width="200" height="150" fill="url(#bldG)" rx="6"/>
+          <g fill="#f4e3bd" opacity=".8">
+            <rect x="826" y="420" width="26" height="32" rx="3"/><rect x="864" y="420" width="26" height="32" rx="3"/>
+            <rect x="902" y="420" width="26" height="32" rx="3"/><rect x="940" y="420" width="26" height="32" rx="3"/>
+            <rect x="826" y="468" width="26" height="32" rx="3"/><rect x="864" y="468" width="26" height="32" rx="3"/>
+            <rect x="902" y="468" width="26" height="32" rx="3"/><rect x="940" y="468" width="26" height="32" rx="3"/>
+          </g>
+          <rect x="1080" y="420" width="170" height="130" fill="url(#bldG)" rx="6" opacity=".92"/>
+          <g fill="#f4e3bd" opacity=".75">
+            <rect x="1104" y="438" width="24" height="30" rx="3"/><rect x="1140" y="438" width="24" height="30" rx="3"/>
+            <rect x="1176" y="438" width="24" height="30" rx="3"/><rect x="1104" y="482" width="24" height="30" rx="3"/>
+            <rect x="1140" y="482" width="24" height="30" rx="3"/><rect x="1176" y="482" width="24" height="30" rx="3"/>
+          </g>
+        </g>
+
+        <!-- 树 -->
+        <g class="trees">
+          <g><rect x="120" y="500" width="14" height="52" fill="#5d4a33" rx="6"/><circle cx="127" cy="480" r="42" fill="#c98a4b" opacity=".85"/><circle cx="105" cy="495" r="26" fill="#d99e5f" opacity=".8"/></g>
+          <g><rect x="1300" y="496" width="14" height="56" fill="#5d4a33" rx="6"/><circle cx="1307" cy="474" r="46" fill="#c98a4b" opacity=".85"/><circle cx="1332" cy="492" r="28" fill="#d99e5f" opacity=".8"/></g>
+          <g><rect x="70" y="512" width="10" height="40" fill="#5d4a33" rx="5"/><circle cx="75" cy="496" r="30" fill="#b57a3e" opacity=".8"/></g>
+          <g><rect x="1360" y="512" width="10" height="40" fill="#5d4a33" rx="5"/><circle cx="1365" cy="496" r="30" fill="#b57a3e" opacity=".8"/></g>
+        </g>
+
+        <!-- 地面云影：缓慢漂移的光斑 -->
+        <g class="shadow-drift">
+          <ellipse class="shade shade-a" cx="420" cy="590" rx="230" ry="26" fill="#23403a" opacity=".10"/>
+          <ellipse class="shade shade-b" cx="1020" cy="596" rx="280" ry="24" fill="#23403a" opacity=".08"/>
+        </g>
+
+        <rect y="540" width="1440" height="80" fill="#e7d6ae" opacity=".65"/>
+      </svg>
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow reveal"><span class="eyebrow-dot"></span>高端养老社区 · 2016 年开业</p>
+      <h1 class="hero-title">
+        <span class="h-line"><span class="h-line-inner">把爸妈交到</span></span>
+        <span class="h-line"><span class="h-line-inner">放心的人手里<em class="dot">。</em></span></span>
+      </h1>
+      <p class="hero-sub reveal">颐乐是一座住着 320 多个家庭的养老社区。<br>三餐有人做，生病有人管，每天都有人陪着说话。</p>
+      <div class="hero-cta reveal">
+        <a class="btn btn-primary btn-lg" href="#visit">预约参观</a>
+        <a class="btn btn-ghost btn-lg" href="#care">看看照护等级</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div><b>320+</b><span>入住家庭</span></div>
+        <div><b>96</b><span>照护团队成员</span></div>
+        <div><b>24h</b><span>护士站值守</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 照护等级三档 ============ -->
+  <section class="section" id="care">
+    <div class="wrap">
+      <p class="eyebrow reveal">照护等级</p>
+      <h2 class="sec-title reveal">三种住法，总有一种合爸妈的心意</h2>
+      <p class="sec-sub reveal">先由我们的评估师和长辈聊一聊、做一次免费健康与生活评估，再定住哪一档。档与档之间可以转，不用一次定终身。</p>
+
+      <div class="care-grid">
+        <article class="care-card reveal">
+          <div class="care-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><rect x="14" y="20" width="36" height="28" rx="4" fill="none" stroke="#23403a" stroke-width="3"/><path d="M10 20 L32 8 L54 20" fill="none" stroke="#23403a" stroke-width="3" stroke-linecap="round"/><rect x="28" y="34" width="8" height="14" fill="#c98a4b"/></svg>
+          </div>
+          <h3>自理颐养</h3>
+          <p class="care-for">适合：身体硬朗、就想换个热闹地方住的长辈</p>
+          <ul class="care-list">
+            <li>独立公寓 45–86㎡，带厨房和阳台</li>
+            <li>每日三餐 + 可选送餐上门</li>
+            <li>每周 20 多种社区活动，爱凑热闹就来</li>
+            <li>房间紧急呼叫，24 小时有人响应</li>
+          </ul>
+          <p class="care-price">¥8,800 <span>/ 月起</span></p>
+          <a class="btn btn-outline" href="#visit" data-tier="自理颐养">约看这一档</a>
+        </article>
+
+        <article class="care-card care-hot reveal" style="--d:.12s">
+          <span class="care-badge">最多家庭选</span>
+          <div class="care-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="20" r="10" fill="none" stroke="#23403a" stroke-width="3"/><path d="M14 52 C14 38 24 32 32 32 C40 32 50 38 50 52" fill="none" stroke="#23403a" stroke-width="3" stroke-linecap="round"/><path d="M26 22 q6 5 12 0" fill="none" stroke="#c98a4b" stroke-width="3" stroke-linecap="round"/></svg>
+          </div>
+          <h3>协助照护</h3>
+          <p class="care-for">适合：起居、服药、用餐需要搭把手的长辈</p>
+          <ul class="care-list">
+            <li>照护员配比 1:6，呼叫随叫随到</li>
+            <li>个性化照护计划，每季度复评一次</li>
+            <li>护士站 24 小时值守，用药有人盯</li>
+            <li>家属 App：每天看到爸妈的动态</li>
+          </ul>
+          <p class="care-price">¥13,800 <span>/ 月起</span></p>
+          <a class="btn btn-primary" href="#visit" data-tier="协助照护">约看这一档</a>
+        </article>
+
+        <article class="care-card reveal" style="--d:.24s">
+          <div class="care-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M32 8 C18 8 10 20 10 30 C10 44 20 54 32 54 C44 54 54 44 54 30 C54 20 46 8 32 8 Z" fill="none" stroke="#23403a" stroke-width="3"/><path d="M24 30 q8 -8 16 0" fill="none" stroke="#c98a4b" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="42" r="3" fill="#c98a4b"/></svg>
+          </div>
+          <h3>记忆照护</h3>
+          <p class="care-for">适合：有轻中度认知障碍、需要安全陪伴的长辈</p>
+          <ul class="care-list">
+            <li>闭环安全动线，防走失设计，家属放心</li>
+            <li>专职陪伴师配比 1:4</li>
+            <li>怀旧活动室：老歌、老照片、老手艺</li>
+            <li>家属随时探视，也有家属支持小组</li>
+          </ul>
+          <p class="care-price">¥18,800 <span>/ 月起</span></p>
+          <a class="btn btn-outline" href="#visit" data-tier="记忆照护">约看这一档</a>
+        </article>
+      </div>
+      <p class="price-note reveal">以上为 2026 年参考价，实际费用以免费评估后的照护方案为准。我们不做医疗疗效承诺，只把每天的照护做到位。</p>
+    </div>
+  </section>
+
+  <!-- ============ 社区环境画廊（纯 SVG） ============ -->
+  <section class="section section-tint" id="life">
+    <div class="wrap">
+      <p class="eyebrow reveal">社区环境</p>
+      <h2 class="sec-title reveal">一天的社区，是这个样子的</h2>
+      <p class="sec-sub reveal">62% 的绿化，早上在花园里打太极，中午去餐厅吃现炒的小菜，下午活动室里有合唱队。</p>
+
+      <div class="life-grid">
+        <figure class="life-card reveal">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f3ead3"/>
+              <circle cx="320" cy="52" r="30" fill="#e9b96a"/>
+              <rect y="180" width="400" height="60" fill="#dcc896"/>
+              <g><rect x="60" y="140" width="10" height="46" fill="#6b5138" rx="4"/><circle cx="65" cy="122" r="34" fill="#c98a4b"/><circle cx="48" cy="134" r="20" fill="#d99e5f"/></g>
+              <g><rect x="150" y="148" width="10" height="40" fill="#6b5138" rx="4"/><circle cx="155" cy="132" r="28" fill="#b57a3e"/></g>
+              <g><rect x="300" y="144" width="10" height="44" fill="#6b5138" rx="4"/><circle cx="305" cy="126" r="32" fill="#c98a4b"/></g>
+              <rect x="196" y="160" width="70" height="10" fill="#8a6b45" rx="3"/><rect x="202" y="170" width="8" height="18" fill="#8a6b45"/><rect x="252" y="170" width="8" height="18" fill="#8a6b45"/>
+              <g fill="#23403a" opacity=".8"><circle cx="110" cy="172" r="7"/><rect x="104" y="178" width="12" height="12" rx="5"/><circle cx="240" cy="170" r="7"/><rect x="234" y="176" width="12" height="13" rx="5"/></g>
+            </svg>
+          </div>
+          <figcaption><b>阳光花园</b><span>早上七点，太极队已经开练了</span></figcaption>
+        </figure>
+
+        <figure class="life-card reveal" style="--d:.1s">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f6efdd"/>
+              <rect x="30" y="40" width="340" height="110" rx="8" fill="#e9dcbe"/>
+              <g stroke="#23403a" stroke-width="4"><line x1="200" y1="40" x2="200" y2="150"/><line x1="120" y1="40" x2="120" y2="150"/><line x1="280" y1="40" x2="280" y2="150"/></g>
+              <rect y="186" width="400" height="54" fill="#dcc896"/>
+              <ellipse cx="120" cy="192" rx="52" ry="12" fill="#8a6b45"/><rect x="114" y="192" width="12" height="34" fill="#6b5138"/>
+              <ellipse cx="280" cy="192" rx="52" ry="12" fill="#8a6b45"/><rect x="274" y="192" width="12" height="34" fill="#6b5138"/>
+              <g fill="#fffdf7"><ellipse cx="104" cy="182" rx="10" ry="7"/><ellipse cx="136" cy="182" rx="10" ry="7"/><ellipse cx="264" cy="182" rx="10" ry="7"/><ellipse cx="296" cy="182" rx="10" ry="7"/></g>
+              <rect x="188" y="150" width="24" height="36" fill="#c98a4b" rx="4"/>
+            </svg>
+          </div>
+          <figcaption><b>长者餐厅</b><span>少油少盐、软烂好嚼，现炒现吃</span></figcaption>
+        </figure>
+
+        <figure class="life-card reveal" style="--d:.2s">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f3ead3"/>
+              <rect y="190" width="400" height="50" fill="#dcc896"/>
+              <rect x="120" y="70" width="160" height="90" rx="6" fill="#23403a"/>
+              <rect x="132" y="82" width="136" height="66" rx="4" fill="#f7f2e8"/>
+              <path d="M150 130 q20 -18 40 0 q20 -18 40 0" stroke="#c98a4b" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <g fill="#23403a" opacity=".85"><circle cx="90" cy="170" r="8"/><rect x="83" y="178" width="14" height="14" rx="6"/><circle cx="200" cy="172" r="8"/><rect x="193" y="180" width="14" height="13" rx="6"/><circle cx="310" cy="170" r="8"/><rect x="303" y="178" width="14" height="14" rx="6"/></g>
+              <circle cx="200" cy="120" r="26" fill="#e9b96a" opacity=".9"/>
+            </svg>
+          </div>
+          <figcaption><b>活动中心</b><span>合唱、书法、手工，每天排得满满的</span></figcaption>
+        </figure>
+
+        <figure class="life-card reveal" style="--d:.3s">
+          <div class="life-art">
+            <svg viewBox="0 0 400 240" aria-hidden="true">
+              <rect width="400" height="240" fill="#f6efdd"/>
+              <path d="M0 240 Q 200 160 400 200 L400 240 Z" fill="#dcc896"/>
+              <path d="M0 240 Q 200 176 400 214" stroke="#f7f2e8" stroke-width="10" fill="none"/>
+              <g><rect x="80" y="110" width="10" height="60" fill="#6b5138" rx="4"/><circle cx="85" cy="92" r="34" fill="#c98a4b"/><circle cx="66" cy="106" r="20" fill="#d99e5f"/></g>
+              <g><rect x="180" y="96" width="10" height="64" fill="#6b5138" rx="4"/><circle cx="185" cy="78" r="36" fill="#b57a3e"/></g>
+              <g><rect x="290" y="108" width="10" height="58" fill="#6b5138" rx="4"/><circle cx="295" cy="90" r="32" fill="#c98a4b"/></g>
+              <g fill="#23403a" opacity=".8"><circle cx="140" cy="196" r="7"/><rect x="134" y="202" width="12" height="14" rx="6"/><circle cx="248" cy="188" r="7"/><rect x="242" y="194" width="12" height="14" rx="6"/></g>
+            </svg>
+          </div>
+          <figcaption><b>林荫步道</b><span>800 米环形步道，轮椅推行无障碍</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 入住流程四步 ============ -->
+  <section class="section" id="steps">
+    <div class="wrap">
+      <p class="eyebrow reveal">入住流程</p>
+      <h2 class="sec-title reveal">四步，住进来</h2>
+      <p class="sec-sub reveal">从第一次来看，到爸妈住下，平均两周。全程有专人陪着，不用你们跑来跑去。</p>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-num">01</span>
+          <div class="step-body"><h3>预约参观</h3><p>打个电话或填个表，我们约个时间。建议带上爸妈一起来看看、吃顿饭。</p></div>
+        </li>
+        <li class="step reveal" style="--d:.12s">
+          <span class="step-num">02</span>
+          <div class="step-body"><h3>免费评估</h3><p>评估师和长辈聊聊天，了解身体情况和生活习惯，出评估建议。不收费。</p></div>
+        </li>
+        <li class="step reveal" style="--d:.24s">
+          <span class="step-num">03</span>
+          <div class="step-body"><h3>定制方案</h3><p>根据评估定照护等级、房间和照护计划。费用一项一项列清楚，没有隐形收费。</p></div>
+        </li>
+        <li class="step reveal" style="--d:.36s">
+          <span class="step-num">04</span>
+          <div class="step-body"><h3>拎包入住</h3><p>房间提前布置好，管家上门接。头两周是适应期，照护团队会多留意。</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 家属评价墙 ============ -->
+  <section class="section section-tint" id="voices">
+    <div class="wrap">
+      <p class="eyebrow reveal">家属评价</p>
+      <h2 class="sec-title reveal">住进来的家庭，怎么说</h2>
+      <p class="sec-sub reveal">以下来自 2025–2026 年家属回访，发表前都征得了本人同意。</p>
+
+      <div class="voices">
+        <blockquote class="voice reveal">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>我妈刚来那两周不适应，照护员小陈每天陪她在花园里坐半小时。现在她比我还忙，合唱队、手工班全报了。</p>
+          <footer>李女士 <span>· 女儿，母亲入住 2 年</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.1s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>最打动我的是费用单，每一项都列得清清楚楚。之前看过别家，杂费多得吓人，这里没有。</p>
+          <footer>王先生 <span>· 儿子，父亲入住 1 年</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.2s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>我爸轻度认知障碍，住记忆照护区。陪伴师每天带他听老歌、看老照片，他现在认得回去的路了，我们全家都松了口气。</p>
+          <footer>赵女士 <span>· 女儿，父亲入住 8 个月</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.3s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>App 里每天能看到我妈吃了什么、参加了什么活动。在外地工作，这点最让我安心。</p>
+          <footer>陈先生 <span>· 儿子，母亲入住 1 年半</span></footer>
+        </blockquote>
+        <blockquote class="voice reveal" style="--d:.4s">
+          <div class="stars" aria-label="五星好评"><svg viewBox="0 0 100 20"><g fill="#c98a4b"><path d="M10 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.2l5.9-.9z"/><path d="M30 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M50 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M70 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/><path d="M90 1l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/></g></svg></div>
+          <p>半夜两点我妈不舒服，按了呼叫铃，护士三分钟就到了。冲这一次，我就觉得这钱花得值。</p>
+          <footer>刘女士 <span>· 女儿，母亲入住 3 年</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA：预约参观 ============ -->
+  <section class="section cta-section" id="visit">
+    <div class="wrap cta-wrap">
+      <div class="cta-copy reveal">
+        <p class="eyebrow eyebrow-light">预约参观</p>
+        <h2 class="sec-title sec-title-light">先来看看，再决定</h2>
+        <p class="cta-sub">留个联系方式，我们的顾问会在 1 个工作日内联系您，约个时间带您和爸妈来社区转转、吃顿饭。不收费，不推销。</p>
+        <ul class="cta-points">
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>专人全程陪同参观约 1 小时</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>免费健康与生活评估一次</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>可在社区餐厅免费试吃一餐</li>
+        </ul>
+        <p class="cta-tel">也可以直接打电话：<a id="ctaPhone" href="tel:4000000000">400-000-0000</a><span>（每天 8:00–20:00）</span></p>
+      </div>
+
+      <form class="visit-form reveal" id="visitForm" novalidate style="--d:.15s">
+        <div class="field">
+          <label for="fName">您的称呼</label>
+          <input id="fName" name="name" type="text" placeholder="比如：王先生" autocomplete="name">
+          <p class="err" data-for="fName"></p>
+        </div>
+        <div class="field">
+          <label for="fPhone">手机号码</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="tel" placeholder="11 位手机号码" autocomplete="tel">
+          <p class="err" data-for="fPhone"></p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">期望参观日期</label>
+            <input id="fDate" name="date" type="date">
+            <p class="err" data-for="fDate"></p>
+          </div>
+          <div class="field">
+            <label for="fTier">意向照护等级</label>
+            <select id="fTier" name="tier">
+              <option value="">还没想好</option>
+              <option>自理颐养</option>
+              <option>协助照护</option>
+              <option>记忆照护</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fNote">想跟我们说的话 <span class="opt">（选填）</span></label>
+          <textarea id="fNote" name="note" rows="3" placeholder="比如：我爸 78 岁，腿脚不太方便……"></textarea>
+        </div>
+        <button class="btn btn-accent btn-lg btn-block" type="submit" id="submitBtn">提交预约</button>
+        <p class="form-privacy">提交即表示您同意我们通过电话与您联系。您的信息仅用于预约安排，不会用于其他用途。</p>
+        <div class="form-success" id="formSuccess" role="status">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="#c98a4b" stroke-width="4"/><path d="M20 33l8 8 16-17" fill="none" stroke="#c98a4b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>收到您的预约了</h3>
+          <p>顾问将在 1 个工作日内与您联系，请留意来电。</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <a class="brand" href="#top" aria-label="颐乐首页">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="20" fill="#f7f2e8"/>
+          <circle cx="24" cy="17" r="7" fill="#c98a4b"/>
+          <path d="M8 32 Q16 24 24 32 Q32 24 40 32" fill="none" stroke="#23403a" stroke-width="3" stroke-linecap="round"/>
+          <path d="M12 38 Q24 32 36 38" fill="none" stroke="#23403a" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+        </svg>
+        <span class="brand-word brand-word-light">颐乐<em>EVERJOY</em></span>
+      </a>
+      <p class="f-blurb">一座住着 320 多个家庭的养老社区。三餐有人做，生病有人管，每天都有人陪着说话。</p>
+      <div class="f-social">
+        <a href="#" aria-label="微信公众号" data-social="微信公众号：颐乐养老社区"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 1 0 0 .01M15 11a3.5 3.5 0 1 0 0 .01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 6h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3v3l-4-3H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="联系电话" data-social="电话"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="电子邮箱" data-social="邮箱"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>快速了解</h4>
+      <a href="#care">照护等级</a>
+      <a href="#life">社区环境</a>
+      <a href="#steps">入住流程</a>
+      <a href="#voices">家属评价</a>
+      <a href="#visit">预约参观</a>
+    </div>
+    <div class="f-col">
+      <h4>联系我们</h4>
+      <p class="f-contact" id="fPhone">电话：—</p>
+      <p class="f-contact" id="fAddr">地址：—</p>
+      <p class="f-contact" id="fMail">邮箱：—</p>
+    </div>
+    <div class="f-col">
+      <h4>法务信息</h4>
+      <button class="f-legal" data-legal="privacy">隐私政策</button>
+      <button class="f-legal" data-legal="terms">服务条款</button>
+      <button class="f-legal" data-legal="cookie">Cookie 政策</button>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>© <span id="fYear">2026</span> <span id="fCompany">颐乐养老社区</span> · 版权所有</p>
+    <p class="f-icp" id="fIcp">ICP 备案占位</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="modal" id="legalModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="关闭">✕</button>
+    <h3 id="legalTitle"></h3>
+    <div class="modal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>NOVA Console — Sign in</title>
+<style>
+/* huafire3d fx-lab — original implementation
+   Inspired by the dark SaaS login aesthetic (Linear / Vercel / Clerk):
+   full-bleed animated background + centered glass auth card.
+   All code below is written from scratch; no reference-site source was copied. */
+:root {
+  --bg: #05060e;
+  --ink: #eef0f8;
+  --ink-dim: rgba(238, 240, 248, 0.62);
+  --ink-faint: rgba(238, 240, 248, 0.38);
+  --accent-a: #6366f1;
+  --accent-b: #22d3ee;
+  --danger: #f87171;
+  --ok: #34d399;
+  --card-bg: rgba(13, 15, 28, 0.55);
+  --hairline: rgba(255, 255, 255, 0.10);
+  --field-bg: rgba(255, 255, 255, 0.045);
+  --radius: 18px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- background layers ---------- */
+#bg3d { position: fixed; inset: 0; z-index: 0; }
+#bg3d canvas { display: block; width: 100%; height: 100%; }
+/* CSS fallback when WebGL is unavailable (or reduced motion): animated glow blobs */
+#bg-fallback {
+  position: fixed; inset: 0; z-index: 0; display: none; overflow: hidden;
+  background:
+    radial-gradient(52% 42% at 18% 12%, rgba(99, 102, 241, 0.30), transparent 70%),
+    radial-gradient(48% 40% at 84% 88%, rgba(34, 211, 238, 0.20), transparent 70%),
+    radial-gradient(60% 50% at 50% 50%, rgba(20, 24, 60, 0.9), transparent 75%),
+    var(--bg);
+}
+body.no-webgl #bg-fallback { display: block; }
+body.no-webgl #bg3d { display: none; }
+#bg-fallback::before, #bg-fallback::after {
+  content: ""; position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%;
+  filter: blur(90px); opacity: 0.5;
+}
+#bg-fallback::before {
+  left: -18vmax; top: -18vmax;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.55), transparent 65%);
+  animation: drift-a 26s ease-in-out infinite alternate;
+}
+#bg-fallback::after {
+  right: -20vmax; bottom: -22vmax;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.38), transparent 65%);
+  animation: drift-b 32s ease-in-out infinite alternate;
+}
+@keyframes drift-a { to { transform: translate(14vmax, 10vmax) scale(1.15); } }
+@keyframes drift-b { to { transform: translate(-12vmax, -12vmax) scale(1.1); } }
+/* vignette + top glow, sits above canvas, below UI */
+#bg-shade {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgba(99, 102, 241, 0.10), transparent 60%),
+    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(2, 3, 8, 0.72) 100%);
+}
+
+/* ---------- layout ---------- */
+#ui { position: relative; z-index: 2; min-height: 100%; display: flex; flex-direction: column; }
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 30px;
+}
+.wordmark { display: flex; align-items: center; gap: 10px; }
+.wordmark .logo {
+  width: 30px; height: 30px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.55);
+  position: relative;
+}
+.wordmark .logo::after {
+  content: ""; position: absolute; inset: 8px;
+  border: 2.5px solid rgba(255, 255, 255, 0.92);
+  border-top-color: transparent; border-radius: 50%;
+  transform: rotate(38deg);
+}
+.wordmark b { font-size: 15px; letter-spacing: 0.24em; font-weight: 700; }
+.wordmark small { display: block; font-size: 10px; letter-spacing: 0.3em; color: var(--ink-faint); font-weight: 400; }
+.topbar .meta { font-size: 12px; color: var(--ink-faint); letter-spacing: 0.08em; }
+.topbar .meta a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px dotted var(--hairline); }
+.stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 16px 40px; }
+
+/* ---------- auth card ---------- */
+.card {
+  width: 400px; max-width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 34px 34px 30px;
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  animation: card-in 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+@keyframes card-in { from { opacity: 0; transform: translateY(18px) scale(0.985); } }
+.card h1 { font-size: 22px; font-weight: 650; letter-spacing: 0.01em; }
+.card .sub { margin-top: 8px; font-size: 13.5px; color: var(--ink-dim); line-height: 1.55; }
+
+/* SSO row */
+.sso { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
+.sso button {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 11px 0; border-radius: 11px; cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--hairline);
+  color: var(--ink); font-size: 13.5px; font-weight: 550;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+  font-family: inherit;
+}
+.sso button:hover { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.2); }
+.sso button:active { transform: scale(0.98); }
+.sso svg { width: 17px; height: 17px; flex: none; }
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 20px 0 4px; color: var(--ink-faint); font-size: 11.5px; letter-spacing: 0.14em;
+}
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--hairline); }
+
+/* fields */
+.field { margin-top: 16px; }
+.field label { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink-dim); margin-bottom: 8px; letter-spacing: 0.04em; }
+.control { position: relative; }
+.control input {
+  width: 100%; padding: 12px 42px 12px 14px; font-size: 14.5px; color: var(--ink);
+  background: var(--field-bg); border: 1px solid var(--hairline); border-radius: 11px;
+  outline: none; transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  font-family: inherit;
+}
+.control input::placeholder { color: var(--ink-faint); }
+.control input:focus {
+  border-color: rgba(99, 102, 241, 0.75);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.22), 0 0 18px rgba(99, 102, 241, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+.field.invalid .control input {
+  border-color: rgba(248, 113, 113, 0.8);
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16);
+}
+.field .msg { display: none; margin-top: 7px; font-size: 12px; color: var(--danger); }
+.field.invalid .msg { display: block; }
+.field.invalid .control { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); } 40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); } 80% { transform: translateX(3px); }
+}
+.peek {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; border: 0; background: none; cursor: pointer;
+  color: var(--ink-faint); border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}
+.peek:hover { color: var(--ink); background: rgba(255, 255, 255, 0.06); }
+.peek svg { width: 18px; height: 18px; }
+.peek .eye-off { display: none; }
+.peek.showing .eye-off { display: block; }
+.peek.showing .eye-on { display: none; }
+
+/* row: remember + forgot */
+.row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+.check { display: flex; align-items: center; gap: 9px; cursor: pointer; font-size: 13px; color: var(--ink-dim); user-select: none; }
+.check input { position: absolute; opacity: 0; pointer-events: none; }
+.check .box {
+  width: 17px; height: 17px; border-radius: 5px; flex: none;
+  border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(255, 255, 255, 0.04);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.check .box svg { width: 11px; height: 11px; opacity: 0; transform: scale(0.5); transition: opacity 0.15s ease, transform 0.15s ease; }
+.check input:checked + .box { background: linear-gradient(135deg, var(--accent-a), var(--accent-b)); border-color: transparent; }
+.check input:checked + .box svg { opacity: 1; transform: scale(1); }
+.check input:focus-visible + .box { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
+.row a { font-size: 13px; color: var(--ink-dim); text-decoration: none; }
+.row a:hover { color: var(--ink); text-decoration: underline; }
+
+/* submit button: idle / loading / success */
+.submit {
+  position: relative; width: 100%; margin-top: 22px; padding: 13px 0;
+  border: 0; border-radius: 12px; cursor: pointer;
+  font-size: 15px; font-weight: 650; letter-spacing: 0.02em; color: #fff; font-family: inherit;
+  background: linear-gradient(135deg, var(--accent-a), #4f46e5 55%, #0ea5e9);
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  overflow: hidden;
+}
+.submit:hover:not(:disabled) { filter: brightness(1.1); box-shadow: 0 10px 34px rgba(99, 102, 241, 0.55), inset 0 1px 0 rgba(255,255,255,0.25); }
+.submit:active:not(:disabled) { transform: scale(0.985); }
+.submit:disabled { cursor: default; }
+.submit .label, .submit .spinner, .submit .checkwrap {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+}
+.submit .spinner, .submit .checkwrap { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.submit .spinner::before {
+  content: ""; width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.35); border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.submit[data-state="loading"] .label { opacity: 0; }
+.submit[data-state="loading"] .spinner { opacity: 1; }
+.submit[data-state="success"] { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 28px rgba(16, 185, 129, 0.4); }
+.submit[data-state="success"] .label { opacity: 0; }
+.submit[data-state="success"] .checkwrap { opacity: 1; }
+.submit .checkwrap svg { width: 20px; height: 20px; }
+.submit .checkwrap path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw 0.45s ease forwards 0.05s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.form-note { margin-top: 14px; min-height: 18px; font-size: 12.5px; text-align: center; color: var(--ink-faint); }
+.form-note.ok { color: var(--ok); }
+
+.foot { text-align: center; padding: 0 16px 26px; font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.06em; }
+.foot .dot { margin: 0 8px; opacity: 0.5; }
+
+/* mobile */
+@media (max-width: 480px) {
+  .topbar { padding: 16px 18px; }
+  .topbar .meta { display: none; }
+  .stage { padding: 8px 14px 30px; align-items: flex-start; }
+  .card { width: 100%; padding: 26px 22px 24px; border-radius: 16px; }
+  .sso { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; }
+  #bg-fallback::before, #bg-fallback::after { animation: none; }
+}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="bg3d" aria-hidden="true"></div>
+<div id="bg-fallback" aria-hidden="true"></div>
+<div id="bg-shade" aria-hidden="true"></div>
+
+<div id="ui">
+  <header class="topbar">
+    <div class="wordmark">
+      <span class="logo" aria-hidden="true"></span>
+      <span><b data-brand>NOVA</b><small>ADMIN CONSOLE</small></span>
+    </div>
+    <div class="meta">v2.4.1 <span style="opacity:.4">·</span> <a href="#" onclick="return false">Status: operational</a></div>
+  </header>
+
+  <main class="stage">
+    <section class="card" aria-label="Sign in">
+      <h1>Welcome back</h1>
+      <p class="sub">Sign in to your workspace to continue to the admin console.</p>
+
+      <div class="sso">
+        <button type="button" data-sso="google" aria-label="Continue with Google">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2" fill="none" stroke="#fff" stroke-width="2.4"/><path d="M10 5.4v4.6l3.9 2.3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+          Google
+        </button>
+        <button type="button" data-sso="github" aria-label="Continue with GitHub">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h12v12H4z" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M7.5 7.5l-2.5 2.5 2.5 2.5M12.5 7.5l2.5 2.5-2.5 2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          GitHub
+        </button>
+      </div>
+
+      <div class="divider">OR WITH EMAIL</div>
+
+      <form id="login-form" novalidate>
+        <div class="field" id="f-email">
+          <label for="email">Work email</label>
+          <div class="control">
+            <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="username" style="padding-right:14px">
+          </div>
+          <p class="msg" role="alert"></p>
+        </div>
+
+        <div class="field" id="f-pass">
+          <label for="password">Password</label>
+          <div class="control">
+            <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="peek" id="peek" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-on" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 10S5.5 5.5 10 5.5 17.5 10 17.5 10 14.5 14.5 10 14.5 2.5 10 2.5 10Z"/><circle cx="10" cy="10" r="2.6"/></svg>
+              <svg class="eye-off" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 10S5.5 5.5 10 5.5c1.7 0 3.2.6 4.5 1.4M17.5 10S14.5 14.5 10 14.5c-1.7 0-3.2-.6-4.5-1.4"/><path d="M4 4l12 12" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <p class="msg" role="alert"></p>
+        </div>
+
+        <div class="row">
+          <label class="check"><input type="checkbox" id="remember" checked><span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4"><path d="M2 6.4l2.8 2.8L10 3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Remember me</label>
+          <a href="#" onclick="return false">Forgot password?</a>
+        </div>
+
+        <button class="submit" id="submit" type="submit" data-state="idle">
+          <span class="label">Sign in</span>
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="checkwrap" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.6"><path d="M3.5 10.5l4.2 4.2L16.5 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Signed in</span>
+          </span>
+        </button>
+        <p class="form-note" id="form-note" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="foot">SOC 2 TYPE II<span class="dot">·</span>SSO / SAML READY<span class="dot">·</span>99.99% UPTIME</footer>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

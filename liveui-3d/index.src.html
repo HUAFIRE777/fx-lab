@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — liveui-3d: original implementation -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>回声 Echo One — 3D 物体上的实时可交互 UI</title>
+<meta name="description" content="fx-lab 模板 liveui-3d：3D 智能音箱屏幕上贴着一张真实可点的 DOM 播放器卡片，每帧用 matrix3d 投影贴合。原创实现。">
+<style>
+:root{
+  --ink:#16161A;      /* 石墨 */
+  --neon:#B4FF39;     /* 荧光绿 */
+  --paper:#FFFFFF;    /* 纸白 */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--ink);color:var(--paper);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{ /* 噪点纹理，手工细节 */
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:60;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+.page{max-width:1120px;margin:0 auto;padding:64px 24px 96px;position:relative;z-index:1}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:100;background:var(--ink);
+  display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;
+  transition:opacity .7s ease,visibility .7s;
+}
+body.ready .loader{opacity:0;visibility:hidden}
+.loader .ring{
+  width:54px;height:54px;border-radius:50%;
+  border:2px solid rgba(180,255,57,.18);border-top-color:var(--neon);
+  animation:spin 1s linear infinite;
+}
+.loader p{color:rgba(255,255,255,.55);font-size:13px;letter-spacing:.35em;text-indent:.35em}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- 头部文案（reveal 入场） ---------- */
+header{text-align:center;margin-bottom:40px}
+.eyebrow{
+  display:inline-block;font-size:12px;letter-spacing:.4em;text-indent:.4em;
+  color:var(--neon);border:1px solid rgba(180,255,57,.4);border-radius:999px;
+  padding:8px 20px;margin-bottom:26px;
+}
+h1{font-size:clamp(34px,6vw,64px);font-weight:800;letter-spacing:.06em;line-height:1.15}
+h1 .accent{color:var(--neon)}
+.sub{margin-top:18px;color:rgba(255,255,255,.62);font-size:15px;line-height:1.9;max-width:640px;margin-left:auto;margin-right:auto}
+.reveal{opacity:0;transform:translateY(28px)}
+body.ready .reveal{animation:rise .9s cubic-bezier(.22,1,.36,1) forwards;animation-delay:var(--d,0s)}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* ---------- 3D 舞台 ---------- */
+.stage-wrap{position:relative;margin:0 auto;max-width:960px}
+.stage{
+  position:relative;width:100%;aspect-ratio:16/10;border-radius:20px;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 8%,rgba(255,255,255,.055) 0%,var(--ink) 62%);
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07);
+  cursor:grab;touch-action:pan-y;
+}
+.stage.dragging{cursor:grabbing}
+.stage canvas.webgl{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* ---------- DOM 播放器卡片（每帧用 matrix3d 贴到 3D 屏幕上） ---------- */
+.ui-card{
+  position:absolute;left:0;top:0;width:340px;height:236px;z-index:5;
+  transform-origin:0 0;will-change:transform;
+  background:rgba(22,22,26,.92);color:var(--paper);
+  border:1px solid rgba(180,255,57,.45);border-radius:14px;
+  box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(180,255,57,.12);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  padding:18px 20px;display:flex;flex-direction:column;gap:12px;
+  opacity:0;transition:opacity .6s ease;
+}
+body.ready .ui-card{opacity:1}
+.ui-card.fallback{ /* 投影降级：固定在舞台下方中央 */
+  position:relative;left:auto;top:auto;transform:none !important;
+  margin:18px auto 0;width:min(340px,92%);
+}
+.card-head{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.18em}
+.card-head .dot{width:8px;height:8px;border-radius:50%;background:var(--neon);box-shadow:0 0 10px var(--neon)}
+.card-head .live{margin-left:auto;color:var(--neon);border:1px solid rgba(180,255,57,.5);border-radius:999px;padding:2px 10px;font-size:11px}
+.track{font-size:19px;font-weight:700;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track small{display:block;font-size:11px;color:rgba(255,255,255,.5);font-weight:400;margin-top:4px;letter-spacing:.1em}
+.controls{display:flex;align-items:center;gap:14px}
+.play{
+  width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;flex:none;
+  background:var(--neon);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s ease;
+  box-shadow:0 0 18px rgba(180,255,57,.35);
+}
+.play:hover{transform:scale(1.1)}
+.play:active{transform:scale(.92)}
+.play svg{width:22px;height:22px;fill:var(--ink)}
+.vol-wrap{flex:1;display:flex;align-items:center;gap:10px}
+.vol{flex:1;appearance:none;-webkit-appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,.2);outline:none;cursor:pointer}
+.vol::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--neon);box-shadow:0 0 12px rgba(180,255,57,.6);cursor:pointer;
+  transition:transform .15s cubic-bezier(.34,1.56,.64,1);
+}
+.vol::-webkit-slider-thumb:hover{transform:scale(1.25)}
+.vol::-moz-range-thumb{width:18px;height:18px;border:none;border-radius:50%;background:var(--neon);cursor:pointer}
+.vol-num{font-size:12px;color:var(--neon);min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+.songs{display:flex;gap:8px}
+.song{
+  flex:1;border:1px solid rgba(255,255,255,.16);background:transparent;color:rgba(255,255,255,.75);
+  border-radius:10px;padding:9px 4px;font-size:12px;cursor:pointer;letter-spacing:.06em;
+  transition:all .2s cubic-bezier(.22,1,.36,1);
+}
+.song:hover{border-color:rgba(180,255,57,.6);color:var(--paper);transform:translateY(-2px)}
+.song.active{background:var(--neon);border-color:var(--neon);color:var(--ink);font-weight:700}
+
+.hint{margin-top:20px;text-align:center;color:rgba(255,255,255,.42);font-size:13px;letter-spacing:.22em}
+.hint b{color:var(--neon);font-weight:600}
+
+/* ---------- 原理说明 ---------- */
+.howto{margin-top:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:26px 24px;
+  background:rgba(255,255,255,.025);
+  transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s ease;
+}
+.step:hover{transform:translateY(-6px);border-color:rgba(180,255,57,.45)}
+.step .n{color:var(--neon);font-size:13px;letter-spacing:.3em;margin-bottom:12px}
+.step h3{font-size:17px;margin-bottom:10px;letter-spacing:.05em}
+.step p{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,.6)}
+.step code{color:var(--neon);font-size:12px;background:rgba(180,255,57,.08);padding:1px 6px;border-radius:5px}
+
+/* ---------- 页脚 ---------- */
+.colophon{margin-top:80px;text-align:center;color:rgba(255,255,255,.35);font-size:12.5px;line-height:2;letter-spacing:.08em}
+.colophon .rule{width:56px;height:2px;background:var(--neon);margin:0 auto 18px;border-radius:1px}
+
+@media (max-width:720px){
+  .page{padding:44px 16px 72px}
+  .stage{aspect-ratio:4/5}
+  .howto{grid-template-columns:1fr}
+  .ui-card{width:300px;height:228px;padding:16px}
+}
+</style>
+<script type="importmap">{"imports":{"three":"vendor/three.module.js"}}</script>
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="ring"></div>
+  <p>正在点亮音箱</p>
+</div>
+
+<div class="page">
+  <header>
+    <p class="eyebrow reveal" style="--d:.05s">3D × 真实可点 UI</p>
+    <h1 class="reveal" style="--d:.12s">回声 <span class="accent">Echo One</span><br>智能音箱</h1>
+    <p class="sub reveal" style="--d:.2s">屏幕上那张播放器卡片不是贴图——它是真实 DOM。<br>每一个按钮、滑杆都真实可点，随 3D 屏幕一起转动。</p>
+  </header>
+
+  <section class="stage-wrap reveal" style="--d:.28s" aria-label="3D 智能音箱展示">
+    <div class="stage" id="stage">
+      <!-- 真 DOM 播放器：JS 每帧用 matrix3d 把它贴合到 3D 屏幕四角 -->
+      <div class="ui-card" id="uiCard" aria-label="播放器">
+        <div class="card-head"><span class="dot"></span><span>回声 ECHO ONE</span><span class="live">实时</span></div>
+        <div class="track"><span id="trackName">晨间电子</span><small id="trackSub">第 1 首 · 合成旋律</small></div>
+        <div class="controls">
+          <button class="play" id="playBtn" aria-label="播放或暂停">
+            <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="vol-wrap">
+            <input type="range" class="vol" id="vol" min="0" max="100" value="70" aria-label="音量">
+            <span class="vol-num" id="volNum">70</span>
+          </div>
+        </div>
+        <div class="songs" role="tablist" aria-label="切换歌曲">
+          <button class="song active" data-i="0">晨间电子</button>
+          <button class="song" data-i="1">深夜爵士</button>
+          <button class="song" data-i="2">山间民谣</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint"><b>拖拽</b>旋转音箱 · <b>直接点</b>屏幕上的播放器 · 声音由浏览器实时合成</p>
+  </section>
+
+  <section class="howto reveal" style="--d:.36s" aria-label="实现原理">
+    <div class="step">
+      <div class="n">STEP 01</div>
+      <h3>3D 里只画波形</h3>
+      <p>音箱屏幕的 3D 本体只是一块 <code>CanvasTexture</code> 平面，上面画着随音量跳动的荧光波形——它负责"看起来在 3D 里"。</p>
+    </div>
+    <div class="step">
+      <div class="n">STEP 02</div>
+      <h3>UI 走真 DOM</h3>
+      <p>播放器卡片是货真价实的 HTML 按钮与滑杆。点击、拖动、hover 全是浏览器原生行为，零 hack、处处可点。</p>
+    </div>
+    <div class="step">
+      <div class="n">STEP 03</div>
+      <h3>每帧投影贴合</h3>
+      <p>每帧把屏幕四个角投影到 2D，解单应性矩阵生成 <code>matrix3d</code>，把 DOM 卡片做透视变换贴合上去——视觉与交互在此合流。</p>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <div class="rule"></div>
+    fx-lab 模板 · liveui-3d —— 「UI 长在 3D 物体上」<br>
+    原创实现 · 零外部请求 · 见 README
+  </footer>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

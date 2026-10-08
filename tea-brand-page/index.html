@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山涧 SHANJIAN · 高山现泡茶饮</title>
+<meta name="description" content="山涧 SHANJIAN，高山现泡茶饮品牌。明前头采，一芽一叶；六个产品系列，全国门店现点现泡。把山里的雾，泡进这一杯。">
+<!-- huafire3d fx-lab · MIT License — free for commercial use (tea-brand-page) -->
+<script>document.documentElement.classList.add('js');
+/* 兜底：main.js 若未执行，4.5s 后强制撤下 loader、直达完成态 */
+setTimeout(function(){var l=document.getElementById('loader');if(l&&!window.__sjBooted){l.style.display='none';var h=document.getElementById('season');if(h)h.classList.add('enter');var r=document.querySelectorAll('.reveal');for(var i=0;i<r.length;i++)r[i].classList.add('in');}},4500);</script>
+<style>
+/* 山涧 SHANJIAN · tea-brand-page 样式
+   配色：深茶绿 #2E4B3F / 米白 #F7F3EA / 竹青 #9DB89A（三色定死） */
+:root{
+  --tea:#2E4B3F;
+  --tea-deep:#22392F;
+  --rice:#F7F3EA;
+  --rice-dim:#EFE8D8;
+  --bamboo:#9DB89A;
+  --bamboo-soft:#C9D9C4;
+  --ink:var(--tea);
+  --ease-phys:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --nav-h:68px;
+  --max:1120px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--rice);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden;
+}
+h1,h2,h3,.serif{font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;letter-spacing:.06em;font-weight:600}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+.eyebrow{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--tea);opacity:.75;font-weight:600}
+
+/* ---------- 加载态 ---------- */
+.loader{position:fixed;inset:0;z-index:200;background:var(--rice);display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.js .loader{display:flex}
+.loader.done{opacity:0;pointer-events:none;transition:opacity .6s ease}
+.loader-mark{width:74px;height:74px;border-radius:50%;background:var(--tea);color:var(--rice);
+  display:flex;align-items:center;justify-content:center;font-size:34px;font-family:"Songti SC",serif;
+  animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.loader-bar{width:168px;height:3px;border-radius:2px;background:var(--rice-dim);overflow:hidden}
+.loader-bar i{display:block;height:100%;width:30%;border-radius:2px;background:var(--tea);
+  animation:load 1.1s var(--ease-phys) infinite}
+@keyframes load{0%{transform:translateX(-110%)}100%{transform:translateX(580%)}}
+.loader-tip{font-size:13px;letter-spacing:.3em;color:var(--tea);opacity:.6}
+
+/* ---------- 导航 ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+  transition:background .45s ease,box-shadow .45s ease,backdrop-filter .45s ease}
+.nav-in{max-width:var(--max);margin:0 auto;height:100%;padding:0 28px;
+  display:flex;align-items:center;gap:36px}
+.nav.scrolled{background:rgba(247,243,234,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(46,75,63,.12)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:40px;height:40px;border-radius:50%;background:var(--tea);color:var(--rice);
+  display:inline-flex;align-items:center;justify-content:center;font-size:21px;font-family:"Songti SC",serif;flex:none}
+.brand-name{font-size:19px;letter-spacing:.14em;font-weight:700}
+.brand-name small{display:block;font-size:10px;letter-spacing:.24em;opacity:.55;font-weight:400}
+.nav-links{display:flex;gap:30px;margin-left:auto}
+.nav-links a{font-size:14px;letter-spacing:.12em;position:relative;padding:6px 0;opacity:.85}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--tea);
+  transition:width .35s var(--ease-phys)}
+.nav-links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 30px;border-radius:999px;font-size:15px;letter-spacing:.1em;font-weight:600;
+  transition:transform .3s var(--ease-spring),box-shadow .3s ease,background .3s ease,color .3s ease}
+.btn-solid{background:var(--tea);color:var(--rice)}
+.btn-solid:hover{transform:translateY(-3px);box-shadow:0 14px 28px -12px rgba(46,75,63,.55)}
+.btn-ghost{border:1.5px solid var(--tea);color:var(--tea);background:transparent}
+.btn-ghost:hover{transform:translateY(-3px);background:rgba(46,75,63,.07)}
+.btn-sm{padding:9px 22px;font-size:13px}
+.btn-lg{padding:16px 52px;font-size:17px}
+.burger{display:none;flex-direction:column;gap:6px;padding:10px;margin-left:auto}
+.burger span{width:24px;height:2px;background:var(--tea);border-radius:2px;transition:transform .35s var(--ease-phys),opacity .3s}
+body.menu-open .burger span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* 移动端抽屉 */
+.m-menu{position:fixed;inset:0;z-index:99;background:var(--tea);color:var(--rice);
+  display:flex;flex-direction:column;justify-content:center;padding:0 40px;
+  clip-path:inset(0 0 100% 0);transition:clip-path .55s var(--ease-phys);visibility:hidden}
+body.menu-open .m-menu{clip-path:inset(0 0 0% 0);visibility:visible}
+.m-menu nav{display:flex;flex-direction:column;gap:8px}
+.m-menu a{font-size:30px;letter-spacing:.2em;padding:10px 0;font-family:"Songti SC",serif;
+  opacity:0;transform:translateY(26px);transition:opacity .5s ease,transform .5s var(--ease-phys);transition-delay:var(--d,0s)}
+body.menu-open .m-menu a{opacity:1;transform:none}
+.m-menu .m-cta{font-size:18px;margin-top:18px;color:var(--bamboo)}
+.m-foot{margin-top:44px;font-size:12px;letter-spacing:.2em;opacity:.55}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;
+  background:linear-gradient(180deg,var(--rice) 0%,#F1EAD9 70%,var(--rice-dim) 100%)}
+.hero-leaves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(46,75,63,.14) 100%)}
+.hero-in{position:relative;z-index:2;width:100%;max-width:var(--max);margin:0 auto;padding:calc(var(--nav-h) + 40px) 28px 90px;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.hero-title{font-size:clamp(54px,8vw,104px);line-height:1.12;margin:18px 0 6px}
+.hero-sub{font-size:16px;letter-spacing:.3em;opacity:.7;margin-bottom:10px}
+.hero-tag{font-size:clamp(18px,2.4vw,26px);letter-spacing:.1em;margin:22px 0 34px;color:var(--tea)}
+.btn-row{display:inline-flex;gap:16px;flex-wrap:wrap}
+.hero-facts{list-style:none;display:flex;gap:38px;margin-top:56px}
+.hero-facts li{display:flex;flex-direction:column}
+.hero-facts b{font-size:30px;font-family:"Songti SC",serif;letter-spacing:.04em}
+.hero-facts span{font-size:12px;letter-spacing:.2em;opacity:.6}
+
+/* hero 入场：遮罩行（隐藏态只在 .js 下生效） */
+.rl{display:block;overflow:hidden}
+.js .rl-in{display:inline-block;transform:translateY(112%);opacity:0}
+.hero.enter .rl-in{transform:none;opacity:1;transition:transform 1s var(--ease-phys),opacity .8s ease}
+.hero.enter .rl:nth-child(1) .rl-in{transition-delay:.05s}
+.hero.enter .rl:nth-child(2) .rl-in{transition-delay:.13s}
+.hero.enter .rl:nth-child(3) .rl-in{transition-delay:.21s}
+.hero.enter .rl:nth-child(4) .rl-in{transition-delay:.29s}
+.hero.enter .rl:nth-child(5) .rl-in{transition-delay:.37s}
+/* inline span 包裹按钮行时保持行内布局 */
+.hero-ctas .rl-in.btn-row{display:inline-flex}
+
+/* hero 视觉 */
+.hero-visual{position:relative;height:min(62vw,480px)}
+.hero-disc{position:absolute;inset:6% 4%;border-radius:50%;
+  background:radial-gradient(circle at 50% 42%,var(--bamboo-soft) 0%,var(--bamboo) 62%,#8AA886 100%);
+  box-shadow:inset 0 -30px 60px rgba(46,75,63,.18),0 40px 80px -40px rgba(46,75,63,.4)}
+.hero-cup{position:absolute;left:50%;top:54%;width:min(46%,220px);transform:translate(-50%,-50%);color:var(--tea)}
+.hero-leaf{position:absolute;color:var(--bamboo)}
+.hero-leaf.l1{width:64px;left:12%;top:12%;transform:rotate(-24deg);animation:float 5.5s ease-in-out infinite}
+.hero-leaf.l2{width:44px;right:14%;top:26%;transform:rotate(30deg);animation:float 7s ease-in-out infinite reverse}
+.hero-leaf.l3{width:56px;right:24%;bottom:8%;transform:rotate(12deg);animation:float 6.2s ease-in-out infinite}
+@keyframes float{0%,100%{margin-top:0}50%{margin-top:-16px}}
+.hero-scroll{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;letter-spacing:.3em;opacity:.55;
+  transition:opacity .3s}
+.hero-scroll:hover{opacity:1}
+.hero-scroll svg{width:20px;height:20px;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- 通用区块 ---------- */
+.section{padding:110px 0}
+.sec-head{max-width:640px;margin-bottom:56px}
+.sec-head h2{font-size:clamp(30px,4.4vw,46px);margin:14px 0 12px}
+.sec-lead{font-size:15px;opacity:.68;letter-spacing:.04em}
+.sec-head.light{color:var(--rice)}
+.sec-head.light .eyebrow{color:var(--bamboo)}
+
+/* 滚动 reveal（隐藏态只在 .js 下生效） */
+.js .reveal{opacity:0;transform:translateY(28px)}
+.js .reveal.in{opacity:1;transform:none;transition:opacity .9s ease,transform .9s var(--ease-phys);transition-delay:var(--d,0s)}
+
+/* ---------- 产品系列 ---------- */
+.series{background:var(--rice)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.card{background:#FFFDF8;border:1px solid rgba(46,75,63,.1);border-radius:20px;padding:30px 28px 26px;
+  transition:transform .38s var(--ease-spring),box-shadow .38s ease,border-color .38s ease;position:relative}
+.card:hover{transform:translateY(-10px);box-shadow:0 28px 50px -22px rgba(46,75,63,.35);border-color:rgba(46,75,63,.25)}
+.card-art{height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.card-art svg{width:64px;height:84px;color:var(--tea);transition:transform .45s var(--ease-spring)}
+.card:hover .card-art svg{transform:rotate(-10deg) scale(1.08)}
+.card-art.alt svg{color:var(--bamboo)}
+.card-art.limited{background:var(--tea);border-radius:14px}
+.card-art.limited svg{color:var(--bamboo-soft)}
+.card-tag{display:inline-block;font-size:11px;letter-spacing:.22em;color:var(--tea);opacity:.65;
+  border:1px solid rgba(46,75,63,.3);border-radius:999px;padding:3px 12px;margin-bottom:12px}
+.card h3{font-size:24px;margin-bottom:8px}
+.card h3 small{font-size:11px;letter-spacing:.24em;opacity:.5;font-family:sans-serif;font-weight:400;margin-left:8px}
+.card-desc{font-size:14px;opacity:.7;margin-bottom:18px;min-height:48px}
+.card-meta{display:flex;justify-content:space-between;font-size:13px;letter-spacing:.06em;
+  border-top:1px dashed rgba(46,75,63,.2);padding-top:14px}
+.card-meta span:first-child{font-weight:700;font-size:16px}
+
+/* ---------- 门店 ---------- */
+.stores{background:var(--rice-dim)}
+.store-search{max-width:520px;display:flex;align-items:center;gap:12px;background:#FFFDF8;
+  border:1px solid rgba(46,75,63,.18);border-radius:999px;padding:12px 22px;margin-bottom:36px;
+  transition:border-color .3s,box-shadow .3s}
+.store-search:focus-within{border-color:var(--tea);box-shadow:0 0 0 3px rgba(46,75,63,.12)}
+.store-search svg{width:20px;height:20px;flex:none;opacity:.5}
+.store-search input{flex:1;border:none;background:none;outline:none;font:inherit;font-size:15px;color:var(--ink)}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.store{background:#FFFDF8;border:1px solid rgba(46,75,63,.1);border-radius:18px;padding:26px;
+  transition:transform .35s var(--ease-spring),box-shadow .35s ease,opacity .4s ease}
+.store:hover{transform:translateY(-8px);box-shadow:0 24px 44px -20px rgba(46,75,63,.3)}
+.store.hide{display:none}
+.store-pin{width:26px;height:26px;color:var(--tea);margin-bottom:12px}
+.store h3{font-size:19px;margin-bottom:8px}
+.store-addr{font-size:14px;opacity:.75}
+.store-hours{font-size:13px;opacity:.6;margin:6px 0 12px;letter-spacing:.04em}
+.store-note{font-size:13px;color:var(--tea);border-top:1px dashed rgba(46,75,63,.2);padding-top:12px;opacity:.85}
+.store-empty{text-align:center;padding:40px 0;font-size:15px;opacity:.6;letter-spacing:.06em}
+
+/* ---------- 会员 CTA ---------- */
+.member{position:relative;background:var(--tea-deep);color:var(--rice);padding:120px 0;overflow:hidden}
+.member-noise{position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+.member .wrap{position:relative;z-index:1}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:10px 0 54px}
+.tier{background:rgba(247,243,234,.06);border:1px solid rgba(247,243,234,.16);border-radius:20px;
+  padding:34px 30px;position:relative;transition:transform .38s var(--ease-spring),background .3s,border-color .3s}
+.tier:hover{transform:translateY(-8px);background:rgba(247,243,234,.09)}
+.tier-hot{background:var(--rice);color:var(--tea);border-color:var(--rice)}
+.tier-hot:hover{background:#FFFDF8}
+.tier-badge{position:absolute;top:-13px;left:30px;background:var(--bamboo);color:var(--tea-deep);
+  font-size:11px;letter-spacing:.2em;padding:4px 14px;border-radius:999px;font-weight:700}
+.tier-name{font-size:26px;margin-bottom:6px}
+.tier-desc{font-size:13px;opacity:.65;margin-bottom:18px;letter-spacing:.04em}
+.tier ul{list-style:none;font-size:14px;display:flex;flex-direction:column;gap:10px}
+.tier ul li{padding-left:22px;position:relative;opacity:.9}
+.tier ul li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--bamboo)}
+.tier-hot ul li::before{background:var(--tea)}
+.member-cta{text-align:center}
+.member .btn-solid{background:var(--rice);color:var(--tea-deep)}
+.member .btn-solid:hover{box-shadow:0 14px 30px -12px rgba(0,0,0,.5)}
+.member-fine{margin-top:16px;font-size:12px;opacity:.55;letter-spacing:.08em}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--tea-deep);color:var(--rice);padding:70px 0 0;border-top:1px solid rgba(247,243,234,.12)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px}
+.foot-logo{display:flex;align-items:center;gap:10px;font-size:20px;letter-spacing:.14em;font-weight:700;margin-bottom:14px}
+.foot-logo small{font-size:10px;letter-spacing:.24em;opacity:.55;font-weight:400}
+.foot-blurb{font-size:13px;opacity:.6;max-width:280px;margin-bottom:20px}
+.foot-social{display:flex;gap:12px}
+.foot-social a{width:38px;height:38px;border:1px solid rgba(247,243,234,.3);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;transition:background .3s,transform .3s var(--ease-spring),border-color .3s}
+.foot-social a:hover{background:var(--rice);border-color:var(--rice);transform:translateY(-3px)}
+.foot-social a:hover svg{color:var(--tea-deep)}
+.foot-social svg{width:19px;height:19px;color:var(--rice);transition:color .3s}
+.foot-h{font-size:12px;letter-spacing:.3em;opacity:.5;margin-bottom:16px;font-weight:600}
+.foot-nav{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.foot-nav a,.foot-legal button{font-size:14px;opacity:.75;transition:opacity .3s,transform .3s;text-align:left;padding:0}
+.foot-nav a:hover,.foot-legal button:hover{opacity:1;transform:translateX(4px)}
+.foot-legal{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.foot-contact p{font-size:14px;opacity:.75;margin-bottom:10px}
+.foot-contact a{border-bottom:1px solid rgba(247,243,234,.3)}
+.copyright{border-top:1px solid rgba(247,243,234,.12);padding:22px 0;font-size:12px;letter-spacing:.06em;opacity:.5;text-align:center}
+
+/* ---------- 法务弹窗 ---------- */
+.legal-mask[hidden]{display:none}
+.legal-mask{position:fixed;inset:0;z-index:150;background:rgba(34,57,47,.55);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;transition:opacity .35s ease}
+.legal-mask.open{opacity:1}
+.legal-box{position:relative;background:var(--rice);color:var(--ink);border-radius:20px;max-width:620px;width:100%;
+  max-height:82vh;overflow:auto;padding:44px 44px 40px;transform:translateY(16px) scale(.98);
+  transition:transform .4s var(--ease-phys);box-shadow:0 40px 90px -30px rgba(0,0,0,.5)}
+.legal-mask.open .legal-box{transform:none}
+.legal-x{position:absolute;top:16px;right:18px;width:36px;height:36px;border-radius:50%;font-size:15px;
+  display:flex;align-items:center;justify-content:center;transition:background .3s,transform .3s var(--ease-spring)}
+.legal-x:hover{background:rgba(46,75,63,.1);transform:rotate(90deg)}
+.legal-box h3{font-size:26px;margin:6px 0 4px}
+.legal-updated{font-size:12px;opacity:.5;letter-spacing:.1em;margin-bottom:22px}
+.legal-body h4{font-size:15px;margin:20px 0 8px;letter-spacing:.04em}
+.legal-body p{font-size:14px;opacity:.8;margin-bottom:10px}
+body.lock{overflow:hidden}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .grid,.store-grid,.tiers{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .hero-in{grid-template-columns:1fr;gap:10px;padding-top:calc(var(--nav-h) + 30px)}
+  .hero-visual{height:min(72vw,360px);order:-1}
+  .hero{padding-bottom:20px}
+}
+@media (max-width:640px){
+  .nav-links,.nav-find{display:none}
+  .burger{display:flex}
+  .grid,.store-grid,.tiers{grid-template-columns:1fr}
+  .section{padding:76px 0}
+  .hero-facts{gap:26px;margin-top:40px}
+  .hero-facts b{font-size:24px}
+  .foot-grid{grid-template-columns:1fr;gap:30px}
+  .legal-box{padding:36px 26px 32px}
+  .card-desc{min-height:0}
+}
+
+/* 减弱动效偏好：全部直达终态 */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+  .js .reveal,.js .rl-in{opacity:1!important;transform:none!important}
+  html{scroll-behavior:auto}
+}
+
+</style>
+</head>
+<body>
+
+<!-- SVG 符号库：茶叶 / 茶杯 / 图钉 / 社交图标（全部手绘原创） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="leaf" viewBox="0 0 48 64">
+      <path d="M24 4C10 18 8 36 24 60 40 36 38 18 24 4Z" fill="currentColor" opacity=".92"/>
+      <path d="M24 10v44" stroke="#F7F3EA" stroke-width="1.6" opacity=".5"/>
+      <path d="M24 22l-8 3M24 30l8 3M24 38l-8 3M24 46l8 3" stroke="#F7F3EA" stroke-width="1.1" opacity=".35"/>
+    </symbol>
+    <symbol id="cup" viewBox="0 0 120 110">
+      <path d="M28 34h58l-6 52a10 10 0 0 1-10 9H48a10 10 0 0 1-10-9z" fill="currentColor" opacity=".95"/>
+      <path d="M86 42h6a12 12 0 0 1 0 24h-9" fill="none" stroke="currentColor" stroke-width="6" opacity=".95"/>
+      <path d="M30 26c-4-8 4-10 2-18M48 26c-4-8 4-10 2-18M66 26c-4-8 4-10 2-18" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" opacity=".55"/>
+      <rect x="40" y="52" width="34" height="30" rx="2" fill="#F7F3EA" opacity=".9"/>
+      <text x="57" y="74" text-anchor="middle" font-size="17" fill="currentColor" font-family="Songti SC,STSong,serif">涧</text>
+    </symbol>
+    <symbol id="pin" viewBox="0 0 24 24">
+      <path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="12" cy="9" r="2.6" fill="currentColor"/>
+    </symbol>
+    <symbol id="soc-wx" viewBox="0 0 24 24">
+      <path d="M9.5 4C5.9 4 3 6.6 3 9.8c0 1.8 1 3.4 2.5 4.4l-.6 2 2.2-1.1c.8.2 1.6.4 2.4.4h.3A5.4 5.4 0 0 1 9.5 4z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M14.5 10c-2.9 0-5.3 2-5.3 4.5 0 1.5.9 2.9 2.2 3.7l-.5 1.8 1.9-1c.6.2 1.1.2 1.7.2 2.9 0 5.3-2 5.3-4.5S17.4 10 14.5 10z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12.4" cy="14.4" r=".9" fill="currentColor"/><circle cx="16.4" cy="14.4" r=".9" fill="currentColor"/>
+    </symbol>
+    <symbol id="soc-wb" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M7.5 12.5c1-2.6 3.4-4.3 6-3.6 2.2.6 3.3 2.8 2.4 4.8-.9 2.1-3.6 2.8-5.7 1.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="9.4" cy="12.6" r="1.1" fill="currentColor"/>
+    </symbol>
+    <symbol id="soc-xhs" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="16" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M8.5 9.5l7 5m0-5l-7 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="soc-dy" viewBox="0 0 24 24">
+      <path d="M14 4v10.5a3.8 3.8 0 1 1-3.8-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M14 4c.4 2.4 1.9 3.9 4.2 4.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 加载态（仅 JS 下显示，无 JS 直接隐藏） -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">山</div>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-tip">正在沏茶…</p>
+</div>
+<noscript><style>.loader{display:none!important}.reveal{opacity:1!important;transform:none!important;translate:none!important}</style></noscript>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="山涧首页">
+      <span class="brand-mark">山</span>
+      <span class="brand-name">山涧<small>SHANJIAN · 高山茶饮</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#season">当季新品</a>
+      <a href="#series">产品系列</a>
+      <a href="#stores">门店</a>
+      <a href="#member">会员</a>
+    </nav>
+    <a class="btn btn-ghost btn-sm nav-find" href="#stores">查找门店</a>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav aria-label="移动端导航">
+    <a href="#season" style="--d:.05s">当季新品</a>
+    <a href="#series" style="--d:.11s">产品系列</a>
+    <a href="#stores" style="--d:.17s">门店</a>
+    <a href="#member" style="--d:.23s">会员</a>
+    <a href="#stores" class="m-cta" style="--d:.29s">查找门店</a>
+  </nav>
+  <p class="m-foot">山涧 SHANJIAN · 把山里的雾，泡进这一杯</p>
+</div>
+
+<main id="top">
+
+  <!-- Hero：当季新品大图 -->
+  <section class="hero" id="season" aria-label="当季新品">
+    <canvas class="hero-leaves" id="leafCanvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-in">
+      <div class="hero-copy">
+        <p class="eyebrow rl"><span class="rl-in">春 · 当季新品</span></p>
+        <h1 class="hero-title rl"><span class="rl-in">雾岭白毫</span></h1>
+        <p class="hero-sub rl"><span class="rl-in">明前头采 · 一芽一叶 · 高山云雾茶园</span></p>
+        <p class="hero-tag rl"><span class="rl-in">「把山里的雾，泡进这一杯。」</span></p>
+        <div class="hero-ctas rl"><span class="rl-in btn-row">
+          <a class="btn btn-solid" href="#stores">立即点单</a>
+          <a class="btn btn-ghost" href="#member">加入山涧会员</a>
+        </span></div>
+        <ul class="hero-facts">
+          <li class="reveal" style="--d:.55s"><b>1200m</b><span>高山茶园海拔</span></li>
+          <li class="reveal" style="--d:.65s"><b>明前</b><span>头采标准</span></li>
+          <li class="reveal" style="--d:.75s"><b>48h</b><span>采摘到锁鲜</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual reveal" style="--d:.3s" aria-hidden="true">
+        <div class="hero-disc" data-plx="0.10"></div>
+        <svg class="hero-cup" data-plx="-0.06"><use href="#cup"/></svg>
+        <svg class="hero-leaf l1" data-plx="0.16"><use href="#leaf"/></svg>
+        <svg class="hero-leaf l2" data-plx="0.22"><use href="#leaf"/></svg>
+        <svg class="hero-leaf l3" data-plx="0.12"><use href="#leaf"/></svg>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#series" aria-label="向下滚动">向下<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+  </section>
+
+  <!-- 产品系列网格 -->
+  <section class="section series" id="series" aria-label="产品系列">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">产品系列</p>
+        <h2>六款常备，一杯一山</h2>
+        <p class="sec-lead">每一款都标了产地和做法，喝得明白，才喝得放心。</p>
+      </header>
+      <div class="grid">
+        <article class="card reveal" style="--d:.02s">
+          <div class="card-art"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">绿茶 · 招牌</p>
+          <h3>涧云 <small>CLOUD MIST</small></h3>
+          <p class="card-desc">高山云雾绿茶，炒出板栗香，回甘像山泉。</p>
+          <p class="card-meta"><span>¥28 / 杯</span><span>热 / 冷 / 少冰</span></p>
+        </article>
+        <article class="card reveal" style="--d:.08s">
+          <div class="card-art alt"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">红茶 · 暖</p>
+          <h3>暖坡 <small>WARM SLOPE</small></h3>
+          <p class="card-desc">向阳坡地红茶，蜜香顺滑，冬天点它的人最多。</p>
+          <p class="card-meta"><span>¥26 / 杯</span><span>热 / 去冰</span></p>
+        </article>
+        <article class="card reveal" style="--d:.14s">
+          <div class="card-art"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">乌龙 · 焙火</p>
+          <h3>岩语 <small>ROCK RHYME</small></h3>
+          <p class="card-desc">中焙火乌龙，花香裹着岩韵，适合慢慢喝。</p>
+          <p class="card-meta"><span>¥32 / 杯</span><span>热 / 温</span></p>
+        </article>
+        <article class="card reveal" style="--d:.20s">
+          <div class="card-art alt"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">白茶 · 清</p>
+          <h3>霜降 <small>FIRST FROST</small></h3>
+          <p class="card-desc">自然萎凋的白茶，不炒不揉，喝的是本味。</p>
+          <p class="card-meta"><span>¥30 / 杯</span><span>热 / 冷泡</span></p>
+        </article>
+        <article class="card reveal" style="--d:.26s">
+          <div class="card-art"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">花果 · 鲜</p>
+          <h3>野莓青 <small>WILD BERRY</small></h3>
+          <p class="card-desc">山莓配青茶，酸甜清爽，第一次喝茶的人都从它开始。</p>
+          <p class="card-meta"><span>¥24 / 杯</span><span>冷 / 少冰</span></p>
+        </article>
+        <article class="card reveal" style="--d:.32s">
+          <div class="card-art limited"><svg><use href="#leaf"/></svg></div>
+          <p class="card-tag">限定 · 一年四十天</p>
+          <h3>春汛 <small>SPRING TIDE</small></h3>
+          <p class="card-desc">只卖春茶季的限定款，卖完就等明年，不加推。</p>
+          <p class="card-meta"><span>¥36 / 杯</span><span>仅热饮</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 门店查找 -->
+  <section class="section stores" id="stores" aria-label="门店查找">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">门店</p>
+        <h2>找一家离你近的山涧</h2>
+        <p class="sec-lead">全国门店现点现泡。输入城市名，看看哪家顺路。</p>
+      </header>
+      <div class="store-search reveal">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="storeFilter" type="search" placeholder="搜城市，比如：杭州" aria-label="按城市搜索门店" autocomplete="off">
+      </div>
+      <div class="store-grid" id="storeGrid">
+        <article class="store reveal" style="--d:.02s" data-city="上海">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>上海 · 静安寺店</h3>
+          <p class="store-addr" data-site="addr1">上海市静安区愚园路 68 号</p>
+          <p class="store-hours">10:00 – 22:00 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">老洋房里的店，午后有光，适合带本书来。</p>
+        </article>
+        <article class="store reveal" style="--d:.08s" data-city="杭州">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>杭州 · 西湖店</h3>
+          <p class="store-addr">杭州市西湖区龙井路 12 号</p>
+          <p class="store-hours">9:30 – 21:30 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">离茶园最近的一家，春天能闻到炒茶香。</p>
+        </article>
+        <article class="store reveal" style="--d:.14s" data-city="北京">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>北京 · 三里屯店</h3>
+          <p class="store-addr">北京市朝阳区三里屯路 19 号</p>
+          <p class="store-hours">10:00 – 22:30 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">夜里也开着，加班人的深夜茶水间。</p>
+        </article>
+        <article class="store reveal" style="--d:.20s" data-city="深圳">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>深圳 · 海岸城店</h3>
+          <p class="store-addr">深圳市南山区海岸城东座 2 楼</p>
+          <p class="store-hours">10:00 – 22:00 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">冷泡卖得最好的一家，夏天排队是常态。</p>
+        </article>
+        <article class="store reveal" style="--d:.26s" data-city="成都">
+          <svg class="store-pin"><use href="#pin"/></svg>
+          <h3>成都 · 太古里店</h3>
+          <p class="store-addr">成都市锦江区太古里北里 8 号</p>
+          <p class="store-hours">10:30 – 22:00 · <span data-site="phone">400-800-1234</span></p>
+          <p class="store-note">竹椅很多，点一杯可以坐一下午。</p>
+        </article>
+      </div>
+      <p class="store-empty" id="storeEmpty" hidden>没找到这个城市的店，换个关键词试试，比如「杭州」。</p>
+    </div>
+  </section>
+
+  <!-- 会员 CTA -->
+  <section class="member" id="member" aria-label="山涧会员">
+    <div class="member-noise" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="sec-head reveal light">
+        <p class="eyebrow">山涧会员</p>
+        <h2>喝得多，山记得你</h2>
+        <p class="sec-lead">免费加入。积分能兑茶，生日有礼，新品你先尝。</p>
+      </header>
+      <div class="tiers">
+        <article class="tier reveal" style="--d:.05s">
+          <p class="tier-name">青芽</p>
+          <p class="tier-desc">刚入山。新注册就是青芽。</p>
+          <ul>
+            <li>每杯积 1 叶，10 叶兑一杯</li>
+            <li>生日当月送一杯</li>
+          </ul>
+        </article>
+        <article class="tier tier-hot reveal" style="--d:.13s">
+          <p class="tier-badge">最多人选</p>
+          <p class="tier-name">云叶</p>
+          <p class="tier-desc">一年 30 杯，自动升级。</p>
+          <ul>
+            <li>青芽全部权益</li>
+            <li>新品上市提前三天尝</li>
+            <li>每月一张第二杯半价券</li>
+          </ul>
+        </article>
+        <article class="tier reveal" style="--d:.21s">
+          <p class="tier-name">山主</p>
+          <p class="tier-desc">一年 100 杯，山涧的自己人。</p>
+          <ul>
+            <li>云叶全部权益</li>
+            <li>春茶季受邀去茶园看采摘</li>
+            <li>专属客服，排队优先做</li>
+          </ul>
+        </article>
+      </div>
+      <div class="member-cta reveal" style="--d:.28s">
+        <a class="btn btn-solid btn-lg" href="#top" id="joinBtn">免费加入会员</a>
+        <p class="member-fine">注册即代表同意《服务条款》与《隐私政策》</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="foot-logo"><span class="brand-mark">山</span> 山涧 <small>SHANJIAN</small></p>
+        <p class="foot-blurb">高山现泡茶饮。明前头采，一芽一叶，把山里的雾，泡进每一杯。</p>
+        <div class="foot-social" aria-label="社交媒体">
+          <a href="#" aria-label="微信公众号"><svg><use href="#soc-wx"/></svg></a>
+          <a href="#" aria-label="微博"><svg><use href="#soc-wb"/></svg></a>
+          <a href="#" aria-label="小红书"><svg><use href="#soc-xhs"/></svg></a>
+          <a href="#" aria-label="抖音"><svg><use href="#soc-dy"/></svg></a>
+        </div>
+      </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <p class="foot-h">探索</p>
+        <a href="#season">当季新品</a>
+        <a href="#series">产品系列</a>
+        <a href="#stores">门店</a>
+        <a href="#member">会员</a>
+      </nav>
+      <div class="foot-contact">
+        <p class="foot-h">联系我们</p>
+        <p data-site="address">浙江省杭州市西湖区龙井路 88 号山涧茶寮</p>
+        <p>电话：<a data-site-href="phoneHref"><span data-site="phone">400-800-1234</span></a></p>
+        <p>邮箱：<a data-site-href="emailHref"><span data-site="email">hello@shanjian.tea</span></a></p>
+        <p>营业时间：<span data-site="hours">每日 10:00 – 22:00</span></p>
+      </div>
+      <div class="foot-legal">
+        <p class="foot-h">网站政策</p>
+        <button type="button" data-legal="privacy">隐私政策</button>
+        <button type="button" data-legal="terms">服务条款</button>
+        <button type="button" data-legal="cookies">Cookie 政策</button>
+      </div>
+    </div>
+    <p class="copyright">© <span data-site="year">2026</span> <span data-site="name">山涧 SHANJIAN</span> · 本页为设计模板演示，品牌与门店信息均为虚构</p>
+  </div>
+</footer>
+
+<!-- 法务弹窗 -->
+<div class="legal-mask" id="legalMask" hidden>
+  <div class="legal-box" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <button class="legal-x" id="legalClose" aria-label="关闭">✕</button>
+    <p class="eyebrow" id="legalEn">LEGAL</p>
+    <h3 id="legalTitle">隐私政策</h3>
+    <p class="legal-updated" id="legalUpdated">更新于 2026 年 1 月</p>
+    <div class="legal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script>
+/* 山涧 SHANJIAN · tea-brand-page 交互
+   零外部依赖：Canvas 茶叶粒子 + rAF 视差 + IntersectionObserver reveal */
+(function () {
+  'use strict';
+
+  /* ---------- 配置：买家改这里，一改全改 ---------- */
+  var SITE = {
+    name: '山涧 SHANJIAN',
+    address: '浙江省杭州市西湖区龙井路 88 号山涧茶寮',
+    addr1: '上海市静安区愚园路 68 号',
+    phone: '400-800-1234',
+    phoneHref: 'tel:4008001234',
+    email: 'hello@shanjian.tea',
+    emailHref: 'mailto:hello@shanjian.tea',
+    hours: '每日 10:00 – 22:00',
+    year: '2026'
+  };
+
+  /* ---------- 法务三件套文案 ---------- */
+  var LEGAL = {
+    privacy: {
+      en: 'PRIVACY POLICY', title: '隐私政策', updated: '更新于 2026 年 1 月',
+      sections: [
+        ['我们收集什么', '当你使用点单、会员注册或联系客服时，我们会收集你主动提供的手机号、昵称与订单信息，用于完成交易与会员服务。我们不会收集与此无关的信息。'],
+        ['信息怎么用', '收集的信息只用于订单履约、会员权益发放与服务通知。我们不会把你的个人信息出售、出租或分享给任何第三方做营销。'],
+        ['你的权利', '你可以随时联系客服查询、更正或删除你的个人信息，也可以注销会员账号。注销后，与账号绑定的个人资料将在 15 个工作日内删除。'],
+        ['未成年人', '我们的服务主要面向成年人。如果你是未成年人，请在监护人陪同下使用，并确保已获得监护人同意。']
+      ]
+    },
+    terms: {
+      en: 'TERMS OF SERVICE', title: '服务条款', updated: '更新于 2026 年 1 月',
+      sections: [
+        ['服务内容', '山涧提供现制茶饮的点单、会员积分与门店服务。页面展示的价格、口味描述与供应状态以门店实际为准，季节限定产品售完即止。'],
+        ['会员规则', '会员免费注册，积分按实际消费累积。积分可兑换指定饮品，不可转让、不可折现。连续 12 个月无消费，会员等级将重新评定。'],
+        ['合理使用', '请勿利用本服务从事任何违法活动，或以程序化手段批量刷单、刷积分。一经发现，我们有权暂停相关账号的服务。'],
+        ['责任边界', '因不可抗力（自然灾害、系统故障、政策调整等）导致的服务中断，我们会尽力恢复，但不承担超出服务本身的间接损失。']
+      ]
+    },
+    cookies: {
+      en: 'COOKIE POLICY', title: 'Cookie 政策', updated: '更新于 2026 年 1 月',
+      sections: [
+        ['我们用什么', '本网站使用必要的 Cookie 来记住你的偏好（比如所在城市），以及匿名的访问统计 Cookie 来了解哪些页面受欢迎，从而把网站做得更好用。'],
+        ['不会做什么', '我们不使用 Cookie 追踪你在其他网站的行为，不做跨站广告画像。统计数据均为聚合匿名数据，无法定位到个人。'],
+        ['你可以关掉', '你可以在浏览器设置里随时禁用或删除 Cookie。关掉后网站照常可用，只是部分偏好（比如记住的城市）需要重新选择。']
+      ]
+    }
+  };
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- SITE 渲染 ---------- */
+  function renderSite() {
+    var els = document.querySelectorAll('[data-site]');
+    for (var i = 0; i < els.length; i++) {
+      var k = els[i].getAttribute('data-site');
+      if (SITE[k] !== undefined) els[i].textContent = SITE[k];
+    }
+    var links = document.querySelectorAll('[data-site-href]');
+    for (var j = 0; j < links.length; j++) {
+      var k2 = links[j].getAttribute('data-site-href');
+      if (SITE[k2] !== undefined) links[j].setAttribute('href', SITE[k2]);
+    }
+  }
+
+  /* ---------- 加载态 → hero 入场 ---------- */
+  var hero = document.getElementById('season');
+  function enterHero() { hero.classList.add('enter'); }
+  function boot() {
+    renderSite();
+    window.__sjBooted = true;
+    var loader = document.getElementById('loader');
+    var t0 = Date.now();
+    function done() {
+      var wait = Math.max(0, 650 - (Date.now() - t0));
+      setTimeout(function () {
+        loader.classList.add('done');
+        enterHero();
+        setTimeout(function () { loader.style.display = 'none'; }, 700);
+      }, wait);
+    }
+    if (document.readyState === 'complete') done();
+    else window.addEventListener('load', done);
+    setTimeout(function () { // 4s 兜底，不卡死
+      if (!loader.classList.contains('done')) { loader.classList.add('done'); enterHero(); }
+    }, 4000);
+  }
+
+  /* ---------- 导航滚动毛玻璃 ---------- */
+  var nav = document.getElementById('nav');
+  function onScrollNav() {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+
+  /* ---------- 滚动 reveal ---------- */
+  function initReveal() {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || reduced) {
+      for (var i = 0; i < els.length; i++) els[i].classList.add('in');
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- hero 视差（rAF 节流，滚出视口即停） ---------- */
+  var PLX_BASE = { 'hero-cup': 'translate(-50%,-50%) ', 'l1': 'rotate(-24deg) ', 'l2': 'rotate(30deg) ', 'l3': 'rotate(12deg) ' };
+  function plxBase(el) {
+    for (var k in PLX_BASE) if (el.classList.contains(k)) return PLX_BASE[k];
+    return '';
+  }
+  function initParallax() {
+    if (reduced) return;
+    var items = document.querySelectorAll('[data-plx]');
+    if (!items.length) return;
+    var ticking = false, heroVisible = true;
+    new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting; }).observe(hero);
+    function update() {
+      ticking = false;
+      if (!heroVisible) return;
+      var r = hero.getBoundingClientRect();
+      var off = -r.top;
+      for (var i = 0; i < items.length; i++) {
+        var f = parseFloat(items[i].getAttribute('data-plx')) || 0;
+        items[i].style.transform = plxBase(items[i]) + 'translate3d(0,' + (off * f).toFixed(1) + 'px,0)';
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+  }
+
+  /* ---------- 核心动效：hero 茶叶飘落粒子 ---------- */
+  function initLeaves() {
+    var cv = document.getElementById('leafCanvas');
+    if (!cv) return;
+    var ctx = cv.getContext('2d');
+    var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var leaves = [], running = true, heroOn = true;
+    var COLORS = ['rgba(157,184,154,', 'rgba(46,75,63,', 'rgba(201,217,196,'];
+
+    function resize() {
+      var r = cv.parentElement.getBoundingClientRect();
+      W = r.width; H = r.height;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function spawn(anyY) {
+      return {
+        x: Math.random() * W,
+        y: anyY ? Math.random() * H : -30 - Math.random() * 60,
+        s: 7 + Math.random() * 13,
+        vy: 0.35 + Math.random() * 0.85,
+        amp: 18 + Math.random() * 42,
+        fr: 0.4 + Math.random() * 0.9,
+        ph: Math.random() * Math.PI * 2,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * 0.02,
+        c: COLORS[(Math.random() * COLORS.length) | 0],
+        a: 0.35 + Math.random() * 0.45
+      };
+    }
+    function drawLeaf(l, t) {
+      var x = l.x + Math.sin(t * 0.001 * l.fr + l.ph) * l.amp;
+      var fade = Math.min(1, Math.max(0, (H - l.y) / 160)) * Math.min(1, Math.max(0, (l.y + 40) / 120));
+      ctx.save();
+      ctx.translate(x, l.y);
+      ctx.rotate(l.rot);
+      ctx.globalAlpha = l.a * fade;
+      ctx.fillStyle = l.c + '1)';
+      ctx.beginPath();
+      ctx.moveTo(0, -l.s);
+      ctx.quadraticCurveTo(l.s * 0.95, -l.s * 0.25, 0, l.s);
+      ctx.quadraticCurveTo(-l.s * 0.95, -l.s * 0.25, 0, -l.s);
+      ctx.fill();
+      ctx.globalAlpha = l.a * fade * 0.5;
+      ctx.strokeStyle = '#F7F3EA';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, -l.s * 0.7); ctx.lineTo(0, l.s * 0.7); ctx.stroke();
+      ctx.restore();
+    }
+    function frame(t) {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      if (heroOn) {
+        for (var i = 0; i < leaves.length; i++) {
+          var l = leaves[i];
+          l.y += l.vy; l.rot += l.vr;
+          if (l.y > H + 40) leaves[i] = spawn(false);
+          drawLeaf(leaves[i], t);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    for (var n = 0; n < 46; n++) leaves.push(spawn(true));
+    new IntersectionObserver(function (es) { heroOn = es[0].isIntersecting; }).observe(hero);
+    document.addEventListener('visibilitychange', function () {
+      running = !document.hidden;
+      if (running) requestAnimationFrame(frame);
+    });
+    if (!reduced) requestAnimationFrame(frame);
+    else { // 减弱动效：静态铺一层叶子，不跑动画
+      ctx.clearRect(0, 0, W, H);
+      leaves.forEach(function (l) { drawLeaf(l, 0); });
+    }
+  }
+
+  /* ---------- 移动端抽屉 ---------- */
+  function initMenu() {
+    var burger = document.getElementById('burger');
+    var menu = document.getElementById('mMenu');
+    function set(open) {
+      document.body.classList.toggle('menu-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    }
+    burger.addEventListener('click', function () {
+      set(!document.body.classList.contains('menu-open'));
+    });
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { set(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) set(false);
+    });
+  }
+
+  /* ---------- 门店搜索 ---------- */
+  function initStoreFilter() {
+    var input = document.getElementById('storeFilter');
+    var empty = document.getElementById('storeEmpty');
+    var cards = document.querySelectorAll('#storeGrid .store');
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      var shown = 0;
+      cards.forEach(function (c) {
+        var hit = !q || (c.getAttribute('data-city') || '').indexOf(q) !== -1 ||
+          c.querySelector('h3').textContent.indexOf(q) !== -1;
+        c.classList.toggle('hide', !hit);
+        if (hit) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
+  }
+
+  /* ---------- 法务弹窗 ---------- */
+  var lastFocus = null;
+  var legalTimer = null; // 关闭隐藏定时器：重开时必须清掉，防止旧 timer 把新开的弹窗再藏起来
+  function openLegal(key) {
+    var d = LEGAL[key]; if (!d) return;
+    lastFocus = document.activeElement;
+    document.getElementById('legalEn').textContent = d.en;
+    document.getElementById('legalTitle').textContent = d.title;
+    document.getElementById('legalUpdated').textContent = d.updated;
+    var body = document.getElementById('legalBody');
+    body.innerHTML = '';
+    d.sections.forEach(function (s) {
+      var h = document.createElement('h4'); h.textContent = s[0];
+      var p = document.createElement('p'); p.textContent = s[1];
+      body.appendChild(h); body.appendChild(p);
+    });
+    var mask = document.getElementById('legalMask');
+    if (legalTimer) { clearTimeout(legalTimer); legalTimer = null; }
+    mask.hidden = false;
+    void mask.offsetWidth; // 强制回流，让 opacity 过渡从 0 起跑（不依赖 rAF）
+    mask.classList.add('open');
+    document.body.classList.add('lock');
+    document.getElementById('legalClose').focus();
+  }
+  function closeLegal() {
+    var mask = document.getElementById('legalMask');
+    mask.classList.remove('open');
+    document.body.classList.remove('lock');
+    if (legalTimer) clearTimeout(legalTimer);
+    legalTimer = setTimeout(function () { mask.hidden = true; legalTimer = null; }, 360);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function initLegal() {
+    document.querySelectorAll('[data-legal]').forEach(function (b) {
+      b.addEventListener('click', function () { openLegal(b.getAttribute('data-legal')); });
+    });
+    document.getElementById('legalClose').addEventListener('click', closeLegal);
+    document.getElementById('legalMask').addEventListener('click', function (e) {
+      if (e.target === this) closeLegal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !document.getElementById('legalMask').hidden) closeLegal();
+    });
+  }
+
+  /* ---------- 会员按钮微交互 ---------- */
+  function initJoin() {
+    var btn = document.getElementById('joinBtn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (btn.dataset.done) return;
+      btn.dataset.done = '1';
+      btn.textContent = '欢迎加入，山记得你了';
+    });
+  }
+
+  /* ---------- 启动 ---------- */
+  boot();
+  window.addEventListener('scroll', onScrollNav, { passive: true });
+  onScrollNav();
+  initReveal();
+  initParallax();
+  initLeaves();
+  initMenu();
+  initStoreFilter();
+  initLegal();
+  initJoin();
+})();
+
+</script>
+</body>
+</html>

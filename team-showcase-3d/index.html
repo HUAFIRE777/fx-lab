@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab · MIT License — free for commercial use (see LICENSE) -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>认识我们的团队 — Team Showcase 3D</title>
+<style>
+/* huafire3d fx-lab · MIT License — free for commercial use
+ * 配色铁律：全页只用 墨黑 / 骨白 / 鸢尾蓝 三色。成员色仅出现在头像内且已压暗。 */
+:root {
+  --ink: #0b0d12;
+  --ink-2: #12161f;
+  --paper: #f2f0ea;
+  --muted: rgba(242, 240, 234, 0.58);
+  --faint: rgba(242, 240, 234, 0.32);
+  --accent: #7c8cff;
+  --line: rgba(242, 240, 234, 0.09);
+  --ease-out: cubic-bezier(0.2, 0.7, 0.25, 1);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.4, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 手工细节：暗角 + 胶片颗粒 */
+.bg-glow {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(1100px 500px at 50% -8%, rgba(124, 140, 255, 0.10), transparent 60%),
+    radial-gradient(900px 700px at 85% 110%, rgba(124, 140, 255, 0.06), transparent 60%);
+}
+body::before { /* vignette */
+  content: ""; position: fixed; inset: 0; z-index: 3; pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.42) 100%);
+}
+body::after { /* grain */
+  content: ""; position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+.page-head {
+  position: relative; z-index: 1;
+  max-width: 1180px; margin: 0 auto;
+  padding: clamp(72px, 10vw, 128px) 28px 20px;
+}
+.eyebrow {
+  font-size: 12px; letter-spacing: 0.42em; text-indent: 0.42em;
+  color: var(--accent); margin-bottom: 26px; font-weight: 600;
+}
+.page-head h1 {
+  font-size: clamp(44px, 7vw, 84px);
+  line-height: 1.04; letter-spacing: -0.015em; font-weight: 750;
+  margin-bottom: 28px;
+}
+.page-head h1 .grad { color: var(--accent); }
+.lede {
+  font-size: clamp(15px, 1.6vw, 18px); line-height: 1.9;
+  color: var(--muted); max-width: 560px; margin-bottom: 44px;
+}
+
+/* 筛选：胶囊组，hover 微交互 */
+.filters { display: flex; gap: 10px; flex-wrap: wrap; }
+.filter {
+  appearance: none; cursor: pointer;
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 10px 22px; font-size: 14px; letter-spacing: 0.06em;
+  transition: color 0.25s var(--ease-out), border-color 0.25s var(--ease-out),
+              background 0.25s var(--ease-out), transform 0.25s var(--ease-spring);
+}
+.filter b { font-weight: 600; opacity: 0.6; margin-left: 4px; font-size: 12px; }
+.filter:hover { color: var(--paper); border-color: rgba(242, 240, 234, 0.3); transform: translateY(-2px); }
+.filter.is-active {
+  color: var(--ink); background: var(--paper); border-color: var(--paper); font-weight: 600;
+}
+.filter.is-active b { opacity: 0.55; }
+
+main { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 26px 28px 40px; }
+.grid {
+  display: grid; gap: 26px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* ---- 卡片：tilt 在 .tcard-tilt（JS），flip 在 .tcard-flip（CSS），入场在 .tcard ---- */
+.tcard { perspective: 1100px; outline: none; }
+.tcard-tilt { position: relative; transform-style: preserve-3d; will-change: transform; }
+.tcard-flip {
+  position: relative; aspect-ratio: 3 / 4.1;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease-out);
+}
+.tcard:hover .tcard-flip,
+.tcard.flipped .tcard-flip,
+.tcard:focus-visible .tcard-flip { transform: rotateY(180deg); }
+
+.tcard-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: 20px; overflow: hidden;
+  background: linear-gradient(165deg, #161b26 0%, var(--ink-2) 70%);
+  border: 1px solid var(--line);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 38px 26px 30px; text-align: center;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+}
+.tcard-back { transform: rotateY(180deg); justify-content: center; gap: 18px; }
+
+.tcard-avatar {
+  width: 118px; height: 118px; border-radius: 50%;
+  border: 1px solid rgba(242, 240, 234, 0.16);
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 24px; object-fit: cover;
+  transition: transform 0.5s var(--ease-spring);
+}
+.tcard:hover .tcard-avatar { transform: scale(1.06); }
+.tcard-front h3 { font-size: 24px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 10px; }
+.tcard-front .role { font-size: 13.5px; color: var(--muted); letter-spacing: 0.04em; line-height: 1.7; }
+.dept-tag {
+  margin-top: 20px; font-size: 11.5px; letter-spacing: 0.3em; text-indent: 0.3em;
+  color: var(--accent); border: 1px solid rgba(124, 140, 255, 0.35);
+  padding: 7px 14px 7px 16px; border-radius: 999px;
+}
+.flip-hint {
+  position: absolute; bottom: 20px; left: 0; right: 0;
+  font-size: 11px; letter-spacing: 0.28em; text-indent: 0.28em; color: var(--faint);
+  transition: color 0.3s var(--ease-out);
+}
+.tcard:hover .flip-hint { color: var(--muted); }
+
+.tcard-back .bio { font-size: 14.5px; line-height: 2; color: rgba(242, 240, 234, 0.82); }
+.tcard-back .links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.tcard-back .links a {
+  color: var(--paper); text-decoration: none; font-size: 13px; letter-spacing: 0.05em;
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px;
+  transition: border-color 0.25s var(--ease-out), background 0.25s var(--ease-out),
+              transform 0.25s var(--ease-spring);
+}
+.tcard-back .links a:hover { border-color: var(--accent); background: rgba(124, 140, 255, 0.12); transform: translateY(-2px); }
+
+/* glare 高光：跟随鼠标，hover 才显现 */
+.tcard-glare {
+  position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.14), transparent 55%);
+  opacity: 0; transition: opacity 0.4s var(--ease-out);
+  mix-blend-mode: screen;
+}
+.tcard.is-tilting .tcard-glare { opacity: 1; }
+
+/* 入场 stagger：只管"出现"，保证可达 */
+.reveal { opacity: 0; transform: translateY(30px); }
+.reveal.in {
+  opacity: 1; transform: none;
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+/* 筛选编排 */
+.tcard.is-out { opacity: 0; transform: scale(0.92); pointer-events: none; }
+.tcard { transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out); }
+.tcard.gone { display: none; }
+.reveal.in.is-out { transition-delay: 0ms; }
+
+.page-foot {
+  position: relative; z-index: 1; text-align: center;
+  padding: 30px 20px 70px; color: var(--faint); font-size: 12.5px; letter-spacing: 0.08em;
+}
+.page-foot code { color: var(--muted); font-family: ui-monospace, monospace; }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .tcard-face { padding: 26px 16px 22px; border-radius: 16px; }
+  .tcard-avatar { width: 84px; height: 84px; margin-bottom: 16px; }
+  .tcard-front h3 { font-size: 19px; }
+  .flip-hint { display: none; }
+}
+
+/* 降级：关倾斜、翻面无动画但内容可达 */
+@media (prefers-reduced-motion: reduce) {
+  .tcard-flip { transition: none; }
+  .reveal, .reveal.in { opacity: 1; transform: none; transition: none; }
+  .tcard, .tcard.is-out { transition: none; }
+  html { scroll-behavior: auto; }
+}
+@media (hover: none) {
+  .tcard-glare { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="page-head">
+  <p class="eyebrow">关于我们 · About</p>
+  <h1>认识我们的<span class="grad">团队</span></h1>
+  <p class="lede">一群相信"把事情做漂亮"的人。悬停卡片可翻面，移动端点按翻面。</p>
+  <nav class="filters" aria-label="按部门筛选">
+    <button class="filter is-active" data-filter="all">全部 <b id="count-all"></b></button>
+    <button class="filter" data-filter="tech">技术</button>
+    <button class="filter" data-filter="design">设计</button>
+    <button class="filter" data-filter="marketing">市场</button>
+  </nav>
+</header>
+
+<main>
+  <section class="grid" id="teamGrid" aria-live="polite"></section>
+</main>
+
+<footer class="page-foot">
+  <p>huafire3d fx-lab · team-showcase-3d —— 换团队只改 <code>src/config.js</code></p>
+</footer>
+
+<script type="module">
+var f=[{name:"\u9648\u9ED8",role:"\u8054\u5408\u521B\u59CB\u4EBA / CTO",dept:"tech",bio:"\u5168\u6808\u51FA\u8EAB\uFF0C\u75F4\u8FF7\u4E8E\u628A\u590D\u6742\u7CFB\u7EDF\u505A\u7B80\u5355\u3002\u4E3B\u5BFC\u4E86\u4E09\u4EE3\u67B6\u6784\u6F14\u8FDB\uFF0C\u575A\u4FE1\u597D\u7684\u5DE5\u7A0B\u662F\u9690\u5F62\u7684\u3002",color:"#46589b",links:{GitHub:"#",X:"#"}},{name:"\u6797\u6653",role:"\u524D\u7AEF\u8D1F\u8D23\u4EBA",dept:"tech",bio:"\u50CF\u7D20\u7EA7\u504F\u6267\u72C2\uFF0C\u52A8\u6548\u7EC6\u8282\u63A7\u3002\u8D1F\u8D23\u8BBE\u8BA1\u7CFB\u7EDF\u4E0E\u4EA4\u4E92\u6807\u51C6\uFF0C\u8BA9\u6BCF\u4E00\u5E27\u90FD\u503C\u5F97\u505C\u7559\u3002",color:"#2e7f92",links:{GitHub:"#",\u535A\u5BA2:"#"}},{name:"\u82CF\u8FDC",role:"\u540E\u7AEF\u5DE5\u7A0B\u5E08",dept:"tech",bio:"\u5206\u5E03\u5F0F\u7CFB\u7EDF\u8001\u5175\uFF0C\u534A\u591C\u88AB PagerDuty \u53EB\u9192\u4E5F\u4E0D\u4F1A\u614C\u3002\u70ED\u7231\u7B80\u6D01\u7684 API \u4E0E\u53EF\u9760\u7684\u7BA1\u9053\u3002",color:"#2f7f62",links:{GitHub:"#"}},{name:"\u987E\u5357",role:"\u8BBE\u8BA1\u603B\u76D1",dept:"design",bio:"\u4ECE\u54C1\u724C\u5230\u754C\u9762\uFF0C\u5BA1\u7F8E\u5373\u6218\u7565\u3002\u76F8\u4FE1\u514B\u5236\u6BD4\u5806\u780C\u66F4\u96BE\uFF0C\u4E5F\u66F4\u6709\u529B\u91CF\u3002",color:"#9b4a72",links:{Dribbble:"#",X:"#"}},{name:"\u767D\u9732",role:"UI \u8BBE\u8BA1\u5E08",dept:"design",bio:"\u628A\u7528\u6237\u65C5\u7A0B\u753B\u6210\u6545\u4E8B\u7684\u4EBA\u3002\u6BCF\u4E00\u4E2A\u5706\u89D2\u548C\u95F4\u8DDD\u80CC\u540E\uFF0C\u90FD\u6709\u4E00\u6BB5\u7528\u6237\u8BBF\u8C08\u3002",color:"#9c6a35",links:{\u7AD9\u9177:"#"}},{name:"\u5468\u626C",role:"\u5E02\u573A\u603B\u76D1",dept:"marketing",bio:"\u589E\u957F\u9ED1\u5BA2\u8F6C\u6B63\uFF0C\u7528\u6570\u636E\u8BB2\u6545\u4E8B\u3002\u64CD\u76D8\u8FC7\u4E09\u6B21\u4ECE 0 \u5230 1 \u7684\u51B7\u542F\u52A8\u3002",color:"#5f549b",links:{LinkedIn:"#",X:"#"}},{name:"\u6C88\u9759",role:"\u5185\u5BB9\u8FD0\u8425",dept:"marketing",bio:"\u6587\u5B57\u5320\u4EBA\uFF0C\u76F8\u4FE1\u597D\u5185\u5BB9\u81EA\u5DF1\u4F1A\u8D70\u8DEF\u3002\u6BCF\u5468\u4E00\u7BC7\u6DF1\u5EA6\u957F\u6587\uFF0C\u7BC7\u7BC7 10w+\u3002",color:"#97812f",links:{\u516C\u4F17\u53F7:"#"}},{name:"\u9646\u9065",role:"\u5546\u52A1\u62D3\u5C55",dept:"marketing",bio:"\u5929\u751F\u7684\u8FDE\u63A5\u8005\uFF0C\u628A\u964C\u751F\u4EBA\u53D8\u6210\u5408\u4F5C\u4F19\u4F34\u3002\u670B\u53CB\u5708\u91CC\u4E00\u534A\u662F\u5BA2\u6237\uFF0C\u4E00\u534A\u662F\u670B\u53CB\u3002",color:"#9b4a4a",links:{LinkedIn:"#"}}],m={tech:"\u6280\u672F",design:"\u8BBE\u8BA1",marketing:"\u5E02\u573A"};function k(e){let a=2166136261;for(let t=0;t<e.length;t++)a^=e.charCodeAt(t),a=Math.imul(a,16777619);return a>>>0}function x(e){return function(){e|=0,e=e+1831565813|0;let a=Math.imul(e^e>>>15,1|e);return a=a+Math.imul(a^a>>>7,61|a)^a,((a^a>>>14)>>>0)/4294967296}}function g(e,a){let t=parseInt(e.slice(1),16),n=o=>Math.max(0,Math.min(255,o+a));return"#"+[n(t>>16),n(t>>8&255),n(t&255)].map(o=>o.toString(16).padStart(2,"0")).join("")}function v(e,a,t=256){let n=x(k(e)),o=document.createElement("canvas");o.width=o.height=t;let i=o.getContext("2d"),s=i.createLinearGradient(0,0,t,t);s.addColorStop(0,g(a,-70)),s.addColorStop(1,g(a,10)),i.fillStyle=s,i.fillRect(0,0,t,t),i.strokeStyle="rgba(255,255,255,0.28)",i.fillStyle="rgba(255,255,255,0.16)";for(let r=0;r<3;r++){let l=t*(.12+n()*.3),d=n()*t,c=n()*t;i.lineWidth=2+n()*5,i.beginPath(),i.arc(d,c,l,n()*6.28,n()*6.28+2+n()*3),i.stroke()}for(let r=0;r<5;r++)i.beginPath(),i.arc(n()*t,n()*t,3+n()*9,0,6.29),i.fill();i.save(),i.translate(t/2,t/2),i.rotate(-.5),i.fillStyle="rgba(255,255,255,0.10)";for(let r=-3;r<=3;r++)i.fillRect(r*34,-t,12,t*2);return i.restore(),i.fillStyle="rgba(255,255,255,0.96)",i.font=`700 ${t*.42}px system-ui, "PingFang SC", "Microsoft YaHei", sans-serif`,i.textAlign="center",i.textBaseline="middle",i.fillText(e[0],t/2,t*.54),o.toDataURL("image/png")}var L=window.matchMedia("(hover: hover) and (pointer: fine)").matches,$=window.matchMedia("(prefers-reduced-motion: reduce)").matches,S=L&&!$;function y(e,a){let t=document.createElement("article");t.className="tcard reveal",t.dataset.dept=e.dept,t.dataset.index=a,t.tabIndex=0,t.setAttribute("aria-label",`${e.name}\uFF0C${e.role}`);let n=Object.entries(e.links||{}).map(([o,i])=>`<a href="${i}" target="_blank" rel="noopener">${o}</a>`).join("");return t.innerHTML=`
+    <div class="tcard-tilt">
+      <div class="tcard-flip">
+        <div class="tcard-face tcard-front" style="--accent:${e.color}">
+          <img class="tcard-avatar" alt="${e.name} \u7684\u5934\u50CF">
+          <h3>${e.name}</h3>
+          <p class="role">${e.role}</p>
+          <span class="dept-tag">${m[e.dept]}</span>
+          <span class="flip-hint">\u60AC\u505C\u7FFB\u9762 \u2192</span>
+        </div>
+        <div class="tcard-face tcard-back" style="--accent:${e.color}">
+          <p class="bio">${e.bio}</p>
+          <div class="links">${n}</div>
+          <span class="flip-hint">\u2190 \u70B9\u6309\u7FFB\u56DE</span>
+        </div>
+      </div>
+      <div class="tcard-glare" aria-hidden="true"></div>
+    </div>`,t.querySelector(".tcard-avatar").src=v(e.name,e.color),S?A(t):t.addEventListener("click",()=>t.classList.toggle("flipped")),t}function A(e){let a=e.querySelector(".tcard-tilt"),t=0,n=0,o=0,i=0,s=0,r=()=>{t=0,i+=(n-i)*.18,s+=(o-s)*.18,a.style.transform=`perspective(900px) rotateX(${i.toFixed(2)}deg) rotateY(${s.toFixed(2)}deg)`,(Math.abs(n-i)>.05||Math.abs(o-s)>.05)&&(t=requestAnimationFrame(r))},l=()=>{t||(t=requestAnimationFrame(r))};e.addEventListener("pointermove",d=>{let c=e.getBoundingClientRect(),h=(d.clientX-c.left)/c.width,u=(d.clientY-c.top)/c.height;n=(.5-u)*14,o=(h-.5)*14,e.style.setProperty("--gx",`${(h*100).toFixed(1)}%`),e.style.setProperty("--gy",`${(u*100).toFixed(1)}%`),e.classList.add("is-tilting"),l()}),e.addEventListener("pointerleave",()=>{n=0,o=0,e.classList.remove("is-tilting"),a.style.transition="transform .5s cubic-bezier(.2,.7,.3,1)",l(),setTimeout(()=>{a.style.transition=""},500)})}function b(e){let a=[...document.querySelectorAll(".filter")],t=()=>[...e.querySelectorAll(".tcard")];a.forEach(o=>{o.addEventListener("click",()=>{o.classList.contains("is-active")||(a.forEach(i=>i.classList.remove("is-active")),o.classList.add("is-active"),n(o.dataset.filter))})});function n(o){let i=t();i.forEach(r=>{o==="all"||r.dataset.dept===o||(r.classList.add("is-out"),setTimeout(()=>r.classList.add("gone"),360))});let s=0;i.forEach(r=>{(o==="all"||r.dataset.dept===o)&&(r.classList.remove("gone"),r.offsetWidth,setTimeout(()=>r.classList.remove("is-out"),60+s*70),s++)})}}function E(e){let a=[...e.querySelectorAll(".tcard")];if(a.forEach((n,o)=>n.style.setProperty("--d",`${o%4*80}ms`)),!("IntersectionObserver"in window)){a.forEach(n=>n.classList.add("in"));return}let t=new IntersectionObserver(n=>{n.forEach(o=>{o.isIntersecting&&(o.target.classList.add("in"),t.unobserve(o.target))})},{threshold:.12});a.forEach(n=>t.observe(n)),setTimeout(()=>a.forEach(n=>n.classList.add("in")),3e3)}var p=document.getElementById("teamGrid");f.forEach((e,a)=>p.appendChild(y(e,a)));document.getElementById("count-all").textContent=f.length;b(p);E(p);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- huafire3d fx-lab — original implementation · product-hero-3d -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>3D 产品展示</title>
+<style>
+:root {
+  --bg-top: #141a26;
+  --bg-bottom: #05070c;
+  --glow-color: #3b6cff;
+  --glow-opacity: 0.22;
+  --ink: #f2f5fb;
+  --ink-dim: rgba(242,245,251,.62);
+  --ink-faint: rgba(242,245,251,.38);
+  --accent: #8ab4ff;
+  --accent-deep: #6f97ff;
+  --card: rgba(10,14,22,.55);
+  --line: rgba(255,255,255,.12);
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+/* 中央光晕 */
+.glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background: radial-gradient(60vmin 60vmin at 62% 42%, var(--glow-color) 0%, transparent 70%);
+  opacity: var(--glow-opacity);
+}
+#gl { position: fixed; inset: 0; z-index: 2; }
+#gl canvas { display: block; }
+/* 暗角：手工质感 */
+.vignette {
+  position: fixed; inset: 0; z-index: 3; pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0,0,0,.42) 100%);
+}
+/* 胶片噪点：手工质感 */
+.grain {
+  position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: .05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* 顶栏 */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 32px;
+  pointer-events: none;
+}
+.topbar > * { pointer-events: auto; }
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .34em; }
+.brand small { display: block; margin-top: 5px; font-size: 10px; font-weight: 400; letter-spacing: .18em; color: var(--ink-faint); }
+.nav { display: flex; gap: 26px; font-size: 13px; color: var(--ink-dim); }
+.nav span { cursor: pointer; transition: color .2s; }
+.nav span:hover { color: var(--ink); }
+#gearBtn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--ink-dim); font-size: 18px; cursor: pointer;
+  backdrop-filter: blur(10px); transition: transform .45s var(--ease-out), background .2s, color .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+#gearBtn svg { width: 18px; height: 18px; }
+#gearBtn:hover { transform: rotate(50deg); background: rgba(255,255,255,.1); color: var(--ink); }
+
+/* 产品信息卡 */
+#hero {
+  position: fixed; z-index: 10; left: 48px; top: 50%; transform: translateY(-50%);
+  max-width: 400px; pointer-events: none;
+  opacity: 0; transition: opacity 1s var(--ease-out) .15s;
+}
+#hero.ready { opacity: 1; }
+#hero > * { pointer-events: auto; }
+.eyebrow {
+  display: inline-block; font-size: 12px; letter-spacing: .28em; color: var(--accent);
+  border: 1px solid rgba(138,180,255,.35); border-radius: 999px;
+  padding: 7px 16px; margin-bottom: 22px; background: rgba(138,180,255,.08);
+}
+h1 { font-size: clamp(44px, 6vw, 76px); font-weight: 800; letter-spacing: .04em; line-height: 1.05; }
+.tagline { margin-top: 18px; font-size: 16px; line-height: 1.9; color: var(--ink-dim); }
+.price-row { margin-top: 26px; display: flex; align-items: baseline; gap: 14px; }
+.price { font-size: 34px; font-weight: 700; letter-spacing: .02em; }
+.price-note { font-size: 13px; color: var(--accent); border: 1px solid rgba(138,180,255,.4); border-radius: 6px; padding: 3px 10px; background: rgba(138,180,255,.08); }
+.cta-row { margin-top: 26px; display: flex; gap: 14px; }
+.btn {
+  font-family: var(--font); font-size: 15px; font-weight: 600; letter-spacing: .06em;
+  padding: 14px 34px; border-radius: 999px; cursor: pointer; border: none;
+  transition: transform .18s, box-shadow .18s, background .18s;
+}
+.btn:active { transform: scale(.97); }
+.btn-primary {
+  color: #0a0e18; background: linear-gradient(135deg, #a9c6ff, #6f97ff);
+  box-shadow: 0 8px 30px rgba(111,151,255,.35);
+}
+.btn-primary:hover { box-shadow: 0 10px 38px rgba(111,151,255,.55); transform: translateY(-2px); }
+.btn-ghost { color: var(--ink); background: rgba(255,255,255,.07); border: 1px solid var(--line); backdrop-filter: blur(8px); }
+.btn-ghost:hover { background: rgba(255,255,255,.14); }
+
+/* 特性 chips */
+.chips {
+  position: fixed; z-index: 10; left: 48px; bottom: 40px;
+  display: flex; gap: 10px; flex-wrap: wrap;
+  opacity: 0; transition: opacity .9s ease .3s;
+}
+#hero.ready ~ .chips { opacity: 1; }
+.chip {
+  font-size: 12px; letter-spacing: .08em; color: var(--ink-dim);
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px;
+  background: var(--card); backdrop-filter: blur(8px);
+  transition: color .25s var(--ease-out), border-color .25s var(--ease-out), transform .25s var(--ease-out);
+  cursor: default;
+}
+.chip:hover { color: var(--ink); border-color: rgba(138,180,255,.45); transform: translateY(-2px); }
+/* 手工感：chips 透明度错落 */
+.chip:nth-child(2) { opacity: .92; }
+.chip:nth-child(3) { opacity: .84; }
+.chip:nth-child(4) { opacity: .76; }
+.hint {
+  position: fixed; z-index: 10; right: 40px; bottom: 44px;
+  font-size: 12px; letter-spacing: .14em; color: var(--ink-faint);
+}
+
+/* loading */
+#loading {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+#loading.show { opacity: 1; pointer-events: auto; }
+#loading .spin {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,.14); border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingText { font-size: 14px; letter-spacing: .2em; color: var(--ink-dim); }
+.load-track { width: min(320px, 70vw); height: 3px; border-radius: 2px; background: rgba(255,255,255,.1); overflow: hidden; }
+#loadBar { height: 100%; width: 0%; border-radius: 2px; background: linear-gradient(90deg, #6f97ff, #a9c6ff); transition: width .2s; }
+#loadPct { font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+/* 加载失败占位（永不白屏） */
+#fallback {
+  position: fixed; inset: 0; z-index: 25;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+#fallback.show { opacity: 1; pointer-events: auto; }
+.fallback-card {
+  text-align: center; background: var(--card); border: 1px solid var(--line);
+  border-radius: 20px; padding: 44px 56px; backdrop-filter: blur(14px);
+  max-width: min(440px, 88vw);
+}
+.fallback-card svg { width: 120px; height: 120px; opacity: .9; }
+.fallback-card h2 { margin: 18px 0 8px; font-size: 20px; }
+.fallback-card p { font-size: 13px; color: var(--ink-dim); line-height: 1.8; margin-bottom: 24px; }
+
+/* 参数面板 */
+#panel {
+  position: fixed; z-index: 20; top: 76px; right: 24px; width: 288px;
+  background: rgba(8,11,18,.82); border: 1px solid var(--line); border-radius: 16px;
+  backdrop-filter: blur(16px); padding: 18px;
+  transform: translateX(120%); transition: transform .45s var(--ease-out);
+  max-height: calc(100vh - 160px); overflow-y: auto;
+}
+#panel.open { transform: none; }
+#panel h3 { font-size: 13px; letter-spacing: .2em; margin-bottom: 4px; }
+#panel .sub { font-size: 11px; color: var(--ink-faint); margin-bottom: 14px; line-height: 1.7; }
+.panel-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0; font-size: 12px; color: var(--ink-dim); }
+.panel-row > span:first-child { flex: 0 0 86px; }
+.slider-wrap { flex: 1; display: flex; align-items: center; gap: 8px; }
+.slider-wrap input[type=range] { flex: 1; accent-color: var(--accent); }
+.slider-wrap b { flex: 0 0 40px; text-align: right; font-weight: 400; color: var(--ink); font-variant-numeric: tabular-nums; }
+.panel-row input[type=color] { width: 44px; height: 26px; border: 1px solid var(--line); border-radius: 6px; background: none; padding: 2px; cursor: pointer; }
+#resetBtn {
+  width: 100%; margin-top: 12px; padding: 10px; border-radius: 10px;
+  border: 1px solid var(--line); background: rgba(255,255,255,.06);
+  color: var(--ink); font-family: var(--font); font-size: 12px; letter-spacing: .14em; cursor: pointer;
+}
+#resetBtn:hover { background: rgba(255,255,255,.12); }
+
+/* 矮视口：收紧排版，装饰元素让位 */
+@media (max-height: 640px) {
+  h1 { font-size: 44px; }
+  .eyebrow { margin-bottom: 12px; }
+  .tagline { margin-top: 10px; font-size: 14px; }
+  .price-row { margin-top: 14px; }
+  .price { font-size: 26px; }
+  .cta-row { margin-top: 14px; }
+  .btn { padding: 11px 26px; font-size: 14px; }
+  .chips, .hint { display: none; }
+}
+
+/* 移动端 */
+@media (max-width: 760px) {
+  .nav { display: none; }
+  .topbar { padding: 16px 20px; }
+  #hero { left: 20px; right: 20px; top: auto; bottom: 108px; transform: none; max-width: none; }
+  h1 { font-size: 40px; }
+  .tagline { font-size: 14px; margin-top: 12px; }
+  .price-row { margin-top: 16px; }
+  .price { font-size: 26px; }
+  .cta-row { margin-top: 18px; }
+  .btn { padding: 12px 26px; font-size: 14px; }
+  .chips { display: none; }
+  .hint { display: none; }
+  #panel { top: 70px; right: 12px; left: 12px; width: auto; }
+  .fallback-card { padding: 32px 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div class="glow"></div>
+<div id="gl"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<header class="topbar">
+  <div class="brand"><span id="brand">AURALAB</span><small>huafire3d · fx-lab</small></div>
+  <nav class="nav"><span>产品详情</span><span>技术规格</span><span>用户评价</span></nav>
+  <button id="gearBtn" title="实时调参" aria-label="参数面板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.09A1.7 1.7 0 0 0 10.14 3V3a2 2 0 1 1 4 0v.09c0 .68.4 1.3 1.04 1.56.6.26 1.3.13 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09c.26.6.88 1.04 1.56 1.04H21a2 2 0 1 1 0 4h-.09c-.68 0-1.3.4-1.51 1.04z"/></svg></button>
+</header>
+
+<main id="hero">
+  <span class="eyebrow" id="eyebrow">旗舰无线降噪耳机</span>
+  <h1 id="pTitle">AURA X1</h1>
+  <p class="tagline" id="tagline"></p>
+  <div class="price-row">
+    <span class="price" id="price">¥1,299</span>
+    <span class="price-note" id="priceNote">首发立减 ¥200</span>
+  </div>
+  <div class="cta-row">
+    <button class="btn btn-primary" id="ctaPrimary">立即购买</button>
+    <button class="btn btn-ghost" id="ctaSecondary">查看规格</button>
+  </div>
+</main>
+
+<div class="chips">
+  <span class="chip">40 小时续航</span>
+  <span class="chip">-48dB 主动降噪</span>
+  <span class="chip">蓝牙 5.4</span>
+  <span class="chip">LDAC 高清音频</span>
+</div>
+<div class="hint">拖拽旋转 · 滚轮缩放 · 双指缩放</div>
+
+<!-- 参数面板 -->
+<aside id="panel">
+  <h3>实时调参</h3>
+  <div class="sub">拖动即生效 · console 用 <code>__HERO.CONFIG</code> 也能改</div>
+  <div class="panel-list"></div>
+  <button id="resetBtn">恢复出厂参数</button>
+</aside>
+
+<!-- 加载中 -->
+<div id="loading" class="show">
+  <div class="spin"></div>
+  <div id="loadingText">正在加载 3D 模型</div>
+  <div class="load-track"><div id="loadBar"></div></div>
+  <div id="loadPct">0%</div>
+</div>
+
+<!-- 加载失败占位 -->
+<div id="fallback">
+  <div class="fallback-card">
+    <svg viewBox="0 0 120 120" fill="none" stroke="#8ab4ff" stroke-width="5" stroke-linecap="round">
+      <path d="M28 78 V62 a32 32 0 0 1 64 0 V78"/>
+      <rect x="20" y="72" width="18" height="30" rx="9" fill="rgba(138,180,255,.15)"/>
+      <rect x="82" y="72" width="18" height="30" rx="9" fill="rgba(138,180,255,.15)"/>
+    </svg>
+    <h2>3D 模型加载失败</h2>
+    <p>网络开小差了，产品信息不受影响。<br>可重试加载，或检查模型链接是否可访问。</p>
+    <button class="btn btn-primary" id="retryBtn">重新加载</button>
+  </div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

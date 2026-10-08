@@ -1,0 +1,303 @@
+/* huafire3d fx-lab — original implementation
+ * Design system: warm editorial paper, ink text, single persimmon accent.
+ * Easing token mirrors the JS-free CSS transitions used by the deck.
+ */
+:root {
+  --paper: #f6f1e7;
+  --paper-2: #fffdf8;
+  --ink: #1c1712;
+  --muted: #7d7263;
+  --line: rgba(28, 23, 18, 0.14);
+  --accent: #d95d2b;
+  --accent-deep: #b34a20;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --serif: Georgia, "Times New Roman", "Songti SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* 纸面暖光 + 颗粒：手工感的两个来源 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1100px 520px at 50% -8%, rgba(217, 93, 43, 0.07), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="180" height="180" filter="url(%23n)" opacity="0.55"/></svg>');
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 200;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+.page { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+/* ---------- header ---------- */
+.hero { text-align: center; padding: clamp(72px, 11vh, 132px) 0 clamp(40px, 6vh, 64px); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--line);
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.7rem, 6.4vw, 4.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+h1 em { font-style: italic; color: var(--accent-deep); }
+
+.sub {
+  margin: 22px auto 0;
+  max-width: 54ch;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.6vw, 1.13rem);
+  line-height: 1.7;
+}
+
+/* 入场：只有 JS 成功挂载才隐藏再升起，保证无 JS 时内容可见 */
+.js .reveal { opacity: 0; transform: translateY(26px); }
+.js body.ready .reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+
+/* ---------- 3D stage ---------- */
+.stage { position: relative; outline: none; }
+.stage:focus-visible { box-shadow: 0 0 0 2px var(--accent); border-radius: 24px; }
+
+.viewport {
+  perspective: 1600px;
+  cursor: grab;
+  touch-action: pan-y;
+  padding: clamp(8px, 2vh, 24px) 0;
+}
+.stage.dragging .viewport { cursor: grabbing; }
+.stage.dragging { user-select: none; -webkit-user-select: none; }
+
+.deck {
+  display: grid;
+  place-items: center;
+  /* 注意：不能用 preserve-3d —— 卡片带 filter:blur() 时 Chromium 会把
+     3D 场景压平按 DOM 顺序绘制，导致最后一张卡盖住第一张。
+     用默认 flat，靠 z-index 排序；translateZ/rotateY 仍吃 .viewport 的 perspective。 */
+}
+
+.card {
+  grid-area: 1 / 1;
+  width: min(600px, 88vw);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(28px, 4vw, 44px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -32px rgba(28, 23, 18, 0.28), 0 2px 6px rgba(28, 23, 18, 0.05);
+  transition: transform 0.85s var(--ease), opacity 0.6s ease, filter 0.85s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  will-change: transform, opacity;
+}
+.stage.dragging .card { transition: none; }
+
+/* 卡片顶部一笔浆果色：克制的点睛 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: clamp(28px, 4vw, 44px);
+  width: 46px; height: 3px;
+  background: var(--accent);
+  border-radius: 0 0 3px 3px;
+}
+/* 右下角大引号水印 */
+.card::after {
+  content: "\201D";
+  position: absolute;
+  right: 18px; bottom: -38px;
+  font-family: var(--serif);
+  font-size: 150px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.stars { display: inline-flex; gap: 4px; }
+.star { width: 15px; height: 15px; color: rgba(28, 23, 18, 0.18); }
+.star svg { width: 100%; height: 100%; fill: currentColor; display: block; }
+.star.on { color: var(--accent); }
+.card-index { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--muted); }
+
+.card blockquote {
+  font-family: var(--serif);
+  font-size: clamp(1.12rem, 2.1vw, 1.42rem);
+  line-height: 1.58;
+  letter-spacing: 0.002em;
+}
+.card blockquote::before { content: "\201C"; color: var(--accent-deep); margin-right: 2px; }
+
+.card footer { display: flex; align-items: center; gap: 14px; margin-top: 28px; }
+.avatar {
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  flex: none;
+  -webkit-user-drag: none;
+  box-shadow: 0 4px 12px rgba(28, 23, 18, 0.18);
+}
+.who .name { font-weight: 650; font-size: 15px; }
+.who .role { color: var(--muted); font-size: 13px; margin-top: 3px; }
+
+.card.is-active:hover {
+  border-color: rgba(217, 93, 43, 0.45);
+  box-shadow: 0 38px 70px -32px rgba(28, 23, 18, 0.34), 0 2px 6px rgba(28, 23, 18, 0.05);
+}
+.card img { user-select: none; }
+
+/* 两侧箭头 */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 253, 248, 0.8);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.45s var(--ease), background 0.3s ease, border-color 0.3s ease;
+  z-index: 40;
+}
+.nav svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nav.prev { left: clamp(0px, 2vw, 24px); }
+.nav.next { right: clamp(0px, 2vw, 24px); }
+.nav:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateY(-50%) scale(1.08); }
+.nav:active { transform: translateY(-50%) scale(0.96); }
+.nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- controls ---------- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  margin-top: clamp(18px, 3vh, 30px);
+}
+.dots { display: flex; gap: 8px; }
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 99px;
+  border: none;
+  background: rgba(28, 23, 18, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.5s var(--ease), background 0.3s ease;
+}
+.dot:hover { background: rgba(28, 23, 18, 0.45); }
+.dot.on { width: 30px; background: var(--accent); }
+.dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.progress { width: 110px; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 2px; }
+
+.counter { font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; color: var(--muted); min-width: 64px; }
+
+/* ---------- stats ---------- */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(32px, 7vw, 84px);
+  margin: clamp(44px, 7vh, 72px) auto 0;
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  max-width: 760px;
+  text-align: center;
+}
+.stat .v { font-family: var(--serif); font-size: 30px; }
+.stat .v sup { font-size: 16px; color: var(--accent-deep); }
+.stat .l { margin-top: 6px; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- logo wall ---------- */
+.logos { margin: clamp(56px, 9vh, 96px) 0 0; text-align: center; }
+.logos .cap { font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--muted); margin-bottom: 30px; }
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.track { display: flex; width: max-content; }
+.track.animate { animation: scroll 32s linear infinite; }
+.marquee:hover .track.animate { animation-play-state: paused; }
+@keyframes scroll { to { transform: translateX(-50%); } }
+.group { display: flex; align-items: center; gap: 88px; padding-right: 88px; }
+.wordmark { color: rgba(28, 23, 18, 0.5); white-space: nowrap; transition: color 0.3s ease; cursor: default; }
+.wordmark:hover { color: var(--ink); }
+.wm-spaced { font-size: 13px; font-weight: 700; letter-spacing: 0.34em; }
+.wm-serif { font-family: var(--serif); font-size: 23px; }
+.wm-bold { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.wm-round { font-size: 21px; font-weight: 600; letter-spacing: -0.03em; }
+.wm-serif-it { font-family: var(--serif); font-style: italic; font-size: 22px; }
+.wm-mono { font-family: var(--mono); font-size: 14px; letter-spacing: 0.14em; }
+
+/* ---------- footer ---------- */
+.colophon {
+  text-align: center;
+  padding: clamp(48px, 8vh, 80px) 0 56px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 2;
+}
+.colophon .rule { width: 44px; height: 1px; background: var(--line); margin: 0 auto 20px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 760px) {
+  .nav { display: none; }
+  .card::after { font-size: 110px; bottom: -28px; }
+  .stats { gap: 28px; }
+  .stat .v { font-size: 24px; }
+  .group { gap: 56px; padding-right: 56px; }
+  .progress { width: 70px; }
+}
+
+/* ---------- reduced motion ---------- */
+.reduced .js .reveal, .reduced .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+.reduced .card { transition: none !important; }
+.reduced .track.animate { animation: none; }
+.reduced .dot { transition: none; }

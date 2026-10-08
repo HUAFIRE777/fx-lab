@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>聆木 LINGMU — 让每根弦都有回响</title>
+<meta name="description" content="聆木 LINGMU 乐器品牌：电吉他、木吉他、贝斯。选琴、试弹、新手第一课。">
+<style>
+/* 聆木 LINGMU · instrument-page 样式源码 */
+/* 三色：深木棕 #2B1D14 / 奶油 #F3EAD8 / 金 #C9A227 */
+
+:root{
+  --wood:#2B1D14;
+  --wood-2:#3A281B;
+  --wood-deep:#1E130C;
+  --cream:#F3EAD8;
+  --cream-dim:rgba(243,234,216,.72);
+  --cream-faint:rgba(243,234,216,.38);
+  --gold:#C9A227;
+  --gold-soft:rgba(201,162,39,.35);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","SimSun",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--wood);color:var(--cream);font-family:var(--sans);
+  font-size:16px;line-height:1.7;letter-spacing:.04em;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--wood)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+/* 纸纹噪点 */
+.grain{position:fixed;inset:0;z-index:120;pointer-events:none;opacity:.055;mix-blend-mode:overlay}
+
+/* ---------- 加载态 ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:var(--wood-deep);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .7s var(--ease),visibility .7s;
+  animation:loaderFailsafe .6s ease 5s forwards}
+#loader.done{opacity:0;visibility:hidden;animation:none}
+@keyframes loaderFailsafe{to{opacity:0;visibility:hidden}}
+.loader-inner{text-align:center}
+.loader-brand{font-family:var(--serif);font-size:52px;letter-spacing:.5em;text-indent:.5em;color:var(--gold)}
+.loader-en{margin-top:10px;font-size:12px;letter-spacing:.6em;text-indent:.6em;color:var(--cream-faint)}
+.loader-line{width:180px;height:1px;background:rgba(201,162,39,.25);margin:26px auto 0;overflow:hidden}
+.loader-line span{display:block;height:100%;width:40%;background:var(--gold);
+  animation:loadslide 1.1s var(--ease) infinite}
+@keyframes loadslide{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+
+/* ---------- 导航 ---------- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;gap:34px;padding:18px 40px;
+  transition:background .5s var(--ease),padding .5s var(--ease),border-color .5s,backdrop-filter .5s;
+  border-bottom:1px solid transparent}
+#nav.scrolled{background:rgba(30,19,12,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding:12px 40px;border-bottom-color:rgba(201,162,39,.28)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--gold)}
+.brand-mark{width:34px;height:34px}
+.brand-text{display:flex;flex-direction:column;line-height:1.25}
+.brand-text b{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.24em;color:var(--cream)}
+.brand-text i{font-style:normal;font-size:10px;letter-spacing:.42em;color:var(--gold)}
+.nav-links{display:flex;gap:30px;margin-left:auto}
+.nav-links a{font-size:14px;letter-spacing:.2em;color:var(--cream-dim);position:relative;padding:4px 0;
+  transition:color .35s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{font-size:13px;letter-spacing:.18em;border:1px solid var(--gold);color:var(--gold);
+  padding:9px 22px;border-radius:999px;transition:background .35s,color .35s,transform .35s var(--ease)}
+.nav-cta:hover{background:var(--gold);color:var(--wood);transform:translateY(-2px)}
+#burger{display:none;background:none;border:0;width:38px;height:38px;position:relative;margin-left:auto}
+#burger span{position:absolute;left:8px;right:8px;height:2px;background:var(--cream);transition:.4s var(--ease)}
+#burger span:nth-child(1){top:12px}#burger span:nth-child(2){top:18px}#burger span:nth-child(3){top:24px}
+
+/* 移动端抽屉 */
+#drawerMask{position:fixed;inset:0;z-index:150;background:rgba(20,13,8,.6);
+  opacity:0;visibility:hidden;transition:.45s}
+#drawerMask.show{opacity:1;visibility:visible}
+#drawer{position:fixed;top:0;right:0;bottom:0;z-index:160;width:min(320px,84vw);
+  background:var(--wood-deep);border-left:1px solid rgba(201,162,39,.3);
+  transform:translateX(105%);transition:transform .55s var(--ease);
+  display:flex;flex-direction:column;gap:8px;padding:84px 36px}
+#drawer.open{transform:none}
+#drawer a{font-size:18px;letter-spacing:.24em;color:var(--cream-dim);padding:12px 0;
+  border-bottom:1px solid rgba(243,234,216,.08);transition:color .3s,padding-left .3s}
+#drawer a:hover{color:var(--gold);padding-left:8px}
+#drawerClose{position:absolute;top:20px;right:24px;background:none;border:0;color:var(--cream);
+  font-size:34px;line-height:1}
+.drawer-cta{margin-top:22px;text-align:center;border:1px solid var(--gold)!important;color:var(--gold)!important;
+  border-radius:999px;padding:13px 0!important}
+
+/* ---------- HERO ---------- */
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;overflow:hidden;padding:130px 6vw 70px}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(1100px 620px at 72% 42%,var(--wood-2),var(--wood) 62%,var(--wood-deep))}
+#hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(15,9,5,.55) 100%)}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;
+  gap:4vw;align-items:center;max-width:1240px;margin:0 auto;width:100%}
+.hero-kicker{font-size:12px;letter-spacing:.5em;color:var(--gold);margin-bottom:22px}
+.hero-title{font-family:var(--serif);font-size:clamp(46px,6.4vw,88px);line-height:1.28;
+  letter-spacing:.14em;font-weight:600}
+.hero-title .mask{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hero-title .mask>span{display:block}
+.hero-sub{margin-top:26px;color:var(--cream-dim);font-size:16px;letter-spacing:.08em;max-width:44ch}
+.hero-ctas{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-block;font-size:14px;letter-spacing:.22em;padding:15px 34px;border-radius:999px;
+  transition:transform .45s var(--ease),box-shadow .45s,background .35s,color .35s;border:1px solid transparent}
+.btn-gold{background:var(--gold);color:var(--wood);font-weight:600}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(201,162,39,.32)}
+.btn-ghost{border-color:var(--cream-faint);color:var(--cream)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+
+/* hero 入场（隐藏等 JS，带完成态兜底） */
+.js .hero-in{opacity:0;transform:translateY(34px);
+  transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.js .hero-in.in{opacity:1;transform:none}
+.hero-title .hero-in{transform:translateY(112%)}
+.hero-title .hero-in.in{transform:none}
+.js .hero-in{animation:heroFailsafe .8s ease 6.5s forwards}
+@keyframes heroFailsafe{to{opacity:1;transform:none}}
+.hero-copy .hero-in.in{transition-delay:0s}
+.hero-copy .hero-in:nth-child(2) .hero-in.in{transition-delay:.12s}
+
+.hero-guitar{text-align:center;position:relative}
+#heroGuitar{width:min(340px,64vw);height:auto;cursor:pointer;
+  filter:drop-shadow(0 24px 60px rgba(0,0,0,.5));
+  transition:transform .6s var(--ease)}
+#heroGuitar:hover{transform:translateY(-6px) rotate(-1deg)}
+.pluck-hint{margin-top:14px;font-size:12px;letter-spacing:.34em;color:var(--cream-faint)}
+.scroll-hint{position:absolute;left:50%;bottom:26px;z-index:1;width:1px;height:56px;
+  background:rgba(201,162,39,.25);overflow:hidden}
+.scroll-hint span{display:block;width:100%;height:18px;background:var(--gold);
+  animation:scrolldrop 2.2s var(--ease) infinite}
+@keyframes scrolldrop{0%{transform:translateY(-20px)}100%{transform:translateY(60px)}}
+
+/* ---------- 内容区块通用 ---------- */
+section[id]{scroll-margin-top:64px}
+.block{padding:110px 6vw;max-width:1240px;margin:0 auto}
+.block-dark{background:var(--wood-deep);max-width:none}
+.block-dark>.block-head,.block-dark>.artist-wall{max-width:1240px;margin-left:auto;margin-right:auto}
+.block-head{text-align:center;max-width:640px;margin:0 auto 56px}
+.kicker{font-size:12px;letter-spacing:.5em;color:var(--gold);margin-bottom:16px}
+.block-head h2{font-family:var(--serif);font-size:clamp(30px,3.6vw,44px);letter-spacing:.12em;font-weight:600}
+.block-sub{margin-top:16px;color:var(--cream-dim);font-size:15px}
+
+/* 滚动 stagger 入场 */
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* ---------- 系列 TAB ---------- */
+.tabs{display:flex;justify-content:center;gap:10px;margin-bottom:48px;flex-wrap:wrap}
+.tab{background:none;border:1px solid var(--cream-faint);color:var(--cream-dim);
+  font-size:14px;letter-spacing:.3em;text-indent:.3em;padding:12px 34px;border-radius:999px;
+  transition:.4s var(--ease)}
+.tab:hover{border-color:var(--gold);color:var(--gold)}
+.tab.on{background:var(--gold);border-color:var(--gold);color:var(--wood);font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.card{background:rgba(243,234,216,.045);border:1px solid rgba(243,234,216,.12);
+  border-radius:18px;padding:34px 28px 30px;text-align:center;position:relative;overflow:hidden;
+  transition:transform .55s var(--ease),border-color .45s,box-shadow .55s,background .45s}
+.card:hover{transform:translateY(-10px);border-color:var(--gold-soft);
+  box-shadow:0 26px 60px rgba(0,0,0,.45);background:rgba(243,234,216,.07)}
+.card .art{height:190px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--cream-dim);transition:color .45s}
+.card:hover .art{color:var(--gold)}
+.card .art svg{height:100%;width:auto;transition:transform .6s var(--ease)}
+.card:hover .art svg{transform:scale(1.06) rotate(-2deg)}
+.card h3{font-family:var(--serif);font-size:21px;letter-spacing:.18em;margin-bottom:6px}
+.card .en{font-size:11px;letter-spacing:.4em;color:var(--gold);margin-bottom:14px}
+.card .spec{font-size:13px;color:var(--cream-dim);letter-spacing:.06em;min-height:3.2em}
+.card .price{margin-top:14px;font-size:17px;letter-spacing:.1em;color:var(--cream)}
+.card .price b{color:var(--gold);font-weight:600}
+.card .tag{position:absolute;top:16px;left:16px;font-size:11px;letter-spacing:.24em;
+  color:var(--wood);background:var(--gold);padding:5px 12px;border-radius:999px}
+/* tab 切换淡入 */
+.cards.switching .card{opacity:0;transform:translateY(18px)}
+.cards .card{transition:opacity .5s var(--ease),transform .55s var(--ease),border-color .45s,box-shadow .55s,background .45s}
+
+/* ---------- 艺术家墙 ---------- */
+.artist-wall{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.artist{background:rgba(243,234,216,.04);border:1px solid rgba(243,234,216,.1);
+  border-radius:18px;padding:32px 30px;transition:transform .55s var(--ease),border-color .45s,box-shadow .55s,opacity .9s var(--ease)}
+.artist:hover{transform:translateY(-8px);border-color:var(--gold-soft);box-shadow:0 22px 50px rgba(0,0,0,.4)}
+.artist-top{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.avatar{width:58px;height:58px;border-radius:50%;border:1px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;flex:none;
+  font-family:var(--serif);font-size:22px;color:var(--gold);background:rgba(201,162,39,.08)}
+.artist-top b{display:block;font-size:16px;letter-spacing:.14em}
+.artist-top span{font-size:12px;letter-spacing:.2em;color:var(--cream-faint)}
+.artist p{font-size:14px;color:var(--cream-dim);letter-spacing:.05em}
+.artist p::before{content:"“";color:var(--gold);font-family:var(--serif);font-size:20px}
+.artist p::after{content:"”";color:var(--gold);font-family:var(--serif);font-size:20px}
+
+/* ---------- 新手指南 ---------- */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:70px}
+.steps li{border-top:1px solid var(--gold-soft);padding-top:26px}
+.step-no{font-family:var(--serif);font-size:15px;letter-spacing:.3em;color:var(--gold)}
+.steps h3{font-size:19px;letter-spacing:.16em;margin:12px 0 10px;font-weight:600}
+.steps p{font-size:14px;color:var(--cream-dim)}
+.cta-card{background:var(--cream);color:var(--wood);border-radius:22px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:54px 56px;position:relative;overflow:hidden}
+.cta-card::before{content:"";position:absolute;top:-70px;right:-70px;width:260px;height:260px;
+  border:1px solid rgba(201,162,39,.5);border-radius:50%}
+.cta-card::after{content:"";position:absolute;top:-40px;right:-40px;width:200px;height:200px;
+  border:1px solid rgba(201,162,39,.3);border-radius:50%}
+.cta-copy h3{font-family:var(--serif);font-size:28px;letter-spacing:.14em;margin-bottom:14px}
+.cta-copy>p{font-size:14px;color:#5b4a38;max-width:40ch}
+.cta-points{list-style:none;margin-top:20px;display:grid;gap:10px}
+.cta-points li{font-size:13px;letter-spacing:.08em;color:#5b4a38;padding-left:24px;position:relative}
+.cta-points li::before{content:"";position:absolute;left:2px;top:9px;width:12px;height:1px;background:var(--gold)}
+.cta-form label{display:block;font-size:13px;letter-spacing:.2em;margin-bottom:16px;color:#5b4a38}
+.cta-form input{display:block;width:100%;margin-top:8px;padding:13px 16px;font-size:15px;
+  border:1px solid rgba(43,29,20,.25);border-radius:10px;background:#fff;color:var(--wood);
+  font-family:inherit;letter-spacing:.04em;transition:border-color .3s,box-shadow .3s}
+.cta-form input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.18)}
+.cta-form .btn{width:100%;border:0;margin-top:4px}
+.form-err{min-height:1.4em;font-size:13px;color:#a33b2a;margin:2px 0 10px}
+.form-ok{margin-top:14px;font-size:14px;color:#3f6b3a;background:rgba(63,107,58,.1);
+  border:1px solid rgba(63,107,58,.35);border-radius:10px;padding:12px 16px}
+.form-note{margin-top:12px;font-size:12px;color:#8a7a63}
+.form-note a{color:#8a6a1c;text-decoration:underline}
+
+/* ---------- 页脚 ---------- */
+footer{background:var(--wood-deep);border-top:1px solid rgba(201,162,39,.25);
+  padding:70px 6vw 34px}
+.foot-grid{max-width:1240px;margin:0 auto 46px;display:grid;
+  grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:40px}
+.foot-logo{font-family:var(--serif);font-size:24px;letter-spacing:.24em;color:var(--cream)}
+.foot-logo span{font-size:12px;letter-spacing:.4em;color:var(--gold);margin-left:8px}
+.foot-desc{margin-top:14px;font-size:13px;color:var(--cream-faint);max-width:32ch}
+.socials{display:flex;gap:12px;margin-top:22px}
+.socials a{width:40px;height:40px;border:1px solid rgba(243,234,216,.2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--cream-dim);
+  transition:.4s var(--ease)}
+.socials a svg{width:20px;height:20px}
+.socials a:hover{color:var(--wood);background:var(--gold);border-color:var(--gold);transform:translateY(-3px)}
+.foot-h{font-size:13px;letter-spacing:.3em;color:var(--gold);margin-bottom:18px}
+.foot-nav a,.foot-contact p{display:block;font-size:13px;color:var(--cream-dim);margin-bottom:12px;
+  letter-spacing:.1em;transition:color .3s}
+.foot-nav a:hover{color:var(--gold)}
+.foot-contact a{color:var(--cream)}
+.foot-contact a:hover{color:var(--gold)}
+.foot-legal button{display:block;background:none;border:0;color:var(--cream-dim);font-size:13px;
+  letter-spacing:.1em;margin-bottom:12px;padding:0;transition:color .3s}
+.foot-legal button:hover{color:var(--gold)}
+.copyright{max-width:1240px;margin:0 auto;padding-top:26px;border-top:1px solid rgba(243,234,216,.1);
+  font-size:12px;letter-spacing:.12em;color:var(--cream-faint);text-align:center}
+
+/* ---------- 法务弹窗 ---------- */
+#legalMask{position:fixed;inset:0;z-index:180;background:rgba(15,9,5,.7);
+  opacity:0;visibility:hidden;transition:.4s}
+#legalMask.show{opacity:1;visibility:visible}
+#legalModal{position:fixed;z-index:190;top:50%;left:50%;width:min(620px,92vw);max-height:82vh;
+  transform:translate(-50%,-48%) scale(.96);opacity:0;visibility:hidden;
+  background:var(--cream);color:var(--wood);border-radius:18px;padding:44px 46px;overflow:auto;
+  transition:.45s var(--ease)}
+#legalModal.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+#legalClose{position:absolute;top:14px;right:18px;background:none;border:0;font-size:32px;
+  color:#8a7a63;line-height:1;transition:transform .4s var(--ease),color .3s}
+#legalClose:hover{transform:rotate(90deg);color:var(--wood)}
+#legalTitle{font-family:var(--serif);font-size:24px;letter-spacing:.16em;margin-bottom:20px;
+  padding-bottom:14px;border-bottom:1px solid rgba(201,162,39,.5)}
+#legalBody ol{padding-left:22px;display:grid;gap:14px;font-size:14px;color:#4d3d2b}
+#legalBody b{color:var(--wood)}
+body.locked{overflow:hidden}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1020px){
+  .cards,.artist-wall{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  .nav-links,.nav-cta{display:none}
+  #burger{display:block}
+  #nav{padding:14px 22px}
+  #nav.scrolled{padding:10px 22px}
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-ctas{justify-content:center}
+  #heroGuitar{width:min(250px,58vw)}
+  .cta-card{grid-template-columns:1fr;padding:40px 30px;gap:32px}
+  .steps{grid-template-columns:1fr;gap:30px}
+  .block{padding:80px 6vw}
+}
+@media (max-width:640px){
+  .cards,.artist-wall{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr;gap:32px}
+  .hero-ctas .btn{width:100%;text-align:center}
+  #legalModal{width:100vw;max-height:100vh;top:0;left:0;transform:none;border-radius:0;
+    padding:70px 26px 40px}
+  #legalModal.show{transform:none}
+  .loader-brand{font-size:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============ 加载态 ============ -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-brand">聆木</div>
+    <div class="loader-en">LINGMU</div>
+    <div class="loader-line"><span></span></div>
+  </div>
+</div>
+
+<!-- 纸纹噪点（全页手工细节） -->
+<svg class="grain" aria-hidden="true" width="100%" height="100%">
+  <filter id="grainF"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0"/></filter>
+  <rect width="100%" height="100%" filter="url(#grainF)"/>
+</svg>
+
+<!-- ============ 顶部导航 ============ -->
+<header id="nav">
+  <a class="brand" href="#hero" aria-label="聆木首页">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="17.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M20 8v24M13 14l14 12M27 14L13 26" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-text"><b>聆木</b><i>LINGMU</i></span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#series">系列</a>
+    <a href="#artists">艺术家</a>
+    <a href="#guide">新手入门</a>
+    <a href="#contact">门店</a>
+  </nav>
+  <a class="nav-cta" href="#guide">预约试弹</a>
+  <button id="burger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<!-- 移动端抽屉 -->
+<div id="drawerMask" aria-hidden="true"></div>
+<aside id="drawer" aria-label="移动端菜单">
+  <button id="drawerClose" aria-label="关闭菜单">×</button>
+  <a href="#series">系列</a>
+  <a href="#artists">艺术家</a>
+  <a href="#guide">新手入门</a>
+  <a href="#contact">门店</a>
+  <a class="drawer-cta" href="#guide">预约试弹</a>
+</aside>
+
+<main>
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-kicker hero-in">手工吉他 · 始于 2016</p>
+      <h1 class="hero-title">
+        <span class="mask"><span class="hero-in">让每根弦</span></span>
+        <span class="mask"><span class="hero-in">都有回响</span></span>
+      </h1>
+      <p class="hero-sub hero-in">第一把琴不决定你走多远，但决定你愿不愿意拿起它。<br>聆木只做一件事：把好弹的琴，交到对的人手里。</p>
+      <div class="hero-ctas hero-in">
+        <a class="btn btn-gold" href="#series">看看我们的琴</a>
+        <a class="btn btn-ghost" href="#guide">新手从这里开始</a>
+      </div>
+    </div>
+    <div class="hero-guitar hero-in" id="heroGuitarWrap">
+      <!-- 吉他弦波形动画：SVG 弦振动（核心动效） -->
+      <svg id="heroGuitar" viewBox="0 0 400 780" role="img" aria-label="聆木电吉他线稿，琴弦会振动">
+        <g fill="none" stroke="#C9A227" stroke-width="2" stroke-linecap="round">
+          <!-- 琴头 -->
+          <path d="M172,112 L228,112 L220,46 L180,46 Z" stroke-width="2.5"/>
+          <circle cx="162" cy="96" r="6"/><circle cx="162" cy="70" r="6"/>
+          <circle cx="238" cy="96" r="6"/><circle cx="238" cy="70" r="6"/>
+          <path d="M168,96 L176,96 M168,70 L176,70 M224,96 L232,96 M224,70 L232,70" stroke-width="1.5"/>
+          <!-- 琴枕 -->
+          <path d="M170,112 L230,112" stroke-width="4"/>
+          <!-- 琴颈 -->
+          <path d="M172,112 L172,468 M228,112 L228,468" stroke-width="2.5"/>
+          <!-- 品丝 -->
+          <g stroke-width="1" opacity="0.75">
+            <path d="M172,142 L228,142"/><path d="M172,172 L228,172"/><path d="M172,202 L228,202"/>
+            <path d="M172,232 L228,232"/><path d="M172,262 L228,262"/><path d="M172,292 L228,292"/>
+            <path d="M172,322 L228,322"/><path d="M172,352 L228,352"/><path d="M172,382 L228,382"/>
+            <path d="M172,412 L228,412"/><path d="M172,442 L228,442"/>
+          </g>
+          <circle cx="200" cy="217" r="3.5" fill="#C9A227" stroke="none"/>
+          <circle cx="200" cy="307" r="3.5" fill="#C9A227" stroke="none"/>
+          <circle cx="200" cy="397" r="3.5" fill="#C9A227" stroke="none"/>
+          <!-- 琴体（原创双缺角轮廓） -->
+          <path stroke-width="2.5" d="M172,468
+            C148,468 132,488 132,516 C132,544 148,556 142,584
+            C138,610 116,616 110,646 C102,684 128,716 168,722
+            C188,726 212,726 232,722 C272,716 298,684 290,646
+            C284,616 262,610 258,584 C252,556 268,544 268,516
+            C268,488 252,468 228,468 Z"/>
+          <!-- 拾音器 / 琴桥 / 旋钮 -->
+          <rect x="178" y="540" width="44" height="14" rx="7"/>
+          <rect x="178" y="570" width="44" height="14" rx="7"/>
+          <rect x="182" y="602" width="36" height="10" rx="4" stroke-width="1.5"/>
+          <circle cx="244" cy="556" r="7"/><circle cx="250" cy="586" r="6"/>
+        </g>
+        <g id="strings" fill="none" stroke="#F3EAD8" stroke-width="1.6" stroke-linecap="round">
+          <path data-s="0" d="M184,650 L184,64"/>
+          <path data-s="1" d="M190.4,650 L190.4,64"/>
+          <path data-s="2" d="M196.8,650 L196.8,64"/>
+          <path data-s="3" d="M203.2,650 L203.2,64"/>
+          <path data-s="4" d="M209.6,650 L209.6,64"/>
+          <path data-s="5" d="M216,650 L216,64"/>
+        </g>
+      </svg>
+      <p class="pluck-hint">点一下琴身，拨响它</p>
+    </div>
+  </div>
+  <div class="scroll-hint hero-in" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ============ 系列 TAB ============ -->
+<section id="series" class="block">
+  <div class="block-head reveal">
+    <p class="kicker">SERIES · 系列</p>
+    <h2>三条产品线，一种手感</h2>
+    <p class="block-sub">每把琴出厂前都经过 23 道调校：弦距、八度音、品丝找平。我们不卖「需要适应的琴」。</p>
+  </div>
+  <div class="tabs reveal" role="tablist" aria-label="产品系列">
+    <button class="tab on" role="tab" aria-selected="true" data-tab="electric">电吉他</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="acoustic">木吉他</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="bass">贝斯</button>
+  </div>
+  <div class="cards" id="seriesCards" role="tabpanel"></div>
+</section>
+
+<!-- ============ 艺术家墙 ============ -->
+<section id="artists" class="block block-dark">
+  <div class="block-head reveal">
+    <p class="kicker">ARTISTS · 艺术家</p>
+    <h2>弹它的人，怎么说</h2>
+    <p class="block-sub">不签代言费，只收真实评价。下面每一句，都来自长期使用聆木的乐手。</p>
+  </div>
+  <div class="artist-wall" id="artistWall"></div>
+</section>
+
+<!-- ============ 新手指南 CTA ============ -->
+<section id="guide" class="block">
+  <div class="block-head reveal">
+    <p class="kicker">STARTER · 新手指南</p>
+    <h2>零基础？三步开始</h2>
+    <p class="block-sub">别先买琴，先来摸一摸。体验课免费，琴我们准备好。</p>
+  </div>
+  <ol class="steps">
+    <li class="reveal" data-i="0"><span class="step-no">01</span><h3>选一把顺手的琴</h3><p>到店免费试弹半小时，店员帮你把弦调到标准音，弦距调到新手友好的高度。</p></li>
+    <li class="reveal" data-i="1"><span class="step-no">02</span><h3>每天十五分钟</h3><p>从空弦拨弦开始，不用识谱。手指先认识六根弦，耳朵先记住准的声音。</p></li>
+    <li class="reveal" data-i="2"><span class="step-no">03</span><h3>弹响第一个和弦</h3><p>Em 和弦只要两根手指。今晚练，明晚就能给朋友弹一小段。</p></li>
+  </ol>
+  <div class="cta-card reveal">
+    <div class="cta-copy">
+      <h3>预约免费体验课</h3>
+      <p>45 分钟，一对一。带走一把调好的琴的体验，和一份新手练习单。留个联系方式，门店 24 小时内联系你约时间。</p>
+      <ul class="cta-points">
+        <li>免费试弹全系列琴款</li>
+        <li>一对一 45 分钟指导</li>
+        <li>赠送新手练习单</li>
+      </ul>
+    </div>
+    <form class="cta-form" id="trialForm" novalidate>
+      <label>姓名<input type="text" name="name" placeholder="怎么称呼你" autocomplete="name"></label>
+      <label>手机<input type="tel" name="phone" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric"></label>
+      <p class="form-err" id="formErr" role="alert"></p>
+      <button class="btn btn-gold" type="submit">约一节免费课</button>
+      <p class="form-note">提交即表示同意我们的<a href="#" data-legal="privacy">隐私政策</a></p>
+      <p class="form-ok" id="formOk" hidden>收到！门店会在 24 小时内联系你。先去摸摸琴，别紧张。</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer id="contact">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <p class="foot-logo">聆木 <span>LINGMU</span></p>
+      <p class="foot-desc">2016 年创立于上海的手工吉他品牌。电吉他、木吉他、贝斯三条产品线，全国 12 家体验店。</p>
+      <div class="socials" aria-label="社交媒体">
+        <a href="#" aria-label="微信公众号" title="微信公众号"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 1 0 0-.01M17 13a3 3 0 1 0 0-.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 20c1-2 3-3 5-3M14 20c1-1.6 2.6-2.4 4-2.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="微博" title="微博"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 13.5c2.5-1 5.5-.5 7 1.5M9.5 10.5c1.8-.8 4-.4 5.2 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="哔哩哔哩" title="哔哩哔哩"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9.5" cy="12" r="1.4" fill="currentColor"/><circle cx="14.5" cy="12" r="1.4" fill="currentColor"/><path d="M7 7l1.5-2.5M17 7l-1.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="抖音" title="抖音"><svg viewBox="0 0 24 24"><path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 4c.6 2.6 2.4 4.2 5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="页脚导航">
+      <p class="foot-h">快速导航</p>
+      <a href="#series">产品系列</a>
+      <a href="#artists">艺术家</a>
+      <a href="#guide">新手入门</a>
+      <a href="#hero">回到顶部</a>
+    </nav>
+    <div class="foot-contact">
+      <p class="foot-h">联系我们</p>
+      <p>电话：<a data-site-href="phoneHref" data-site="phone"></a></p>
+      <p>邮箱：<a data-site-href="emailHref" data-site="email"></a></p>
+      <p>地址：<span data-site="address"></span></p>
+    </div>
+    <div class="foot-legal">
+      <p class="foot-h">网站政策</p>
+      <button data-legal="privacy">隐私政策</button>
+      <button data-legal="terms">服务条款</button>
+      <button data-legal="cookies">Cookie 政策</button>
+    </div>
+  </div>
+  <p class="copyright">© <span data-site="year"></span> <span data-site="name"></span>乐器有限公司 · <span data-site="icp"></span></p>
+</footer>
+
+<!-- 法务弹窗 -->
+<div id="legalMask" aria-hidden="true"></div>
+<div id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <button id="legalClose" aria-label="关闭">×</button>
+  <h3 id="legalTitle"></h3>
+  <div id="legalBody"></div>
+</div>
+
+<script>
+/* 聆木 LINGMU · instrument-page 交互源码（打包时内联为单文件） */
+(function(){
+"use strict";
+document.documentElement.classList.add('js');
+
+/* ================= 配置 ================= */
+var CFG = {
+  navOffset: 40,        // 导航毛玻璃触发距离(px)
+  revealThreshold: 0.12,// 滚动 reveal 触发阈值
+  loaderMin: 900        // 加载态最短展示(ms)
+};
+
+/* SITE：站点信息集中配置，改这里一改全改 */
+var SITE = {
+  name: "聆木 LINGMU",
+  phone: "400-880-2026",
+  phoneHref: "tel:4008802026",
+  email: "hello@lingmu-music.com",
+  emailHref: "mailto:hello@lingmu-music.com",
+  address: "上海市静安区弦音路 66 号 · 聆木体验店",
+  icp: "沪ICP备2026000000号-1",
+  year: "2026"
+};
+
+/* LEGAL：法务三件套文案，改文案只改这里 */
+var LEGAL = {
+  privacy: { title: "隐私政策", points: [
+    {t:"我们收集什么", d:"预约体验课时你留下的姓名和手机号，仅用于门店联系你确认到店时间。"},
+    {t:"用来做什么", d:"确认课程时间、发送新手练习单。我们不做营销群发，不半夜打电话。"},
+    {t:"保存多久", d:"到店体验结束后 30 天内删除；法律法规要求保留的除外。"},
+    {t:"不会卖给谁", d:"你的联系方式不会出售、出租或共享给任何第三方。"},
+    {t:"你的权利", d:"随时联系客服要求查看、更正或删除你的个人信息，我们 3 个工作日内处理。"}
+  ]},
+  terms: { title: "服务条款", points: [
+    {t:"标价口径", d:"全站标价为人民币含税价；琴包、背带、调音器等配件另计，下单页会列明。"},
+    {t:"定制与退换", d:"非定制琴支持 7 天无理由退换（护板膜未撕、琴体无磕碰）；定制琴下单后不退不换。"},
+    {t:"保修", d:"琴体结构终身保修；电路、品丝等耗材保修一年；人为摔碰、改装不在保修范围内。"},
+    {t:"体验课", d:"免费体验课每人限约一次；爽约两次将暂停预约资格 90 天，敬请理解。"},
+    {t:"争议解决", d:"适用中华人民共和国法律；协商不成的，由品牌所在地人民法院管辖。"}
+  ]},
+  cookies: { title: "Cookie 政策", points: [
+    {t:"我们用什么", d:"仅使用记住偏好（如上次浏览的系列）的必要型 Cookie，让页面更好用。"},
+    {t:"不做什么", d:"不投放第三方广告追踪器，不做跨站用户画像。"},
+    {t:"有效期", d:"偏好 Cookie 最长保存 12 个月，到期自动清除。"},
+    {t:"怎么关", d:"可在浏览器设置中随时禁用；禁用后仅偏好记忆功能受影响，页面照常浏览。"},
+    {t:"联系", d:"关于 Cookie 的任何疑问，发邮件到客服邮箱，我们 3 个工作日内回复。"}
+  ]}
+};
+
+/* 产品数据 */
+var SERIES = {
+  electric: [
+    {name:"晨曦", en:"DAWN", price:"¥4,980", tag:"新手首选", spec:"椴木琴体 · 枫木琴颈 · 双单双拾音器，低弦距出厂即弹。"},
+    {name:"夜枭", en:"NIGHT OWL", price:"¥6,880", tag:"", spec:"桃花心木琴体 · 双线圈拾音器 · 推弦不打品，失真下颗粒分明。"},
+    {name:"拾光", en:"VINTAGE 62", price:"¥5,680", tag:"复刻", spec:"桤木琴体 · 三单线圈 · 复古漆面，clean 音色通透温暖。"}
+  ],
+  acoustic: [
+    {name:"林间", en:"FOREST", price:"¥3,280", tag:"热卖", spec:"云杉面单 · 桃花心木背侧 · D 桶型，共鸣开阔。"},
+    {name:"溪谷", en:"VALLEY", price:"¥4,580", tag:"", spec:"全桃花心木 · GA 指弹桶型 · 中频厚实，泛音漂亮。"},
+    {name:"远山", en:"TRAVELER", price:"¥2,980", tag:"", spec:"36 寸旅行尺寸 · 云杉面板 · 轻便好带，出差也能练。"}
+  ],
+  bass: [
+    {name:"潮汐", en:"TIDE", price:"¥3,980", tag:"", spec:"四弦被动式 · 桤木琴体 · 琴颈薄手感轻，slap 利落。"},
+    {name:"深流", en:"DEEP CURRENT", price:"¥5,280", tag:"", spec:"五弦主动式 · 白蜡木琴体 · 低频下潜深，乐队利器。"},
+    {name:"礁石", en:"FRETLESS", price:"¥6,180", tag:"进阶", spec:"无品爵士贝斯 · 乌木指板 · 滑音顺滑，爵士味十足。"}
+  ]
+};
+
+var ARTISTS = [
+  {n:"陈默", r:"独立音乐人 · 电吉他", q:"巡演带了三把琴，只有晨曦从没让我在台上停下来调音。"},
+  {n:"苏晚晴", r:"指弹吉他手", q:"林间的泛音比我上一把贵两倍的琴还干净，我服气。"},
+  {n:"老周", r:"蓝调吉他手 · 20 年琴龄", q:"弦距调得比我自己调的还舒服，第一次见到出厂就这样的琴。"},
+  {n:"林小北", r:"贝斯手", q:"潮汐的琴颈薄，slap 一晚上手不酸，排练室那把已经成公琴了。"},
+  {n:"阿棠", r:"民谣歌手", q:"写歌都用远山，轻，抱着不累，录小样直接进声卡。"},
+  {n:"沈听", r:"音乐制作人", q:"给新人推荐琴只推聆木，退货率为零，我的口碑保住了。"}
+];
+
+var PRM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================= SITE 渲染 ================= */
+document.querySelectorAll('[data-site]').forEach(function(el){
+  var v = SITE[el.getAttribute('data-site')];
+  if(v != null) el.textContent = v;
+});
+document.querySelectorAll('[data-site-href]').forEach(function(el){
+  var v = SITE[el.getAttribute('data-site-href')];
+  if(v != null) el.setAttribute('href', v);
+});
+
+/* ================= 加载态 + hero 入场 ================= */
+var loaderDone = false;
+function hideLoader(){
+  if(loaderDone) return; loaderDone = true;
+  document.getElementById('loader').classList.add('done');
+  var items = document.querySelectorAll('.hero-in');
+  items.forEach(function(el, i){
+    setTimeout(function(){ el.classList.add('in'); }, 90 * i);
+  });
+}
+window.addEventListener('load', function(){ setTimeout(hideLoader, CFG.loaderMin); });
+setTimeout(hideLoader, 5000); // 兜底：完成态必达
+
+/* ================= 导航 ================= */
+var nav = document.getElementById('nav');
+function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > CFG.navOffset); }
+window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* ================= 移动端抽屉 ================= */
+var drawer = document.getElementById('drawer'),
+    dMask = document.getElementById('drawerMask'),
+    burger = document.getElementById('burger'),
+    dClose = document.getElementById('drawerClose');
+function openDrawer(){
+  drawer.classList.add('open'); dMask.classList.add('show');
+  document.body.classList.add('locked'); burger.setAttribute('aria-expanded','true');
+}
+function closeDrawer(){
+  drawer.classList.remove('open'); dMask.classList.remove('show');
+  document.body.classList.remove('locked'); burger.setAttribute('aria-expanded','false');
+}
+burger.addEventListener('click', openDrawer);
+dClose.addEventListener('click', closeDrawer);
+dMask.addEventListener('click', closeDrawer);
+drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+
+/* ================= 滚动 stagger 入场 ================= */
+var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      var el = e.target;
+      el.classList.add('in'); io.unobserve(el);
+      setTimeout(function(){ el.style.transitionDelay = ''; }, 1300); // 还原 hover 手感
+    }
+  });
+}, {threshold: CFG.revealThreshold}) : null;
+
+function watchReveal(scope){
+  (scope || document).querySelectorAll('.reveal:not(.in)').forEach(function(el, i){
+    var d = el.getAttribute('data-i');
+    el.style.transitionDelay = ((d != null ? +d : (i % 3)) * 0.12) + 's';
+    if(io) io.observe(el); else el.classList.add('in');
+  });
+}
+watchReveal(document);
+setTimeout(function(){ // 兜底：隐藏元素完成态必达
+  document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ el.classList.add('in'); });
+}, 9000);
+
+/* ================= 核心动效：吉他弦波形 ================= */
+var svg = document.getElementById('heroGuitar');
+var paths = Array.prototype.slice.call(svg.querySelectorAll('#strings path'));
+var baseX = paths.map(function(p){ return parseFloat(p.getAttribute('d').match(/M([\d.]+),/)[1]); });
+var st = paths.map(function(_, i){ return {t0: -1e9, amp: 0, freq: 2.4 + i * 0.35, phase: i * 1.1}; });
+
+function pluck(i, amp){
+  st[i].t0 = performance.now();
+  st[i].amp = amp;
+}
+function pluckAll(amp, stagger){
+  paths.forEach(function(_, i){ setTimeout(function(){ pluck(i, amp * (0.85 + Math.random() * 0.3)); }, i * (stagger || 70)); });
+}
+
+if(!PRM){
+  // 入场 600ms 后轻轻拨一下
+  setTimeout(function(){ pluckAll(5, 90); }, 1400);
+  var rafT = 0;
+  function tick(now){
+    var t = now / 1000;
+    for(var i = 0; i < paths.length; i++){
+      var x = baseX[i], s = st[i];
+      var d = 0.7 * Math.sin(t * 1.3 + s.phase); // 环境微振
+      var dt = (now - s.t0) / 1000;
+      if(dt < 6 && s.amp > 0){
+        d += s.amp * Math.sin(2 * Math.PI * s.freq * dt + s.phase) * Math.exp(-dt / 2.2);
+      }
+      paths[i].setAttribute('d', 'M' + x + ',650 Q' + (x + d).toFixed(2) + ',357 ' + x + ',64');
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // 交互：悬停拨最近的弦，点击拨全部
+  var lastMove = 0;
+  svg.addEventListener('pointermove', function(e){
+    var now = performance.now();
+    if(now - lastMove < 180) return; lastMove = now;
+    var r = svg.getBoundingClientRect();
+    var vx = (e.clientX - r.left) / r.width * 400; // viewBox x
+    var best = 0, bd = 1e9;
+    baseX.forEach(function(x, i){ var dd = Math.abs(x - vx); if(dd < bd){ bd = dd; best = i; } });
+    if(bd < 26) pluck(best, 4);
+  });
+  svg.addEventListener('pointerdown', function(){ pluckAll(9, 60); });
+}
+
+/* ================= 系列 TAB ================= */
+function guitarMini(kind){
+  var s = 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"';
+  if(kind === 'acoustic'){
+    return '<svg viewBox="0 0 200 270" ' + s + '>' +
+      '<path d="M90,30 L110,30 L108,12 L92,12 Z"/>' +
+      '<path d="M89,30 L111,30" stroke-width="3.5"/>' +
+      '<path d="M92,30 L92,110 M108,30 L108,110"/>' +
+      '<path d="M100,110 C70,110 52,138 52,172 C52,210 72,238 100,238 C128,238 148,210 148,172 C148,138 130,110 100,110 Z"/>' +
+      '<circle cx="100" cy="180" r="16"/><circle cx="100" cy="180" r="21" stroke-width="1"/>' +
+      '<rect x="88" y="214" width="24" height="6" rx="3"/>' +
+      '<path d="M94,214 L94,30 M100,214 L100,30 M106,214 L106,30" stroke-width="1.2"/></svg>';
+  }
+  if(kind === 'bass'){
+    return '<svg viewBox="0 0 200 300" ' + s + '>' +
+      '<path d="M88,22 L112,22 L108,6 L92,6 Z"/>' +
+      '<path d="M87,22 L113,22" stroke-width="3.5"/>' +
+      '<path d="M90,22 L90,150 M110,22 L110,150"/>' +
+      '<path d="M90,150 C76,150 68,162 68,178 C68,192 76,198 73,212 C71,224 60,227 57,240 C53,256 66,268 86,271 C96,273 104,273 114,271 C134,268 147,256 143,240 C140,227 129,224 127,212 C124,198 132,192 132,178 C132,162 124,150 110,150 Z"/>' +
+      '<rect x="90" y="216" width="20" height="7" rx="3"/>' +
+      '<path d="M93,240 L93,22 M98.5,240 L98.5,22 M104,240 L104,22 M109.5,240 L109.5,22" stroke-width="1.2"/></svg>';
+  }
+  return '<svg viewBox="0 0 200 270" ' + s + '>' +
+    '<path d="M86,26 L114,26 L110,8 L90,8 Z"/>' +
+    '<path d="M85,26 L115,26" stroke-width="3.5"/>' +
+    '<path d="M88,26 L88,120 M112,26 L112,120"/>' +
+    '<path d="M88,120 C74,120 66,132 66,148 C66,162 74,168 71,182 C69,194 58,197 55,210 C51,226 64,240 84,243 C94,245 106,245 116,243 C136,240 149,226 145,210 C142,197 131,194 129,182 C126,168 134,162 134,148 C134,132 126,120 112,120 Z"/>' +
+    '<rect x="90" y="168" width="20" height="8" rx="4"/><rect x="90" y="182" width="20" height="8" rx="4"/>' +
+    '<rect x="90" y="198" width="20" height="6" rx="3"/>' +
+    '<path d="M94,210 L94,26 M100,210 L100,26 M106,210 L106,26" stroke-width="1.2"/></svg>';
+}
+
+var cardsWrap = document.getElementById('seriesCards');
+function renderCards(key){
+  cardsWrap.innerHTML = SERIES[key].map(function(p, i){
+    return '<article class="card reveal" data-i="' + i + '">' +
+      (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') +
+      '<div class="art">' + guitarMini(key) + '</div>' +
+      '<h3>' + p.name + '</h3><p class="en">' + p.en + '</p>' +
+      '<p class="spec">' + p.spec + '</p>' +
+      '<p class="price"><b>' + p.price + '</b> 起</p></article>';
+  }).join('');
+  watchReveal(cardsWrap);
+}
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    if(btn.classList.contains('on')) return;
+    document.querySelectorAll('.tab').forEach(function(b){
+      b.classList.remove('on'); b.setAttribute('aria-selected','false');
+    });
+    btn.classList.add('on'); btn.setAttribute('aria-selected','true');
+    cardsWrap.classList.add('switching');
+    setTimeout(function(){
+      renderCards(btn.getAttribute('data-tab'));
+      cardsWrap.classList.remove('switching');
+    }, 240);
+  });
+});
+renderCards('electric');
+
+/* ================= 艺术家墙 ================= */
+document.getElementById('artistWall').innerHTML = ARTISTS.map(function(a, i){
+  return '<article class="artist reveal" data-i="' + (i % 3) + '">' +
+    '<div class="artist-top"><span class="avatar">' + a.n.charAt(0) + '</span>' +
+    '<div><b>' + a.n + '</b><span>' + a.r + '</span></div></div>' +
+    '<p>' + a.q + '</p></article>';
+}).join('');
+watchReveal(document.getElementById('artists'));
+
+/* ================= 法务三件套弹窗 ================= */
+var lModal = document.getElementById('legalModal'),
+    lMask = document.getElementById('legalMask'),
+    lTitle = document.getElementById('legalTitle'),
+    lBody = document.getElementById('legalBody'),
+    lClose = document.getElementById('legalClose'),
+    lastFocus = null;
+
+function openLegal(key){
+  var L = LEGAL[key]; if(!L) return;
+  lTitle.textContent = L.title;
+  lBody.innerHTML = '<ol>' + L.points.map(function(p){
+    return '<li><b>' + p.t + '</b>　' + p.d + '</li>';
+  }).join('') + '</ol>';
+  lastFocus = document.activeElement;
+  lModal.hidden = false;
+  requestAnimationFrame(function(){
+    lModal.classList.add('show'); lMask.classList.add('show');
+  });
+  document.body.classList.add('locked');
+  lClose.focus();
+}
+function closeLegal(){
+  lModal.classList.remove('show'); lMask.classList.remove('show');
+  document.body.classList.remove('locked');
+  setTimeout(function(){ lModal.hidden = true; }, 460);
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+document.querySelectorAll('[data-legal]').forEach(function(el){
+  el.addEventListener('click', function(e){ e.preventDefault(); openLegal(el.getAttribute('data-legal')); });
+});
+lClose.addEventListener('click', closeLegal);
+lMask.addEventListener('click', closeLegal);
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    if(!lModal.hidden) closeLegal();
+    closeDrawer();
+  }
+});
+
+/* ================= 体验课表单 ================= */
+var form = document.getElementById('trialForm'),
+    formErr = document.getElementById('formErr'),
+    formOk = document.getElementById('formOk');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  formErr.textContent = '';
+  var name = form.name.value.trim(), phone = form.phone.value.trim();
+  if(name.length < 1){ formErr.textContent = '请留下你的称呼，方便门店联系你。'; form.name.focus(); return; }
+  if(!/^1\d{10}$/.test(phone)){ formErr.textContent = '手机号好像少了几位，请检查 11 位数字。'; form.phone.focus(); return; }
+  formOk.hidden = false;
+  form.querySelector('button[type="submit"]').disabled = true;
+  form.querySelector('button[type="submit"]').textContent = '已预约';
+});
+
+})();
+
+</script>
+</body>
+</html>
