@@ -11,3 +11,7 @@ PROGRESS.md
 R2-MODEL-SYNC.md
 # 未完工模板
 papercraft-3d/
+
+# 内部监控日志
+.watch.json
+.watch.log
