@@ -38,6 +38,8 @@
   .card-open{display:block;text-decoration:none;color:inherit}
   .dl{position:absolute;top:12px;right:12px;z-index:2;font-size:12px;letter-spacing:.06em;background:rgba(8,8,10,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.28);padding:7px 14px;border-radius:999px;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s,background .2s,color .2s;text-decoration:none}
   .card:hover .dl{opacity:1;transform:none}
+  .card:focus-within .dl{opacity:1;transform:none}
+  @media (hover:none){.card .dl{opacity:1;transform:none;font-size:13px;padding:10px 18px}}
   .dl:hover{background:#22c55e;border-color:#22c55e;color:#04120a}
   /* ---- 控制条 ---- */
   .controls{position:sticky;top:0;z-index:10;background:rgba(10,10,12,.86);backdrop-filter:blur(14px);
@@ -124,7 +126,7 @@
 <footer>
   <div class="wrap">
     <span>fx-lab · 模板持续增加中</span>
-    <span>增量更新 <code>node tools/build-gallery.mjs</code> · 生成于 2026-10-09 02:03</span>
+    <span>增量更新 <code>node tools/build-gallery.mjs</code> · 生成于 2026-10-09 08:17</span>
   </div>
 </footer>
 
