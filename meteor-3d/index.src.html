@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>星陨 · meteor-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --bg:#050914;
+    --ink:#CFE4FF;
+    --ink-dim:rgba(207,228,255,.55);
+    --ink-faint:rgba(207,228,255,.3);
+    --fire:#FF6A2A;
+    --fire-soft:#FF9A4D;
+    --line:rgba(207,228,255,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(18px);
+    transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .lt{font-family:var(--serif);font-size:24px;letter-spacing:.3em;color:var(--ink);text-indent:.3em}
+  #loader .ls{font-size:11px;letter-spacing:.42em;text-indent:.42em;color:var(--ink-dim)}
+  #loader .bar{width:190px;height:2px;background:rgba(207,228,255,.12);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--fire),var(--fire-soft));
+    animation:loadfill 3.2s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  /* ---------- 暗角 / 噪点 ---------- */
+  .vignette{position:fixed;inset:0;z-index:31;pointer-events:none;
+    background:radial-gradient(ellipse 120% 105% at 50% 42%,transparent 52%,rgba(2,4,10,.55) 88%,rgba(1,2,6,.9) 100%)}
+  .noise{position:fixed;inset:0;z-index:32;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+
+  /* ---------- 标题块 ---------- */
+  .hero{position:fixed;top:52px;left:52px;z-index:40;max-width:440px;pointer-events:none}
+  .hero .kick{font-size:11px;letter-spacing:.42em;color:var(--fire-soft);margin-bottom:16px;font-weight:600}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1.25;color:#EDF5FF;
+    text-shadow:0 2px 30px rgba(5,9,20,.8)}
+  .hero .sub{margin-top:16px;font-size:13.5px;line-height:1.9;color:var(--ink-dim);max-width:350px}
+  .hero .sub b{color:var(--ink);font-weight:500}
+
+  /* ---------- 点击提示 ---------- */
+  .hint{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:12px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:999px;padding:10px 22px;
+    background:rgba(5,9,20,.45);backdrop-filter:blur(6px);
+    transition:opacity .8s var(--ease)}
+  html.js .hint.is-in{opacity:1;transform:translateX(-50%)}
+  .hint.gone{opacity:0!important;pointer-events:none}
+  .hint .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--fire);
+    margin-right:10px;box-shadow:0 0 10px var(--fire);animation:pulse 1.8s var(--ease) infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+  /* ---------- 控制面板 ---------- */
+  .panel{position:fixed;left:52px;bottom:36px;z-index:40;width:300px;
+    background:rgba(5,9,20,.62);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px 16px;backdrop-filter:blur(10px)}
+  .row-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .row-title label{font-size:12px;letter-spacing:.28em;color:var(--ink-dim)}
+  .row-title .val{font-size:13px;color:var(--fire-soft);font-weight:600;letter-spacing:.08em}
+  input[type=range]{width:100%;appearance:none;-webkit-appearance:none;height:3px;border-radius:2px;
+    background:linear-gradient(90deg,var(--fire) var(--fill,30%),rgba(207,228,255,.16) var(--fill,30%));
+    outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:#fff;border:2px solid var(--fire);box-shadow:0 0 12px rgba(255,106,42,.55);
+    transition:transform .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#fff;
+    border:2px solid var(--fire);box-shadow:0 0 12px rgba(255,106,42,.55)}
+  .btns{display:flex;gap:10px;margin-top:16px}
+  .seg{display:flex;flex:1;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .segbtn{flex:1;border:0;background:transparent;color:var(--ink-dim);font-size:13px;letter-spacing:.2em;
+    text-indent:.2em;padding:10px 0;cursor:pointer;transition:all .3s var(--ease);font-family:var(--sans)}
+  .segbtn.on{background:rgba(255,106,42,.16);color:var(--fire-soft);font-weight:600}
+  .segbtn:not(.on):hover{color:var(--ink);background:rgba(207,228,255,.06)}
+  .btn{flex:1;border:1px solid rgba(255,106,42,.4);border-radius:10px;background:rgba(255,106,42,.1);
+    color:var(--fire-soft);font-size:13px;letter-spacing:.14em;padding:10px 0;cursor:pointer;
+    transition:all .3s var(--ease);font-family:var(--sans)}
+  .btn:hover{transform:translateY(-2px);background:rgba(255,106,42,.22);
+    box-shadow:0 8px 24px rgba(255,106,42,.25)}
+  .btn:active{transform:translateY(0)}
+  .tip{margin-top:14px;font-size:11.5px;line-height:1.8;color:var(--ink-faint);letter-spacing:.04em}
+
+  /* ---------- 读数 ---------- */
+  .stats{position:fixed;top:52px;right:52px;z-index:40;text-align:right;pointer-events:none}
+  .stats .s1{font-size:12px;letter-spacing:.3em;color:var(--ink-dim)}
+  .stats .s1 em{font-style:normal;color:var(--ink);font-weight:700;font-size:15px;margin:0 4px}
+  .stats .s2{margin-top:8px;font-size:11px;letter-spacing:.24em;color:var(--ink-faint)}
+  .stats .s2 em{font-style:normal;color:var(--fire-soft);font-weight:700}
+
+  footer{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:10.5px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-faint);pointer-events:none;white-space:nowrap}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    .hero{top:88px;left:22px;right:22px;max-width:none}
+    .hero .kick{font-size:10px;margin-bottom:10px}
+    .hero h1{font-size:34px}
+    .hero .sub{font-size:12.5px;margin-top:10px;max-width:none}
+    .hint{top:auto;bottom:232px;font-size:11px;padding:8px 16px;white-space:nowrap}
+    .panel{left:14px;right:14px;bottom:14px;width:auto;padding:16px 18px 12px}
+    .stats{top:22px;right:22px}
+    .stats .s1{font-size:11px}
+    footer{display:none}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="lt">星陨</div>
+  <div class="bar"><i></i></div>
+  <div class="ls">正在点亮夜空</div>
+</div>
+
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header class="hero" data-intro>
+  <div class="kick">METEOR SHOWER — 002</div>
+  <h1>把星空砸进大地</h1>
+  <p class="sub">拖着<b>火尾</b>的流星划破夜空，撞击地面扬起<b>尘埃</b>与<b>冲击波</b>——点击天空，亲手召唤一颗流星。</p>
+</header>
+
+<div class="hint" data-intro id="hint"><span class="dot"></span>点击夜空 · 亲手召唤流星</div>
+
+<aside class="panel" data-intro aria-label="流星控制台">
+  <div class="row-title">
+    <label for="freq">流星频率</label>
+    <span class="val" id="freqVal">4 级</span>
+  </div>
+  <input type="range" id="freq" min="1" max="10" step="1" value="4" aria-label="流星频率">
+  <div class="btns">
+    <div class="seg" role="group" aria-label="昼夜切换">
+      <button class="segbtn on" id="nightBtn" aria-pressed="true">夜</button>
+      <button class="segbtn" id="dayBtn" aria-pressed="false">昼</button>
+    </div>
+    <button class="btn" id="summonBtn">立即召唤</button>
+  </div>
+  <p class="tip">点击夜空任意处，在该处附近召唤一颗流星。<br>频率越高，流星雨越密；昼档下撞击依然清晰可见。</p>
+</aside>
+
+<div class="stats" data-intro>
+  <div class="s1">撞击 <em id="hitCount">0</em> 次</div>
+  <div class="s2">流星 <em id="meteorCount">0</em> 颗</div>
+</div>
+
+<footer data-intro>meteor-3d · huafire3d fx-lab — original implementation</footer>
+
+</body>
+</html>

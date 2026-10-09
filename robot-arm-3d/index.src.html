@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>机械臂 · ROBOT ARM — robot-arm-3d</title>
+<meta name="description" content="程序化建模三节机械臂：两连杆解析 IK 让末端跟随鼠标，底座 yaw 对准目标；按住抓取悬浮立方体并举起，松开落下。虚构科技工业品牌交互页。">
+<style>
+/* ============ robot-arm-3d · 严格三色：墨黑 #101014 / 橙 #f97316 / 米白 #e7e5e4 ============ */
+:root{
+  --ink:#101014;
+  --org:#f97316;
+  --rice:#e7e5e4;
+  --rice-dim:rgba(231,229,228,.55);
+  --rice-faint:rgba(231,229,228,.26);
+  --ink-soft:rgba(16,16,20,.55);
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"SF Mono","Menlo","Consolas","Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--ink);color:var(--rice)}
+html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+html.js.is-in .reveal{opacity:1;transform:none}
+html.js.is-in .reveal.d1{transition-delay:.15s}
+html.js.is-in .reveal.d2{transition-delay:.3s}
+html.js.is-in .reveal.d3{transition-delay:.45s}
+body{
+  font-family:var(--sans);
+  background:var(--ink);
+  color:var(--rice);
+  overflow:hidden;
+  height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+  -webkit-user-select:none;
+}
+::selection{background:var(--org);color:var(--ink)}
+
+/* ---------- 3D 与氛围层 ---------- */
+#bg{position:fixed;inset:0;z-index:0}
+#bg canvas{display:block;touch-action:none;cursor:crosshair}
+#bg canvas:active{cursor:grabbing}
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 42%, transparent 44%, rgba(16,16,20,.40) 78%, rgba(16,16,20,.82) 100%);
+}
+.grain{
+  position:fixed;inset:-60%;width:220%;height:220%;z-index:4;pointer-events:none;opacity:.36;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.905 0 0 0 0 0.898 0 0 0 0 0.894 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(4) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-1.6%,1.2%)}
+  50%{transform:translate(1.2%,-1.6%)}75%{transform:translate(-1%,1.8%)}100%{transform:translate(0,0)}
+}
+
+/* ---------- 标题区 ---------- */
+.hdr{
+  position:fixed;top:0;left:0;right:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:26px clamp(20px,4vw,54px);
+  pointer-events:none;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .seal{
+  width:40px;height:40px;border:1px solid var(--rice-faint);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;color:var(--org);letter-spacing:0;
+}
+.brand .name{font-size:15px;letter-spacing:.5em;text-indent:.5em}
+.brand .sub{font-size:10px;letter-spacing:.34em;color:var(--rice-dim);margin-top:6px}
+.hdr .no{font-size:10px;letter-spacing:.3em;color:var(--rice-dim);text-align:right;line-height:2}
+
+.hero{
+  position:fixed;z-index:10;left:clamp(20px,5vw,80px);top:clamp(92px,15vh,150px);
+  pointer-events:none;max-width:70vw;
+}
+.hero .kicker{
+  font-size:11px;letter-spacing:.55em;text-indent:.1em;
+  color:var(--rice-dim);margin-bottom:18px;
+  display:flex;align-items:center;gap:12px;
+}
+.hero .kicker::before{content:"";width:34px;height:1px;background:var(--org)}
+.hero h1{
+  font-size:clamp(52px,8.5vw,116px);
+  font-weight:700;letter-spacing:.16em;text-indent:.08em;
+  line-height:1.2;color:var(--rice);
+  text-shadow:0 2px 30px rgba(16,16,20,.6);
+}
+.hero h1 .en{display:block;font-size:.32em;letter-spacing:.52em;color:var(--org);margin-top:10px;font-weight:400}
+.hero .slogan{margin-top:22px;font-size:clamp(14px,1.7vw,19px);letter-spacing:.4em;color:var(--rice-dim)}
+
+/* ---------- 底部控制条 ---------- */
+.dock{
+  position:fixed;z-index:11;left:0;right:0;bottom:0;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  padding:24px clamp(20px,4vw,54px) calc(22px + env(safe-area-inset-bottom));
+  pointer-events:none;
+}
+.dock>*{pointer-events:auto}
+.modes{display:flex;gap:10px}
+.modes button{
+  font-family:var(--sans);font-size:13px;letter-spacing:.3em;text-indent:.3em;
+  color:var(--rice-dim);background:var(--ink-soft);
+  border:1px solid var(--rice-faint);
+  padding:11px 20px 11px 22px;cursor:pointer;border-radius:2px;
+  transition:color .35s var(--ease),border-color .35s var(--ease),background .35s var(--ease),transform .35s var(--ease);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.modes button:hover{color:var(--rice);border-color:var(--rice);transform:translateY(-2px)}
+.modes button[aria-pressed="true"]{background:var(--org);border-color:var(--org);color:var(--ink)}
+.hint{font-size:11px;letter-spacing:.26em;color:var(--rice-dim);text-align:right;line-height:2.1;pointer-events:none!important}
+.hint b{color:var(--rice);font-weight:400}
+
+/* ---------- 关节读数面板（右下） ---------- */
+.readout{
+  position:fixed;z-index:11;right:clamp(20px,4vw,54px);top:clamp(96px,16vh,160px);
+  font-family:var(--mono);
+  background:var(--ink-soft);
+  border:1px solid var(--rice-faint);
+  border-radius:3px;
+  padding:16px 18px 14px;
+  min-width:208px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  pointer-events:none;
+}
+.readout .rh{
+  font-family:var(--sans);font-size:10px;letter-spacing:.42em;color:var(--rice-dim);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.readout .rh::before{content:"";width:6px;height:6px;background:var(--org);border-radius:50%;animation:blink 2.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.readout .row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:18px;
+  font-size:12.5px;line-height:2.05;
+}
+.readout .k{color:var(--rice-dim);letter-spacing:.14em;font-size:10.5px}
+.readout .v{color:var(--rice);font-variant-numeric:tabular-nums}
+.readout .v.hot{color:var(--org)}
+.readout .sep{height:1px;background:var(--rice-faint);margin:8px 0}
+
+/* ---------- 加载态：装配中 ---------- */
+#loader{
+  position:fixed;inset:0;z-index:50;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .9s var(--ease);
+}
+#loader.done{opacity:0;pointer-events:none}
+#loader .t{font-size:26px;letter-spacing:1.1em;text-indent:1.1em;color:var(--rice)}
+#loader .bar{width:180px;height:1px;background:rgba(231,229,228,.18);position:relative;overflow:hidden}
+#loader .bar i{position:absolute;left:0;top:0;bottom:0;width:40%;background:var(--org);animation:scan 1.2s var(--ease) infinite}
+@keyframes scan{0%{left:-40%}100%{left:100%}}
+#loader .s{font-size:10px;letter-spacing:.5em;color:var(--rice-dim)}
+
+@media (max-width:640px){
+  .hero{top:88px}
+  .hero h1{letter-spacing:.1em}
+  .hero .slogan{letter-spacing:.28em}
+  .readout{top:auto;bottom:calc(158px + env(safe-area-inset-bottom));right:16px;min-width:172px;padding:12px 14px 10px}
+  .readout .row{font-size:11.5px}
+  .dock{flex-direction:column;align-items:stretch;gap:12px}
+  .hint{display:none}
+  .modes{justify-content:space-between}
+  .modes button{flex:1;padding:10px 0;text-align:center;letter-spacing:.2em}
+  .hdr .no{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain{animation:none}
+  #loader .bar i{animation:none}
+  .readout .rh::before{animation:none}
+}
+</style>
+<script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+</script>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<div id="bg" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="hdr">
+  <div class="brand reveal">
+    <div class="seal">臂</div>
+    <div>
+      <div class="name">铁臂工坊</div>
+      <div class="sub">IRONARM · 交互机械臂</div>
+    </div>
+  </div>
+  <div class="no reveal d1">双连杆解析 IK<br>实时关节解算</div>
+</header>
+
+<main class="hero">
+  <div class="kicker reveal d1">指尖所向 · 关节自随</div>
+  <h1 class="reveal d2">机械臂<span class="en">ROBOT ARM</span></h1>
+  <p class="slogan reveal d3">按住鼠标，抓起那颗悬浮的橙方块。</p>
+</main>
+
+<aside class="readout reveal d2" aria-label="关节读数">
+  <div class="rh">关节读数 JOINTS</div>
+  <div class="row"><span class="k">BASE 底座</span><span class="v" id="ro-base">+0.0°</span></div>
+  <div class="row"><span class="k">SHOULDER 肩</span><span class="v" id="ro-sh">+0.0°</span></div>
+  <div class="row"><span class="k">ELBOW 肘</span><span class="v hot" id="ro-el">+0.0°</span></div>
+  <div class="row"><span class="k">GRIP 夹爪</span><span class="v" id="ro-gr">0%</span></div>
+  <div class="sep"></div>
+  <div class="row"><span class="k">TARGET 目标</span><span class="v" id="ro-tg">—</span></div>
+  <div class="row"><span class="k">STATE 状态</span><span class="v hot" id="ro-st">就绪</span></div>
+</aside>
+
+<div class="dock">
+  <div class="modes reveal d2" role="group" aria-label="运行模式">
+    <button type="button" data-mode="follow" aria-pressed="true">跟随</button>
+    <button type="button" data-mode="auto" aria-pressed="false">自动演示</button>
+    <button type="button" data-mode="grab" aria-pressed="false">抓取演示</button>
+  </div>
+  <p class="hint reveal d3">移动鼠标<b>驱动</b>机械臂 · <b>按住</b>抓取方块 · <b>松开</b>落下</p>
+</div>
+
+<div id="loader" role="status" aria-label="正在装配">
+  <div class="t">装配中</div>
+  <div class="bar"><i></i></div>
+  <div class="s">ASSEMBLING</div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>棱镜 — glass-refract-3d</title>
+<meta name="description" content="玻璃折射棱镜 hero：程序化线条波纹背景 + MeshPhysicalMaterial 真实折射透镜，鼠标视差漂移，可调折射率。">
+<style>
+/* ============ glass-refract-3d · 严格三色：#0a0c10 墨黑 / #e8f4ff 月白 / #7dd3fc 棱镜蓝 ============ */
+:root{
+  --ink:#0a0c10;
+  --paper:#e8f4ff;
+  --sky:#7dd3fc;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--ink);color:var(--paper)}
+body{
+  font-family:var(--font);
+  background:var(--ink);
+  color:var(--paper);
+  overflow:hidden;
+  height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+  -webkit-user-select:none;
+}
+::selection{background:var(--sky);color:var(--ink)}
+
+/* ---------- 3D 舞台 ---------- */
+#stage{position:fixed;inset:0;z-index:0}
+#stage canvas{display:block;width:100%;height:100%}
+
+/* ---------- 氛围层：vignette + 噪点（纯 2D 层，用 z-index 排序，不碰 preserve-3d） ---------- */
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 44%, transparent 46%, rgba(10,12,16,.72) 100%);
+}
+.grain{
+  position:fixed;inset:-60%;width:220%;height:220%;z-index:4;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.91 0 0 0 0 0.956 0 0 0 0 1 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(4) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,2%)}100%{transform:translate(0,0)}
+}
+@media (prefers-reduced-motion:reduce){.grain{animation:none}}
+
+/* ---------- 标题区 ---------- */
+.hero{
+  position:fixed;z-index:10;pointer-events:none;
+  top:max(28px,env(safe-area-inset-top));left:clamp(20px,4vw,56px);
+}
+.hero h1{
+  font-size:clamp(44px,7vw,88px);font-weight:800;letter-spacing:.12em;line-height:1;
+  color:var(--paper);
+  text-shadow:0 2px 30px rgba(10,12,16,.8);
+}
+.hero .en{
+  font-family:var(--mono);font-size:clamp(10px,1.2vw,13px);letter-spacing:.55em;
+  color:var(--sky);margin-top:10px;
+}
+.hero p{
+  margin-top:14px;font-size:clamp(13px,1.5vw,16px);letter-spacing:.08em;line-height:1.7;
+  color:var(--paper);opacity:.82;max-width:34em;
+  text-shadow:0 1px 12px rgba(10,12,16,.9);
+}
+/* 隐藏等 JS：默认可见；JS 启动后才隐藏、完成态必达（html.js.is-in） */
+html.js .pre{opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+html.js.is-in .pre{opacity:1;transform:none}
+html.js.is-in .hero{transition-delay:.15s}
+html.js.is-in .hint{transition-delay:.45s}
+html.js.is-in .dock{transition-delay:.6s}
+
+/* ---------- 提示 ---------- */
+.hint{
+  position:fixed;z-index:10;pointer-events:none;
+  left:clamp(20px,4vw,56px);bottom:max(24px,env(safe-area-inset-bottom));
+  font-size:12px;letter-spacing:.28em;color:var(--paper);opacity:.55;
+}
+
+/* ---------- 控制条 ---------- */
+.dock{
+  position:fixed;z-index:10;
+  left:50%;transform:translateX(-50%);bottom:max(20px,env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);
+  padding:12px clamp(16px,2.4vw,28px);
+  background:rgba(10,12,16,.58);
+  border:1px solid rgba(232,244,255,.16);border-radius:18px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 12px 44px rgba(0,0,0,.45);
+  max-width:calc(100vw - 32px);
+}
+html.js .dock{transform:translateX(-50%) translateY(16px)}
+html.js.is-in .dock{transform:translateX(-50%)}
+.ctl{display:flex;flex-direction:column;gap:8px}
+.ctl .lab{
+  font-size:10px;letter-spacing:.32em;color:var(--sky);
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;white-space:nowrap;
+}
+.ctl .lab output{font-family:var(--mono);color:var(--paper);letter-spacing:.05em}
+.seg{display:flex;gap:6px}
+.seg button{
+  font-family:var(--font);font-size:12px;letter-spacing:.12em;
+  color:var(--paper);background:transparent;cursor:pointer;
+  border:1px solid rgba(232,244,255,.22);border-radius:999px;
+  padding:7px 14px;transition:all .35s var(--ease);white-space:nowrap;
+}
+.seg button:hover{border-color:var(--sky)}
+.seg button[aria-pressed="true"]{
+  background:var(--sky);border-color:var(--sky);color:var(--ink);font-weight:700;
+}
+.divider{width:1px;align-self:stretch;background:rgba(232,244,255,.14)}
+
+/* 滑杆 */
+input[type="range"]{
+  -webkit-appearance:none;appearance:none;width:150px;height:22px;background:transparent;cursor:pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track{
+  height:2px;background:rgba(232,244,255,.28);border-radius:2px;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:15px;height:15px;border-radius:50%;
+  background:var(--sky);margin-top:-6.5px;border:none;
+  box-shadow:0 0 12px rgba(125,211,252,.85);
+  transition:transform .3s var(--ease);
+}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+input[type="range"]::-moz-range-track{height:2px;background:rgba(232,244,255,.28);border-radius:2px}
+input[type="range"]::-moz-range-thumb{
+  width:15px;height:15px;border-radius:50%;background:var(--sky);border:none;
+  box-shadow:0 0 12px rgba(125,211,252,.85);
+}
+
+/* ---------- 加载态 ---------- */
+#loader{
+  position:fixed;inset:0;z-index:50;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .8s var(--ease);
+}
+#loader.done{opacity:0;pointer-events:none}
+#loader .t{font-size:22px;font-weight:700;letter-spacing:.5em;text-indent:.5em}
+#loader .s{font-family:var(--mono);font-size:10px;letter-spacing:.5em;color:var(--sky)}
+#loader .bar{width:180px;height:2px;background:rgba(232,244,255,.14);border-radius:2px;overflow:hidden}
+#loader .bar i{display:block;height:100%;width:40%;background:var(--sky);border-radius:2px;animation:load 1.1s var(--ease) infinite}
+@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(280%)}}
+
+/* ---------- 移动端 ---------- */
+@media (max-width:640px){
+  .hint{display:none}
+  .dock{
+    flex-wrap:wrap;justify-content:center;row-gap:12px;
+    left:16px;right:16px;transform:none;max-width:none;
+  }
+  html.js .dock{transform:translateY(16px)}
+  html.js.is-in .dock{transform:none}
+  .divider{display:none}
+  input[type="range"]{width:130px}
+  .hero p{max-width:22em}
+}
+</style>
+</head>
+<body>
+  <div id="stage"><canvas id="gl"></canvas></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <header class="hero pre">
+    <h1>棱镜</h1>
+    <div class="en">PRISM · GLASS REFRACTION</div>
+    <p>光穿过玻璃时会拐弯——移动鼠标，看背景在透镜里折成涟漪。</p>
+  </header>
+
+  <div class="hint pre">移动鼠标 · 透镜随视差漂移</div>
+
+  <div class="dock pre" role="toolbar" aria-label="棱镜控制台">
+    <div class="ctl">
+      <div class="lab"><span>折射率 IOR</span><output id="iorVal">1.52</output></div>
+      <input type="range" id="ior" min="1" max="2" step="0.01" value="1.52" aria-label="折射率">
+    </div>
+    <div class="divider"></div>
+    <div class="ctl">
+      <div class="lab"><span>透镜数量</span></div>
+      <div class="seg" id="countSeg" role="group" aria-label="透镜数量">
+        <button data-n="3" aria-pressed="false">3</button>
+        <button data-n="5" aria-pressed="true">5</button>
+        <button data-n="8" aria-pressed="false">8</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="ctl">
+      <div class="lab"><span>背景图案</span></div>
+      <div class="seg" id="patSeg" role="group" aria-label="背景图案">
+        <button data-p="0" aria-pressed="true">同心波纹</button>
+        <button data-p="1" aria-pressed="false">斜波条纹</button>
+        <button data-p="2" aria-pressed="false">流场网格</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loader" aria-hidden="true">
+    <div class="t">棱镜</div>
+    <div class="s">CALIBRATING</div>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <script>
+  /* 兜底：模块脚本 6 秒内没跑起来，强制进完成态（隐藏元素必达显示态） */
+  setTimeout(function(){
+    var h = document.documentElement;
+    if(!h.classList.contains('is-in')){
+      h.classList.add('js','is-in');
+      var l = document.getElementById('loader');
+      if(l) l.classList.add('done');
+    }
+  }, 6000);
+  </script>
+  <script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+  </script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

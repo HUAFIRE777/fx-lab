@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>菌语 MUSHROOM · 荧光蘑菇森林 · fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --bg:#070B08;
+    --glow:#5CFFB1;
+    --warm:#FF9E57;
+    --panel:rgba(7,11,8,.72);
+    --line:rgba(92,255,177,.22);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--glow);
+    font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    overflow:hidden;overscroll-behavior:none;
+  }
+  #v{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+
+  /* 暗角 + 噪点：纯 CSS 覆盖层，pointer-events 透传，z-index 排序（避开 blur 压平坑） */
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(ellipse 94% 84% at 50% 46%, transparent 52%, rgba(0,0,0,.68) 100%)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.07;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")}
+
+  /* 完成态：全部带 html.js 前缀，无 JS 时默认可见 */
+  html.js [data-intro]{opacity:0;transform:translateY(18px);
+    transition:opacity 1.1s cubic-bezier(.22,1,.36,1),transform 1.1s cubic-bezier(.22,1,.36,1)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+  html.js .title-block[data-intro]{transition-delay:.15s}
+  html.js .controls[data-intro]{transform:translateX(-50%) translateY(26px);transition-delay:.35s}
+  html.js .controls[data-intro].is-in{transform:translateX(-50%)}
+  html.js .hint[data-intro]{transform:translateX(-50%) translateY(10px);transition-delay:.6s}
+  html.js .hint[data-intro].is-in{transform:translateX(-50%)}
+  html.js .side-tag[data-intro]{transition-delay:.45s}
+
+  .title-block{position:fixed;top:max(30px,env(safe-area-inset-top));left:34px;z-index:10;
+    pointer-events:none;user-select:none}
+  .title-block .en{font-size:11px;letter-spacing:.5em;color:var(--glow);opacity:.85;margin-bottom:12px}
+  .title-block .en b{color:var(--warm);font-weight:600}
+  .title-block h1{margin:0;font-weight:600;font-size:clamp(44px,6.4vw,76px);line-height:1.06;
+    letter-spacing:.28em;color:var(--glow);
+    font-family:"Songti SC","STSong","Noto Serif SC",serif;
+    text-shadow:0 0 34px rgba(92,255,177,.35),0 2px 30px rgba(0,0,0,.9)}
+  .title-block p{margin:16px 0 0;font-size:13px;letter-spacing:.2em;color:var(--glow);opacity:.72;
+    max-width:30em;line-height:2.1}
+
+  .side-tag{position:fixed;top:max(34px,env(safe-area-inset-top));right:36px;z-index:10;
+    text-align:right;pointer-events:none;user-select:none}
+  .side-tag .disc{font-size:12px;letter-spacing:.34em;color:var(--warm);margin-bottom:8px}
+  .side-tag .stat{font-size:12px;letter-spacing:.3em;color:var(--glow);opacity:.6;
+    font-variant-numeric:tabular-nums;line-height:2}
+
+  .controls{position:fixed;z-index:10;left:50%;transform:translateX(-50%);
+    bottom:max(24px,env(safe-area-inset-bottom));
+    display:flex;align-items:center;gap:16px;flex-wrap:nowrap;justify-content:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    padding:12px 22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    max-width:min(94vw,900px)}
+  .ctl{display:flex;align-items:center;gap:8px}
+  .ctl label{font-size:12px;letter-spacing:.24em;color:var(--glow);opacity:.85;white-space:nowrap}
+  .ctl output{font-size:12px;color:var(--warm);min-width:4.2em;letter-spacing:.1em;white-space:nowrap}
+  input[type=range]{accent-color:var(--glow);width:96px;cursor:pointer;touch-action:pan-x}
+
+  .spore{
+    font:inherit;font-size:13px;letter-spacing:.34em;padding:12px 28px 12px 32px;border-radius:999px;
+    border:1px solid var(--glow);background:var(--glow);color:var(--bg);cursor:pointer;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease,background .3s ease,color .3s ease;
+    min-height:48px;touch-action:manipulation;white-space:nowrap}
+  .spore:hover{transform:scale(1.05);box-shadow:0 0 26px rgba(92,255,177,.4)}
+  .spore:active{transform:scale(.96)}
+  .spore:focus-visible{outline:2px solid var(--warm);outline-offset:3px}
+  .spore.cooling{opacity:.55;pointer-events:none}
+
+  .hint{position:fixed;z-index:10;left:50%;transform:translateX(-50%);
+    bottom:max(118px,calc(env(safe-area-inset-bottom) + 94px));
+    font-size:11px;letter-spacing:.28em;color:var(--glow);opacity:.55;
+    pointer-events:none;user-select:none;white-space:nowrap}
+
+  /* 加载态（默认隐藏；只有 html.js 才显示） */
+  .loader{display:none}
+  html.js .loader{position:fixed;inset:0;z-index:50;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;
+    transition:opacity .9s ease,visibility 0s .9s}
+  html.js .loader.done{opacity:0;visibility:hidden;pointer-events:none}
+  .loader .t{font-size:14px;letter-spacing:.58em;color:var(--glow);padding-left:.58em;
+    animation:pulse 1.7s ease-in-out infinite;
+    font-family:"Songti SC","STSong","Noto Serif SC",serif}
+  .loader .s{font-size:11px;letter-spacing:.4em;color:var(--warm);opacity:.8;padding-left:.4em}
+  .loader .bar{width:180px;height:2px;background:rgba(92,255,177,.14);border-radius:2px;overflow:hidden}
+  .loader .bar i{display:block;height:100%;width:40%;background:var(--glow);border-radius:2px;
+    animation:slide 1.4s cubic-bezier(.45,0,.55,1) infinite}
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+  @keyframes slide{0%{transform:translateX(-110%)}100%{transform:translateX(480%)}}
+
+  @media (max-width:640px){
+    .title-block{left:20px;top:max(20px,env(safe-area-inset-top))}
+    .title-block p{display:none}
+    .side-tag{display:none}
+    .controls{gap:14px;padding:12px 18px;flex-wrap:wrap}
+    .hint{display:none}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<canvas id="v"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<header class="title-block" data-intro>
+  <div class="en">MUSHROOM · <b>GLOWING</b> FOREST</div>
+  <h1>菌语</h1>
+  <p>森林在夜里发光<br>四十八株荧光蘑菇，一场深夜的菌语。</p>
+</header>
+
+<div class="side-tag" data-intro>
+  <div class="disc">FX-LAB · NO.15</div>
+  <div class="stat" id="stat">菌群 -- · 萤火 --</div>
+</div>
+
+<div class="controls" data-intro>
+  <button class="spore" id="sporeBtn" type="button">孢子飘散</button>
+  <div class="ctl">
+    <label for="glowRange">荧光强度</label>
+    <input type="range" id="glowRange" min="20" max="220" value="100">
+    <output id="glowOut">100%</output>
+  </div>
+  <div class="ctl">
+    <label for="nightRange">夜色浓度</label>
+    <input type="range" id="nightRange" min="0" max="100" value="72">
+    <output id="nightOut">深夜</output>
+  </div>
+</div>
+
+<div class="hint" data-intro>点击蘑菇 · 泛起涟漪光波</div>
+
+<div class="loader" id="loader">
+  <div class="t">菌丝正在蔓延</div>
+  <div class="bar"><i></i></div>
+  <div class="s">SPREADING MYCELIUM</div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

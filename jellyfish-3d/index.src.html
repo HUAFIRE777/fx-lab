@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>水母群游 · jellyfish-3d</title>
+<meta name="description" content="深海水母群游 3D 动效模板：程序化水母、呼吸游动、点击海面泛涟漪聚拢。">
+<style>
+/* ============ jellyfish-3d · 严格三色：深海 #04121F / 荧光青 #7DF9FF / 品红 #FF6FD8 ============ */
+:root{
+  --deep:#04121F;
+  --deep-2:#071c2e;
+  --cyan:#7DF9FF;
+  --cyan-dim:rgba(125,249,255,.55);
+  --cyan-faint:rgba(125,249,255,.22);
+  --cyan-ghost:rgba(125,249,255,.08);
+  --mag:#FF6FD8;
+  --mag-dim:rgba(255,111,216,.5);
+  --ink-soft:rgba(214,240,248,.72);
+  --ink-faint:rgba(214,240,248,.42);
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --serif:"Songti SC","STSong","Noto Serif SC",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--deep);color:var(--cyan)}
+body{
+  font-family:var(--sans);
+  background:var(--deep);
+  color:var(--cyan);
+  overflow:hidden;
+  height:100svh;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+::selection{background:var(--cyan);color:var(--deep)}
+[hidden]{display:none !important}
+
+/* ---------- 3D 舞台 ---------- */
+#stage{position:fixed;inset:0;z-index:0;cursor:crosshair}
+#stage canvas{display:block}
+
+/* ---------- 暗角 + 噪点（手工细节） ---------- */
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 44%, transparent 52%, rgba(2,8,15,.62) 100%);
+}
+.grain{
+  position:fixed;inset:-50%;width:200%;height:200%;z-index:4;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.49 0 0 0 0 0.98 0 0 0 0 1 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(4) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,2%)}100%{transform:translate(0,0)}
+}
+
+/* ---------- 加载态（完成态可达：html.js 前缀 + done 类） ---------- */
+.loader{
+  position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:22px;background:var(--deep);
+  transition:opacity .9s ease, visibility .9s;
+}
+.loader .ring{
+  width:54px;height:54px;border-radius:50%;
+  border:2px solid var(--cyan-ghost);border-top-color:var(--cyan);
+  animation:spin 1.1s linear infinite;
+}
+.loader p{font-size:12px;letter-spacing:.5em;text-indent:.5em;color:var(--ink-faint)}
+@keyframes spin{to{transform:rotate(360deg)}}
+html.js .loader.done{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ---------- 标题 ---------- */
+.hdr{
+  position:fixed;top:0;left:0;right:0;z-index:15;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:30px clamp(22px,4.5vw,58px);
+  pointer-events:none;
+}
+.brand .kicker{
+  font-size:11px;letter-spacing:.55em;font-weight:700;
+  color:var(--cyan);margin-bottom:12px;
+  text-shadow:0 0 18px var(--cyan-faint);
+}
+.brand h1{
+  font-family:var(--serif);
+  font-size:clamp(2.2rem,5.2vw,3.8rem);
+  font-weight:900;letter-spacing:.22em;line-height:1.15;color:#eafcff;
+  animation:breathe 6s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.86}}
+.brand .sub{
+  margin-top:14px;font-size:13px;letter-spacing:.18em;color:var(--ink-soft);line-height:2;
+}
+.brand .sub b{color:var(--mag);font-weight:600}
+.depth{
+  text-align:right;font-variant-numeric:tabular-nums;flex:none;
+}
+.depth .num{
+  font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,1.9rem);
+  color:var(--cyan);letter-spacing:.08em;text-shadow:0 0 16px var(--cyan-faint);
+}
+.depth .lbl{margin-top:6px;font-size:10px;letter-spacing:.4em;color:var(--ink-faint)}
+
+/* ---------- 控制面板 ---------- */
+.panel{
+  position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));z-index:15;
+  transform:translateX(-50%);
+  width:min(560px, calc(100vw - 40px));
+  background:rgba(4,18,31,.72);
+  border:1px solid rgba(125,249,255,.22);
+  border-radius:16px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding:18px 22px 16px;
+  box-shadow:0 12px 44px rgba(0,0,0,.5), inset 0 1px 0 rgba(125,249,255,.12);
+}
+.panel .row{display:flex;align-items:center;gap:14px;margin:10px 0}
+.panel .row:first-child{margin-top:2px}
+.panel label{
+  flex:none;width:86px;font-size:12px;letter-spacing:.24em;color:var(--ink-soft);
+}
+.panel output{
+  flex:none;width:44px;text-align:right;font-size:12px;color:var(--cyan);
+  font-variant-numeric:tabular-nums;
+}
+.panel input[type=range]{
+  flex:1;appearance:none;-webkit-appearance:none;height:22px;background:transparent;cursor:pointer;
+}
+.panel input[type=range]::-webkit-slider-runnable-track{
+  height:3px;border-radius:2px;
+  background:linear-gradient(90deg, var(--cyan) var(--fill,50%), rgba(125,249,255,.18) var(--fill,50%));
+}
+.panel input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--deep);border:2px solid var(--cyan);margin-top:-6.5px;
+  box-shadow:0 0 12px var(--cyan-dim);
+  transition:transform .25s var(--ease), box-shadow .25s;
+}
+.panel input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3);box-shadow:0 0 20px var(--cyan)}
+.panel input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:rgba(125,249,255,.18)}
+.panel input[type=range]::-moz-range-progress{height:3px;border-radius:2px;background:var(--cyan)}
+.panel input[type=range]::-moz-range-thumb{
+  width:12px;height:12px;border-radius:50%;background:var(--deep);
+  border:2px solid var(--cyan);box-shadow:0 0 12px var(--cyan-dim);
+}
+.panel .hint{
+  margin-top:8px;padding-top:10px;border-top:1px solid rgba(125,249,255,.12);
+  font-size:11.5px;letter-spacing:.14em;color:var(--ink-faint);text-align:center;line-height:1.8;
+}
+.panel .hint b{color:var(--mag);font-weight:600}
+
+/* ---------- 点击涟漪提示（首次点击后淡出） ---------- */
+.tap-tip{
+  position:fixed;left:50%;top:34%;transform:translate(-50%,-50%);z-index:14;
+  font-size:13px;letter-spacing:.4em;text-indent:.4em;color:var(--cyan-dim);
+  pointer-events:none;white-space:nowrap;
+  animation:tipfloat 3.2s ease-in-out infinite;
+  transition:opacity .8s ease;
+}
+.tap-tip .dot{
+  display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mag);
+  box-shadow:0 0 12px var(--mag);margin-right:10px;vertical-align:2px;
+  animation:ping 1.6s ease-out infinite;
+}
+@keyframes ping{0%{transform:scale(1);opacity:1}70%{transform:scale(2.6);opacity:0}100%{opacity:0}}
+@keyframes tipfloat{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-58%)}}
+html.js .tap-tip.gone{opacity:0}
+
+/* ---------- 移动端 ---------- */
+@media (max-width:640px){
+  .hdr{padding:22px 20px}
+  .depth{display:none}
+  .brand .sub{font-size:12px;letter-spacing:.12em}
+  .panel{padding:14px 16px 12px;bottom:calc(16px + env(safe-area-inset-bottom))}
+  .panel label{width:72px;font-size:11px}
+  .tap-tip{font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain,.tap-tip,.brand h1{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<div class="loader" id="loader">
+  <div class="ring"></div>
+  <p>正在下潜</p>
+</div>
+
+<header class="hdr">
+  <div class="brand">
+    <div class="kicker">深海纪录片 · DEEP SEA</div>
+    <h1>水母群游</h1>
+    <div class="sub">它们没有大脑，也没有心脏，<br>却靠了<b>六亿年</b>的收缩与舒张，活成了海里最安静的舞者。</div>
+  </div>
+  <div class="depth">
+    <div class="num" id="depthNum">−1,240 m</div>
+    <div class="lbl">当前深度</div>
+  </div>
+</header>
+
+<div class="tap-tip" id="tapTip"><span class="dot"></span>点击海面 · 泛起涟漪</div>
+
+<section class="panel" id="panel">
+  <div class="row">
+    <label for="rCount">水母数量</label>
+    <input type="range" id="rCount" min="3" max="24" step="1" value="10">
+    <output id="oCount">10</output>
+  </div>
+  <div class="row">
+    <label for="rGlow">发光强度</label>
+    <input type="range" id="rGlow" min="20" max="200" step="5" value="100">
+    <output id="oGlow">100%</output>
+  </div>
+  <div class="hint">点击<b>海面</b>泛起涟漪 —— 水母会循着波纹聚拢而来</div>
+</section>
+
+<script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

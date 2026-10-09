@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>泄洪 · dam-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --bg:#0D1319;
+    --ink:#F2F7FA;
+    --ink-dim:rgba(242,247,250,.62);
+    --ink-faint:rgba(242,247,250,.34);
+    --water:#6FC3F2;
+    --water-deep:#3E8FC4;
+    --concrete:#AEB6BC;
+    --line:rgba(242,247,250,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --serif:"Songti SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaYi",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:manipulation}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(18px);
+    transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .lt{font-family:var(--serif);font-size:26px;letter-spacing:.4em;text-indent:.4em;color:var(--ink)}
+  #loader .ls{font-size:11px;letter-spacing:.44em;text-indent:.44em;color:var(--ink-dim)}
+  #loader .bar{width:190px;height:2px;background:rgba(242,247,250,.12);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--water-deep),var(--water));
+    animation:loadfill 3.2s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  .vignette{position:fixed;inset:0;z-index:31;pointer-events:none;
+    background:radial-gradient(ellipse 120% 105% at 50% 42%,transparent 54%,rgba(6,12,17,.42) 86%,rgba(3,7,11,.78) 100%)}
+  .noise{position:fixed;inset:0;z-index:32;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+  /* 水花落点区域的轻雾罩：纯 z-index 层，不用 blur（避开压平坑） */
+  .haze{position:fixed;inset:0;z-index:18;pointer-events:none;opacity:.5;
+    background:radial-gradient(ellipse 46% 30% at 50% 74%,rgba(230,243,252,.20),transparent 70%)}
+
+  /* ---------- 标题块 ---------- */
+  .hero{position:fixed;top:46px;left:52px;z-index:40;max-width:420px;pointer-events:none}
+  .hero .kick{font-size:11px;letter-spacing:.42em;color:var(--water);margin-bottom:16px;font-weight:600}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:58px;line-height:1.18;color:#FFFFFF;
+    text-shadow:0 2px 30px rgba(4,10,16,.7)}
+  .hero .sub{margin-top:16px;font-size:13.5px;line-height:1.95;color:var(--ink-dim);max-width:340px}
+  .hero .sub b{color:var(--ink);font-weight:500}
+
+  /* ---------- 流量仪表 ---------- */
+  .gauge{position:fixed;right:52px;top:52px;z-index:40;text-align:right;pointer-events:none}
+  .gauge .g0{font-size:11px;letter-spacing:.32em;color:var(--ink-dim);margin-bottom:8px}
+  .gauge .g1{font-size:12px;letter-spacing:.24em;color:var(--ink-dim)}
+  .gauge .g1 em{font-style:normal;color:#fff;font-weight:700;font-size:27px;margin:0 6px;
+    font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .gauge .g2{margin-top:10px;font-size:11px;letter-spacing:.26em;color:var(--water)}
+  .gauge .bar{margin-top:10px;width:170px;height:3px;margin-left:auto;border-radius:3px;
+    background:rgba(242,247,250,.14);overflow:hidden}
+  .gauge .bar i{display:block;height:100%;width:70%;border-radius:3px;
+    background:linear-gradient(90deg,var(--water-deep),var(--water));
+    transition:width .5s var(--ease)}
+
+  /* ---------- 控制面板 ---------- */
+  .panel{position:fixed;left:52px;bottom:48px;z-index:40;width:322px;
+    background:rgba(10,16,22,.64);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px 18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .panel .row-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .panel label{font-size:12px;letter-spacing:.32em;color:var(--ink-dim)}
+  .panel .val{font-size:13px;color:var(--water);font-weight:700;letter-spacing:.06em;
+    font-variant-numeric:tabular-nums}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--water),rgba(242,247,250,.16))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--water);margin-top:-6.5px;border:2px solid #0D1319;
+    box-shadow:0 0 12px rgba(111,195,242,.85);transition:transform .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:rgba(242,247,250,.16)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--water);
+    border:2px solid #0D1319;box-shadow:0 0 12px rgba(111,195,242,.85)}
+  .btns{display:flex;gap:10px;margin-top:16px}
+  .btn{flex:1;font-family:var(--sans);font-size:12.5px;letter-spacing:.22em;text-indent:.22em;
+    padding:11px 0;border-radius:10px;cursor:pointer;color:var(--ink);
+    background:rgba(242,247,250,.05);border:1px solid var(--line);
+    transition:transform .25s var(--ease),border-color .25s,background .25s,box-shadow .25s,color .25s}
+  .btn:hover{transform:translateY(-2px);border-color:rgba(111,195,242,.55);
+    box-shadow:0 8px 22px rgba(62,143,196,.28)}
+  .btn:active{transform:translateY(0)}
+  .btn.on{background:rgba(111,195,242,.16);border-color:rgba(111,195,242,.6);color:#fff}
+  .panel .tip{margin-top:14px;font-size:11.5px;line-height:1.85;color:var(--ink-faint);letter-spacing:.05em}
+  .panel .stat{display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;
+    border-top:1px solid var(--line);font-size:11.5px;letter-spacing:.14em;color:var(--ink-dim)}
+  .panel .stat b{color:var(--water);font-weight:600;font-variant-numeric:tabular-nums}
+
+  footer{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:10.5px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-faint);pointer-events:none;white-space:nowrap}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    .hero{top:24px;left:22px;right:22px;max-width:none}
+    .hero .kick{font-size:10px;margin-bottom:8px}
+    .hero h1{font-size:33px}
+    .hero .sub{font-size:12px;margin-top:8px;max-width:none}
+    .gauge{top:14px;right:16px}
+    .gauge .g1 em{font-size:19px}
+    .gauge .g0{font-size:10px;margin-bottom:4px}
+    .gauge .g2{font-size:10px;margin-top:6px}
+    .gauge .bar{width:112px;margin-top:8px}
+    .panel{left:12px;right:12px;bottom:12px;width:auto;padding:15px 16px 12px}
+    .panel .tip{display:none}
+    footer{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #loader .bar i{animation-duration:.01s}
+    html.js [data-intro]{transition-duration:.01s}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="lt">泄洪</div>
+  <div class="bar"><i></i></div>
+  <div class="ls">正在蓄水</div>
+</div>
+
+<canvas id="scene"></canvas>
+<div class="haze"></div>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header class="hero" data-intro>
+  <div class="kick">SPILLWAY DISCHARGE — 017</div>
+  <h1>泄洪</h1>
+  <p class="sub">闸门抬起来那一刻，水就有了自己的意志。<b>三孔齐开的时候，站近一点</b>——能听见混凝土在低鸣。</p>
+</header>
+
+<div class="gauge" data-intro>
+  <div class="g0">实时流量</div>
+  <div class="g1"><em id="flowNum">0</em>m³/s</div>
+  <div class="g2" id="gateState">闸门 · 全开</div>
+  <div class="bar"><i id="flowBar"></i></div>
+</div>
+
+<aside class="panel" data-intro aria-label="泄洪控制台">
+  <div class="row-title">
+    <label for="discharge">泄洪量</label>
+    <span class="val" id="dischargeVal">70%</span>
+  </div>
+  <input type="range" id="discharge" min="0" max="100" step="1" value="70" aria-label="泄洪量">
+  <div class="btns">
+    <button class="btn on" id="gateBtn" aria-pressed="true">闸门 · 开</button>
+    <button class="btn" id="slowBtn" aria-pressed="false">慢动作 · 关</button>
+  </div>
+  <p class="tip">拖动泄洪量，或直接开关闸门。<br>慢动作看清每一滴水划出的弧线。</p>
+  <div class="stat">
+    <span>开度 <b id="gatePct">100%</b></span>
+    <span>水舌落差 <b>26 m</b></span>
+    <span>流速 <b id="speedState">1×</b></span>
+  </div>
+</aside>
+
+<footer data-intro>dam-3d · huafire3d fx-lab — original implementation</footer>
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>乘风的人 — balloon-sky-3d</title>
+<meta name="description" content="多层视差热气球在云海之上漂浮：晨/午/暮光照联动、气球数量可调、拖拽视差视角的 3D 天空 hero。">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ============ balloon-sky-3d · 严格三色：晨空蓝 #7FB6D9 / 云白 #F5F1E6 / 气球红 #E4572E ============ */
+:root{
+  --sky:#7FB6D9;
+  --cloud:#F5F1E6;
+  --red:#E4572E;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--sky)}
+body{
+  font-family:var(--font);
+  background:var(--sky);
+  color:#12303f;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+}
+::selection{background:var(--red);color:var(--cloud)}
+
+/* ---------- 3D 画布层 ---------- */
+#stage{position:fixed;inset:0;z-index:0;cursor:grab}
+#stage canvas{display:block}
+#stage.dragging{cursor:grabbing}
+
+/* ---------- 暗角 + 噪点（z-index 分层，禁用 preserve-3d 压平） ---------- */
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 44%, transparent 52%, rgba(18,48,63,.34) 100%);
+}
+.grain{
+  position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.07 0 0 0 0 0.19 0 0 0 0 0.25 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(4) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-1.5%,1%)}
+  50%{transform:translate(1%,-1.5%)}75%{transform:translate(-1%,1.5%)}100%{transform:translate(0,0)}
+}
+
+/* ---------- 标题区 ---------- */
+.hero{
+  position:fixed;z-index:10;pointer-events:none;
+  left:clamp(20px,5vw,72px);top:clamp(20px,6vh,64px);
+  max-width:min(560px,82vw);
+}
+.kicker{
+  font-size:12px;letter-spacing:.52em;color:#12303f;opacity:.78;
+  margin-bottom:14px;font-weight:600;
+}
+h1{
+  font-size:clamp(2.6rem,7.2vw,5.4rem);
+  line-height:1.08;letter-spacing:.06em;font-weight:800;color:#0f2b39;
+}
+h1 .line{display:block;overflow:hidden}
+h1 .line>span{display:inline-block;will-change:transform}
+.tagline{
+  margin-top:16px;font-size:clamp(.95rem,1.6vw,1.12rem);
+  letter-spacing:.14em;color:#12303f;opacity:.85;line-height:1.7;
+}
+/* 入场：隐藏等 JS —— 完成态选择器必须带 html.js 前缀 */
+html.js .hero .line>span{transform:translateY(112%)}
+html.js .hero .kicker,html.js .hero .tagline{opacity:0;transform:translateY(10px)}
+html.js.loaded .hero .line>span{transform:none;transition:transform 1.05s var(--ease)}
+html.js.loaded .hero .line:nth-child(2)>span{transition-delay:.12s}
+html.js.loaded .hero .kicker,
+html.js.loaded .hero .tagline{opacity:.85;transform:none;transition:opacity .9s var(--ease) .45s,transform .9s var(--ease) .45s}
+html.js.loaded .hero .kicker{opacity:.78}
+
+/* ---------- 控制面板 ---------- */
+.panel{
+  position:fixed;z-index:10;
+  left:50%;bottom:clamp(18px,4.5vh,40px);transform:translateX(-50%);
+  display:flex;align-items:center;gap:18px;
+  padding:12px 20px;border-radius:18px;
+  background:rgba(245,241,230,.72);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid rgba(245,241,230,.9);
+  box-shadow:0 18px 44px rgba(18,48,63,.22);
+  max-width:calc(100vw - 32px);
+}
+html.js .panel{opacity:0;transform:translate(-50%,16px)}
+html.js.loaded .panel{opacity:1;transform:translate(-50%,0);transition:opacity .9s var(--ease) .7s,transform .9s var(--ease) .7s}
+.seg{display:flex;background:rgba(127,182,217,.28);border-radius:12px;padding:3px;gap:2px}
+.seg button{
+  border:0;background:transparent;cursor:pointer;
+  font-family:var(--font);font-size:13px;letter-spacing:.22em;font-weight:600;
+  color:#12303f;padding:8px 14px 8px 16px;border-radius:9px;
+  transition:background .35s var(--ease),color .35s var(--ease),transform .25s var(--ease-spring);
+}
+.seg button:hover{transform:translateY(-1px)}
+.seg button[aria-pressed="true"]{background:var(--red);color:var(--cloud)}
+.count{display:flex;align-items:center;gap:10px}
+.count label{font-size:12px;letter-spacing:.28em;color:#12303f;font-weight:600;white-space:nowrap}
+.count output{font-size:13px;font-weight:700;color:var(--red);min-width:2ch;text-align:center;font-variant-numeric:tabular-nums}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:130px;height:4px;border-radius:2px;
+  background:linear-gradient(90deg,var(--red) var(--fill,50%),rgba(18,48,63,.18) var(--fill,50%));
+  outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--cloud);border:3px solid var(--red);
+  box-shadow:0 2px 8px rgba(228,87,46,.45);
+  transition:transform .25s var(--ease-spring);
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+input[type=range]::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--cloud);border:3px solid var(--red);
+  box-shadow:0 2px 8px rgba(228,87,46,.45);
+}
+.hint{
+  font-size:11px;letter-spacing:.3em;color:#12303f;opacity:.62;white-space:nowrap;
+}
+.hint b{color:var(--red);font-weight:700}
+
+/* ---------- 加载态 ---------- */
+.loader{
+  position:fixed;inset:0;z-index:50;
+  background:var(--sky);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .8s var(--ease),visibility .8s;
+}
+.loader .t{font-size:15px;letter-spacing:.5em;color:#12303f;font-weight:600;padding-left:.5em}
+.loader .bar{width:180px;height:2px;background:rgba(18,48,63,.15);border-radius:1px;overflow:hidden}
+.loader .bar i{display:block;height:100%;width:40%;background:var(--red);border-radius:1px;animation:slide 1.1s var(--ease) infinite}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+html.js.loaded .loader{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ---------- 移动端 ---------- */
+@media (pointer:coarse){
+  .grain{animation:none}
+}
+@media (max-width:640px){
+  .hero{left:20px;top:calc(20px + env(safe-area-inset-top))}
+  h1{font-size:clamp(2.2rem,12.5vw,3.2rem)}
+  .kicker{font-size:10px;letter-spacing:.42em}
+  .panel{
+    gap:12px;padding:10px 14px;flex-wrap:wrap;justify-content:center;
+    bottom:calc(14px + env(safe-area-inset-bottom));
+  }
+  input[type=range]{width:104px}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain{animation:none}
+  .loader .bar i{animation-duration:2.4s}
+}
+</style>
+<script type="importmap">
+{"imports":{"three":"./vendor/three.module.js"}}
+</script>
+</head>
+<body>
+<div id="stage" aria-label="热气球天空 3D 场景，拖拽可换视角"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<header class="hero">
+  <div class="kicker">BALLOON SKY · 3D 动效模板</div>
+  <h1><span class="line"><span>乘风的人</span></span><span class="line"><span>从不问归期</span></span></h1>
+  <p class="tagline">风把我们带到的地方，地图上都没有名字。</p>
+</header>
+
+<div class="panel" role="group" aria-label="场景控制">
+  <div class="seg" role="group" aria-label="时间">
+    <button type="button" data-time="morning" aria-pressed="true">晨</button>
+    <button type="button" data-time="noon" aria-pressed="false">午</button>
+    <button type="button" data-time="dusk" aria-pressed="false">暮</button>
+  </div>
+  <div class="count">
+    <label for="bcount">气球</label>
+    <input type="range" id="bcount" min="1" max="12" step="1" value="7" aria-label="气球数量">
+    <output id="bcountOut" for="bcount">7</output>
+  </div>
+  <div class="hint"><b>拖拽</b>换视角</div>
+</div>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="t">云海正在聚集</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

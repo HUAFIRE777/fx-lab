@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>冰山 · iceberg-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --bg:#0A1628;
+    --ink:#BFE9FF;
+    --ink-dim:rgba(191,233,255,.55);
+    --ink-faint:rgba(191,233,255,.30);
+    --aurora:#7DFFB2;
+    --line:rgba(191,233,255,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:pointer;touch-action:manipulation}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(16px);
+    transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .lt{font-family:var(--serif);font-size:30px;letter-spacing:.5em;text-indent:.5em;color:var(--ink)}
+  #loader .ls{font-size:11px;letter-spacing:.4em;text-indent:.4em;color:var(--ink-dim)}
+  #loader .bar{width:180px;height:2px;background:rgba(191,233,255,.12);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:var(--ink);
+    animation:loadfill 3.2s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  /* ---------- 暗角 / 噪点 ---------- */
+  .vignette{position:fixed;inset:0;z-index:31;pointer-events:none;
+    background:radial-gradient(ellipse 118% 102% at 50% 44%,transparent 50%,rgba(3,7,15,.5) 86%,rgba(1,3,8,.88) 100%)}
+  .noise{position:fixed;inset:0;z-index:32;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+
+  /* ---------- 标题块 ---------- */
+  .hero{position:fixed;top:56px;left:56px;z-index:40;max-width:440px;pointer-events:none}
+  .hero .kick{font-size:11px;letter-spacing:.44em;color:var(--aurora);margin-bottom:18px;font-weight:600;opacity:.85}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:64px;line-height:1.3;color:#F2FAFF;
+    text-shadow:0 2px 34px rgba(10,22,40,.85)}
+  .hero .sub{margin-top:18px;font-size:13.5px;line-height:2;color:var(--ink-dim);max-width:350px}
+  .hero .sub b{color:var(--ink);font-weight:500}
+
+  /* ---------- 点击提示 ---------- */
+  .hint{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:12px;letter-spacing:.28em;text-indent:.28em;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:999px;padding:9px 20px;white-space:nowrap;
+    background:rgba(10,22,40,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    transition:opacity .8s var(--ease)}
+  .hint.gone{opacity:0 !important;pointer-events:none}
+  .hint .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--aurora);
+    margin-right:10px;vertical-align:1px;animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  /* ---------- 控制面板 ---------- */
+  .panel{position:fixed;left:56px;bottom:56px;z-index:40;width:312px;
+    background:rgba(10,22,40,.6);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px 16px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .panel .row-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .panel label{font-size:12px;letter-spacing:.32em;color:var(--ink-dim)}
+  .panel .val{font-size:12px;color:var(--ink);font-weight:700;letter-spacing:.08em}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;
+    background:linear-gradient(90deg,rgba(191,233,255,.85),rgba(191,233,255,.18))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--ink);margin-top:-6.5px;border:2px solid #0A1628;
+    box-shadow:0 0 12px rgba(191,233,255,.7);transition:transform .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:rgba(191,233,255,.18)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--ink);
+    border:2px solid #0A1628;box-shadow:0 0 12px rgba(191,233,255,.7)}
+  .crack-row{display:flex;gap:10px;margin-top:16px}
+  .crack{flex:1;font-family:var(--sans);font-size:12.5px;letter-spacing:.18em;text-indent:.18em;
+    padding:10px 0;border-radius:10px;cursor:pointer;color:var(--ink-dim);
+    background:rgba(191,233,255,.05);border:1px solid var(--line);
+    transition:transform .25s var(--ease),border-color .25s,background .25s,box-shadow .25s,color .25s}
+  .crack:hover{transform:translateY(-2px);border-color:rgba(191,233,255,.5);
+    box-shadow:0 8px 22px rgba(120,180,235,.22)}
+  .crack:active{transform:translateY(0)}
+  .crack.on{background:var(--ink);color:#0A1628;border-color:var(--ink);font-weight:700}
+  .crack-row .lab{align-self:center;font-size:12px;letter-spacing:.32em;color:var(--ink-dim);margin-right:2px;white-space:nowrap}
+  .panel .tip{margin-top:14px;font-size:11.5px;line-height:1.9;color:var(--ink-faint);letter-spacing:.05em}
+
+  /* ---------- 读数 ---------- */
+  .stats{position:fixed;right:56px;top:60px;z-index:40;text-align:right;pointer-events:none}
+  .stats .s1{font-size:12px;letter-spacing:.3em;color:var(--ink-dim)}
+  .stats .s1 em{font-style:normal;color:var(--ink);font-weight:700;font-size:15px;margin:0 4px}
+  .stats .s2{margin-top:8px;font-size:11px;letter-spacing:.24em;color:var(--ink-faint)}
+  .stats .s2 em{font-style:normal;color:var(--aurora);font-weight:700}
+
+  footer{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:10.5px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-faint);pointer-events:none;white-space:nowrap}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    .hero{top:96px;left:22px;right:22px;max-width:none}
+    .hero .kick{font-size:10px;margin-bottom:12px}
+    .hero h1{font-size:38px}
+    .hero .sub{font-size:12.5px;margin-top:12px;max-width:none}
+    .hint{top:auto;bottom:238px;font-size:11px;padding:8px 16px}
+    .panel{left:14px;right:14px;bottom:14px;width:auto;padding:16px 18px 12px}
+    .stats{top:22px;right:22px}
+    .stats .s1{font-size:11px}
+    footer{display:none}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="lt">冰山</div>
+  <div class="bar"><i></i></div>
+  <div class="ls">海面正在结冰</div>
+</div>
+
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header class="hero" data-intro>
+  <div class="kick">POLAR NIGHT DRIFT — 016</div>
+  <h1>冰山</h1>
+  <p class="sub">极夜的海面上，一座冰山正以每年几海里的速度漂向温暖——<b>在融化之前，先被看见。</b></p>
+</header>
+
+<div class="hint" data-intro id="hint"><span class="dot"></span>点击冰山 · 唤醒冰裂纹</div>
+
+<aside class="panel" data-intro aria-label="冰山控制台">
+  <div class="row-title">
+    <label for="fog">雾浓度</label>
+    <span class="val" id="fogVal">38%</span>
+  </div>
+  <input type="range" id="fog" min="0" max="100" step="1" value="38" aria-label="雾浓度">
+  <div class="crack-row">
+    <span class="lab">冰裂纹</span>
+    <button class="crack on" data-level="0" aria-label="冰裂纹一档">Ⅰ</button>
+    <button class="crack" data-level="1" aria-label="冰裂纹二档">Ⅱ</button>
+    <button class="crack" data-level="2" aria-label="冰裂纹三档">Ⅲ</button>
+  </div>
+  <p class="tip">点击冰山也可以切换冰裂纹发光强度。<br>拖动雾浓度滑杆，改变极夜的深浅。</p>
+</aside>
+
+<div class="stats" data-intro>
+  <div class="s1">浮冰 <em id="floeCount">—</em> 块</div>
+  <div class="s2">冰裂 <em id="crackLevel">Ⅰ</em> · 极光余晖 <em>在线</em></div>
+</div>
+
+<footer data-intro>iceberg-3d · huafire3d fx-lab — original implementation</footer>
+
+</body>
+</html>

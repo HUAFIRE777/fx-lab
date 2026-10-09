@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>深潜 · submarine-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --bg:#04121F;
+    --sea:#9FD8FF;
+    --sea-dim:rgba(159,216,255,.52);
+    --sea-faint:rgba(159,216,255,.26);
+    --glow:#6BFFD8;
+    --line:rgba(159,216,255,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --serif:"Songti SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --pr:38vmin;              /* 舷窗半径：CSS 与 JS 共用 */
+    --pcx:50%; --pcy:44%;      /* 舷窗圆心 */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--sea);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(18px);
+    transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .lt{font-family:var(--serif);font-size:24px;letter-spacing:.34em;text-indent:.34em;color:var(--sea)}
+  #loader .ls{font-size:11px;letter-spacing:.42em;text-indent:.42em;color:var(--sea-dim)}
+  #loader .bar{width:190px;height:2px;background:rgba(159,216,255,.12);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--glow),var(--sea));
+    animation:loadfill 3.4s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  /* ---------- 舱壁：整页墙体，中间圆形开孔（单层 radial，孔真正透明） ---------- */
+  #wall{position:fixed;inset:0;z-index:20;pointer-events:none;
+    background:radial-gradient(circle var(--pr) at var(--pcx) var(--pcy),
+      transparent 0,
+      transparent calc(var(--pr) - 14px),
+      rgba(0,0,0,.52) calc(var(--pr) - 14px),
+      rgba(0,0,0,.52) calc(var(--pr) - 2px),
+      rgba(4,18,31,0) var(--pr),
+      #04121F calc(var(--pr) + 2px))}
+  /* 舱壁接缝线 + 竖向明暗（遮罩开孔，只出现在墙体上） */
+  #seams{position:fixed;inset:0;z-index:21;pointer-events:none;
+    -webkit-mask-image:radial-gradient(circle calc(var(--pr) + 3px) at var(--pcx) var(--pcy),
+      transparent 0, black calc(var(--pr) + 8px));
+    mask-image:radial-gradient(circle calc(var(--pr) + 3px) at var(--pcx) var(--pcy),
+      transparent 0, black calc(var(--pr) + 8px));
+    background:
+      repeating-linear-gradient(90deg,transparent 0 218px,rgba(159,216,255,.055) 218px 219px),
+      repeating-linear-gradient(0deg,transparent 0 158px,rgba(159,216,255,.045) 158px 159px),
+      linear-gradient(180deg,#071c30 0%,#04121f 55%,#020b14 100%)}
+  /* 深度变暗：只压住舷窗内的海 */
+  #depthdim{position:fixed;inset:0;z-index:10;pointer-events:none;opacity:0;
+    background:radial-gradient(circle var(--pr) at var(--pcx) var(--pcy),
+      rgba(1,4,8,.82) 0, rgba(1,4,8,.82) calc(var(--pr) - 4px), transparent var(--pr))}
+  /* 舷窗金属圈 + 铆钉（inline SVG，无外部请求） */
+  #ring{position:fixed;z-index:22;pointer-events:none;
+    left:var(--pcx);top:var(--pcy);transform:translate(-50%,-50%)}
+  /* 玻璃反光 */
+  #glass{position:fixed;inset:0;z-index:23;pointer-events:none;
+    -webkit-mask-image:radial-gradient(circle var(--pr) at var(--pcx) var(--pcy),
+      black 0, black calc(var(--pr) - 6px), transparent var(--pr));
+    mask-image:radial-gradient(circle var(--pr) at var(--pcx) var(--pcy),
+      black 0, black calc(var(--pr) - 6px), transparent var(--pr));
+    background:
+      radial-gradient(ellipse 52% 30% at 33% 20%,rgba(159,216,255,.13),transparent 62%),
+      linear-gradient(115deg,transparent 42%,rgba(159,216,255,.05) 47%,transparent 54%)}
+  /* 声呐回波圈 */
+  #sonar{position:fixed;inset:0;z-index:15;pointer-events:none;overflow:hidden}
+  #sonar i{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;
+    border:2px solid var(--sea);opacity:0}
+  #sonar i.run{animation:ping 1.7s var(--ease) forwards}
+  #sonar i.run.d2{animation-delay:.22s;border-color:var(--glow)}
+  @keyframes ping{
+    0%{opacity:.95;transform:scale(1)}
+    100%{opacity:0;transform:scale(16)}}
+
+  .vignette{position:fixed;inset:0;z-index:31;pointer-events:none;
+    background:radial-gradient(ellipse 120% 105% at 50% 42%,transparent 52%,rgba(1,5,10,.55) 88%,rgba(0,3,7,.9) 100%)}
+  .noise{position:fixed;inset:0;z-index:32;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+
+  /* ---------- 标题块 ---------- */
+  .hero{position:fixed;top:48px;left:52px;z-index:40;max-width:400px;pointer-events:none}
+  .hero .kick{font-size:11px;letter-spacing:.42em;color:var(--glow);margin-bottom:16px;font-weight:600}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:56px;line-height:1.2;color:#EAF6FF;
+    text-shadow:0 2px 30px rgba(2,8,16,.85)}
+  .hero .sub{margin-top:16px;font-size:13.5px;line-height:1.9;color:var(--sea-dim);max-width:330px}
+  .hero .sub b{color:var(--sea);font-weight:500}
+
+  /* ---------- 点击提示 ---------- */
+  .hint{position:fixed;left:50%;transform:translateX(-50%);z-index:40;
+    top:calc(var(--pcy) + var(--pr) + 26px);
+    font-size:12px;letter-spacing:.3em;text-indent:.3em;color:var(--sea-dim);
+    border:1px solid var(--line);border-radius:999px;padding:9px 20px;white-space:nowrap;
+    background:rgba(4,18,31,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    transition:opacity .8s var(--ease)}
+  .hint.gone{opacity:0 !important;pointer-events:none}
+  .hint .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--glow);
+    margin-right:10px;vertical-align:1px;animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+  /* ---------- 控制面板 ---------- */
+  .panel{position:fixed;left:52px;bottom:48px;z-index:40;width:316px;
+    background:rgba(4,16,28,.62);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px 18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  .panel .row-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .panel label{font-size:12px;letter-spacing:.32em;color:var(--sea-dim)}
+  .panel .val{font-size:13px;color:var(--glow);font-weight:700;letter-spacing:.08em}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--glow),rgba(159,216,255,.18))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--glow);margin-top:-6.5px;border:2px solid #04121F;
+    box-shadow:0 0 12px rgba(107,255,216,.8);transition:transform .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:rgba(159,216,255,.18)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--glow);
+    border:2px solid #04121F;box-shadow:0 0 12px rgba(107,255,216,.8)}
+  .btns{display:flex;gap:10px;margin-top:14px}
+  .btn{flex:1;font-family:var(--sans);font-size:12.5px;letter-spacing:.22em;text-indent:.22em;
+    padding:11px 0;border-radius:10px;cursor:pointer;color:var(--sea);
+    background:rgba(159,216,255,.05);border:1px solid var(--line);
+    transition:transform .25s var(--ease),border-color .25s,background .25s,box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);border-color:rgba(159,216,255,.5);
+    box-shadow:0 8px 22px rgba(60,160,220,.22)}
+  .btn:active{transform:translateY(0)}
+  .panel .tip{margin-top:14px;font-size:11.5px;line-height:1.8;color:var(--sea-faint);letter-spacing:.06em}
+  /* 生物图鉴 */
+  .guide{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+  .guide h3{font-size:11px;letter-spacing:.34em;color:var(--sea-dim);font-weight:600;margin-bottom:10px}
+  .guide ul{list-style:none;display:grid;gap:7px}
+  .guide li{display:flex;align-items:baseline;gap:9px;font-size:12px;color:var(--sea-faint);
+    transition:color .4s}
+  .guide li .nm{letter-spacing:.14em;white-space:nowrap}
+  .guide li .dp{margin-left:auto;font-size:10.5px;letter-spacing:.08em;color:var(--sea-faint);white-space:nowrap}
+  .guide li.got{color:var(--sea)}
+  .guide li.got .nm{color:var(--glow)}
+  .guide li .lockdot{width:6px;height:6px;border-radius:50%;background:var(--sea-faint);flex:none;transform:translateY(-1px)}
+  .guide li.got .lockdot{background:var(--glow);box-shadow:0 0 8px var(--glow)}
+
+  /* ---------- 深度计 ---------- */
+  .gauge{position:fixed;right:52px;top:52px;z-index:40;text-align:right;pointer-events:none}
+  .gauge .g1{font-size:12px;letter-spacing:.3em;color:var(--sea-dim)}
+  .gauge .g1 em{font-style:normal;color:var(--sea);font-weight:700;font-size:26px;margin:0 6px;
+    font-variant-numeric:tabular-nums}
+  .gauge .g2{margin-top:8px;font-size:11px;letter-spacing:.24em;color:var(--glow)}
+  .gauge .bar{margin-top:10px;width:150px;height:3px;margin-left:auto;border-radius:3px;
+    background:rgba(159,216,255,.14);overflow:hidden}
+  .gauge .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sea),var(--glow))}
+
+  /* ---------- 图鉴解锁 toast ---------- */
+  #toast{position:fixed;right:52px;bottom:48px;z-index:41;max-width:290px;
+    background:rgba(4,16,28,.78);border:1px solid rgba(107,255,216,.35);border-radius:14px;
+    padding:16px 18px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 24px rgba(107,255,216,.12);
+    opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);
+    pointer-events:none}
+  #toast.show{opacity:1;transform:none}
+  #toast .tk{font-size:10px;letter-spacing:.36em;color:var(--glow);margin-bottom:8px}
+  #toast .tn{font-family:var(--serif);font-size:17px;color:#EAF6FF;margin-bottom:6px}
+  #toast .td{font-size:12px;line-height:1.75;color:var(--sea-dim)}
+
+  footer{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:10.5px;letter-spacing:.3em;text-indent:.3em;color:var(--sea-faint);pointer-events:none;white-space:nowrap}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    :root{--pcy:40%}
+    .hero{top:26px;left:22px;right:22px;max-width:none}
+    .hero .kick{font-size:10px;margin-bottom:8px}
+    .hero h1{font-size:32px}
+    .hero .sub{font-size:12px;margin-top:8px;max-width:none}
+    .hint{top:calc(var(--pcy) + var(--pr) + 14px);font-size:11px;padding:7px 14px}
+    .panel{left:12px;right:12px;bottom:12px;width:auto;padding:14px 16px 10px;max-height:44vh;overflow:auto}
+    .guide ul{grid-template-columns:1fr 1fr}
+    .gauge{top:16px;right:18px}
+    .gauge .g1 em{font-size:20px}
+    .gauge .bar{width:110px}
+    #toast{right:12px;left:12px;bottom:auto;top:calc(var(--pcy) - var(--pr) - 118px);max-width:none}
+    footer{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #sonar i.run,#sonar i.run.d2{animation-duration:.01s}
+    #loader .bar i{animation-duration:.01s}
+    html.js [data-intro]{transition-duration:.01s}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="lt">深潜</div>
+  <div class="bar"><i></i></div>
+  <div class="ls">正在注水加压</div>
+</div>
+
+<canvas id="scene"></canvas>
+<div id="depthdim"></div>
+<div id="sonar"></div>
+<div id="wall"></div>
+<div id="seams"></div>
+<svg id="ring" aria-hidden="true">
+  <defs>
+    <radialGradient id="steel" cx="38%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#1d3d5c"/>
+      <stop offset="55%" stop-color="#0e2438"/>
+      <stop offset="100%" stop-color="#050f1a"/>
+    </radialGradient>
+  </defs>
+  <g id="ringbody"></g>
+  <g id="rivets"></g>
+</svg>
+<div id="glass"></div>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header class="hero" data-intro>
+  <div class="kick">ABYSSAL VOYAGE — 016</div>
+  <h1>深潜</h1>
+  <p class="sub">关上舱门，舷窗外是另一颗星球。<b>越往下，越暗，也越奇异</b>——带上你的声呐，去一千米看看。</p>
+</header>
+
+<div class="hint" data-intro id="hint"><span class="dot"></span>点击舷窗 · 发射声呐</div>
+
+<aside class="panel" data-intro aria-label="潜水控制台">
+  <div class="row-title">
+    <label for="depth">目标深度</label>
+    <span class="val" id="depthVal">0 m</span>
+  </div>
+  <input type="range" id="depth" min="0" max="1000" step="10" value="0" aria-label="目标深度">
+  <div class="btns">
+    <button class="btn" id="diveBtn">下潜</button>
+    <button class="btn" id="floatBtn">上浮</button>
+    <button class="btn" id="pingBtn">声呐</button>
+  </div>
+  <p class="tip">滚轮 / 滑杆 / 下潜上浮，控制 0–1000 米。<br>越深越暗——有些住户只在深处开灯。</p>
+  <div class="guide" aria-label="生物图鉴">
+    <h3>生物图鉴</h3>
+    <ul id="guideList">
+      <li data-need="0"><span class="lockdot"></span><span class="nm">银鱼群</span><span class="dp">0 m</span></li>
+      <li data-need="120"><span class="lockdot"></span><span class="nm">座头鲸</span><span class="dp">120 m</span></li>
+      <li data-need="300"><span class="lockdot"></span><span class="nm">月形水母</span><span class="dp">300 m</span></li>
+      <li data-need="650"><span class="lockdot"></span><span class="nm">深海鮟鱇鱼</span><span class="dp">650 m</span></li>
+    </ul>
+  </div>
+</aside>
+
+<div class="gauge" data-intro>
+  <div class="g1">深度<em id="depthNum">0</em>米</div>
+  <div class="g2" id="zoneName">浅海阳光区</div>
+  <div class="bar"><i id="depthBar"></i></div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<footer data-intro>submarine-3d · huafire3d fx-lab — original implementation</footer>
+
+</body>
+</html>

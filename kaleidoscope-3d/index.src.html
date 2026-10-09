@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>万花筒 KALEIDO · fx-lab</title>
+<style>
+  :root{
+    --bg:#0d0a14;
+    --mid:#c084fc;
+    --hi:#f0abfc;
+    --panel:rgba(13,10,20,.72);
+    --line:rgba(192,132,252,.22);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--hi);
+    font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    overflow:hidden;overscroll-behavior:none;
+  }
+  #k{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+  #k:active{cursor:grabbing}
+
+  /* 暗角 + 噪点：纯 CSS 覆盖层，pointer-events 透传 */
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(ellipse 90% 80% at 50% 46%, transparent 52%, rgba(13,10,20,.62) 100%)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.055;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")}
+
+  /* 完成态：全部带 html.js 前缀，无 JS 时默认可见 */
+  html.js [data-intro]{opacity:0;transform:translateY(16px);
+    transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+  html.js .controls[data-intro]{transform:translateX(-50%) translateY(24px)}
+  html.js .controls[data-intro].is-in{transform:translateX(-50%)}
+
+  .title-block{position:fixed;top:max(28px,env(safe-area-inset-top));left:32px;z-index:10;
+    pointer-events:none;user-select:none}
+  .title-block .en{font-size:11px;letter-spacing:.52em;color:var(--mid);opacity:.85;margin-bottom:10px}
+  .title-block h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,72px);line-height:1.05;
+    letter-spacing:.14em;color:var(--hi);
+    font-family:"Songti SC","STSong","Noto Serif SC",serif;text-shadow:0 2px 30px rgba(13,10,20,.9)}
+  .title-block p{margin:12px 0 0;font-size:13px;letter-spacing:.18em;color:var(--mid);opacity:.9;
+    max-width:34em;line-height:1.9}
+
+  .controls{position:fixed;z-index:10;left:50%;transform:translateX(-50%);
+    bottom:max(22px,env(safe-area-inset-bottom));
+    display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:14px 26px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    max-width:min(92vw,860px)}
+  .ctl{display:flex;align-items:center;gap:10px}
+  .ctl label{font-size:12px;letter-spacing:.22em;color:var(--mid);white-space:nowrap}
+  .ctl output{font-size:12px;color:var(--hi);min-width:2.2em;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:130px;height:22px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;
+    background:linear-gradient(90deg,var(--mid),var(--hi))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;
+    border-radius:50%;background:var(--hi);margin-top:-6px;
+    box-shadow:0 0 0 4px rgba(240,171,252,.14);transition:box-shadow .25s ease}
+  input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 7px rgba(240,171,252,.18)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:linear-gradient(90deg,var(--mid),var(--hi))}
+  input[type=range]::-moz-range-thumb{width:15px;height:15px;border:none;border-radius:50%;background:var(--hi)}
+  .src-group{display:flex;gap:6px}
+  .src-group button{
+    font:inherit;font-size:12px;letter-spacing:.2em;color:var(--mid);
+    background:transparent;border:1px solid var(--line);border-radius:999px;
+    padding:7px 16px;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1)}
+  .src-group button:hover{border-color:var(--mid);color:var(--hi)}
+  .src-group button[aria-pressed=true]{background:var(--mid);border-color:var(--mid);color:var(--bg)}
+  .hint{font-size:11px;letter-spacing:.2em;color:var(--mid);opacity:.7;white-space:nowrap}
+
+  /* 加载态 */
+  html.js .loader{position:fixed;inset:0;z-index:50;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;
+    transition:opacity .8s ease,visibility 0s .8s}
+  html.js .loader.done{opacity:0;visibility:hidden;pointer-events:none}
+  .loader .t{font-size:15px;letter-spacing:.6em;color:var(--mid);
+    animation:pulse 1.6s ease-in-out infinite;padding-left:.6em}
+  .loader .bar{width:120px;height:2px;background:rgba(192,132,252,.18);border-radius:1px;overflow:hidden}
+  .loader .bar i{display:block;height:100%;width:40%;background:var(--mid);border-radius:1px;
+    animation:slide 1.2s cubic-bezier(.45,0,.55,1) infinite}
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+  @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+  .no-webgl{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:var(--bg);color:var(--mid);font-size:14px;letter-spacing:.2em;text-align:center;padding:0 24px}
+
+  @media (max-width:640px){
+    .title-block{left:20px;top:max(20px,env(safe-area-inset-top))}
+    .title-block p{font-size:12px;max-width:80vw}
+    .controls{gap:14px;padding:12px 16px;bottom:max(14px,env(safe-area-inset-bottom))}
+    input[type=range]{width:96px}
+    .hint{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .loader .t,.loader .bar i{animation:none}
+  }
+</style>
+<script>document.documentElement.classList.add('js')</script>
+<script type="importmap">
+{"imports":{"three":"./vendor/three.module.js"}}
+</script>
+</head>
+<body>
+<canvas id="k" aria-label="万花筒 shader 画布：拖拽转动，滚轮缩放"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<header class="title-block" data-intro>
+  <div class="en">KALEIDO</div>
+  <h1>万花筒</h1>
+  <p>把云海和几何线条折进镜面——拖动转动它，滚轮拉近纹理。</p>
+</header>
+
+<div class="controls" data-intro role="toolbar" aria-label="万花筒控制">
+  <div class="ctl">
+    <label for="seg">对称瓣数</label>
+    <input id="seg" type="range" min="6" max="16" step="1" value="8">
+    <output id="segVal">8</output>
+  </div>
+  <div class="ctl">
+    <label for="spd">旋转速度</label>
+    <input id="spd" type="range" min="0" max="100" step="1" value="25">
+    <output id="spdVal">25</output>
+  </div>
+  <div class="ctl">
+    <span class="hint" style="font-size:12px;letter-spacing:.22em;color:var(--mid)">图案源</span>
+    <div class="src-group" role="group" aria-label="图案源">
+      <button type="button" data-src="0" aria-pressed="true">云海</button>
+      <button type="button" data-src="1" aria-pressed="false">线条</button>
+      <button type="button" data-src="2" aria-pressed="false">交融</button>
+    </div>
+  </div>
+  <div class="hint">拖拽转动 · 滚轮缩放</div>
+</div>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="t">凝视中</div>
+  <div class="bar"><i></i></div>
+</div>
+<div class="no-webgl" id="noWebgl">当前环境不支持 WebGL<br>换个浏览器再来看这面镜子</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

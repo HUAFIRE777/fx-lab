@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>间歇泉 · geyser-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+<style>
+  :root{
+    --bg:#1A1D21;
+    --ink:#7FD8E8;
+    --ink-dim:rgba(127,216,232,.55);
+    --ink-faint:rgba(127,216,232,.28);
+    --lava:#FF9A3D;
+    --line:rgba(127,216,232,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:pointer;touch-action:manipulation}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(18px);
+    transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .lt{font-family:var(--serif);font-size:22px;letter-spacing:.28em;color:var(--ink);text-indent:.28em}
+  #loader .ls{font-size:11px;letter-spacing:.42em;text-indent:.42em;color:var(--ink-dim)}
+  #loader .bar{width:190px;height:2px;background:rgba(127,216,232,.12);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lava),var(--ink));
+    animation:loadfill 3.4s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  /* ---------- 暗角 / 噪点 ---------- */
+  .vignette{position:fixed;inset:0;z-index:31;pointer-events:none;
+    background:radial-gradient(ellipse 120% 105% at 50% 42%,transparent 52%,rgba(8,10,12,.55) 88%,rgba(3,4,5,.9) 100%)}
+  .noise{position:fixed;inset:0;z-index:32;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+
+  /* ---------- 标题块 ---------- */
+  .hero{position:fixed;top:52px;left:52px;z-index:40;max-width:430px;pointer-events:none}
+  .hero .kick{font-size:11px;letter-spacing:.42em;color:var(--lava);margin-bottom:16px;font-weight:600}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1.25;color:#F2FAFB;
+    text-shadow:0 2px 30px rgba(10,14,16,.8)}
+  .hero .sub{margin-top:16px;font-size:13.5px;line-height:1.9;color:var(--ink-dim);max-width:340px}
+  .hero .sub b{color:var(--ink);font-weight:500}
+
+  /* ---------- 点击提示 ---------- */
+  .hint{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:12px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-dim);white-space:nowrap;
+    border:1px solid var(--line);border-radius:999px;padding:9px 20px;
+    background:rgba(16,19,22,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    transition:opacity .8s var(--ease),border-color .3s}
+  .hint.gone{opacity:0 !important;pointer-events:none}
+  .hint .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lava);
+    margin-right:10px;vertical-align:1px;animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+  /* ---------- 控制面板 ---------- */
+  .panel{position:fixed;left:52px;bottom:52px;z-index:40;width:308px;
+    background:rgba(16,20,24,.58);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px 18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .panel .row-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .panel label{font-size:12px;letter-spacing:.32em;color:var(--ink-dim)}
+  .panel .val{font-size:12px;color:var(--lava);font-weight:700;letter-spacing:.1em}
+  .phasebar{height:3px;border-radius:3px;background:rgba(127,216,232,.12);overflow:hidden;margin-bottom:16px}
+  .phasebar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lava),var(--ink));
+    transition:width .2s linear}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--lava),rgba(127,216,232,.18))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--lava);margin-top:-6.5px;border:2px solid #1A1D21;
+    box-shadow:0 0 12px rgba(255,154,61,.8);transition:transform .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:rgba(127,216,232,.18)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--lava);
+    border:2px solid #1A1D21;box-shadow:0 0 12px rgba(255,154,61,.8)}
+  .btns{display:flex;gap:10px;margin-top:14px}
+  .btn{flex:1;font-family:var(--sans);font-size:12.5px;letter-spacing:.22em;text-indent:.22em;
+    padding:11px 0;border-radius:10px;cursor:pointer;color:var(--ink);
+    background:rgba(127,216,232,.05);border:1px solid var(--line);
+    transition:transform .25s var(--ease),border-color .25s,background .25s,box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);border-color:rgba(127,216,232,.5);
+    box-shadow:0 8px 22px rgba(127,216,232,.18)}
+  .btn:active{transform:translateY(0)}
+  .btn.on{background:var(--ink);color:#1A1D21;border-color:var(--ink);font-weight:600}
+  .btn.lava.on{background:var(--lava);border-color:var(--lava)}
+  .panel .tip{margin-top:14px;font-size:11.5px;line-height:1.8;color:var(--ink-faint);letter-spacing:.06em}
+
+  /* ---------- 读数 ---------- */
+  .stats{position:fixed;right:52px;top:56px;z-index:40;text-align:right;pointer-events:none}
+  .stats .s1{font-size:12px;letter-spacing:.3em;color:var(--ink-dim)}
+  .stats .s1 em{font-style:normal;color:var(--ink);font-weight:700;font-size:15px;margin:0 4px}
+  .stats .s2{margin-top:8px;font-size:11px;letter-spacing:.24em;color:var(--ink-faint)}
+  .stats .s2 em{font-style:normal;color:var(--lava);font-weight:700}
+
+  footer{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:10.5px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-faint);pointer-events:none;white-space:nowrap}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    .hero{top:92px;left:22px;right:22px;max-width:none}
+    .hero .kick{font-size:10px;margin-bottom:10px}
+    .hero h1{font-size:34px}
+    .hero .sub{font-size:12.5px;margin-top:10px;max-width:none}
+    .hint{top:auto;bottom:216px;font-size:11px;padding:8px 16px}
+    .panel{left:14px;right:14px;bottom:14px;width:auto;padding:16px 18px 12px}
+    .stats{top:22px;right:22px}
+    .stats .s1{font-size:11px}
+    footer{display:none}
+  }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div id="loader">
+  <div class="lt">间歇泉</div>
+  <div class="ls">GEYSER VALLEY</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header class="hero">
+  <div class="kick" data-intro>GEYSER · 地热山谷</div>
+  <h1 data-intro>间歇泉</h1>
+  <p class="sub" data-intro>地下的热水攒了半天力气，<b>一次全喷出来</b>给你看——这就是大地在深呼吸。</p>
+</header>
+
+<div class="hint" id="hint" data-intro><span class="dot"></span>点击泉眼，可提前触发一次小喷发</div>
+
+<div class="stats" data-intro>
+  <div class="s1">当前阶段 <em id="phaseName">休眠</em></div>
+  <div class="s2">水柱高度 <em id="colH">—</em></div>
+</div>
+
+<div class="panel" data-intro>
+  <div class="row-title">
+    <label>喷发周期</label>
+    <span class="val" id="cycleVal">自动循环</span>
+  </div>
+  <div class="phasebar"><i id="phaseFill"></i></div>
+  <div class="row-title">
+    <label>喷发强度</label>
+    <span class="val" id="levelVal">6 级 · 46m</span>
+  </div>
+  <input type="range" id="level" min="1" max="10" step="1" value="6" aria-label="喷发强度">
+  <div class="btns">
+    <button class="btn lava" id="eruptBtn">立即喷发</button>
+    <button class="btn on" id="autoBtn">自动循环</button>
+  </div>
+  <div class="tip">喷发时水雾边缘会透出淡淡虹光 · 强度决定水柱 30–60 米</div>
+</div>
+
+<footer>huafire3d fx-lab · geyser-3d</footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

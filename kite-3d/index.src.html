@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>风筝 · kite-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --accent:#E4573D;
+    --sky-deep:#2E7FB8;
+    --ink:#173F5C;
+    --ink-soft:rgba(23,63,92,.62);
+    --paper:rgba(255,255,255,.62);
+    --paper-line:rgba(255,255,255,.85);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --serif:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:#8FD0EF;color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(20px);
+    transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- 暗角 / 噪点 ---------- */
+  .vignette{position:fixed;inset:0;z-index:20;pointer-events:none;
+    background:radial-gradient(ellipse 118% 100% at 50% 42%,transparent 52%,rgba(46,127,184,.14) 82%,rgba(23,63,92,.34) 100%)}
+  .noise{position:fixed;inset:0;z-index:21;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E")}
+
+  /* ---------- 标题 ---------- */
+  header{position:fixed;top:34px;left:38px;z-index:30;pointer-events:none}
+  header .kicker{font-size:11px;letter-spacing:.5em;text-indent:0;color:var(--ink-soft);margin-bottom:10px}
+  header h1{font-family:var(--serif);font-size:44px;font-weight:600;letter-spacing:.18em;color:var(--ink);
+    text-shadow:0 1px 0 rgba(255,255,255,.5)}
+  header .sub{margin-top:12px;font-size:13px;letter-spacing:.24em;color:var(--ink-soft)}
+
+  /* ---------- 读数 ---------- */
+  .readout{position:fixed;top:38px;right:38px;z-index:30;pointer-events:none;text-align:right;
+    font-size:12px;letter-spacing:.3em;color:var(--ink-soft);line-height:2.1}
+  .readout b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+
+  /* ---------- 控制面板 ---------- */
+  #panel{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:30;
+    display:flex;align-items:stretch;gap:0;max-width:min(860px,calc(100vw - 32px));
+    background:var(--paper);border:1px solid var(--paper-line);border-radius:20px;
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    box-shadow:0 18px 50px rgba(23,63,92,.18),inset 0 1px 0 rgba(255,255,255,.7);
+    padding:16px 22px}
+  html.js #panel[data-intro]{transform:translateX(-50%) translateY(20px)}
+  html.js #panel[data-intro].is-in{transform:translateX(-50%) translateY(0)}
+  .ctl{padding:2px 22px;display:flex;flex-direction:column;justify-content:center;gap:9px}
+  .ctl + .ctl{border-left:1px solid rgba(23,63,92,.12)}
+  .ctl .lab{font-size:11px;letter-spacing:.34em;color:var(--ink-soft);white-space:nowrap}
+  .ctl .lab .v{color:var(--accent);font-weight:600;letter-spacing:.1em;margin-left:6px;font-variant-numeric:tabular-nums}
+  .rowline{display:flex;align-items:center;gap:10px}
+  .edge{font-size:11px;letter-spacing:.2em;color:var(--ink-soft);white-space:nowrap}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:170px;height:4px;border-radius:4px;outline:none;
+    background:linear-gradient(90deg,var(--accent) var(--fill,50%),rgba(23,63,92,.16) var(--fill,50%));cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:2px solid var(--accent);box-shadow:0 2px 8px rgba(23,63,92,.25);
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25);box-shadow:0 2px 12px var(--accent)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;
+    border:2px solid var(--accent);box-shadow:0 2px 8px rgba(23,63,92,.25)}
+
+  .styles{display:flex;gap:8px}
+  .styles button{font-family:var(--sans);font-size:12px;letter-spacing:.22em;text-indent:.1em;color:var(--ink-soft);
+    background:rgba(255,255,255,.5);border:1px solid rgba(23,63,92,.16);border-radius:999px;
+    padding:9px 16px;cursor:pointer;transition:all .3s var(--ease);white-space:nowrap}
+  .styles button:hover{transform:translateY(-2px);border-color:var(--accent);color:var(--ink);
+    box-shadow:0 6px 16px rgba(228,87,61,.22)}
+  .styles button.on{background:var(--accent);border-color:var(--accent);color:#fff;
+    box-shadow:0 6px 18px rgba(228,87,61,.35)}
+
+  .hint{position:fixed;left:38px;bottom:104px;z-index:30;pointer-events:none;
+    font-size:11px;letter-spacing:.3em;color:var(--ink-soft)}
+  footer{position:fixed;right:38px;bottom:104px;z-index:30;pointer-events:none;
+    font-size:10px;letter-spacing:.3em;color:var(--ink-soft)}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,#6FBDE9 0%,#A8DCF5 60%,#D8F0FC 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .kite{width:46px;height:56px;position:relative;animation:sway 2.2s ease-in-out infinite}
+  #loader .kite i{position:absolute;inset:0;background:var(--accent);
+    clip-path:polygon(50% 0,100% 42%,50% 100%,0 42%);box-shadow:0 8px 24px rgba(228,87,61,.4)}
+  #loader .kite::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:44px;
+    background:linear-gradient(180deg,rgba(23,63,92,.55),transparent)}
+  @keyframes sway{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(7deg) translateY(-8px)}}
+  #loader .lt{font-family:var(--serif);font-size:20px;letter-spacing:.4em;text-indent:.4em;color:var(--ink)}
+  #loader .ls{font-size:11px;letter-spacing:.44em;text-indent:.44em;color:var(--ink-soft)}
+  #loader .bar{width:180px;height:2px;background:rgba(23,63,92,.14);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:var(--accent);animation:loadfill 2.6s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  @media (max-width:640px){
+    header{top:20px;left:20px}
+    header h1{font-size:32px}
+    header .sub{font-size:11px}
+    .readout{top:22px;right:20px;font-size:10px}
+    .hint,footer{display:none}
+    #panel{bottom:calc(14px + env(safe-area-inset-bottom));padding:12px 8px;gap:0;width:calc(100vw - 24px);
+      flex-wrap:wrap;row-gap:10px;justify-content:center}
+    .ctl{padding:2px 10px;gap:7px}
+    .ctl + .ctl{border-left:none}
+    .ctl.styles-ctl{flex-basis:100%;align-items:center;border-top:1px solid rgba(23,63,92,.12);padding-top:10px}
+    input[type=range]{width:104px}
+    .styles button{padding:8px 12px;font-size:11px}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header data-intro>
+  <div class="kicker">HUAFIRE3D · FX-LAB</div>
+  <h1>风筝</h1>
+  <div class="sub">一线在手，云海任你翱翔</div>
+</header>
+
+<div class="readout" data-intro>
+  风速 <b id="ro-wind">5.5</b> m/s<br>
+  线长 <b id="ro-line">22</b> m
+</div>
+
+<div id="panel" data-intro>
+  <div class="ctl">
+    <div class="lab">牵引线 <span class="v" id="v-line">22 m</span></div>
+    <div class="rowline"><span class="edge">收线</span>
+      <input id="rg-line" type="range" min="8" max="40" step="0.5" value="22" aria-label="放飞收线">
+      <span class="edge">放飞</span></div>
+  </div>
+  <div class="ctl">
+    <div class="lab">风力 <span class="v" id="v-wind">5.5 m/s</span></div>
+    <div class="rowline"><span class="edge">微风</span>
+      <input id="rg-wind" type="range" min="0" max="100" step="1" value="50" aria-label="风力">
+      <span class="edge">劲风</span></div>
+  </div>
+  <div class="ctl styles-ctl">
+    <div class="lab">筝式</div>
+    <div class="styles">
+      <button data-style="0" class="on">钻石筝</button>
+      <button data-style="1">三角翼</button>
+      <button data-style="2">六角筝</button>
+    </div>
+  </div>
+</div>
+
+<div class="hint" data-intro>上下拖拽画面 · 亦可放飞收线</div>
+<footer>huafire3d fx-lab · kite-3d · 全程序化 · 零外部资源</footer>
+
+<div id="loader">
+  <div class="kite"><i></i></div>
+  <div class="lt">风筝</div>
+  <div class="ls">正在系紧风筝线</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

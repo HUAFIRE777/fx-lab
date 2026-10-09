@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>闪电风暴 · lightning-3d — huafire3d fx-lab</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --bg:#060913;
+    --ink:#BFE3FF;
+    --ink-dim:rgba(191,227,255,.52);
+    --ink-faint:rgba(191,227,255,.28);
+    --vio:#8E7BFF;
+    --line:rgba(191,227,255,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+
+  /* ---------- 完成态：全部带 html.js 前缀，无 JS 时默认可见 ---------- */
+  html.js [data-intro]{opacity:0;transform:translateY(18px);
+    transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    transition:opacity .9s var(--ease)}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader .lt{font-family:var(--serif);font-size:22px;letter-spacing:.28em;color:var(--ink);text-indent:.28em}
+  #loader .ls{font-size:11px;letter-spacing:.42em;text-indent:.42em;color:var(--ink-dim)}
+  #loader .bar{width:190px;height:2px;background:rgba(191,227,255,.12);border-radius:2px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vio),var(--ink));
+    animation:loadfill 3.4s var(--ease) forwards}
+  @keyframes loadfill{to{width:100%}}
+
+  /* ---------- 屏幕闪光 / 暗角 / 噪点 ---------- */
+  #flash{position:fixed;inset:0;z-index:30;pointer-events:none;opacity:0;
+    background:radial-gradient(ellipse 90% 60% at 50% 26%,rgba(191,227,255,.85),rgba(142,123,255,.25) 55%,transparent 78%)}
+  .vignette{position:fixed;inset:0;z-index:31;pointer-events:none;
+    background:radial-gradient(ellipse 120% 105% at 50% 42%,transparent 52%,rgba(2,4,9,.55) 88%,rgba(1,2,6,.9) 100%)}
+  .noise{position:fixed;inset:0;z-index:32;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E")}
+
+  /* ---------- 标题块 ---------- */
+  .hero{position:fixed;top:52px;left:52px;z-index:40;max-width:430px;pointer-events:none}
+  .hero .kick{font-size:11px;letter-spacing:.42em;color:var(--vio);margin-bottom:16px;font-weight:600}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1.25;color:#EDF5FF;
+    text-shadow:0 2px 30px rgba(6,9,19,.8)}
+  .hero .sub{margin-top:16px;font-size:13.5px;line-height:1.9;color:var(--ink-dim);max-width:340px}
+  .hero .sub b{color:var(--ink);font-weight:500}
+
+  /* ---------- 点击提示 ---------- */
+  .hint{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:12px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:999px;padding:9px 20px;
+    background:rgba(6,9,19,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    transition:opacity .8s var(--ease),border-color .3s}
+  .hint.gone{opacity:0 !important;pointer-events:none}
+  .hint .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--vio);
+    margin-right:10px;vertical-align:1px;animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+  /* ---------- 控制面板 ---------- */
+  .panel{position:fixed;left:52px;bottom:52px;z-index:40;width:308px;
+    background:rgba(6,10,20,.58);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px 18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .panel .row-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .panel label{font-size:12px;letter-spacing:.32em;color:var(--ink-dim)}
+  .panel .val{font-size:12px;color:var(--vio);font-weight:700;letter-spacing:.1em}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--vio),rgba(191,227,255,.18))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--vio);margin-top:-6.5px;border:2px solid #060913;
+    box-shadow:0 0 12px rgba(142,123,255,.8);transition:transform .25s var(--ease)}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:rgba(191,227,255,.18)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--vio);
+    border:2px solid #060913;box-shadow:0 0 12px rgba(142,123,255,.8)}
+  .btns{display:flex;gap:10px;margin-top:14px}
+  .btn{flex:1;font-family:var(--sans);font-size:12.5px;letter-spacing:.22em;text-indent:.22em;
+    padding:11px 0;border-radius:10px;cursor:pointer;color:var(--ink);
+    background:rgba(191,227,255,.05);border:1px solid var(--line);
+    transition:transform .25s var(--ease),border-color .25s,background .25s,box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);border-color:rgba(191,227,255,.5);
+    box-shadow:0 8px 22px rgba(80,140,220,.25)}
+  .btn:active{transform:translateY(0)}
+  .btn.on{background:var(--ink);color:#060913;border-color:var(--ink);font-weight:600}
+  .panel .tip{margin-top:14px;font-size:11.5px;line-height:1.8;color:var(--ink-faint);letter-spacing:.06em}
+
+  /* ---------- 读数 ---------- */
+  .stats{position:fixed;right:52px;top:56px;z-index:40;text-align:right;pointer-events:none}
+  .stats .s1{font-size:12px;letter-spacing:.3em;color:var(--ink-dim)}
+  .stats .s1 em{font-style:normal;color:var(--ink);font-weight:700;font-size:15px;margin:0 4px}
+  .stats .s2{margin-top:8px;font-size:11px;letter-spacing:.24em;color:var(--ink-faint)}
+  .stats .s2 em{font-style:normal;color:var(--vio);font-weight:700}
+
+  footer{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:40;
+    font-size:10.5px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-faint);pointer-events:none;white-space:nowrap}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    .hero{top:92px;left:22px;right:22px;max-width:none}
+    .hero .kick{font-size:10px;margin-bottom:10px}
+    .hero h1{font-size:34px}
+    .hero .sub{font-size:12.5px;margin-top:10px;max-width:none}
+    .hint{top:auto;bottom:216px;font-size:11px;padding:8px 16px;white-space:nowrap}
+    .panel{left:14px;right:14px;bottom:14px;width:auto;padding:16px 18px 12px}
+    .stats{top:22px;right:22px}
+    .stats .s1{font-size:11px}
+    footer{display:none}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="lt">闪电风暴</div>
+  <div class="bar"><i></i></div>
+  <div class="ls">正在聚集风暴</div>
+</div>
+
+<canvas id="scene"></canvas>
+<div id="flash"></div>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<header class="hero" data-intro>
+  <div class="kick">STORM FIELD TEST — 001</div>
+  <h1>把天气装进口袋</h1>
+  <p class="sub">翻滚的<b>风暴云</b>、十三次分叉的<b>闪电</b>、斜落的<b>雨幕</b>——一场永不停歇的雷暴，随时为你的户外与能源品牌待命。</p>
+</header>
+
+<div class="hint" data-intro id="hint"><span class="dot"></span>点击夜空 · 落下一道闪电</div>
+
+<aside class="panel" data-intro aria-label="风暴控制台">
+  <div class="row-title">
+    <label for="level">风暴等级</label>
+    <span class="val" id="levelVal">5 级</span>
+  </div>
+  <input type="range" id="level" min="1" max="10" step="1" value="5" aria-label="风暴等级">
+  <div class="btns">
+    <button class="btn on" id="autoBtn" aria-pressed="true">自动风暴</button>
+    <button class="btn" id="strikeBtn">立即放电</button>
+  </div>
+  <p class="tip">点击夜空任意处，在点击附近落下一道闪电。<br>风暴等级越高，放电越频繁、雨幕越密。</p>
+</aside>
+
+<div class="stats" data-intro>
+  <div class="s1">放电 <em id="strikeCount">0</em> 次</div>
+  <div class="s2">雨量 <em id="rainCount">—</em> 滴</div>
+</div>
+
+<footer data-intro>lightning-3d · huafire3d fx-lab — original implementation</footer>
+
+</body>
+</html>

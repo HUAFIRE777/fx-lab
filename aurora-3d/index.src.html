@@ -1,0 +1,220 @@
+<!-- aurora-3d · huafire3d fx-lab — original implementation (MIT License) -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>极光 — aurora-3d</title>
+<meta name="description" content="全屏极光天空 shader：fbm 噪声极光幕布多层舞动、程序化星空、雪山剪影。极光强度与颜色随时间呼吸。">
+<style>
+/* ============ aurora-3d · 严格三色：#020617 极夜 / #34d399 极光绿 / #a78bfa 极光紫 ============ */
+:root{
+  --night:#020617;
+  --green:#34d399;
+  --violet:#a78bfa;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--night);color:var(--green)}
+body{
+  font-family:var(--font);
+  background:var(--night);
+  color:var(--green);
+  overflow:hidden;
+  height:100dvh;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--violet);color:var(--night)}
+
+/* ---------- 天空层 ---------- */
+#sky{position:fixed;inset:0;z-index:0}
+#sky canvas{display:block;width:100%;height:100%}
+
+/* ---------- 暗角 + 噪点 ---------- */
+.vignette{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 42%, transparent 52%, rgba(2,6,23,.55) 82%, rgba(2,6,23,.92) 100%);
+}
+.grain{
+  position:fixed;inset:-40px;z-index:3;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.2 0 0 0 0 0.66 0 0 0 0 0.6 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(3) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}33%{transform:translate(-14px,9px)}66%{transform:translate(11px,-13px)}100%{transform:translate(0,0)}
+}
+
+/* ---------- 标题区 ---------- */
+.hero{
+  position:fixed;z-index:4;pointer-events:none;
+  left:clamp(20px,4vw,64px);top:clamp(20px,5vh,64px);
+  max-width:min(560px,80vw);
+}
+.kicker{
+  font-family:var(--mono);font-size:12px;letter-spacing:.55em;color:var(--violet);
+  margin-bottom:14px;
+}
+.hero h1{
+  font-size:clamp(3.2rem,11vw,8.5rem);font-weight:700;line-height:1;
+  letter-spacing:-0.02em;color:var(--green);
+  text-shadow:0 0 42px rgba(52,211,153,.35);
+}
+.hero .sub{
+  margin-top:16px;font-size:clamp(.95rem,1.6vw,1.15rem);line-height:1.7;
+  color:var(--green);opacity:.85;max-width:24em;
+}
+.hero .hint{
+  margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.28em;
+  color:var(--violet);opacity:.8;
+}
+
+/* ---------- 控制条 ---------- */
+.controls{
+  position:fixed;z-index:5;
+  left:50%;transform:translateX(-50%);
+  bottom:clamp(16px,4vh,40px);
+  display:flex;align-items:center;gap:clamp(14px,3vw,34px);
+  padding:14px clamp(18px,3vw,30px);
+  background:rgba(2,6,23,.62);
+  border:1px solid rgba(167,139,250,.28);
+  border-radius:16px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 8px 40px rgba(2,6,23,.6), inset 0 0 24px rgba(52,211,153,.05);
+  max-width:calc(100vw - 32px);
+}
+.ctrl{display:flex;flex-direction:column;gap:8px;min-width:120px}
+.ctrl label{
+  font-size:11px;letter-spacing:.32em;color:var(--violet);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.ctrl label b{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--green);letter-spacing:.08em}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:clamp(110px,16vw,180px);height:22px;background:transparent;cursor:pointer;
+}
+input[type=range]::-webkit-slider-runnable-track{
+  height:3px;border-radius:2px;
+  background:linear-gradient(90deg,var(--green),var(--violet));
+  opacity:.75;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:15px;height:15px;margin-top:-6px;border-radius:50%;
+  background:var(--night);border:2px solid var(--green);
+  box-shadow:0 0 12px rgba(52,211,153,.8);
+  transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25);box-shadow:0 0 18px rgba(52,211,153,1)}
+input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--violet));opacity:.75}
+input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--night);border:2px solid var(--green);box-shadow:0 0 12px rgba(52,211,153,.8)}
+.divider{width:1px;align-self:stretch;background:rgba(167,139,250,.25)}
+.presets{display:flex;flex-direction:column;gap:8px}
+.presets .plabel{font-size:11px;letter-spacing:.32em;color:var(--violet)}
+.presets .btns{display:flex;gap:8px}
+.preset{
+  font-family:var(--font);font-size:12px;letter-spacing:.18em;white-space:nowrap;
+  color:var(--green);background:transparent;
+  border:1px solid rgba(52,211,153,.4);border-radius:999px;
+  padding:7px 15px;cursor:pointer;
+  transition:all .25s var(--ease);
+}
+.preset:hover{border-color:var(--green);box-shadow:0 0 14px rgba(52,211,153,.35);transform:translateY(-1px)}
+.preset.active{background:var(--green);color:var(--night);border-color:var(--green);font-weight:600}
+
+/* ---------- 加载态 ---------- */
+#loader{
+  position:fixed;inset:0;z-index:10;background:var(--night);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .7s var(--ease), visibility .7s;
+}
+#loader .lt{font-family:var(--mono);font-size:12px;letter-spacing:.5em;color:var(--violet)}
+#loader .bar{width:180px;height:2px;background:rgba(167,139,250,.2);border-radius:1px;overflow:hidden}
+#loader .bar i{display:block;height:100%;width:40%;border-radius:1px;background:var(--green);animation:load 1.1s var(--ease) infinite}
+@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(450%)}}
+
+/* ---------- 完成态（选择器带 html.js 前缀） ---------- */
+html.js .kicker,html.js .hero h1,html.js .hero .sub,html.js .hero .hint,html.js .controls{
+  opacity:0;
+}
+html.js .kicker{transform:translateY(14px)}
+html.js .hero h1{transform:translateY(26px)}
+html.js .hero .sub,html.js .hero .hint{transform:translateY(16px)}
+html.js .controls{transform:translate(-50%,18px)}
+html.js.done #loader{opacity:0;visibility:hidden}
+html.js.done .kicker,html.js.done .hero h1,html.js.done .hero .sub,
+html.js.done .hero .hint{
+  opacity:1;transform:none;
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+}
+html.js.done .controls{
+  opacity:1;transform:translate(-50%,0);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+}
+html.js.done .hero h1{transition-delay:.12s}
+html.js.done .hero .sub{transition-delay:.24s}
+html.js.done .hero .hint{transition-delay:.36s}
+html.js.done .controls{transition-delay:.5s}
+
+/* ---------- 移动端 ---------- */
+@media (max-width:640px){
+  .hero{left:20px;top:20px;max-width:calc(100vw - 40px)}
+  .hero h1{font-size:20vw}
+  .controls{
+    flex-wrap:wrap;justify-content:center;gap:12px 18px;
+    padding:12px 16px;bottom:14px;
+  }
+  .divider{display:none}
+  .ctrl{min-width:0;flex:1 1 40%}
+  input[type=range]{width:100%}
+  .grain{animation:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain{animation:none}
+}
+</style>
+<script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+</script>
+</head>
+<body>
+
+<div id="sky" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="kicker">AURORA · 极地夜空</div>
+  <h1>极光</h1>
+  <p class="sub">在冰岛的夜空下，等一场绿色的呼吸。幕布缓缓舞动，星星在后面眨眼。</p>
+  <p class="hint">拖动滑杆 · 调亮今晚的极光</p>
+</header>
+
+<div class="controls" role="group" aria-label="极光控制台">
+  <div class="ctrl">
+    <label>极光强度 <b id="intVal">70</b></label>
+    <input id="intensity" type="range" min="0" max="100" value="70" aria-label="极光强度">
+  </div>
+  <div class="ctrl">
+    <label>时间流速 <b id="spdVal">1.0×</b></label>
+    <input id="speed" type="range" min="0" max="300" value="100" aria-label="时间流速">
+  </div>
+  <div class="divider" aria-hidden="true"></div>
+  <div class="presets">
+    <div class="plabel">地点预设</div>
+    <div class="btns">
+      <button class="preset active" data-mix="0.78" data-name="冰岛">冰岛</button>
+      <button class="preset" data-mix="0.50" data-name="挪威">挪威</button>
+      <button class="preset" data-mix="0.22" data-name="阿拉斯加">阿拉斯加</button>
+    </div>
+  </div>
+</div>
+
+<div id="loader" aria-hidden="true">
+  <div class="lt">极光正在升起</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

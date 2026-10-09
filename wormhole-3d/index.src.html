@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>虫洞穿越 — wormhole-3d</title>
+<meta name="description" content="滚动驱动穿越速度的虫洞隧道：shader 隧道环 + 粒子流，FOV 拉伸速度线，出口白光跃入新品发布。">
+<style>
+/* ============ wormhole-3d · 严格三色：#04060D 深空蓝黑 / #9B6BFF 电紫 / #F5F3FF 白 ============ */
+:root{
+  --void:#04060D;
+  --violet:#9B6BFF;
+  --white:#F5F3FF;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--void);color:var(--white);scroll-behavior:auto}
+body{
+  font-family:var(--font);
+  background:var(--void);
+  color:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--violet);color:var(--void)}
+
+/* ---------- 固定层 ---------- */
+#bg{position:fixed;inset:0;z-index:0}
+#bg canvas{display:block}
+#speedlines{
+  position:fixed;inset:-12%;z-index:1;pointer-events:none;opacity:0;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,
+    transparent 0deg 7.4deg, rgba(245,243,255,.34) 7.4deg 8deg,
+    transparent 8deg 15.4deg, rgba(155,107,255,.30) 15.4deg 16deg);
+  -webkit-mask-image:radial-gradient(circle at 50% 50%, transparent 26%, #000 62%, transparent 88%);
+  mask-image:radial-gradient(circle at 50% 50%, transparent 26%, #000 62%, transparent 88%);
+}
+.vignette{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 46%, transparent 50%, rgba(4,6,13,.66) 100%);
+}
+.grain{
+  position:fixed;inset:-50%;width:200%;height:200%;z-index:4;pointer-events:none;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.608 0 0 0 0 0.42 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 0.9s steps(4) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,2%)}100%{transform:translate(0,0)}
+}
+#flash{
+  position:fixed;inset:0;z-index:12;pointer-events:none;opacity:0;background:var(--white);
+}
+.progress{
+  position:fixed;top:0;left:0;height:2px;width:100%;z-index:20;
+  background:var(--white);transform-origin:0 50%;transform:scaleX(0);
+  box-shadow:0 0 14px rgba(155,107,255,.9);
+}
+
+/* ---------- 顶栏 ---------- */
+.hdr{
+  position:fixed;top:0;left:0;right:0;z-index:15;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px clamp(20px,4vw,56px);
+  pointer-events:none;
+}
+.hdr .logo{font-weight:900;letter-spacing:.35em;font-size:13px;pointer-events:auto}
+.hdr .logo b{color:var(--violet)}
+.hdr nav{display:flex;gap:clamp(12px,2.4vw,34px);pointer-events:auto}
+.hdr nav a{
+  color:var(--white);text-decoration:none;font-size:12px;letter-spacing:.3em;
+  opacity:.55;transition:opacity .4s var(--ease),text-shadow .4s var(--ease);
+}
+.hdr nav a:hover{opacity:1;text-shadow:0 0 14px rgba(155,107,255,.9)}
+
+/* ---------- 加载态（仅 JS 生效，无 JS 直接隐藏，保证完成态可达） ---------- */
+.loader{
+  position:fixed;inset:0;z-index:50;background:var(--void);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+}
+html:not(.js) .loader{display:none}
+.loader .t{font-size:12px;letter-spacing:.7em;text-indent:.7em;color:rgba(245,243,255,.8);font-weight:700}
+.loader .t b{color:var(--violet)}
+.loader .bar{width:min(300px,58vw);height:2px;background:rgba(155,107,255,.16);overflow:hidden}
+.loader .bar i{display:block;height:100%;width:38%;background:var(--violet);animation:load 1s var(--ease) infinite}
+@keyframes load{0%{transform:translateX(-110%)}100%{transform:translateX(320%)}}
+.js.done .loader{opacity:0;pointer-events:none;transition:opacity .7s var(--ease)}
+
+/* ---------- 主体 ---------- */
+main{position:relative;z-index:10}
+
+/* 首屏 */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(20px,5vw,72px);position:relative;
+}
+.hero .kicker{
+  font-size:12px;letter-spacing:.55em;font-weight:700;margin-bottom:3vh;
+  color:var(--violet);
+}
+.hero .kicker .tag{
+  display:inline-block;border:1px solid rgba(155,107,255,.5);
+  padding:.7em 1.4em;margin-right:1.2em;color:var(--white);
+}
+.mega{
+  font-size:clamp(4.5rem,21vw,15rem);
+  font-weight:900;line-height:1;letter-spacing:-.02em;
+  user-select:none;
+}
+.mega .mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+.mega .ch{display:inline-block;will-change:transform}
+/* 逐字上场：只在 html.js 下隐藏，保证无 JS 也可达完成态 */
+.js .mega .ch{transform:translateY(112%)}
+.js.done .mega .ch{
+  transform:translateY(0);
+  transition:transform 1.15s var(--ease);
+  transition-delay:calc(var(--i)*120ms + 150ms);
+}
+.mega .ch.hollow{color:transparent;-webkit-text-stroke:clamp(2px,.35vw,5px) var(--violet)}
+.hero .sub{
+  margin-top:4vh;font-size:clamp(1rem,2.2vw,1.5rem);font-weight:700;letter-spacing:.12em;
+  color:rgba(245,243,255,.85);max-width:34em;line-height:1.9;
+}
+.hero .sub .u{color:var(--violet)}
+.js .hero .fade{opacity:0;transform:translateY(26px)}
+.js.done .hero .fade{
+  opacity:1;transform:none;
+  transition:opacity .9s var(--ease),transform .9s var(--ease);
+  transition-delay:calc(var(--i,0)*140ms + 700ms);
+}
+.scrollhint{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.5em;text-indent:.5em;color:rgba(245,243,255,.55);
+  display:flex;flex-direction:column;align-items:center;gap:12px;white-space:nowrap;
+}
+.scrollhint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--violet),transparent);animation:drop 1.8s var(--ease) infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* 穿越段：长滚动驱动 */
+.tunnel{position:relative;height:380vh}
+.pin{
+  position:sticky;top:0;height:100svh;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:0 6vw;
+}
+.hud{
+  position:absolute;top:0;left:0;right:0;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:84px clamp(20px,4vw,56px) 0;
+  font-family:var(--mono);font-size:12px;letter-spacing:.32em;
+  color:rgba(245,243,255,.75);
+}
+.hud .vel b{color:var(--violet);font-variant-numeric:tabular-nums}
+.hud .pct{font-variant-numeric:tabular-nums}
+.phase{position:relative;width:100%;min-height:calc(clamp(1.7rem,5vw,3.6rem)*1.5);margin-bottom:2.5vh}
+.phase p{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(1.7rem,5vw,3.6rem);font-weight:900;letter-spacing:.06em;line-height:1.35;
+  opacity:0;transform:translateY(18px) scale(.985);
+  transition:opacity .55s var(--ease),transform .55s var(--ease);
+  pointer-events:none;
+}
+.phase p.on{opacity:1;transform:none}
+.phase p .k{color:var(--violet)}
+.tunnel-note{
+  font-size:12px;letter-spacing:.42em;text-indent:.42em;color:rgba(245,243,255,.42);
+  margin-top:3vh;
+}
+/* 按住穿越：只在粗指针（移动端）出现 */
+.holdbtn{
+  display:none;
+  margin-top:4vh;width:104px;height:104px;border-radius:50%;
+  border:1.5px solid rgba(155,107,255,.65);background:rgba(155,107,255,.08);
+  color:var(--white);font-family:var(--font);font-weight:900;font-size:14px;letter-spacing:.24em;text-indent:.24em;
+  cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
+  transition:background .3s var(--ease),box-shadow .3s var(--ease),transform .18s var(--ease);
+}
+.holdbtn small{display:block;font-size:10px;letter-spacing:.3em;opacity:.6;margin-top:6px;font-weight:700}
+.holdbtn.live{background:rgba(155,107,255,.28);box-shadow:0 0 44px rgba(155,107,255,.55);transform:scale(.94)}
+@media (pointer:coarse){
+  .holdbtn{display:block}
+  .tunnel-note.desktop-only{display:none}
+}
+
+/* 出口：新品发布区 */
+.exit{
+  position:relative;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:16vh 6vw 10vh;
+  background:linear-gradient(180deg, transparent 0, var(--void) 22vh);
+}
+.exit .kicker{
+  font-size:12px;letter-spacing:.55em;text-indent:.55em;font-weight:700;margin-bottom:3vh;
+  color:var(--violet);
+}
+.exit .title{
+  font-size:clamp(3.4rem,13vw,10rem);font-weight:900;letter-spacing:-.02em;line-height:1.04;
+}
+.exit .title .thin{color:transparent;-webkit-text-stroke:clamp(1.5px,.28vw,4px) var(--white)}
+.exit .tagline{
+  margin-top:3vh;font-size:clamp(1.05rem,2.6vw,1.7rem);font-weight:700;letter-spacing:.18em;
+  color:rgba(245,243,255,.88);
+}
+.specs{
+  margin-top:5vh;display:flex;gap:clamp(18px,4vw,64px);flex-wrap:wrap;justify-content:center;
+}
+.spec{display:flex;flex-direction:column;gap:10px;align-items:center}
+.spec .num{
+  font-size:clamp(2rem,5.4vw,3.6rem);font-weight:900;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;color:var(--white);
+}
+.spec .num b{color:var(--violet)}
+.spec .lbl{font-size:11px;letter-spacing:.34em;text-indent:.34em;color:rgba(245,243,255,.5);font-weight:700}
+.cta-row{margin-top:6vh;display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.cta{
+  display:inline-block;border:1px solid var(--violet);color:var(--white);
+  padding:1.05em 2.4em;font-weight:900;letter-spacing:.24em;text-indent:.24em;font-size:14px;
+  text-decoration:none;background:transparent;cursor:pointer;font-family:var(--font);
+  transition:background .45s var(--ease),box-shadow .45s var(--ease),transform .25s var(--ease);
+}
+.cta:hover{background:rgba(155,107,255,.14);box-shadow:0 0 34px rgba(155,107,255,.4);transform:translateY(-2px)}
+.cta.solid{background:var(--violet);color:var(--void);border-color:var(--violet)}
+.cta.solid:hover{background:var(--violet);box-shadow:0 0 44px rgba(155,107,255,.65)}
+
+/* 尾 */
+.outro{
+  min-height:44vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;text-align:center;padding:0 6vw;background:var(--void);
+}
+.outro .note{font-size:12px;letter-spacing:.3em;line-height:2.4;color:rgba(245,243,255,.42)}
+
+/* ---------- 移动端 ---------- */
+@media (max-width:640px){
+  .mega{font-size:clamp(4rem,24vw,9rem)}
+  .hdr nav a{letter-spacing:.18em}
+  .hud{padding-top:76px;font-size:11px;letter-spacing:.2em}
+  .grain{animation:none} /* 移动端停掉噪点位移，省电 */
+  .phase p{font-size:clamp(1.5rem,7vw,2.4rem)}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain{animation:none}
+  .scrollhint::after{animation:none}
+  #speedlines{display:none}
+  .loader .bar i{animation-duration:2.2s}
+}
+</style>
+<script type="importmap">
+{"imports":{"three":"vendor/three.module.js"}}
+</script>
+</head>
+<body>
+
+<div id="bg" aria-hidden="true"></div>
+<div id="speedlines" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div id="flash" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="hdr">
+  <div class="logo">WH<b>·</b>26</div>
+  <nav>
+    <a href="#tunnel">穿越</a><a href="#exit">出口</a><a href="#top">顶部</a>
+  </nav>
+</header>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="t">跃迁引擎<b>预热</b>中</div>
+  <div class="bar"><i></i></div>
+</div>
+
+<main>
+  <!-- 首屏 -->
+  <section class="hero" id="top">
+    <div class="kicker fade" style="--i:0"><span class="tag">动效实验 012</span>FX-LAB · 虫洞穿越</div>
+    <h1 class="mega" aria-label="虫洞穿越">
+      <span class="mask"><span class="ch" style="--i:0">虫</span></span><span class="mask"><span class="ch" style="--i:1">洞</span></span><span class="mask"><span class="ch hollow" style="--i:2">穿</span></span><span class="mask"><span class="ch hollow" style="--i:3">越</span></span>
+    </h1>
+    <p class="sub fade" style="--i:1">向下滚动，点燃跃迁引擎。<br>滚得越快，穿越得越快<span class="u">——速度会拉长视野</span>。</p>
+    <div class="scrollhint fade" style="--i:2">向下滚动开始穿越</div>
+  </section>
+
+  <!-- 穿越段 -->
+  <section class="tunnel" id="tunnel">
+    <div class="pin">
+      <div class="hud">
+        <div class="vel">VELOCITY&nbsp;<b id="velNum">0.00</b>&nbsp;c</div>
+        <div class="pct"><span id="pctNum">0</span>%&nbsp;穿越进度</div>
+      </div>
+      <div class="phase" id="phase">
+        <p data-ph="0">正在进入<span class="k">引力井</span></p>
+        <p data-ph="1">曲率稳定 · <span class="k">0.50 c</span></p>
+        <p data-ph="2">隧道共振 · <span class="k">全速前进</span></p>
+        <p data-ph="3">出口锁定 · <span class="k">准备跃出</span></p>
+      </div>
+      <div class="tunnel-note desktop-only">滚动越快 · 穿越越快 · 视野随之拉伸</div>
+      <button class="holdbtn" id="holdBtn" type="button">按住穿越<small>长按加速</small></button>
+    </div>
+  </section>
+
+  <!-- 出口：新品发布 -->
+  <section class="exit" id="exit">
+    <div class="kicker">跃出虫洞 · 2026 秋季发布</div>
+    <h2 class="title">星核 <span class="thin">X1</span></h2>
+    <p class="tagline">把算力，折叠进口袋。</p>
+    <div class="specs">
+      <div class="spec"><span class="num"><b>38</b> TOPS</span><span class="lbl">端侧算力</span></div>
+      <div class="spec"><span class="num"><b>21</b> 天</span><span class="lbl">持续续航</span></div>
+      <div class="spec"><span class="num"><b>4</b> nm</span><span class="lbl">制程工艺</span></div>
+    </div>
+    <div class="cta-row">
+      <a class="cta solid" href="#exit">预定发布会席位</a>
+      <button class="cta" id="recross" type="button">重新穿越</button>
+    </div>
+  </section>
+
+  <!-- 尾 -->
+  <section class="outro">
+    <p class="note">星核 X1 为虚构产品<br>本页为 wormhole-3d 设计模板演示 · huafire3d fx-lab — original implementation</p>
+  </section>
+</main>
+
+<script>
+/* 完成态兜底：与 ESM 模块加载成功与否无关，5 秒必进完成态（loader 隐藏/排印上场） */
+setTimeout(function(){document.documentElement.classList.add('done')},5000);
+</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

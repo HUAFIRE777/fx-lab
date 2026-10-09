@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>灯塔 LIGHTHOUSE · 为归航的人留一盏灯</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --night:#06121F;
+    --warm:#FFE9A8;
+    --fog:#8FA3B8;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--night)}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;color:#EDEFF2;
+       -webkit-user-select:none;user-select:none}
+  #scene{position:fixed;inset:0;display:block;touch-action:none;cursor:grab}
+  #scene.dragging{cursor:grabbing}
+
+  /* 完成态必须带 html.js 前缀，无 JS 时默认可见 */
+  html.js [data-intro]{opacity:0;transform:translateY(26px);
+    transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+
+  /* ---------- 文字层 ---------- */
+  .hero{position:fixed;top:7vh;left:6vw;z-index:10;pointer-events:none;max-width:44ch}
+  .hero .kicker{font-size:11px;letter-spacing:.5em;color:var(--fog);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;margin-bottom:14px}
+  .hero h1{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-weight:600;
+    font-size:clamp(44px,7vw,96px);line-height:1.08;color:#F7F3E8;
+    text-shadow:0 0 42px rgba(255,233,168,.18)}
+  .hero .en{margin-top:10px;font-size:12px;letter-spacing:.62em;color:var(--warm);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+  .hero .slogan{margin-top:22px;font-family:"Songti SC","STSong","Noto Serif SC",serif;
+    font-size:clamp(17px,2.2vw,24px);letter-spacing:.14em;color:var(--warm)}
+  .hero .desc{margin-top:14px;font-size:13px;line-height:1.9;color:var(--fog);max-width:32em}
+  .hero .desc b{color:#D8DEE6;font-weight:500}
+
+  .keeper-badge{position:fixed;top:7vh;right:6vw;z-index:10;pointer-events:none;
+    text-align:right;opacity:.9}
+  .keeper-badge .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
+    background:var(--warm);box-shadow:0 0 12px var(--warm);margin-right:8px;
+    animation:pulse 2.6s ease-in-out infinite}
+  .keeper-badge .txt{font-size:12px;letter-spacing:.3em;color:var(--warm)}
+  .keeper-badge .sub{display:block;margin-top:6px;font-size:11px;letter-spacing:.18em;color:var(--fog)}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* ---------- 控制条 ---------- */
+  .panel{position:fixed;left:6vw;bottom:5vh;z-index:10;
+    display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+  .ctl{display:flex;flex-direction:column;gap:8px}
+  .ctl label{font-size:11px;letter-spacing:.28em;color:var(--fog)}
+  .ctl input[type=range]{-webkit-appearance:none;appearance:none;width:170px;height:2px;
+    background:rgba(143,163,184,.35);border-radius:2px;outline:none;cursor:pointer}
+  .ctl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:var(--warm);
+    box-shadow:0 0 14px rgba(255,233,168,.8);transition:transform .35s var(--ease)}
+  .ctl input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3)}
+  .ctl input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;border-radius:50%;
+    background:var(--warm);box-shadow:0 0 14px rgba(255,233,168,.8)}
+  .seg{display:flex;gap:8px}
+  .seg button{padding:8px 18px;font-size:12px;letter-spacing:.24em;color:var(--fog);
+    background:transparent;border:1px solid rgba(143,163,184,.4);border-radius:999px;
+    cursor:pointer;transition:all .4s var(--ease)}
+  .seg button:hover{border-color:var(--warm);color:var(--warm);transform:translateY(-1px)}
+  .seg button.on{background:rgba(255,233,168,.14);border-color:var(--warm);color:var(--warm)}
+  .hint{font-size:11px;letter-spacing:.2em;color:var(--fog);opacity:.75;line-height:1.8}
+  .hint b{color:var(--warm);font-weight:500}
+
+  /* ---------- 加载态 ---------- */
+  #loader{position:fixed;inset:0;z-index:40;background:var(--night);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    transition:opacity .9s var(--ease)}
+  html.js #loader.hide{opacity:0;pointer-events:none}
+  #loader .lamp{width:54px;height:54px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,233,168,.95) 0%,rgba(255,233,168,.25) 45%,transparent 70%);
+    animation:pulse 1.6s ease-in-out infinite}
+  #loader p{font-family:"Songti SC","STSong","Noto Serif SC",serif;
+    font-size:15px;letter-spacing:.5em;color:var(--fog);text-indent:.5em}
+
+  /* ---------- 暗角 + 噪点 ---------- */
+  .vignette{position:fixed;inset:0;z-index:5;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 46%,transparent 46%,rgba(2,6,12,.55) 100%)}
+  .grain{position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.07;mix-blend-mode:overlay}
+
+  @media (max-width:640px){
+    .hero{top:5vh;left:6vw;right:6vw}
+    .keeper-badge{top:auto;bottom:22vh;right:6vw}
+    .panel{left:6vw;right:6vw;bottom:4vh;gap:16px}
+    .ctl input[type=range]{width:130px}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+  <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter>
+  <rect width="100%" height="100%" filter="url(#n)"/>
+</svg>
+
+<div id="loader">
+  <div class="lamp"></div>
+  <p>点 灯 中</p>
+</div>
+
+<header class="hero" data-intro>
+  <div class="kicker">COASTAL NIGHT · No.15</div>
+  <h1>灯塔</h1>
+  <div class="en">LIGHTHOUSE</div>
+  <p class="slogan">为归航的人，留一盏灯。</p>
+  <p class="desc">深夜的海面只有两种颜色：<b>浪</b>和<b>光</b>。<br>
+  拖拽旋转视角，调一调雾的浓度，换一束光的颜色 ——<br>点一下塔身，守夜人会把光束转得更快一些。</p>
+</header>
+
+<div class="keeper-badge" data-intro>
+  <span class="txt"><span class="dot"></span><span id="keeper-txt">守夜中</span></span>
+  <span class="sub" id="keeper-sub">BEAM ×1.0 · 点击灯塔加速</span>
+</div>
+
+<div class="panel" data-intro>
+  <div class="ctl">
+    <label>雾浓度 FOG</label>
+    <input id="fog-range" type="range" min="0" max="100" value="55" aria-label="雾浓度">
+  </div>
+  <div class="ctl">
+    <label>光束颜色 BEAM</label>
+    <div class="seg">
+      <button id="beam-warm" class="on">暖黄</button>
+      <button id="beam-cool">冷白</button>
+    </div>
+  </div>
+  <div class="hint">拖拽旋转 · 滚轮缩放<br><b>点击塔身</b>切换守夜人模式</div>
+</div>
+
+<script>
+/* intro 进入：场景就绪时由 main.js 调 window.__lhEnter()；3.8s 兜底强制进入 */
+(function(){
+  var entered = false;
+  function enter(){
+    if (entered) return; entered = true;
+    document.getElementById('loader').classList.add('hide');
+    document.querySelectorAll('[data-intro]').forEach(function(el, i){
+      setTimeout(function(){ el.classList.add('is-in'); }, 140 * i);
+    });
+  }
+  window.__lhEnter = enter;
+  setTimeout(enter, 3800);
+})();
+</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

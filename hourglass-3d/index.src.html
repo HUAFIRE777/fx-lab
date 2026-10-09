@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>沙漏 HOURGLASS · 时间看得见</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --ink:#0C0C0E;
+    --gold:#E8B86D;
+    --gold-dim:rgba(232,184,109,.55);
+    --paper:rgba(244,240,232,.92);
+    --muted:rgba(244,240,232,.52);
+    --line:rgba(232,184,109,.22);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(120% 90% at 50% 38%, #16161a 0%, var(--ink) 62%) , var(--ink);
+    color:var(--paper);
+    font-family:"Songti SC","STSong","Noto Serif SC",serif;
+    overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block;width:100%;height:100%;cursor:pointer;touch-action:manipulation}
+
+  /* 暗角 + 噪点（只做氛围，不碰 3D 层叠） */
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:5;
+    background:radial-gradient(115% 100% at 50% 42%, transparent 55%, rgba(0,0,0,.55) 100%)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:6;opacity:.07;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")}
+
+  /* 无 JS 时默认可见；有 JS 时先藏等 intro */
+  html.js [data-intro]{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  html.js [data-intro].is-in{opacity:1;transform:none}
+  html.js [data-intro="d1"].is-in{transition-delay:.15s}
+  html.js [data-intro="d2"].is-in{transition-delay:.32s}
+  html.js [data-intro="d3"].is-in{transition-delay:.49s}
+  html.js [data-intro="d4"].is-in{transition-delay:.66s}
+
+  .hud{position:fixed;z-index:10;pointer-events:none}
+  .hud .inner{pointer-events:auto}
+
+  header.hud{top:max(28px, env(safe-area-inset-top));left:clamp(20px,4vw,56px);max-width:min(420px,80vw)}
+  .kicker{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;letter-spacing:.42em;color:var(--gold);margin-bottom:14px}
+  h1{font-size:clamp(44px,6vw,76px);font-weight:600;letter-spacing:.12em;line-height:1.05}
+  h1 .latin{display:block;font-family:"Helvetica Neue",Arial,sans-serif;font-weight:300;
+    font-size:clamp(12px,1.4vw,15px);letter-spacing:.58em;color:var(--muted);margin-top:14px}
+  .lede{margin-top:18px;font-size:15px;line-height:1.9;color:var(--muted);letter-spacing:.06em}
+  .lede em{color:var(--gold);font-style:normal}
+
+  .timer{position:fixed;z-index:10;top:max(28px, env(safe-area-inset-top));right:clamp(20px,4vw,56px);text-align:right}
+  .timer .nums{font-family:"Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums;
+    font-size:clamp(26px,3vw,38px);letter-spacing:.08em;color:var(--paper)}
+  .timer .nums small{font-size:.5em;color:var(--muted);letter-spacing:.2em;margin-left:8px}
+  .timer .bar{width:min(220px,30vw);height:2px;background:rgba(255,255,255,.12);margin:12px 0 8px auto;overflow:hidden;border-radius:2px}
+  .timer .bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s linear}
+  .timer .cap{font-size:12px;letter-spacing:.3em;color:var(--muted)}
+
+  .panel{position:fixed;z-index:10;left:50%;transform:translateX(-50%);
+    bottom:max(26px, env(safe-area-inset-bottom));display:flex;gap:10px;align-items:center;
+    padding:12px 14px;border:1px solid var(--line);border-radius:999px;
+    background:rgba(12,12,14,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .btn{font-family:inherit;font-size:13px;letter-spacing:.22em;color:var(--muted);
+    background:transparent;border:1px solid transparent;border-radius:999px;
+    padding:9px 18px 9px 20px;cursor:pointer;transition:all .35s var(--ease);white-space:nowrap}
+  .btn:hover{color:var(--paper);border-color:var(--line);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn.primary{color:#0C0C0E;background:var(--gold);font-weight:600}
+  .btn.primary:hover{background:#f2c883;box-shadow:0 6px 24px rgba(232,184,109,.35)}
+  .btn.on{color:var(--gold);border-color:var(--gold-dim)}
+  .sep{width:1px;height:22px;background:var(--line)}
+
+  .hint{position:fixed;z-index:10;bottom:max(30px, env(safe-area-inset-bottom));right:clamp(20px,4vw,56px);
+    font-size:12px;letter-spacing:.28em;color:var(--muted);pointer-events:none}
+
+  /* loader */
+  #loader{position:fixed;inset:0;z-index:50;background:var(--ink);
+    display:flex;flex-direction:column;gap:22px;align-items:center;justify-content:center;
+    transition:opacity .8s var(--ease),visibility .8s}
+  #loader.done{opacity:0;visibility:hidden}
+  #loader .glyph{width:54px;height:76px;position:relative}
+  #loader .glyph::before,#loader .glyph::after{content:"";position:absolute;left:50%;transform:translateX(-50%);
+    width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent}
+  #loader .glyph::before{top:0;border-top:30px solid rgba(232,184,109,.28)}
+  #loader .glyph::after{bottom:0;border-bottom:30px solid rgba(232,184,109,.28)}
+  #loader .glyph i{position:absolute;left:50%;top:8px;width:2px;height:60px;background:var(--gold);
+    transform:translateX(-50%);animation:fall 1.1s var(--ease) infinite}
+  @keyframes fall{0%{transform:translateX(-50%) scaleY(0);transform-origin:top}
+    55%{transform:translateX(-50%) scaleY(1);transform-origin:top}
+    56%{transform-origin:bottom}100%{transform:translateX(-50%) scaleY(0);transform-origin:bottom}}
+  #loader p{font-size:12px;letter-spacing:.5em;color:var(--muted);text-indent:.5em}
+
+  @media (max-width:640px){
+    header.hud{left:20px;right:20px;max-width:none}
+    h1{font-size:40px}
+    .lede{font-size:13px;margin-top:12px}
+    .timer{top:auto;bottom:calc(max(26px, env(safe-area-inset-bottom)) + 64px);right:20px}
+    .timer .bar{width:140px}
+    .hint{display:none}
+    .panel{gap:6px;padding:10px 10px;max-width:94vw;overflow-x:auto}
+    .btn{padding:8px 12px 8px 14px;font-size:12px}
+  }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+  <div id="stage"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <header class="hud" data-intro="d1">
+    <div class="inner">
+      <div class="kicker">TIME · MADE · VISIBLE</div>
+      <h1>沙漏<span class="latin">HOURGLASS</span></h1>
+      <p class="lede">时间看得见。<br>每一粒沙落下，都有<em>回响</em>；<br>翻转一次，就重新开始计时。</p>
+    </div>
+  </header>
+
+  <div class="timer" data-intro="d2">
+    <div class="nums"><span id="t-elapsed">00:00</span><small>已流逝</small></div>
+    <div class="bar"><i id="t-bar"></i></div>
+    <div class="cap">剩余 <span id="t-left">02:00</span></div>
+  </div>
+
+  <nav class="panel" data-intro="d3">
+    <div class="inner" style="display:flex;gap:10px;align-items:center">
+      <button class="btn primary" id="btn-flip">翻 转</button>
+      <span class="sep"></span>
+      <button class="btn speed on" data-v="0.6">慢</button>
+      <button class="btn speed" data-v="1">中</button>
+      <button class="btn speed" data-v="1.8">快</button>
+      <span class="sep"></span>
+      <button class="btn" id="btn-pause">暂 停</button>
+    </div>
+  </nav>
+
+  <div class="hint" data-intro="d4">点击沙漏也可翻转</div>
+
+  <div id="loader"><div class="glyph"><i></i></div><p>沙 漏 准 备 中</p></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
