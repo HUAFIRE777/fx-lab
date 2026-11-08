@@ -1,0 +1,82 @@
+/* fx-lab · 效果控制台（共享面板） */
+/* 右下角可折叠面板；深色底，极光绿 #34d399 点缀。不遮挡特效自己的控制条。 */
+#fxlab-controls {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 9999;
+  font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  color: #e5e7eb;
+  text-align: left;
+}
+#fxlab-controls-toggle {
+  display: block;
+  margin-left: auto;
+  padding: 8px 14px;
+  border: 1px solid rgba(52, 211, 153, .45);
+  border-radius: 999px;
+  background: rgba(2, 6, 23, .82);
+  color: #34d399;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+#fxlab-controls-toggle:hover { background: rgba(2, 6, 23, .95); }
+#fxlab-controls-body {
+  margin-top: 8px;
+  width: 260px;
+  max-width: calc(100vw - 28px);
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 14px;
+  background: rgba(2, 6, 23, .88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .45);
+}
+.fxlab-row { margin-bottom: 10px; }
+.fxlab-row label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  color: #d1d5db;
+}
+.fxlab-row .fxlab-val { color: #34d399; font-variant-numeric: tabular-nums; }
+.fxlab-row input[type="range"] {
+  width: 100%;
+  accent-color: #34d399;
+  cursor: pointer;
+}
+.fxlab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.fxlab-actions button,
+.fxlab-actions a {
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .06);
+  color: #e5e7eb;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.fxlab-actions button:hover,
+.fxlab-actions a:hover { border-color: #34d399; color: #34d399; }
+.fxlab-actions #fxlab-copy { border-color: rgba(52, 211, 153, .5); color: #34d399; }
+.fxlab-note {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #9ca3af;
+}
+@media (max-width: 640px) {
+  #fxlab-controls { right: 10px; bottom: 10px; }
+  #fxlab-controls-body { width: calc(100vw - 20px); }
+}
