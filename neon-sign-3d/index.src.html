@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>霓虹灯牌 — neon-sign-3d</title>
-<meta name="description" content="砖墙上的霓虹灯管招牌：电流闪烁、偶发接触不良，鼠标靠近哪一笔、哪一笔就亮起来。">
+<meta name="description" content="砖墙上的霓虹灯管招牌：灯管拼出可自定义文字，电流闪烁、偶发接触不良式抖动，鼠标靠近哪一笔、哪一笔就亮起来，文字可改，霓虹粉、橙、青三色可切。先在文字框里写自己的品牌名，再切霓虹粉看灯管亮起来，鼠标划过灯管逐笔点亮最出效果；电流闪烁的抖动是霓虹灯的灵魂。另外，颜色随霓虹档位实时重染。">
 <style>
 /* ============ neon-sign-3d · 严格三色：#0a0a0f 背景 / #f5f3ff 文字 / 霓虹一档（粉 #ff2d95，可切青/橙） ============ */
 :root{
@@ -192,5 +192,11 @@ html.js.done .loader{opacity:0;pointer-events:none;transition:opacity .7s var(--
 setTimeout(function(){document.documentElement.classList.add('done')},5000);
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一块砖墙上的霓虹灯管招牌：灯管拼出可自定义文字，电流闪烁、偶发接触不良式抖动，鼠标靠近哪一笔，哪一笔就亮起来。控制台上有三个可调项：文字输入框，想写什么就写什么；霓虹色有霓虹粉、霓虹橙、霓虹青三档；闪烁开关与关灯按钮随时可切，一键开关灯。适合酒吧、潮牌店、夜店或任何需要霓虹感的品牌当招牌页：电流闪烁的抖动是霓虹灯的灵魂。演示时先在文字框里写自己的品牌名，再切霓虹粉看灯管亮起来，鼠标划过灯管逐笔点亮最出效果。还有一点，灰缝底、逐砖随机明暗、斑驳噪点、上亮下暗浮雕。</p>
+</section>
 </body>
 </html>

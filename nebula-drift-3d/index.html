@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>星云漂流 — nebula-drift-3d</title>
-<meta name="description" content="全屏粒子星云：九千颗星尘绕双旋臂缓慢漂流，鼠标视差推镜头，滚动加速穿越，两种色温预设。">
+<meta name="description" content="全屏粒子星云：九千颗星尘绕双旋臂缓慢漂流，鼠标视差推镜头，滚动加速穿越，漂流速度可调，紫雾与冰蓝两种色温预设，Max 专属特效。先切冰蓝看冷峻的旋臂，再滚轮加速穿越，星尘从身边掠过的那一刻最出效果；把一片星云收进一屏，Max 专属特效。适合天文品牌。值得一提的是，预设只调两色配比，点大小按距离衰减。">
 <style>
 /* ============ nebula-drift-3d · 严格三色：#050510 深空 / #8b5cf6 星云紫 / #67e8f9 冰蓝 ============ */
 :root{
@@ -168,5 +168,11 @@ import*as t from"three";document.documentElement.classList.add("js");var R=e=>do
     }`}),x=new t.Points(f,I);x.rotation.x=.12;g.add(x);function V(){let e=document.createElement("canvas");e.width=e.height=256;let i=e.getContext("2d"),n=i.createRadialGradient(128,128,0,128,128,128);n.addColorStop(0,"rgba(196,181,253,0.55)"),n.addColorStop(.4,"rgba(139,92,246,0.18)"),n.addColorStop(1,"rgba(139,92,246,0)"),i.fillStyle=n,i.fillRect(0,0,256,256);let o=new t.CanvasTexture(e);return o.colorSpace=t.SRGBColorSpace,o}var H=new t.Sprite(new t.SpriteMaterial({map:V(),transparent:!0,depthWrite:!1,blending:t.AdditiveBlending,opacity:.9}));H.scale.set(11,11,1);g.add(H);var m={s:1,hue:0},l={s:1,hue:0},E={x:0,y:0},u=0;A||(window.addEventListener("pointermove",e=>{E.x=e.clientX/window.innerWidth*2-1,E.y=e.clientY/window.innerHeight*2-1},{passive:!0}),window.addEventListener("wheel",e=>{u=Math.min(u+Math.abs(e.deltaY)*6e-4,2.2)},{passive:!0}));var S=R("#speed"),k=R("#speedVal");S.addEventListener("input",()=>{m.s=S.value/100,k.textContent=m.s.toFixed(1)+"\xD7"});document.querySelectorAll(".preset").forEach(e=>{e.addEventListener("click",()=>{document.querySelectorAll(".preset").forEach(i=>i.classList.remove("active")),e.classList.add("active"),m.hue=e.dataset.hue==="ice"?1:0})});window.addEventListener("resize",()=>{a.aspect=window.innerWidth/window.innerHeight,a.updateProjectionMatrix(),s.setSize(window.innerWidth,window.innerHeight),c.uPixelRatio.value=s.getPixelRatio()});var d=(e,i,n,o)=>e+(i-e)*(1-Math.exp(-o*n)),P=performance.now(),v=55;function z(e){let i=Math.min((e-P)/1e3,.05);if(P=e,l.s=d(l.s,m.s,4,i),l.hue=d(l.hue,m.hue,2.2,i),c.uHue.value=l.hue,u*=Math.exp(-i*.9),A)c.uTime.value+=i*.2;else{let n=l.s*(1+u);x.rotation.y+=i*.045*n,c.uTime.value+=i*n;let o=E.x*1.6,h=2.4-E.y*.9;a.position.x=d(a.position.x,o,2,i),a.position.y=d(a.position.y,h,2,i),a.lookAt(0,.4,0);let y=55+u*9;Math.abs(y-v)>.01&&(v=d(v,y,3,i),a.fov=v,a.updateProjectionMatrix())}H.material.opacity=.75+.15*Math.sin(e*4e-4),s.render(g,a),M||(M=e,setTimeout(T,450)),requestAnimationFrame(z)}requestAnimationFrame(z);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一片收进一屏的星云：九千颗星尘绕着双旋臂慢慢漂流，鼠标轻轻一推，镜头就跟着走；滚轮一推，穿越加速，深空从来不急。控制台上有漂流速度滑杆，默认 1.0 倍；色温有紫雾与冰蓝两档，紫雾最梦幻，冰蓝最冷峻。这是 4 套 Max 专属特效之一，永不转免费。适合天文、科普、太空或任何需要深空感的品牌当首页 hero：把一片星云收进一屏。演示时先切冰蓝看冷峻的旋臂，再滚轮加速穿越，星尘从身边掠过的那一刻最出效果。值得一提的是，紫雾与冰蓝两种色温可切，镜头位移跟鼠标走，亮度在零点七二到一之间呼吸。</p>
+</section>
 </body>
 </html>

@@ -4,6 +4,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="UTF-8">
+<meta name="description" content="粒子变形三维场景：四万粒星尘在二十面体、银河旋涡、NOVA 文字、星环四个目标点云之间插值变形，切换先炸开再聚拢，全程 simplex 噪声呼吸加辉光。先点 NOVA 文字看粒子聚成字母，再点银河旋涡看它散开重组，炸开再聚拢的瞬间最出效果；四万粒星尘，一念聚散，粒子数自动降档，切换时先炸开再聚拢的节奏。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>粒子变形 · PARTICLE MORPH</title>
 <style>
@@ -128,5 +129,11 @@ import*as r from"three";var pt=window.matchMedia("(pointer: coarse)").matches||w
     document.getElementById('monitor').classList.remove('hidden');
   });
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一套会变形的粒子：四万粒星尘在二十面体团块、银河旋涡、NOVA 文字、星环四个目标点云之间插值变形，切换时先炸开再聚拢，全程 simplex 噪声呼吸加 additive 辉光。页面上有四个形态按钮，点一个就变形一次；暂停轮播开关可以停在任意一个形态慢慢看；监视器显示粒子数与帧率。适合科技、品牌发布或任何需要粒子特效的页面当 hero：四万粒星尘，一念聚散。演示时先点 NOVA 文字看粒子聚成字母，再点银河旋涡看它散开重组，炸开再聚拢的瞬间最出效果。另外，轻点画面切换下一个目标，全程单纯形噪声呼吸加辉光，切换时先快照当前态再变形。</p>
+</section>
 </body>
 </html>

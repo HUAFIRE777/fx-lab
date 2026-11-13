@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>虫洞穿越 — wormhole-3d</title>
-<meta name="description" content="滚动驱动穿越速度的虫洞隧道：shader 隧道环 + 粒子流，FOV 拉伸速度线，出口白光跃入新品发布。">
+<meta name="description" content="滚动驱动穿越速度的虫洞隧道：shader 隧道环加粒子流，FOV 拉伸速度线，滚得越快穿越越快，出口白光跃入新品发布区，按住穿越长按加速，重新穿越随时再来。隧道尽头跃出白光，落入虚构新品发布区；向下滚动，点燃跃迁引擎，适合新品发布与科技品牌当发布开场。再看细节，远端发光体随进度增强，过渡到发布区时全屏白闪一次。">
 <style>
 /* ============ wormhole-3d · 严格三色：#04060D 深空蓝黑 / #9B6BFF 电紫 / #F5F3FF 白 ============ */
 :root{
@@ -408,5 +408,11 @@ import*as e from"three";document.documentElement.classList.add("js");var r=t=>do
       }`}),q=new e.Mesh(new e.PlaneGeometry(130,130),J);q.position.set(0,0,-204),E.add(q),x()}var O=performance.now();function $(t){requestAnimationFrame($);let o=Math.min(.05,(t-O)/1e3);O=t;let l=window.scrollY||0;j=Math.abs(l-I),I=l;let s=Math.min(1,j/26),a=1-Math.exp(-o*5.5);if(d+=(s-d)*a,B&&(P+=o,window.scrollBy(0,Math.min(26,9+P*14))),u){w.value+=o,Y=c*K,F+=(Y-F)*(1-Math.exp(-o*7)),A||(Z+=o*5),V.value=F+Z,b.value=d,L.value=D((c-.55)/.45);let n=C+d*(le-C);g+=(n-g)*(1-Math.exp(-o*6)),Math.abs(g-i.fov)>.05&&(i.fov=g,i.updateProjectionMatrix()),i.rotation.z=Math.sin(w.value*7.3)*.012*d,i.position.x=Math.sin(w.value*.9)*.35*d,i.position.y=Math.cos(w.value*.7)*.35*d,A||(ie.style.opacity=(d*.85).toFixed(3)),u.render(E,i)}te.textContent=d.toFixed(2)}var Y=0,F=0,Z=0;try{se()}catch{let o=r("#bg");o&&(o.style.display="none"),x()}requestAnimationFrame($);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一次滚动驱动的虫洞穿越：全屏虫洞隧道，shader 隧道环加粒子流，滚得越快穿越越快，FOV 随之拉伸，速度会拉长视野。页面顶部显示穿越进度与速度，0.00c 起步，全速前进时曲率稳定在 0.50c；隧道尽头跃出白光，落入虚构新品发布区，星核 X1 把算力折叠进口袋，38 TOPS 端侧算力、21 天持续续航、4nm 制程工艺。按住穿越按钮可以长按加速，重新穿越按钮随时再来一次。适合新品发布、科技或科幻品牌当发布开场：向下滚动，点燃跃迁引擎。还有一点，远端发光体随进度增强，过渡到发布区时全屏白闪一次，单个开口圆柱加片元着色器构成隧道。</p>
+</section>
 </body>
 </html>

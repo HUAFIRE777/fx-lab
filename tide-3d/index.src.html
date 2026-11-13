@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta name="description" content="月夜海湾半日潮涨退循环：水位按十二点四二小时周期涨落，月相决定潮差大小，朔望大潮 四点八米、上下弦小潮 二点零米，八个月相可选，时间加速默认 二百四十倍，可看涨潮退潮。天上的月亮带着真实明暗界线，水面铺开一条月光路；朔和望是大潮，潮差最大，上弦和下弦是小潮，潮差最小，时间加速只加快潮汐。">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>潮汐涨落 · tide-3d — huafire3d fx-lab</title>
 <style>
@@ -196,5 +197,11 @@ input[type=range]::-moz-range-thumb{width:14px; height:14px; border-radius:50%; 
 { "imports": { "three": "./vendor/three.module.js" } }
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一次月夜海湾的半日潮涨退循环：水位按 12.42 小时周期涨落，月相决定潮差大小——朔望大潮时潮差 4.8 米，上下弦小潮时只剩 2.0 米；天上的月亮带着真实明暗界线，水面铺开一条月光路。月相选择器上有八个月相：朔、娥眉、上弦、盈凸、望、亏凸、下弦、残月，点一个就换一个；时间加速默认 240 倍，看一次涨潮、看一次退潮两个按钮随时可点。适合海洋、地理、科普或潮汐表品牌当演示页：月亮把海水往上拽，岸就往后退一步。值得一提的是，月相/按钮直接用事件，视差在触屏拖动时同样生效，界线由月相解析式直接算出。</p>
+</section>
 </body>
 </html>

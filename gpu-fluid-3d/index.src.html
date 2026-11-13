@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta name="description" content="粒子流体：二十万粒子做流体模拟，鼠标划过皆起涟漪，点击释放爆发，水、烟、星尘三种形态可切，全部模拟渲染，适合科技品牌首页。水最清冽，烟最缥缈，星尘最梦幻，同一套模拟换三种质感；需要支持 网页图形 浮点计算的设备，老设备会提示换一台设备再来看海，力度随指针速度变化，触屏拖动即搅动流体。">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>流体 · FLUID — GPGPU 粒子流体</title>
 <style>
@@ -118,5 +119,11 @@
 </div>
 
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一片指尖能搅动的流体：20 万粒子在 GPU 里做流体模拟，鼠标划过之处皆起涟漪，点击还能释放一次爆发。三种形态可以切换：水、烟、星尘——水最清冽，烟最缥缈，星尘最梦幻，同一套模拟换三种质感。技术上用的是 GPGPU 粒子物理，全 GPU 模拟渲染，手法学的是大阪世博数字水体那种级别的作品。适合科技、艺术、展览或任何想让人上手玩的品牌当首页 hero：指尖所至，皆起涟漪。注意这页需要支持 WebGL 浮点计算的设备，老设备会提示换一台设备再来看海。往细了看，顶部数组即全部可调参数，点击处释放一圈扩散的脉冲环。</p>
+</section>
 </body>
 </html>

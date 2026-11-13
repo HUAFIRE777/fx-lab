@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>焰 · FLAME — flame-3d</title>
-<meta name="description" content="程序化火焰：FBM 火舌 shader、上升火星粒子、热浪扭曲——火力滑杆、三种火焰形态。">
+<meta name="description" content="程序化火焰：FBM 火舌 shader 翻卷、上升火星粒子、热浪扭曲，火力滑杆默认 65% 可调，火星开关可控，篝火、火炬、炉火三种火焰形态一键切换。篝火最野，炉火最稳；先把火力拉到满格看火舌窜起来，再切到炉火看它安静下来，对比最出效果，适合篝火晚会与户外品牌首页。再看细节，一团纯程序化的火，贴底的暗橙指数光晕。">
 <style>
 /* ============ flame-3d · 全页严格三色：#0a0a0a 纯黑 / #ff6b1a 火焰橙 / #ffc53d 炽黄 ============ */
 :root{
@@ -342,5 +342,11 @@ import*as e from"three";var R={bonfire:{width:.34,height:.6,flicker:.65,turb:1.2
   `});l.setAttribute("position",new e.BufferAttribute(d,3));l.setAttribute("aMeta",new e.BufferAttribute(r,4));l.setAttribute("aCol",new e.BufferAttribute(f,3));var b=new e.Points(l,B);b.frustumCulled=!1;y.add(b);var T=new e.Color(1,.42,.1),M=new e.Color(1,.77,.24),s=new e.Color;function G(o,i){let g=t.cur.width*i/1.6,p=(Math.random()-.5)*g*(.8+Math.random()*.5);r[o*4]=p,r[o*4+1]=0,r[o*4+2]=.9+Math.random()*1.8,r[o*4+3]=.22+Math.random()*.5,d[o*3]=p/(i*.5),d[o*3+1]=-1+(.11+Math.random()*.06)*2,d[o*3+2]=0,s.copy(T).lerp(M,Math.random()*.75),f[o*3]=s.r,f[o*3+1]=s.g,f[o*3+2]=s.b}var w=o=>document.getElementById(o),L=w("power"),H=Array.from(document.querySelectorAll(".mode-btn")),U=w("sparks");L.addEventListener("input",o=>{t.power=parseInt(o.target.value,10)/100,w("power-val").textContent=o.target.value+"%"});H.forEach(o=>{o.addEventListener("click",()=>{t.mode=o.dataset.mode,H.forEach(i=>{let m=i===o;i.classList.toggle("on",m),i.setAttribute("aria-pressed",m?"true":"false")})})});U.addEventListener("change",o=>{t.sparks=o.target.checked,w("sparks-label").textContent=t.sparks?"\u5F00":"\u5173",b.visible=t.sparks});var z=new e.Clock,_=0;function F(){requestAnimationFrame(F);let o=Math.min(z.getDelta(),.05);t.t+=o;let i=t.t,m=R[t.mode],g=1-Math.exp(-o*3.2);for(let u of["width","height","flicker","turb","seed"])t.cur[u]+=(m[u]-t.cur[u])*g;n.uTime.value=i;let p=window.innerWidth/window.innerHeight;if(n.uWidth.value=t.cur.width*p/1.6,n.uHeight.value=t.cur.height*(.5+.8*t.power),n.uFlicker.value=t.cur.flicker,n.uTurb.value=t.cur.turb,n.uSeed.value=t.cur.seed,n.uPower.value=t.power,n.uGlow.value=1-Math.exp(-i*2.4),t.sparks){let u=window.innerWidth/window.innerHeight,E=Math.floor(60+360*t.power);for(let a=0;a<E;a++){let c=a*4;if(r[c+1]+=o,r[c+1]>=r[c+2]){G(a,u);continue}let x=r[c+1]/r[c+2],S=Math.sin(i*2.2+a*1.7)*.1*x*(u/1.6);d[a*3]=(r[c]+S)/(u*.5),d[a*3+1]+=o*r[c+3]*(1+t.power*.8)*2;let C=Math.pow(1-x,1.6);s.copy(T).lerp(M,C*.9).multiplyScalar(.35+C*.85),f[a*3]=s.r,f[a*3+1]=s.g,f[a*3+2]=s.b}for(let a=E;a<v;a++)d[a*3+1]=-10;l.attributes.position.needsUpdate=!0,l.attributes.aMeta.needsUpdate=!0,l.attributes.aCol.needsUpdate=!0,l.setDrawRange(0,E)}h.render(y,A),++_===4&&document.documentElement.classList.add("done")}F();window.addEventListener("load",()=>{setTimeout(()=>document.documentElement.classList.add("done"),400)});setTimeout(()=>document.documentElement.classList.add("done"),3500);window.addEventListener("resize",()=>{h.setSize(window.innerWidth,window.innerHeight),n.uAspect.value=window.innerWidth/window.innerHeight,k.uPixelRatio.value=h.getPixelRatio()});
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一团程序化火焰：FBM 火舌 shader 在画面里翻卷，上升的火星粒子不断往上飘，热浪扭曲让空气本身都在晃动。控制台上有火力滑杆，默认 65%，拉高火舌立刻窜起来；火星开关可以打开或关掉；火焰形态有篝火、火炬、炉火三档，篝火最野，炉火最稳。适合篝火晚会、户外、取暖或任何需要火的品牌当首页 hero：火是人类最古老的取暖方式，一团火就能让人停下来。演示时先把火力拉到满格看火舌，再切到炉火看它安静下来，对比最出效果。换个角度看，火焰高度、火星数量联动，贴底的暗橙指数光晕，伪造火舌的撕裂和翻卷。</p>
+</section>
 </body>
 </html>

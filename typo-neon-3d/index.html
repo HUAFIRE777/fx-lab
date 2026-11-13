@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>疾速 · 林跃 2026 赛季宣言 — typo-neon-3d</title>
-<meta name="description" content="巨型排印 + 单霓虹色 + 3D 点缀。虚构赛车手林跃的赛季宣言页。">
+<meta name="description" content="虚构赛车手林跃 2026 赛季宣言页：巨型排印加单霓虹色加三维点缀，疾速两个大字镇住画面，宣言文案写在下方，单霓虹色克制配色让排印成为唯一焦点。巨型排印本身就是态度；车手名、赛季年份与宣言文案换成自己的，霓虹色按品牌主色调，巨型排印的尺寸不用动。细节上，背景一层淡粒子、一个缓慢旋转的线框体。">
 <style>
 /* ============ typo-neon-3d · 严格双色：#0A0A0A + #D2FF00 ============ */
 :root{
@@ -305,5 +305,11 @@ setTimeout(function(){document.documentElement.classList.add('done')},5000);
 import*as e from"three";document.documentElement.classList.add("js");var M=i=>document.querySelector(i),L=i=>Array.from(document.querySelectorAll(i)),P=window.matchMedia("(prefers-reduced-motion: reduce)").matches,S=window.matchMedia("(pointer: coarse)").matches,R=!1;function x(){R||(R=!0,document.documentElement.classList.add("done"))}window.addEventListener("load",()=>setTimeout(x,450));setTimeout(x,3200);var W=M("#progress"),b=L(".chapter"),E=!1;function y(){let i=window.innerHeight,l=window.scrollY||window.pageYOffset,n=document.documentElement.scrollHeight-i;W.style.transform="scaleX("+(n>0?Math.min(1,l/n):0)+")";for(let s of b){let o=s.offsetTop,r=s.offsetHeight,a=Math.min(1,Math.max(0,(l-o+i*.4)/(r-i*.8)));s.querySelectorAll(".ln").forEach((c,u)=>{c.classList.toggle("on",a>=.1+u*.15)})}}window.addEventListener("scroll",()=>{E||(E=!0,requestAnimationFrame(()=>{y(),E=!1}))},{passive:!0});window.addEventListener("resize",y);y();(function(){let l=M("#bg"),n;try{n=new e.WebGLRenderer({antialias:!0,alpha:!0,powerPreference:"low-power"})}catch{return}n.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75)),n.setSize(window.innerWidth,window.innerHeight),l.appendChild(n.domElement);let s=new e.Scene,o=new e.PerspectiveCamera(45,window.innerWidth/window.innerHeight,.1,100);o.position.set(0,0,9);let r=new e.Group;s.add(r);let a=new e.Mesh(new e.TorusKnotGeometry(1.7,.42,140,18),new e.MeshBasicMaterial({color:13827840,wireframe:!0,transparent:!0,opacity:.15}));a.position.set(3.1,.5,-1.5),r.add(a);let w=1800,c=new Float32Array(w*3),u=new Float32Array(w);for(let t=0;t<w;t++)c[t*3]=(Math.random()-.5)*26,c[t*3+1]=(Math.random()-.5)*15,c[t*3+2]=(Math.random()-.5)*10-2,u[t]=.12+Math.random()*.35;let m=new e.BufferGeometry;m.setAttribute("position",new e.BufferAttribute(c,3));let v=new e.Points(m,new e.PointsMaterial({color:13827840,size:.035,transparent:!0,opacity:.5,sizeAttenuation:!0,depthWrite:!1}));r.add(v);let H=0,g=0,f=0,p=0;S||window.addEventListener("pointermove",t=>{H=(t.clientX/window.innerWidth-.5)*2,g=(t.clientY/window.innerHeight-.5)*2},{passive:!0}),window.addEventListener("resize",()=>{o.aspect=window.innerWidth/window.innerHeight,o.updateProjectionMatrix(),n.setSize(window.innerWidth,window.innerHeight)});let A=new e.Clock;function T(){let t=Math.min(A.getDelta(),.05);a.rotation.x+=t*.07,a.rotation.y+=t*.11;let h=m.attributes.position.array;for(let d=0;d<w;d++)h[d*3+1]+=u[d]*t,h[d*3+1]>7.5&&(h[d*3+1]=-7.5);m.attributes.position.needsUpdate=!0,f+=(H-f)*.045,p+=(g-p)*.045,r.rotation.y=f*.22,r.rotation.x=-p*.14,o.position.x=f*.35,o.position.y=-p*.25,o.lookAt(0,0,0),n.render(s,o)}if(P){T();return}n.setAnimationLoop(()=>{document.hidden||T()})})();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一页虚构赛车手林跃的 2026 赛季宣言：巨型排印加单霓虹色加 3D 点缀，疾速两个大字镇住画面，宣言文案写在下方。页面结构极简：巨型标题、宣言正文、赛季信息，没有多余装饰；单霓虹色的克制配色让巨型排印成为唯一的视觉焦点。适合赛车、电竞、运动或任何需要宣言感的品牌当宣言页：巨型排印本身就是态度。套用时把车手名、赛季年份与宣言文案换成自己的，霓虹色按品牌主色调，巨型排印的尺寸不用动。宣言正文只有两三句，写的是速度与信念，没有多余修辞；赛季信息放在页面底部，年份与车队名一目了然，整页的克制就是宣言的一部分。</p>
+</section>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>褶皱 · 七个项目的七种姿态 — image-distort-3d</title>
-<meta name="description" content="作品集列表页悬停图片 WebGL 扭曲转场：simplex noise 置换 + RGB 分离，扭曲强度随鼠标速度变化。">
+<meta name="description" content="作品集列表页悬停图片 WebGL 扭曲转场：simplex noise 置换加 RGB 分离，扭曲强度随鼠标速度变化，左侧七个项目标题，右侧图片实时生成，无外部图片。七个项目各有自己的姿态，右侧的图不是配图，是每个项目的脾气；七个项目换成自己的作品，移动端点按切换已经适配好，扭曲强度在移动端主要由转场峰值提供。">
 <style>
 /* ============ image-distort-3d · 严格三色：米白 #F4F1EA / 墨黑 #1B1A17 / 赭石 #B56B2B ============ */
 :root{
@@ -331,5 +331,11 @@ import*as l from"three";var g=[{name:"\u96FE\u5C7F",tag:"\u5C55\u89C8\u89C6\u89C
   `});I.add(new l.Mesh(new l.PlaneGeometry(2,2),ee));function $(){let n=N.getBoundingClientRect(),t=Math.max(2,Math.round(n.width)),a=Math.max(2,Math.round(n.height));h.setSize(t,a,!1),u.u_aspect.value=t/a}new ResizeObserver($).observe(N);var S=null,G=null,k=0,P=0;addEventListener("pointermove",n=>{let t=performance.now();if(S!==null&&t>k){let a=n.clientX-S,o=n.clientY-G,m=Math.hypot(a,o)/((t-k)/1e3);P=Math.min(1,m/2600)}S=n.clientX,G=n.clientY,k=t},{passive:!0});var B=0,R=!1,v=[];function A(n){n===B||R||!v[n]||!v[B]||(R=!0,W(n),u.u_t1.value=v[n],gsap.to(u.u_prog,{value:1,duration:1.15,ease:"expo.inOut",onComplete(){u.u_t0.value=v[n],u.u_prog.value=0,B=n,R=!1}}))}x.addEventListener("pointerover",n=>{let t=n.target.closest("button");t&&A(+t.dataset.i)});x.addEventListener("click",n=>{let t=n.target.closest("button");t&&A(+t.dataset.i)});x.addEventListener("focusin",n=>{let t=n.target.closest("button");t&&A(+t.dataset.i)});var te=new l.Clock,M=0,C=0,F=performance.now(),ne=document.getElementById("fps");function V(){requestAnimationFrame(V);let n=Math.min(te.getDelta(),.05);u.u_time.value+=n;let t=P;u.u_vel.value+=(t-u.u_vel.value)*(1-Math.exp(-n*6)),P*=Math.exp(-n*2.2),h.render(I,O),M+=n,C++;let a=performance.now();a-F>800&&(ne.textContent=Math.round(C/M)+" FPS",M=0,C=0,F=a)}var ae=document.getElementById("loadBar"),oe=document.getElementById("loadTxt"),U=["\u6B63\u5728\u7814\u78E8\u989C\u6599 \u2026","\u6B63\u5728\u94FA\u5F00\u7EB8\u9762 \u2026","\u6B63\u5728\u6492\u4E0B\u566A\u70B9 \u2026","\u6B63\u5728\u6821\u51C6\u8D6D\u77F3 \u2026"];function X(n=0){if(n<g.length){let t=j(n),a=new l.CanvasTexture(t);a.colorSpace=l.SRGBColorSpace,a.anisotropy=4,v.push(a);let o=(n+1)/g.length;ae.style.width=(o*100).toFixed(0)+"%",oe.textContent=U[Math.min(n,U.length-1)],setTimeout(()=>X(n+1),30);return}u.u_t0.value=v[0],u.u_t1.value=v[0],$(),h.render(I,O),V(),W(0),document.documentElement.classList.add("done"),window.__distortReady=!0}X();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一个作品集列表页：左侧是七个项目的标题列表，右侧是一块图片预览区；悬停标题时图片做 WebGL 扭曲转场，simplex noise 置换加 RGB 分离，鼠标划得越快，画面皱得越深。七个项目各有自己的姿态，右侧的图不是配图，是每个项目的脾气；所有图片均为程序实时生成，无外部图片。适合设计师、摄影师或创意工作室当作品集首页：列表加预览加扭曲转场，是 Awwwards 获奖站最常见的作品集形态。套用时把七个项目换成自己的作品，标题与图片生成参数按作品调，移动端点按切换已经适配好。还有一点，速度经指数平滑、惯性衰减。</p>
+</section>
 </body>
 </html>

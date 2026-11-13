@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>数据星系 — 一眼看清业务数据流向 · data-galaxy-3d</title>
-<meta name="description" content="深黑底 + 青色星系网络：四个业务星团，hover 看数据卡，chips 筛选星团。">
+<meta name="description" content="深黑底青色星系网络数据可视化：销售、运营、客服、供应链四个业务星团，悬停节点弹出数据卡，顶部 chips 筛选星团，一眼看清业务数据流向。节点之间的连线代表业务关系，星系网络本身就是数据流向的可视化；四个星团换成自己的业务线，节点数据接自己的接口。还有，枢纽为白色八面体、内核白光脉冲、缓慢自转。">
 <style>
 /* ============ data-galaxy-3d · 严格三色：#04090D 深黑 / #22D3EE 青 / #F2FAFD 白 ============ */
 :root{
@@ -269,5 +269,11 @@ html.js.done .hint{opacity:1}
 {"imports":{"three":"vendor/three.module.js"}}
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一张业务数据的星系图：深黑底加青色星系网络，四个业务星团——销售、运营、客服、供应链——各自成团，悬停任意节点会弹出数据卡，顶部 chips 可以筛选星团，只看其中一个。星系网络本身就是数据流向的可视化，节点之间的连线代表业务关系。适合数据产品、SaaS 或企业服务品牌当数据页 hero：让访客一眼看清业务数据是怎么流动的。套用时把四个星团换成自己的业务线，节点数据接自己的接口，筛选 chips 的文案跟着业务名改。画面里还藏着，数据卡弹出并跟随节点，点选某星团时其余节点/链路透明度插值压暗到0.1。</p>
+</section>
 </body>
 </html>

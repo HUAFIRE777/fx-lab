@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>极光 — aurora-3d</title>
-<meta name="description" content="全屏极光天空 shader：fbm 噪声极光幕布多层舞动、程序化星空、雪山剪影。极光强度与颜色随时间呼吸。">
+<meta name="description" content="全屏极光天空 shader：fbm 噪声织出多层舞动的极光幕布，配程序化星空与雪山剪影，极光强度与颜色随时间呼吸，强度滑杆与时间流速均可调。还可切换冰岛、挪威、阿拉斯加三个地点预设，换一换天空的底色与氛围，直接打开就能看，适合旅游与极地品牌首页。还有，三层幕布缓慢舞动，程序化星空微闪烁，极光亮处星星自动压暗。">
 <style>
 /* ============ aurora-3d · 严格三色：#020617 极夜 / #34d399 极光绿 / #a78bfa 极光紫 ============ */
 :root{
@@ -331,5 +331,11 @@ void main() {
 `,L=n("#sky"),i=new t.WebGLRenderer({antialias:!1,powerPreference:"high-performance"});i.setPixelRatio(Math.min(window.devicePixelRatio||1,2));L.appendChild(i.domElement);var x=new t.Scene,I=new t.OrthographicCamera(-1,1,1,-1,0,1),r={uTime:{value:0},uRes:{value:new t.Vector2(1,1)},uIntensity:{value:.7},uMix:{value:.78}},b=new t.ShaderMaterial({uniforms:r,vertexShader:R,fragmentShader:g,depthTest:!1,depthWrite:!1});x.add(new t.Mesh(new t.PlaneGeometry(2,2),b));function y(){let e=window.innerWidth,a=window.innerHeight;i.setSize(e,a,!1),r.uRes.value.set(e*i.getPixelRatio(),a*i.getPixelRatio())}window.addEventListener("resize",y);y();var s={i:.7,m:.78,s:1},o={i:.7,m:.78,s:1},m=(e,a,c,T)=>e+(a-e)*(1-Math.exp(-T*c)),u=n("#intensity"),d=n("#speed"),H=n("#intVal"),M=n("#spdVal");u.addEventListener("input",()=>{s.i=u.value/100,H.textContent=u.value});d.addEventListener("input",()=>{s.s=d.value/100,M.textContent=s.s.toFixed(1)+"\xD7"});document.querySelectorAll(".preset").forEach(e=>{e.addEventListener("click",()=>{document.querySelectorAll(".preset").forEach(a=>a.classList.remove("active")),e.classList.add("active"),s.m=parseFloat(e.dataset.mix)})});var p=0,h=performance.now();function E(e){let a=Math.min((e-h)/1e3,.05);h=e,o.i=m(o.i,s.i,4,a),o.m=m(o.m,s.m,2.2,a),o.s=m(o.s,s.s,4,a);let c=w?.05:o.s;p+=a*c,r.uTime.value=p,r.uIntensity.value=o.i,r.uMix.value=o.m,i.render(x,I),f||(f=e),!v&&e-f>450&&l(),requestAnimationFrame(E)}requestAnimationFrame(E);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一片全屏极光天空：fbm 噪声织出的极光幕布分多层在夜空里缓慢舞动，下方是程序化星空与雪山剪影，极光的强度与颜色会随时间呼吸起伏。页面下方有一组极光控制台，极光强度滑杆默认 70，可以拉高拉低；时间流速滑杆控制舞动快慢；还可以切换冰岛、挪威、阿拉斯加三个地点预设，换一换天空的底色与氛围。适合做旅游、极地、摄影或氛围类品牌的首页 hero：全屏就是一张会动的夜空，不需要任何图片。直接打开就能看，调两个滑杆就能找到自己喜欢的那片极光。再看细节，三层幕布高度错开、漂移方向交错，星空按程序化闪烁微微发亮。</p>
+</section>
 </body>
 </html>

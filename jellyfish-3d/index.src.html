@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>水母群游 · jellyfish-3d</title>
-<meta name="description" content="深海水母群游 3D 动效模板：程序化水母、呼吸游动、点击海面泛涟漪聚拢。">
+<meta name="description" content="深海水母群游三维动效：程序化水母伞盖呼吸式收缩推进、触手弹簧摆动，深海光柱与浮游颗粒，点击海面泛涟漪聚拢水母，数量与发光强度可调。水母数量默认 10，发光强度默认全部；它们没有大脑也没有心脏，却靠六亿年的收缩与舒张活成了海里最安静的舞者，适合海洋馆首页。值得一提的是，点击海面泛起涟漪，水母会循着波纹聚拢而来。">
 <style>
 /* ============ jellyfish-3d · 严格三色：深海 #04121F / 荧光青 #7DF9FF / 品红 #FF6FD8 ============ */
 :root{
@@ -223,5 +223,11 @@ html.js .tap-tip.gone{opacity:0}
 {"imports":{"three":"vendor/three.module.js"}}
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一群深海里的发光水母：程序化生成的水母伞盖呼吸式收缩推进，触手弹簧摆动，深海光柱与浮游颗粒营造出 1240 米深的幽暗。控制台上有两个滑杆：水母数量默认 10，发光强度默认 100%；点击海面会泛起涟漪，水母循着波纹聚拢而来。它们没有大脑，也没有心脏，却靠了六亿年的收缩与舒张，活成了海里最安静的舞者。适合海洋馆、水族馆、深海科普或冥想类品牌当首页 hero：一片安静的海，比任何喧闹的开场都更让人停下来。用起来会发现，点击海面在点击点生成3圈扩散涟漪，正弦叠层、速度滞后拖尾、收缩瞬间下推。</p>
+</section>
 </body>
 </html>

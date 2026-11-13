@@ -5,6 +5,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="utf-8">
+<meta name="description" content="三维翻转月历日程模板：整张月历是一张立体卡片，切换月份翻转半圈，日期悬停浮起，事件按类型着色，点击日期右侧滑出当日日程抽屉，纯样式三维实现。深蓝灰底色配青色强调，排期美学取自知名日历产品，代码原创手写，可直接改成自己的日程产品。此外，月历是双面卡，切月时新月份先渲染到背面，整页只讲一个核心动效。">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>日程 · 3D 月历</title>
 <style>
@@ -490,5 +491,11 @@ requestAnimationFrame(() => requestAnimationFrame(done));
 setTimeout(done, 2500); // 兜底：任何异常也不让加载态卡死
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一张会翻面的 3D 月历日程页，整张月历本身就是一张立体卡片：切换月份时整页翻转 180 度，日期格悬停会浮起，事件点按类型着色，点击任意日期，右侧会滑出当天的日程抽屉。它学的是 Cron 与 Notion Calendar 那种深蓝灰底色加青色强调的排期美学，但代码全部原创手写，纯 CSS 3D 加原生 JS，零第三方库。适合拿来做效率工具、管理后台或个人日程产品的首页：把排期做成可以翻、可以点、可以一眼看清的立体界面。改起来也直接，事件类型颜色、月份翻转节奏和抽屉内容都在代码里留好位置，换成自己的日程数据就能用。</p>
+</section>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>太阳风暴 — solar-storm-3d</title>
-<meta name="description" content="一颗正在喷发的恒星：噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发。">
+<meta name="description" content="一颗正在喷发的恒星：噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发，喷发强度可调，Max 专属特效。先把喷发强度拉满，再连续点几次触发耀斑；火球在翻滚，射流向外抛洒，磁弧在头顶慢慢转，Max 专属特效。还有，点击后强度指数衰减，射流粒子大小按寿命衰减。">
 <style>
 /* ============ solar-storm-3d · 严格三色：#050505 漆黑 / #f97316  ember 橙 / #fbbf24 鎏金 ============ */
 :root{
@@ -209,5 +209,11 @@ import*as e from"three";document.documentElement.classList.add("js");var x=a=>do
     }`}),J=new e.Points(v,V);l.add(J);var y={rate:1},T={rate:1},m=0,S=0,b=0,p=!1,R=0,M=0,F=0,C=0;function D(){m=1}x("#flareBtn").addEventListener("click",D);if(!G){f.addEventListener("pointerdown",t=>{p=!0,R=t.clientX,M=t.clientY,F=t.clientX,C=t.clientY,f.setPointerCapture(t.pointerId)}),f.addEventListener("pointermove",t=>{p&&(b=(t.clientX-R)*.005,S=(t.clientY-M)*.005,R=t.clientX,M=t.clientY)});let a=t=>{p&&Math.hypot(t.clientX-F,t.clientY-C)<6&&D(),p=!1};f.addEventListener("pointerup",a),f.addEventListener("pointercancel",()=>{p=!1})}var j=x("#rate"),$=x("#rateVal");j.addEventListener("input",()=>{y.rate=j.value/100,$.textContent=y.rate.toFixed(1)+"\xD7"});window.addEventListener("resize",()=>{h.aspect=window.innerWidth/window.innerHeight,h.updateProjectionMatrix(),s.setSize(window.innerWidth,window.innerHeight),k.uPixelRatio.value=s.getPixelRatio()});var K=(a,t,i,o)=>a+(t-a)*(1-Math.exp(-o*i)),B=performance.now();function q(a){let t=Math.min((a-B)/1e3,.05);if(B=a,T.rate=K(T.rate,y.rate,4,t),m*=Math.exp(-t*1.1),H.uFlare.value=m,H.uTime.value+=t,!G){let o=T.rate*(1+m*2.2);for(let n=0;n<d;n++){u[n]+=t*.32*o*X[n],u[n]>=1&&_(n,!1);let r=1.5+u[n]*2.3,L=u[n]*.5;E[n*3]=c[n*3]*r-c[n*3+2]*L*.4,E[n*3+1]=c[n*3+1]*r,E[n*3+2]=c[n*3+2]*r+c[n*3]*L*.4}v.attributes.position.needsUpdate=!0,v.attributes.aLife.needsUpdate=!0,l.rotation.y+=b+t*.05,l.rotation.x+=S,S*=Math.exp(-t*3.2),b*=Math.exp(-t*3.2),W.forEach(n=>{n.rotation.z+=t*n.userData.speed*.4})}w.material.opacity=.7+.25*m+.08*Math.sin(a*6e-4);let i=9+m*1.6;w.scale.set(i,i,1),s.render(P,h),z||(z=a,setTimeout(g,450)),requestAnimationFrame(q)}requestAnimationFrame(q);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一颗正在喷发的恒星：噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发。控制台上有喷发强度滑杆，默认 1.0 倍，拉高火球翻滚得更剧烈；触发耀斑按钮点一下，炸一朵耀斑给你看；拖动可以旋转恒星，从任意角度看喷发。这是 4 套 Max 专属特效之一，永不转免费。适合天文、科普、能源或任何需要恒星感的品牌当首页 hero：火球在翻滚，射流向外抛洒，磁弧在头顶慢慢转。演示时先把喷发强度拉满，再连续点几次触发耀斑。还有一点，点击画面或点按钮，三色按噪声值分层。</p>
+</section>
 </body>
 </html>

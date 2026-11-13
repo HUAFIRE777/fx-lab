@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>液态铬 — liquid-chrome-3d</title>
-<meta name="description" content="一颗液态金属球：顶点噪声缓慢流动、镜面反射环境光，拖动旋转带惯性，滚动加剧形变，镜面/磨砂两种表面。">
+<meta name="description" content="一颗液态金属球：顶点噪声让表面缓慢流动，镜面反射手绘条纹环境光，拖动旋转带惯性，滚动加剧形变，镜面与磨砂两种表面可切，Max 专属特效。先拖它转一圈，再滚轮推一把，形变加剧的那一刻最出效果；一块会呼吸的铬，比任何静态渲染都更像真的金属，Max 专属。此外，镜面/磨砂两种表面，环境贴图里一道亮带。">
 <style>
 /* ============ liquid-chrome-3d · 严格三色：#0b0b0e 炭黑 / #d4d4d8 铬银 / #f59e0b 琥珀 ============ */
 :root{
@@ -193,5 +193,11 @@ uniform float uMorph;
      transformed += normal * (ln + ln2) * 0.14 * uMorph;`)};var y=new t.Mesh(new t.IcosahedronGeometry(1.45,5),T);s.add(y);var m=new t.Mesh(new t.PlaneGeometry(7,7),new t.MeshBasicMaterial({color:16096779,transparent:!0,opacity:.05,blending:t.AdditiveBlending,depthWrite:!1}));m.rotation.x=-Math.PI/2;m.position.y=-2.4;s.add(m);var l={flow:1,rough:.08},r={flow:1,rough:.08},u=0,E=0,g=0,f=!1,w=0,h=0;if(!H){a.addEventListener("pointerdown",e=>{f=!0,w=e.clientX,h=e.clientY,a.setPointerCapture(e.pointerId)}),a.addEventListener("pointermove",e=>{f&&(g=(e.clientX-w)*.005,E=(e.clientY-h)*.005,w=e.clientX,h=e.clientY)});let o=()=>{f=!1};a.addEventListener("pointerup",o),a.addEventListener("pointercancel",o),window.addEventListener("wheel",e=>{u=Math.min(u+Math.abs(e.deltaY)*9e-4,1.6)},{passive:!0})}var R=z("#flow"),I=z("#flowVal");R.addEventListener("input",()=>{l.flow=R.value/100,I.textContent=l.flow.toFixed(1)+"\xD7"});document.querySelectorAll(".preset").forEach(o=>{o.addEventListener("click",()=>{document.querySelectorAll(".preset").forEach(e=>e.classList.remove("active")),o.classList.add("active"),l.rough=o.dataset.finish==="brushed"?.38:.08})});window.addEventListener("resize",()=>{v.aspect=window.innerWidth/window.innerHeight,v.updateProjectionMatrix(),d.setSize(window.innerWidth,window.innerHeight)});var C=(o,e,n,i)=>o+(e-o)*(1-Math.exp(-i*n)),b=performance.now();function L(o){let e=Math.min((o-b)/1e3,.05);b=o,r.flow=C(r.flow,l.flow,4,e),r.rough=C(r.rough,l.rough,3,e),T.roughness=r.rough,u*=Math.exp(-e*.8),H?(c.uTime.value+=e*.1,c.uMorph.value=r.flow):(c.uTime.value+=e*(.6+r.flow),c.uMorph.value=r.flow*(1+u),y.rotation.y+=g+e*.12,y.rotation.x+=E+e*.03,E*=Math.exp(-e*3.2),g*=Math.exp(-e*3.2)),m.material.opacity=.04+.02*Math.sin(o*5e-4),d.render(s,v),S||(S=o,setTimeout(x,450)),requestAnimationFrame(L)}requestAnimationFrame(L);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一颗会呼吸的液态金属球：顶点噪声让表面缓慢流动，镜面反射着手绘条纹环境光，光在上面走来走去。拖动可以旋转，带惯性，松手后还会滑一段；滚动页面能加剧形变，球面被推得更软；表面有镜面与磨砂两种，镜面最亮，磨砂最柔。这是 4 套 Max 专属特效之一，永不转免费。适合产品渲染、金属材质、奢侈品或任何想讲质感的品牌当 hero：一块会呼吸的铬，比任何静态渲染都更像真的金属。演示时先拖它转一圈，再滚轮推一把，形变加剧的那一刻最出效果。往细了看，镜面/磨砂两种表面，全页只有一个主视觉动效。</p>
+</section>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>沙丘 · DUNE — sand-dune-3d</title>
-<meta name="description" content="程序化沙丘风场：数千沙粒随风场流淌堆积成起伏沙丘，相机缓慢漫游——风速滑杆、风向拨盘、三档沙丘形态。">
+<meta name="description" content="程序化沙丘风场：数千沙粒随风场流淌堆积成起伏沙丘，相机缓慢漫游，风速滑杆可调，风向拨盘可转，沙丘形态新月、横脊、星形三档，风从不回头沙丘替它记得方向。风积地貌的质感来自低角度暖阳、沙脊高光与风蚀波纹；先切星形形态，再把风向拨到正北看沙粒改道，适合沙漠品牌首页。值得一提的是，支持键盘左右键微调，数千沙粒沿实时风场流淌。">
 <style>
 /* ============ sand-dune-3d · 全页严格三色：沙金 #E8C47A / 深棕 #2A1E12 / 米白 #F5EDDA ============ */
 :root{
@@ -253,5 +253,11 @@ html.nogl .loader,html.nogl .top,html.nogl .dock{display:none}
   {"imports":{"three":"./vendor/three.module.js"}}
   </script>
   <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一片程序化沙丘风场：数千沙粒随风场流淌堆积成起伏沙丘，相机缓慢漫游，风从不回头，沙丘替它记得方向。控制台上有三个可调项：风速滑杆默认 45，风越大沙粒流得越快；风向拨盘默认东北 60 度，拨动转盘改变风向；沙丘形态新月、横脊、星形三档，换一档整片沙丘的地貌就变了。适合沙漠、旅行、地理或自然品牌当首页 hero：风积地貌的质感来自低角度暖阳、沙脊高光与风蚀波纹。演示时先切星形形态，再把风向拨到正北看沙粒改道。它还有一处细节，半径/高度/偏航角三正弦叠加缓慢漂移，三档沙丘形态实时可调。</p>
+</section>
 </body>
 </html>

@@ -5,6 +5,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="utf-8">
+<meta name="description" content="横向滚动杂志陈列：纵向滚动映射为横向轨道，五幕各一件服装三维雕塑加大标题，文字、舞台、背景大词三层视差，一屏一件编号即装饰，适合时尚品牌 lookbook。滚轮即脚步，一幕一件，节奏像翻杂志；五幕服装换成自己的当季单品，三维雕塑与大标题按单品调，轨道长度跟着幕数走。滚轮驱动横向杂志式陈列。">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>衣橱档案 · 横向滚动杂志陈列</title>
 <style>
@@ -171,5 +172,11 @@ import*as r from"three";var E=[{id:"dress",num:"01",title:"\u96FE\u84DD\u957F\u8
     </div>`,h.appendChild(n);let s=n.querySelector(".stage");try{let o=new r.WebGLRenderer({antialias:!0,alpha:!0}),a=s.clientWidth||400;o.setPixelRatio(Math.min(devicePixelRatio||1,1.5)),o.setSize(a,a),s.appendChild(o.domElement);let i=new r.Scene;i.add(new r.HemisphereLight(16775404,9075299,1.05));let d=new r.DirectionalLight(16777215,1.7);d.position.set(3,5,4),i.add(d);let l=new r.DirectionalLight(11818285,.9);l.position.set(-4,2,-3),i.add(l);let m=H[e.id](),S=new r.Box3().setFromObject(m);m.position.y-=S.min.y+.5,i.add(m);let v=m.position.y,f=new r.PerspectiveCamera(36,1,.1,30);f.position.set(0,1.05,4.6),f.lookAt(0,.72,0),x.push({renderer:o,scene:i,camera:f,group:m,el:s,seed:Math.random()*10,baseY:v}),requestAnimationFrame(()=>s.classList.add("ready"))}catch(o){console.warn("[lookbook] WebGL unavailable for",e.id,o),s.classList.add("webgl-fail","ready")}});var u=0,I=[...h.children];function y(){let e=Math.max(1,h.scrollWidth-innerWidth);h.style.transform=`translate3d(${-u*e}px, 0, 0)`;let n=Math.min(E.length-1,Math.max(0,Math.round(u*(E.length-1))));T("curNum").textContent=E[n].num,T("progBar").style.transform=`scaleX(${u})`,I.forEach((s,o)=>{let a=u*(E.length-1)-o,i=s.querySelector(".copy"),d=s.querySelector(".stage"),l=s.querySelector(".bgword");i.style.transform=`translateX(${a*-70}px)`,d.style.transform=`translateX(${a*55}px)`,l.style.transform=`translate(-50%,-50%) translateX(${a*-170}px)`,s.style.opacity=Math.max(.1,1-Math.abs(a)*.85)})}function b(e,n){return()=>{let o=n();u=o>0?Math.min(1,Math.max(0,e()/o)):0,y()}}var w;if(typeof window.Lenis<"u"&&!g){let e=new Lenis({lerp:.09,smoothWheel:!0});w=b(()=>e.scroll,()=>e.limit),e.on("scroll",w),window.__lenis=e}else w=b(()=>window.scrollY,()=>document.documentElement.scrollHeight-innerHeight),addEventListener("scroll",w,{passive:!0});var C=new r.Clock;function M(){requestAnimationFrame(M),window.__lenis&&window.__lenis.raf(performance.now());let e=C.getElapsedTime();for(let n of x)g||(n.group.rotation.y=e*.4+n.seed,n.group.position.y=n.baseY+Math.sin(e*1.1+n.seed)*.035),n.renderer.render(n.scene,n.camera)}y();w();M();addEventListener("resize",y);requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add("loaded")));
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一本横向滚动的杂志陈列：纵向滚动映射为横向轨道，五幕各一件服装 3D 雕塑加大标题，文字、舞台、背景大词三层视差错速移动。手法学的是 SSENSE 的整屏单品大片加巨型描边编号，与 Jacquemus 的纵向滚动驱动横向画廊，一屏一件、编号即装饰。适合服装、时尚或杂志品牌当 lookbook 页：滚轮即脚步，一幕一件，节奏像翻杂志。套用时把五幕服装换成自己的当季单品，3D 雕塑与大标题按单品调，横向轨道的长度跟着幕数走。值得一提的是，非当前幕按降透明度，幕间透明度由逐帧计算，滚轮滚动提示动画，营造杂志翻页的纵深。</p>
+</section>
 </body>
 </html>

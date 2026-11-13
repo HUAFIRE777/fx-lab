@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>暮巡 · 程序化地形低空漫游 — terrain-flyover-3d</title>
-<meta name="description" content="程序化地形低空巡航：simplex 噪声山脉与湖泊，样条巡航运镜，滚动控速。fx-lab 原创实现。">
+<meta name="description" content="暮色下程序化地形低空巡航：simplex 噪声生成的山脉与湖泊，相机沿样条低空自动巡航，滚动页面即可加速，高度与速度实时显示，运镜学自 Google Earth Studio 巡航镜头。苍峦山脉在暮色里一层层展开，高度与速度实时显示在画面上；先慢慢滚动加速巡航，再点暂停停在湖面上看倒影，地形生成的细节最出效果。">
 <script>document.documentElement.classList.add('js')</script>
 <style>
 /* ============ terrain-flyover-3d · 暮蓝紫 dusk：#0A0F24 深蓝 / #9D8FD0 雾紫 / #FFB066 暖阳 ============ */
@@ -153,5 +153,11 @@ body{
 <div id="scrollspace"></div>
 
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一次暮色下的程序化地形低空巡航：simplex 噪声生成的山脉与湖泊，相机沿样条低空自动巡航，滚动页面即可加速。运镜学的是 Google Earth Studio 的巡航运镜与开放世界游戏开场低空飞行镜头，苍峦山脉在暮色里一层层展开，高度与速度实时显示在画面上。适合地理、旅行、测绘或任何需要地形感的品牌当首页 hero：暮巡二字就是全部的意境。演示时先慢慢滚动加速巡航，再点暂停巡航停在湖面上看倒影，地形生成的细节最出效果。换个角度看，开始巡航与暂停巡航可以切换，换种子即换一整片山脉，地名随飞行扇区淡入淡出切换。</p>
+</section>
 </body>
 </html>

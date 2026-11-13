@@ -4,6 +4,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="UTF-8">
+<meta name="description" content="大坝泄洪三维场景：三孔闸门抬起后水流沿抛物线倾泻，水舌、落点水花、弥漫雾气三层粒子叠加，泄洪量滑杆、闸门开关与慢动作实时控水势。水舌落差 26 米，慢动作下能看清每一滴水划出的弧线；先把泄洪量拉到 70% 再开慢动作，泄洪是最有力量感的工业画面之一。细节上，滑杆/按钮均为原生控件可直接操作。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>泄洪 · dam-3d — huafire3d fx-lab</title>
 <script>document.documentElement.classList.add('js')</script>
@@ -196,5 +197,11 @@ import*as e from"three";var g=t=>document.getElementById(t),wt=g("scene"),A=new 
 
 <footer data-intro>dam-3d · huafire3d fx-lab — original implementation</footer>
 
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一座正在泄洪的大坝：混凝土大坝横跨山谷，三孔泄洪闸门抬起后，巨量水流沿抛物线倾泻而下，水舌、落点水花、弥漫雾气三层粒子叠加，场面像航拍一样真实。控制台上有泄洪量滑杆与闸门开关，拖动滑杆或直接开关闸门，水势立刻跟着变；慢动作开关一开，能看清每一滴水划出的弧线。适合水利、基建、能源品牌当 hero：泄洪是最有力量感的工业画面之一。演示时先把泄洪量拉到 70% 再开慢动作，水舌落差 26 米的细节最出效果。值得一提的是，泄洪量滑杆、闸门开关与慢动作三组控制实时改变水势，水不是垂直掉下去的，坝体、闸门、边墩与栏杆都是程序化几何。</p>
+</section>
 </body>
 </html>

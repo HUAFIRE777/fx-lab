@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>棱镜 — glass-refract-3d</title>
-<meta name="description" content="玻璃折射棱镜 hero：程序化线条波纹背景 + MeshPhysicalMaterial 真实折射透镜，鼠标视差漂移，可调折射率。">
+<meta name="description" content="玻璃折射棱镜主视觉：程序化线条波纹背景加物理材质真实折射透镜，鼠标视差漂移，折射率可调，透镜数量三档可选，背景图案三档可切。折射率拉高拉低能看到折射程度的变化；先把透镜数量调到最多，再切流场网格背景，折射效果最丰富，适合光学与设计工具品牌。此外，背景是月白低透明，每隔若干条纹有一条棱镜蓝点缀，线条越细折射越好看。">
 <style>
 /* ============ glass-refract-3d · 严格三色：#0a0c10 墨黑 / #e8f4ff 月白 / #7dd3fc 棱镜蓝 ============ */
 :root{
@@ -223,5 +223,11 @@ input[type="range"]::-moz-range-thumb{
 {"imports":{"three":"vendor/three.module.js"}}
   </script>
   <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一面全屏玻璃折射 hero：程序化线条波纹背景加 MeshPhysicalMaterial 真实折射透镜，鼠标移动时透镜随视差漂移，背景在透镜里折成涟漪。控制台上有三个可调项：折射率 IOR 默认 1.52，拉高拉低能看到折射程度的变化；透镜数量 3、5、8 三档；背景图案有同心波纹、斜波条纹、流场网格三档。适合光学、玻璃、设计工具或任何想讲透视的品牌当首页 hero：光穿过玻璃时会拐弯，移动鼠标就能亲眼看到。演示时先把透镜数量调到 8，再切流场网格背景，折射效果最丰富。用起来会发现，透镜后方背景发生真实折射扭曲，线条越细折射越好看，背景是月白低透明，每隔若干条纹有一条棱镜蓝点缀。</p>
+</section>
 </body>
 </html>

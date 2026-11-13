@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>回声 Echo One — 3D 物体上的实时可交互 UI</title>
-<meta name="description" content="fx-lab 模板 liveui-3d：3D 智能音箱屏幕上贴着一张真实可点的 DOM 播放器卡片，每帧用 matrix3d 投影贴合。原创实现。">
+<meta name="description" content="三维智能音箱上的实时可交互 UI：屏幕上贴的不是贴图，而是一张真实可点的播放器卡片，每帧用三维矩阵透视贴合，晨间电子、深夜爵士、山间民谣三个歌单可切，音量滑杆可调，声音由浏览器实时合成，适合智能硬件演示页。三维里只画波形，界面是真实的播放器卡片。点按钮或拖滑杆都不会误触发旋转。">
 <style>
 :root{
   --ink:#16161A;      /* 石墨 */
@@ -211,5 +211,11 @@ body.ready .ui-card{opacity:1}
 </div>
 
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一台程序化 3D 智能音箱，屏幕上贴的不是贴图，而是一张真实可点的 DOM 播放器卡片，每帧用单应性矩阵做 matrix3d 透视贴合，视觉长在 3D 物体上，交互走真 DOM。播放器上有三个歌单：晨间电子、深夜爵士、山间民谣，点播放或暂停、拖音量滑杆都是浏览器原生行为，声音由浏览器实时合成；音箱屏幕的 3D 本体只是一块 CanvasTexture 平面，上面画着随音量跳动的荧光波形。适合智能硬件、音频产品或前端技术品牌当演示页：3D 里只画波形，UI 走真 DOM，这就是 Live UI on 3D 的趋势。它还有一处细节，投影映射自动跟随，点按钮/拖滑杆不触发旋转。</p>
+</section>
 </body>
 </html>

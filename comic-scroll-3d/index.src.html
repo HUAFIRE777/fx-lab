@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta name="description" content="纵向滚动漫画《追光者》第一期：封面加 5 个分镜格加封底订阅行动按钮，3 个 WebGL 活分镜实时渲染，日出、纸飞机、山顶斗篷，全部零贴图，滚动即翻页。5 个分镜格各有标题与台词，封面之后是日出、闹钟、纸飞机、归途、登顶，滚动本身就是阅读节奏，续更第二期可照此结构扩展。滚动进度逐个点亮窗口、红月与地平红线。">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>追光者 · 第一期 — 滚动漫画</title>
 <style>
@@ -313,5 +314,11 @@ html.js .panel.played .sfx-burst { animation: burstin 0.55s var(--ease-pop) 0.1s
 {"imports":{"three":"vendor/three.module.js"}}
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一本纵向滚动的漫画书《追光者》第一期，讲追光少年阿光的一天：封面之后是 5 个分镜格，最后是封底订阅下一期的 CTA。3 个分镜是实时渲染的 WebGL 活画面——清晨纸海上的日出、云海之上的纸飞机、山顶上被风吹成旗的斗篷；另外两格用 CSS 拟声词与 SVG 点灯城来表现，全部零贴图。向下滚动就是翻页，每一格都有自己的标题与台词。适合漫画、绘本、内容品牌或任何想用故事开场的产品页：滚动本身就是阅读节奏。想续更就照这个结构加第二期，分镜格数与活画面的数量都可以按故事扩。细节上，对话框气泡带尾巴。</p>
+</section>
 </body>
 </html>

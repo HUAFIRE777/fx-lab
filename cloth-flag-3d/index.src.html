@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>风起绸动 · 赤綃织造所 — cloth-flag-3d</title>
-<meta name="description" content="朱砂红绸布料波浪 shader：顶点正弦 + 噪声扰动，三种形态切换，风力可调，指尖拨动涟漪。虚构品牌中国风背景页。">
+<meta name="description" content="朱砂红绸布料波浪 shader：顶点正弦加噪声扰动让绸面在风里起伏，幅、旗、绸三种形态切换，风力滑杆可调，指尖拨动泛起涟漪，中国风背景页。绸面波浪是顶点着色器实时算出的正弦加噪声，风力越大波形越密；幅适合铺满全屏，旗适合竖版招牌，绸适合柔软开场。另外，拖动节流连续播撒，同时控制振幅与速度。">
 <style>
 /* ============ cloth-flag-3d · 严格三色：墨黑 #0d0b09 / 朱砂 #c23a22 / 米白 #ece2cc ============ */
 :root{
@@ -222,5 +222,11 @@ input[type="range"]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;b
 </div>
 
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一匹朱砂红的绸：顶点正弦加噪声扰动的波浪 shader 让整块布料在风里起伏，布料形态可以在幅、旗、绸三档之间切换，风力滑杆一拉，绸面立刻绷紧或松弛下来；指尖在布面上拨动，还会泛起一圈涟漪。页面是虚构品牌赤綃织造所的中国风背景页，红绸本身就是品牌。适合中式品牌、丝绸、汉服或东方美学类网站当首页背景：风一吹，整页就有了呼吸。想换感觉就切形态，幅适合铺满全屏，旗适合竖版招牌，绸适合柔软的开场。绸面的波浪不是贴图，是顶点着色器实时算出来的正弦加噪声，风力越大波形越密；拨动涟漪用的也是同一套扰动，手指划过的地方会泛起一圈圈细纹。</p>
+</section>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>瀑布 FALLS · 深渊水幕 — waterfall-3d</title>
-<meta name="description" content="程序化悬崖 + GPU 粒子瀑布：数千水粒子从崖顶倾泻，底部水花与雾气，水面波纹。可拖拽视角、水量可调、昼暮两档。">
+<meta name="description" content="程序化悬崖加粒子瀑布：数千水粒子从崖顶倾泻而下，底部撞击出水花与雾气，水面波纹法线扰动加泡沫扩散环，水量滑杆可调，自动环绕可开关，光线昼暮两档。先把水量拉满，再切暮色光照看水花反光，自动环绕下的瀑布最出效果；三千尺白练，一滑到底，适合旅游品牌首页。另外，相机缓慢自动环绕。水花强度与粒子休眠比例联动。">
 <script>document.documentElement.classList.add('js')</script>
 <style>
 /* ============ waterfall-3d · 严格三色：#04121a / #38bdf8 / #f0f9ff ============ */
@@ -321,5 +321,11 @@ import*as t from"three";var T=266778,U=3718648,I=15792639,B=window.matchMedia("(
       }`}),n=new t.Mesh(e,o);return n.rotation.x=-Math.PI/2,n.position.y=E.botY,d.add(n),n}var xt={bg:new t.Color(T).lerp(new t.Color(U),.22),fogNear:16,fogFar:44,hemi:.75,dir:1.25,dirColor:new t.Color(I),bright:1,foam:1},yt={bg:new t.Color(T),fogNear:10,fogFar:34,hemi:.3,dir:.55,dirColor:new t.Color(U),bright:1.28,foam:1.25};function tt(e){let o=xt,n=yt,r=(s,v)=>s+(v-s)*(1-e);d.background.copy(o.bg).lerp(n.bg,1-e),d.fog.color.copy(d.background),d.fog.near=r(o.fogNear,n.fogNear),d.fog.far=r(o.fogFar,n.fogFar),k.uFogColor.value.copy(d.background),Z.intensity=r(o.hemi,n.hemi),P.intensity=r(o.dir,n.dir),P.color.copy(o.dirColor).lerp(n.dirColor,1-e),F.value=r(o.bright,n.bright),k.uFoamBoost.value=r(o.foam,n.foam)}var R=document.getElementById("flow"),Tt=document.getElementById("flowVal");function et(){Tt.textContent=R.value,R.style.setProperty("--fill",R.value+"%")}R.addEventListener("input",()=>{let e=+R.value;Q.value=.15+1.45*(e/100),et()});et();var Y=document.getElementById("orbitBtn");Y.addEventListener("click",()=>{i.auto=!i.auto,Y.setAttribute("aria-pressed",String(i.auto))});V&&(i.auto=!1,Y.setAttribute("aria-pressed","false"));var at=document.getElementById("dayBtn"),ot=document.getElementById("duskBtn");function nt(e){$.value=e?1:0,at.classList.toggle("on",e),ot.classList.toggle("on",!e)}at.addEventListener("click",()=>nt(!0));ot.addEventListener("click",()=>nt(!1));var X=document.getElementById("loader"),it=document.getElementById("loadFill"),rt=document.getElementById("loadPct"),j=101,N=13,g=[];for(let e=0;e<j;e+=N){let o=e,n=Math.min(e+N,j);g.push(()=>vt(o,n))}g.push(()=>pt());g.push(()=>ht());g.push(()=>wt());g.push(()=>Et());g.push(()=>tt(1));var z=0,q=!1;function Mt(){let e=Math.round(z/g.length*100);it.style.width=e+"%",rt.textContent=e+"%"}function bt(){q||(q=!0,it.style.width="100%",rt.textContent="100%",X.classList.add("done"),setTimeout(()=>{X.setAttribute("hidden",""),document.documentElement.classList.add("is-in")},850))}var Ht=new t.Clock;function st(){requestAnimationFrame(st);let e=Math.min(Ht.getDelta(),.05);z<g.length&&(g[z++](),Mt(),z>=g.length&&bt()),V||(b.value+=e),S.value+=(Q.value-S.value)*(1-Math.exp(-e*4));let o=y.value+($.value-y.value)*(1-Math.exp(-e*2.5));Math.abs(o-y.value)>1e-4&&(y.value=o,tt(o)),K(e),M.render(d,D)}window.addEventListener("resize",()=>{D.aspect=window.innerWidth/window.innerHeight,D.updateProjectionMatrix(),M.setSize(window.innerWidth,window.innerHeight),W.value=M.getPixelRatio()});K(.016);st();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一挂深渊水幕：程序化悬崖加 GPU 粒子瀑布，数千水粒子从崖顶倾泻而下，底部撞击出水花与雾气，水面波纹法线扰动加泡沫扩散环。控制台上有四个可调项：水量滑杆默认 65，水越多瀑布越壮；自动环绕开关控制相机是否缓慢环绕；光线昼与暮两档；拖拽视角、滚轮推拉随时可调。适合旅游、矿泉水、自然或户外品牌当首页 hero：三千尺白练，一滑到底。演示时先把水量拉满，再切暮色光照看水花反光，自动环绕下的瀑布最出效果。画面里还藏着，相机缓慢自动环绕，背景/雾色/雾距/半球光/方向光/瀑布亮度/泡沫强度七参数联动lerp。</p>
+</section>
 </body>
 </html>

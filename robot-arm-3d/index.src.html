@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>机械臂 · ROBOT ARM — robot-arm-3d</title>
-<meta name="description" content="程序化建模三节机械臂：两连杆解析 IK 让末端跟随鼠标，底座 yaw 对准目标；按住抓取悬浮立方体并举起，松开落下。虚构科技工业品牌交互页。">
+<meta name="description" content="程序化建模三节机械臂：底座 yaw 加两连杆解析 IK，末端跟随鼠标，按住抓取悬浮橙立方体并举起，松开落下带弹性回弹，关节角度读数实时显示，跟随、自动、抓取三种模式。先点自动演示看它自己动，再切跟随模式亲手抓一次方块，夹爪合拢的瞬间最出效果；指尖所向，关节自随，适合机器人品牌页。细节上，目标自动移向方块。">
 <style>
 /* ============ robot-arm-3d · 严格三色：墨黑 #101014 / 橙 #f97316 / 米白 #e7e5e4 ============ */
 :root{
@@ -227,5 +227,11 @@ body{
 </div>
 
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一台程序化建模的三节机械臂：底座 yaw 加两连杆解析 IK，末端跟随鼠标在目标平面上的投影；按住鼠标夹爪合拢抓取悬浮的橙色立方体并举起，松开后落下带弹性回弹；右上角面板实时显示各关节角度读数，底座、肩、肘、夹爪四项读数齐全。运行模式有三种：跟随、自动演示、抓取演示，点一个就换一种。适合科技、工业、机器人或自动化品牌当交互页：指尖所向，关节自随。演示时先点自动演示看它自己动，再切跟随模式亲手抓一次方块，夹爪合拢的瞬间最出效果。它还有一处细节，目标自动移向方块，相机随鼠标微视差。</p>
+</section>
 </body>
 </html>

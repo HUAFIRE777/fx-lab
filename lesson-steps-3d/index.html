@@ -5,6 +5,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="utf-8">
+<meta name="description" content="纸白底课程步骤页：一颗三维发光进度珠沿左侧轨道物理滚动，右侧步骤卡片三维翻转入场，一步一卡节奏清晰，学自 Stripe 文档式步骤导航，适合在线课程页。步骤之间有明确的先后关系，当前步骤高亮，已完成步骤有标记；五步内容换成自己的课程步骤，进度珠滚动节奏跟着步骤数量走。另外，卡片翻转是配角。">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>光线追踪 · 五步入门 — 课程步骤页</title>
 <style>
@@ -208,5 +209,11 @@ import"three";var m={beadBaseMs:480,beadPerStepMs:170,flipOutMs:260,flipInMs:700
     </div>`,o("#prevBtn").addEventListener("click",()=>u(t-1)),o("#nextBtn").addEventListener("click",()=>u(t+1)),v(".cdots i",y).forEach((s,a)=>s.addEventListener("click",()=>u(a))),o("#stepCount").textContent=String(t+1).padStart(2,"0")+" / "+String(E).padStart(2,"0")}function C(t){v(".node",x).forEach((s,a)=>{s.classList.toggle("active",a===t),s.classList.toggle("done",a<t)});let e=p[t];e!=null&&(k.style.height=e+"px")}function $(t){if(R){S(t);return}gsap.timeline().to(y,{rotationX:38,y:30,opacity:0,duration:m.flipOutMs/1e3,ease:"power2.in",transformOrigin:"50% 100%"}).add(()=>S(t)).fromTo(y,{rotationX:-52,y:36,opacity:0},{rotationX:0,y:0,opacity:1,duration:m.flipInMs/1e3,ease:"expo.out"}).add(()=>{gsap.fromTo(y.querySelectorAll(".rise"),{y:26,opacity:0},{y:0,opacity:1,duration:.55,stagger:.07,ease:"power3.out"})},"-=0.5")}function u(t){if(t=Math.max(0,Math.min(E-1,t)),t===n)return;let e=n<0?0:Math.abs(t-n);if(n=t,C(t),$(t),r&&!r.dead&&p[t]!=null){let s=p[t];R||e===0?r.place(s):r.rollTo(s,m.beadBaseMs+e*m.beadPerStepMs)}else if(r&&r.dead){let s=o("#beadFallback");s&&p[t]!=null&&gsap.to(s,{top:p[t],duration:.6,ease:"expo.out",overwrite:!0})}}function M(){let e=o("#rail").getBoundingClientRect().top;p=v(".node",x).map(s=>{let a=s.getBoundingClientRect();return a.top+a.height/2-e}),r&&!r.dead&&(r.resize(),n>=0&&p[n]!=null&&r.place(p[n])),C(Math.max(0,n))}window.addEventListener("keydown",t=>{(t.key==="ArrowDown"||t.key==="ArrowRight")&&(t.preventDefault(),u(n+1)),(t.key==="ArrowUp"||t.key==="ArrowLeft")&&(t.preventDefault(),u(n-1))});var T=0,L=0;o("#stage").addEventListener("wheel",t=>{t.preventDefault();let e=performance.now();T+=t.deltaY,e-L>m.wheelLockMs&&Math.abs(T)>50&&(u(n+(T>0?1:-1)),L=e,T=0)},{passive:!1});function A(){r=new w(o("#beadCanvas"),o("#beadFallback")),requestAnimationFrame(()=>{M(),n=-1,u(0),R||gsap.fromTo(v(".node",x),{x:-18,opacity:0},{x:0,opacity:1,duration:.6,stagger:.08,ease:"power3.out",delay:.15}),document.body.classList.add("loaded")});let t;window.addEventListener("resize",()=>{clearTimeout(t),t=setTimeout(M,150)}),setTimeout(()=>document.body.classList.add("loaded"),3e3)}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",A):A();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一个纸白底的课程步骤页：左侧轨道上有一颗 3D 发光进度珠，沿轨道物理滚动，右侧步骤卡片 3D 翻转入场，一步一卡，节奏清晰。结构学的是 Stripe 文档式步骤导航：步骤之间有明确的先后关系，当前步骤高亮，已完成步骤有标记，读者永远知道自己在哪一步。适合在线课程、教程或知识付费产品当课程步骤页：进度珠是视觉锚点，步骤卡是内容主体。套用时把五步内容换成自己的课程步骤，进度珠的滚动节奏会跟着步骤数量走，纸白底的干净感不用动。画面里还藏着，发光进度珠是二十面体造型，带靛蓝自发光与跟随点光源，点击、键盘与滚轮都能切换步骤。</p>
+</section>
 </body>
 </html>

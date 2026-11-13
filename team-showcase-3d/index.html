@@ -5,6 +5,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="UTF-8">
+<meta name="description" content="团队介绍三维卡片页：成员卡片三维翻转加鼠标视差，暖色纸面质感，悬停倾斜跟随鼠标、高光扫过，点卡片翻面看成员介绍与社交链接，网格错峰入场。成员卡片本身就是一张名片，翻面就是自我介绍；成员照片、姓名、职位与简介换成自己的团队，卡片数量按团队规模增减。还有，继续悬停翻面看简介，卡片倾斜跟随加高光扫过，翻面编排节奏一致。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>认识我们的团队 — Team Showcase 3D</title>
 <style>
@@ -242,5 +243,11 @@ var f=[{name:"\u9648\u9ED8",role:"\u8054\u5408\u521B\u59CB\u4EBA / CTO",dept:"te
     </div>`,t.querySelector(".tcard-avatar").src=v(e.name,e.color),S?A(t):t.addEventListener("click",()=>t.classList.toggle("flipped")),t}function A(e){let a=e.querySelector(".tcard-tilt"),t=0,n=0,o=0,i=0,s=0,r=()=>{t=0,i+=(n-i)*.18,s+=(o-s)*.18,a.style.transform=`perspective(900px) rotateX(${i.toFixed(2)}deg) rotateY(${s.toFixed(2)}deg)`,(Math.abs(n-i)>.05||Math.abs(o-s)>.05)&&(t=requestAnimationFrame(r))},l=()=>{t||(t=requestAnimationFrame(r))};e.addEventListener("pointermove",d=>{let c=e.getBoundingClientRect(),h=(d.clientX-c.left)/c.width,u=(d.clientY-c.top)/c.height;n=(.5-u)*14,o=(h-.5)*14,e.style.setProperty("--gx",`${(h*100).toFixed(1)}%`),e.style.setProperty("--gy",`${(u*100).toFixed(1)}%`),e.classList.add("is-tilting"),l()}),e.addEventListener("pointerleave",()=>{n=0,o=0,e.classList.remove("is-tilting"),a.style.transition="transform .5s cubic-bezier(.2,.7,.3,1)",l(),setTimeout(()=>{a.style.transition=""},500)})}function b(e){let a=[...document.querySelectorAll(".filter")],t=()=>[...e.querySelectorAll(".tcard")];a.forEach(o=>{o.addEventListener("click",()=>{o.classList.contains("is-active")||(a.forEach(i=>i.classList.remove("is-active")),o.classList.add("is-active"),n(o.dataset.filter))})});function n(o){let i=t();i.forEach(r=>{o==="all"||r.dataset.dept===o||(r.classList.add("is-out"),setTimeout(()=>r.classList.add("gone"),360))});let s=0;i.forEach(r=>{(o==="all"||r.dataset.dept===o)&&(r.classList.remove("gone"),r.offsetWidth,setTimeout(()=>r.classList.remove("is-out"),60+s*70),s++)})}}function E(e){let a=[...e.querySelectorAll(".tcard")];if(a.forEach((n,o)=>n.style.setProperty("--d",`${o%4*80}ms`)),!("IntersectionObserver"in window)){a.forEach(n=>n.classList.add("in"));return}let t=new IntersectionObserver(n=>{n.forEach(o=>{o.isIntersecting&&(o.target.classList.add("in"),t.unobserve(o.target))})},{threshold:.12});a.forEach(n=>t.observe(n)),setTimeout(()=>a.forEach(n=>n.classList.add("in")),3e3)}var p=document.getElementById("teamGrid");f.forEach((e,a)=>p.appendChild(y(e,a)));document.getElementById("count-all").textContent=f.length;b(p);E(p);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一个公司团队介绍页：成员卡片 3D 翻转加鼠标视差，暖色纸面质感，点卡片看成员介绍。卡片悬停时 3D 倾斜跟随鼠标，高光扫过卡面；点一下卡片翻面，正面头像变背面简介与社交链接；网格入场 stagger，一张接一张浮现。适合任何需要介绍团队的公司当团队页：成员卡片本身就是一张名片，翻面就是自我介绍。套用时把成员照片、姓名、职位与简介换成自己的团队，卡片数量按团队规模增减，翻转与视差节奏不用动。网格入场 stagger 的节奏是调过的，一张接一张浮现，不会一次全倒出来；暖色纸面质感来自背景纹理与卡片阴影，翻面时的背面是简介与社交链接。</p>
+</section>
 </body>
 </html>

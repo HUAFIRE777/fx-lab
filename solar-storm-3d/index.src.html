@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>太阳风暴 — solar-storm-3d</title>
-<meta name="description" content="一颗正在喷发的恒星：噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发。">
+<meta name="description" content="一颗正在喷发的恒星：噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发，喷发强度可调，Max 专属特效。先把喷发强度拉满，再连续点几次触发耀斑；火球在翻滚，射流向外抛洒，磁弧在头顶慢慢转，Max 专属特效。还有，点击后强度指数衰减，射流粒子大小按寿命衰减。">
 <style>
 /* ============ solar-storm-3d · 严格三色：#050505 漆黑 / #f97316  ember 橙 / #fbbf24 鎏金 ============ */
 :root{
@@ -134,5 +134,11 @@ html:not(.done) .hero,html:not(.done) .bar,html:not(.done) .hint{opacity:0}
 {"imports":{"three":"vendor/three.module.js"}}
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一颗正在喷发的恒星：噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发。控制台上有喷发强度滑杆，默认 1.0 倍，拉高火球翻滚得更剧烈；触发耀斑按钮点一下，炸一朵耀斑给你看；拖动可以旋转恒星，从任意角度看喷发。这是 4 套 Max 专属特效之一，永不转免费。适合天文、科普、能源或任何需要恒星感的品牌当首页 hero：火球在翻滚，射流向外抛洒，磁弧在头顶慢慢转。演示时先把喷发强度拉满，再连续点几次触发耀斑。还有一点，点击画面或点按钮，三色按噪声值分层。</p>
+</section>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>墨 · INK — smoke-ink-3d</title>
-<meta name="description" content="一滴墨落进深水：FBM 流体烟雾在深色水中晕开、翻卷、升起，鼠标搅动，边缘消散。">
+<meta name="description" content="一滴墨落进深水的全屏流体烟雾：FBM 噪声驱动墨色在水中晕开、翻卷、缓缓升起，鼠标搅动、点击激起涟漪，墨色冰蓝、绯、苔绿三档，扩散速度可调。先切绯色看墨的暖调，再把扩散速度拉满看它翻卷，鼠标搅动的涟漪最出效果；一滴墨落进深水，散开，翻卷，又慢慢消失不见。另外，烟边有细丝而不是光滑色块，径向让烟在画面边缘化开消失。">
 <style>
 /* ============ smoke-ink-3d · 全页严格三色：#0b0e14 墨底 / #e8eef5 纸白 / #7dd3fc 冰蓝 ============ */
 :root{
@@ -272,5 +272,11 @@ import*as t from"three";document.documentElement.classList.add("js");var l=e=>do
   `});M.add(new t.Mesh(new t.PlaneGeometry(2,2),D));function S(){let e=Math.max(1,Math.floor(window.innerWidth)),o=Math.max(1,Math.floor(window.innerHeight));r.setSize(e,o,!1),i.uRes.value.set(e,o)}window.addEventListener("resize",S);S();var U=new t.Clock,F=0;function b(){requestAnimationFrame(b);let e=Math.min(U.getDelta(),.05),o=1-Math.exp(-e*3.2);i.uTime.value+=e*(I?.15:1),i.uDiffuse.value=c,i.uImpulse.value=v,R.lerp(k,1-Math.exp(-e*4)),n.multiplyScalar(Math.exp(-e*3.4)),v*=Math.exp(-e*2.2),r.render(M,V),++F===4&&s()}b();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一滴墨落进深水的全屏流体烟雾：FBM 噪声驱动的墨色在水中晕开、翻卷、缓缓升起，鼠标移动搅动烟雾，点击激起涟漪，边缘慢慢消散。控制台上有两个可调项：墨色有冰蓝、绯、苔绿三档，换一档整团烟雾的情绪就变了；扩散速度滑杆默认 1.00，拉高墨散得更快。适合香氛、茶品牌、东方美学或任何需要流体感的页面当 hero：一滴墨落进深水，散开，翻卷，又慢慢消失不见。演示时先切绯色看墨的暖调，再把扩散速度拉满看它翻卷，鼠标搅动的涟漪最出效果。换个角度看，采样域随时间上移、纵向包络，离指针越近扰动越强。</p>
+</section>
 </body>
 </html>

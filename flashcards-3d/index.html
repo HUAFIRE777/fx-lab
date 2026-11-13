@@ -5,6 +5,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="utf-8">
+<meta name="description" content="抽认卡三维翻卡记忆：点卡片翻面看释义，点记得飞入掌握堆、点忘记回到待复习队列，8 张刷完直接出分，翻转自评队列轮转的记忆循环，适合语言学习产品。翻转用样式三维的 rotateY 180 度实现，翻面手感经过调整；8 张卡片换成自己的词条或知识点，记得与忘记的逻辑不用动，适合语言学习产品。背景两摞纸卡是真实三维几何体。">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>抽认卡 · 3D 翻卡记忆</title>
 <style>
@@ -264,5 +265,11 @@ var p=[{word:"serendipity",phon:"/\u02CCser.\u0259n\u02C8d\u026Ap.\u0259.ti/",po
     </div>`,s("remain").textContent=`\u8FD8\u5269 ${l.length-u} \u5F20`,h&&!L&&(h.set(g,{clearProps:"all"}),h.fromTo(g,{y:44,opacity:0,rotation:-2},{y:0,opacity:1,rotation:0,duration:.55,ease:"back.out(1.5)"}))}function Re(){H||R||(H=!0,V.classList.add("flipped"),C.disabled=!1,S.disabled=!1,C.classList.remove("off"),S.classList.remove("off"),h&&!L&&h.fromTo(".grade",{y:10,opacity:.4},{y:0,opacity:1,duration:.3,stagger:.06,ease:"power2.out",clearProps:"transform"}))}s("flipScene").addEventListener("click",Re);function ae(e,t,o,r){return new Promise(i=>{let d=g.getBoundingClientRect(),f=ne(e),x=f.x-(d.left+d.width/2),le=f.y-(d.top+d.height/2);h&&!L?h.to(g,{x,y:le,scale:t,rotation:o,opacity:0,duration:r,ease:"power2.in",onComplete:i}):i()})}async function ve(){if(!H||R)return;R=!0;let e=l[u];P.has(e)||T++,await ae("mastered",.28,14,.62),await oe(),y++,F(),ce()}async function be(){!H||R||(R=!0,P.add(l[u]),h&&!L&&await new Promise(e=>{h.timeline({onComplete:e}).to(g,{x:-14,duration:.07}).to(g,{x:12,duration:.07}).to(g,{x:-8,duration:.07}).to(g,{x:5,duration:.07}).to(g,{x:0,duration:.06})}),await ae("review",.4,-8,.5),await se(),l.push(l[u]),ce())}S.addEventListener("click",ve);C.addEventListener("click",be);function ce(){if(u++,u>=l.length){ke();return}G()}function ke(){s("stage").hidden=!0,s("doneView").hidden=!1;let e=q.find(i=>T>=i.min);s("doneTitle").textContent=e.title,s("doneSub").textContent=e.sub,s("doneChips").innerHTML=`<span class="chip">\u4E00\u904D\u8BB0\u4F4F <b>${T}</b> / ${p.length}</span><span class="chip">\u591A\u5237\u4E86 <b>${l.length-p.length}</b> \u5F20\u6B21</span>`;let t=2*Math.PI*64,o=T/p.length,r=s("doneRing");r.style.strokeDasharray=String(t),requestAnimationFrame(()=>{r.style.strokeDashoffset=String(t*(1-o));let i=performance.now();(function d(f){let x=Math.min((f-i)/900,1);s("donePct").textContent=Math.round(o*100*(1-Math.pow(1-x,3)))+"%",x<1&&requestAnimationFrame(d)})(i)}),h&&!L&&h.fromTo("#doneView",{y:24,opacity:0},{y:0,opacity:1,duration:.55,ease:"back.out(1.4)"})}s("retryBtn").addEventListener("click",()=>{l=re(p.map((e,t)=>t)),u=0,y=0,T=0,P=new Set,te(p.length),F(),s("doneView").hidden=!0,s("stage").hidden=!1,G()});Z((e,t)=>{let o=s("labelReview"),r=s("labelMastered");o.style.transform=`translate(${e.x}px, ${e.y}px) translate(-50%, -50%)`,r.style.transform=`translate(${t.x}px, ${t.y}px) translate(-50%, -50%)`});l=re(p.map((e,t)=>t));u=0;y=0;T=0;P=new Set;ee(p.length);G();F();var ie=!1;function de(){ie||(ie=!0,s("loader").classList.add("hide"))}requestAnimationFrame(()=>requestAnimationFrame(de));setTimeout(de,1500);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一套会翻面的抽认卡：点一下卡片，它在你面前翻过去露出释义；觉得记住了点记得，卡片就飞走叠进右边的掌握堆，纸堆肉眼可见地变厚；没记住的点忘记，它会自动回到待复习队列。8 张卡片全部刷完，页面直接告诉你一遍记住了几个。翻转用的是 CSS 3D 的 rotateY 180 度，翻面的手感是调过的。适合语言学习、考试复习或知识付费产品当记忆工具页：翻转加自评加队列轮转，就是 Anki 与 Quizlet 验证过的记忆循环。套用时把 8 张卡片换成自己的词条或知识点，记得与忘记的逻辑不用动。画面里还藏着，纸堆标签每帧投影跟随。</p>
+</section>
 </body>
 </html>

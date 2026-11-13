@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="程序化珊瑚礁生态：鹿角珊瑚逐节生长，32 尾鱼群以 boids 算法在丁达尔光束里穿行，鼠标引鱼聚拢、挥动惊散、点击投食，水深浅滩深海可切。焦散光纹在沙地上流淌，丁达尔光束穿透水体；想用它讲故事就从投食开始，鱼群聚拢的那一刻，访客就已经在海里了。另外，鹿角珊瑚由递归分支生成，远景管状珊瑚按景深排布，遇扰动散开又聚拢。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>珊瑚礁 REEF · fx-lab</title>
 <script>document.documentElement.classList.add('js')</script>
@@ -142,5 +143,11 @@
 
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一片会呼吸的珊瑚礁：递归分支的鹿角珊瑚逐节生长，32 尾鱼群以 boids 算法在丁达尔光束里穿行，焦散光纹在沙地上流淌。移动鼠标可以引鱼聚拢，快速挥动会惊散鱼群，点击水面是投食，鱼群会循着食物游过来；水深可以在浅滩与深海之间切换，光线与能见度跟着变。适合海洋馆、潜水、环保或海洋科普品牌当首页 hero：一片活的海，比任何宣传片都安静有力。想用它讲故事就从投食开始，鱼群聚拢的那一刻，访客就已经在海里了。再看细节，环境切换用指数插值，深海切换才不会雾断层，边缘压暗沉入黑暗。</p>
+</section>
 </body>
 </html>

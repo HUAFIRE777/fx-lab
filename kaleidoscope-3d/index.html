@@ -4,6 +4,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="UTF-8">
+<meta name="description" content="全屏片元着色器万花筒：程序化图案经极坐标镜面折叠成对称图案，缓慢旋转，拖拽转动、滚轮缩放，对称瓣数与旋转速度可调，图案源云海、线条、交融三档。云海最柔，线条最锐，交融介于两者之间；先把瓣数调到十二再切线条图案，纹理最密也最锐，适合艺术展与音乐节视觉背景。松手后角速度指数衰减。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>万花筒 KALEIDO · fx-lab</title>
 <style>
@@ -225,5 +226,11 @@ import*as o from"three";var c=document.getElementById("k"),p=document.getElement
   `});m.add(new o.Mesh(new o.PlaneGeometry(2,2),S));var s=null;c.addEventListener("pointerdown",t=>{s={x:t.clientX,t:performance.now()},e.rotV=0,c.setPointerCapture(t.pointerId)});c.addEventListener("pointermove",t=>{if(!s)return;let a=performance.now(),r=t.clientX-s.x,x=Math.max((a-s.t)/1e3,.008);e.rot+=r*.0055;let w=r/x*.0055;e.rotV=.65*e.rotV+.35*f(w,-14,14),s={x:t.clientX,t:a}});var g=()=>{s=null};c.addEventListener("pointerup",g);c.addEventListener("pointercancel",g);c.addEventListener("wheel",t=>{t.preventDefault(),e.zoomT=f(e.zoomT*Math.exp(t.deltaY*.0012),.55,3.2)},{passive:!1});var d=document.getElementById("seg"),R=document.getElementById("segVal"),l=document.getElementById("spd"),E=document.getElementById("spdVal");d.addEventListener("input",()=>{e.segT=+d.value,R.textContent=d.value});l.addEventListener("input",()=>{e.spdT=+l.value/100*.9,E.textContent=l.value});u&&(l.value="0",E.textContent="0");document.querySelectorAll(".src-group button").forEach(t=>{t.addEventListener("click",()=>{e.srcT=+t.dataset.src,document.querySelectorAll(".src-group button").forEach(a=>a.setAttribute("aria-pressed",a===t?"true":"false"))})});addEventListener("resize",()=>{i.setSize(innerWidth,innerHeight),n.uRes.value.set(innerWidth,innerHeight)});var y=new o.Clock,M=0,v=!1;function T(){requestAnimationFrame(T);let t=Math.min(y.getDelta(),.05),a=1-Math.pow(.002,t);e.seg+=(e.segT-e.seg)*a,e.spd+=(e.spdT-e.spd)*a,e.zoom+=(e.zoomT-e.zoom)*a,e.src+=(e.srcT-e.src)*a,s||(e.rot+=e.rotV*t,e.rotV*=Math.pow(.03,t),Math.abs(e.rotV)<4e-4&&(e.rotV=0)),e.phase+=e.spd*t,n.uTime.value+=t,n.uSeg.value=e.seg,n.uSpd.value=e.spd,n.uRot.value=e.rot+e.phase,n.uZoom.value=e.zoom,n.uSrc.value=e.src,i.render(m,h),!v&&++M>=5&&(v=!0,p.classList.add("done"),document.querySelectorAll("[data-intro]").forEach(r=>r.classList.add("is-in")))}T();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一面全屏万花筒：程序化图案经极坐标镜面折叠成对称图案，缓慢旋转；拖拽可以改变旋转偏移，滚轮缩放图案密度。控制台上有三个可调项：对称瓣数默认 8，瓣数越多图案越细密；旋转速度默认 25；图案源有云海、线条、交融三档，云海最柔，线条最锐，交融介于两者之间。适合艺术展、电子音乐节、潮流品牌或任何需要视觉冲击的页面当背景：把云海和几何线条折进镜面，凝视本身就是一种体验。演示时先把瓣数调到 12 再切线条图案，纹理最密也最锐。用起来会发现，切换时图案连续变形不跳帧，松手后角速度衰减。</p>
+</section>
 </body>
 </html>

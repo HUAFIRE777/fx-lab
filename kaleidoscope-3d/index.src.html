@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="全屏片元着色器万花筒：程序化图案经极坐标镜面折叠成对称图案，缓慢旋转，拖拽转动、滚轮缩放，对称瓣数与旋转速度可调，图案源云海、线条、交融三档。云海最柔，线条最锐，交融介于两者之间；先把瓣数调到十二再切线条图案，纹理最密也最锐，适合艺术展与音乐节视觉背景。松手后角速度指数衰减。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>万花筒 KALEIDO · fx-lab</title>
 <style>
@@ -142,5 +143,11 @@
 <div class="no-webgl" id="noWebgl">当前环境不支持 WebGL<br>换个浏览器再来看这面镜子</div>
 
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一面全屏万花筒：程序化图案经极坐标镜面折叠成对称图案，缓慢旋转；拖拽可以改变旋转偏移，滚轮缩放图案密度。控制台上有三个可调项：对称瓣数默认 8，瓣数越多图案越细密；旋转速度默认 25；图案源有云海、线条、交融三档，云海最柔，线条最锐，交融介于两者之间。适合艺术展、电子音乐节、潮流品牌或任何需要视觉冲击的页面当背景：把云海和几何线条折进镜面，凝视本身就是一种体验。演示时先把瓣数调到 12 再切线条图案，纹理最密也最锐。用起来会发现，切换时图案连续变形不跳帧，松手后角速度衰减。</p>
+</section>
 </body>
 </html>

@@ -5,6 +5,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="utf-8">
+<meta name="description" content="深黑底金线课程章节时间线：一整条章节轴可横向拖拽带惯性，节点激活时水波纹扩散加金色解锁粒子爆发，已学完章节盖上打勾印章，适合在线课程章节页。章节轴是学习路径，打勾印章是成就感；章节标题与内容换成自己的课程章节，节点数量按章节数增减，拖拽惯性与粒子爆发不用动。另外，节点激活时水波纹扩散，金色解锁粒子爆发。">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>光影大师课 · 手机摄影 — 章节时间线</title>
 <style>
@@ -171,5 +172,11 @@ import"three";var y={bg:"#0E0E12",gold:"#C9A86A",cream:"#F5F1E6"},f={spacing:3.4
     </div>`,E("#prevBtn").addEventListener("click",()=>m(a-1)),E("#nextBtn").addEventListener("click",()=>m(a+1)),H.querySelectorAll(".cdots i").forEach(e=>e.addEventListener("click",()=>m(+e.dataset.k))),E("#chapCount").textContent=String(a+1).padStart(2,"0")+" \u2014 "+String(u).padStart(2,"0"),E("#topProgress").style.width=(a+1)/u*100+"%"}function B(a){k(a),!L&&(gsap.fromTo(H,{y:46,opacity:0},{y:0,opacity:1,duration:.65,ease:"expo.out",overwrite:!0}),gsap.fromTo(H.querySelectorAll(".rise"),{y:22,opacity:0},{y:0,opacity:1,duration:.5,stagger:.06,ease:"power3.out",delay:.08,overwrite:!0}))}function m(a,i){a=Math.max(0,Math.min(u-1,a));let e=a!==g;if(g=a,o&&!o.dead){let t=-a*o.spacing;L?(o.line.position.x=t,o.vel=0):gsap.to(o.line.position,{x:t,duration:f.snapMs/1e3,ease:"expo.out",overwrite:!0,onComplete:()=>{o.vel=0}}),e&&!i?o.activate(a):o.setProgress(a)}B(a)}function G(){let a=E("#tlCanvas"),i=!1,e=0,t=0,n=0,r=0,c=0;a.addEventListener("pointerdown",l=>{i=!0,e=0,t=r=l.clientX,c=l.clientY,n=performance.now(),o.vel=0,gsap.killTweensOf(o.line.position),a.setPointerCapture(l.pointerId),a.classList.add("grabbing")}),a.addEventListener("pointermove",l=>{if(!i)return;let T=l.clientX-t,d=performance.now(),p=Math.max(1,d-n)/1e3;e+=Math.abs(l.clientX-r)+Math.abs(l.clientY-c)*.2;let b=T*o.pxToWorld,v=o.line.position.x+b,x=1.2;v>x?v=x:v<o.minX-x&&(v=o.minX-x),o.line.position.x=v,o.vel=.75*o.vel+.25*(b/p),o.vel=Math.max(-.35,Math.min(.35,o.vel)),t=l.clientX,n=d});let h=l=>{if(!i)return;if(i=!1,a.classList.remove("grabbing"),e<8){let p=o.pick(l.clientX,l.clientY);if(p>=0){m(p);return}}let T=o.line.position.x,d=Math.round(-T/o.spacing);if(d=Math.max(0,Math.min(u-1,d)),Math.abs(o.vel)>.12){let p=o.vel>0?-1:1,b=d+p;b>=0&&b<u&&(d=b)}o.vel=0,m(d)};a.addEventListener("pointerup",h),a.addEventListener("pointercancel",h),window.addEventListener("wheel",l=>{if(Math.abs(l.deltaY)<4&&Math.abs(l.deltaX)<4)return;l.preventDefault(),gsap.killTweensOf(o.line.position);let T=(l.deltaY+l.deltaX)*o.pxToWorld*1.6,d=o.line.position.x-T;d=Math.max(o.minX-1.2,Math.min(1.2,d)),o.line.position.x=d,clearTimeout(window.__wt),window.__wt=setTimeout(()=>{let p=Math.round(-o.line.position.x/o.spacing);p=Math.max(0,Math.min(u-1,p)),m(p)},160)},{passive:!1}),window.addEventListener("keydown",l=>{(l.key==="ArrowRight"||l.key==="ArrowDown")&&(l.preventDefault(),m(g+1)),(l.key==="ArrowLeft"||l.key==="ArrowUp")&&(l.preventDefault(),m(g-1))})}function C(){o=new R(E("#tlCanvas")),o.dead?document.body.classList.add("nogl"):G(),g=-1,m(0,!0),o.dead||o.activate(0),document.body.classList.add("loaded"),setTimeout(()=>document.body.classList.add("loaded"),3e3)}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",C):C();
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一条深黑底金线的课程章节时间线：一整条章节轴可横向拖拽，带惯性；节点激活时水波纹扩散加金色解锁粒子爆发，已学完的章节盖上打勾印章。全部代码从零编写，零外部依赖、零外部模型。适合在线课程、摄影教学或知识付费产品当课程章节页：章节轴是学习路径，打勾印章是成就感。套用时把章节标题与内容换成自己的课程章节，节点数量按章节数增减，拖拽惯性与粒子爆发的节奏不用动。节点激活时的水波纹扩散是视觉反馈，金色解锁粒子爆发是奖励感，已学完章节的打勾印章是进度证明，三者合起来就是一堂课的游戏化外壳。</p>
+</section>
 </body>
 </html>

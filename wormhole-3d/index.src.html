@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>虫洞穿越 — wormhole-3d</title>
-<meta name="description" content="滚动驱动穿越速度的虫洞隧道：shader 隧道环 + 粒子流，FOV 拉伸速度线，出口白光跃入新品发布。">
+<meta name="description" content="滚动驱动穿越速度的虫洞隧道：shader 隧道环加粒子流，FOV 拉伸速度线，滚得越快穿越越快，出口白光跃入新品发布区，按住穿越长按加速，重新穿越随时再来。隧道尽头跃出白光，落入虚构新品发布区；向下滚动，点燃跃迁引擎，适合新品发布与科技品牌当发布开场。再看细节，远端发光体随进度增强，过渡到发布区时全屏白闪一次。">
 <style>
 /* ============ wormhole-3d · 严格三色：#04060D 深空蓝黑 / #9B6BFF 电紫 / #F5F3FF 白 ============ */
 :root{
@@ -328,5 +328,11 @@ main{position:relative;z-index:10}
 setTimeout(function(){document.documentElement.classList.add('done')},5000);
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一次滚动驱动的虫洞穿越：全屏虫洞隧道，shader 隧道环加粒子流，滚得越快穿越越快，FOV 随之拉伸，速度会拉长视野。页面顶部显示穿越进度与速度，0.00c 起步，全速前进时曲率稳定在 0.50c；隧道尽头跃出白光，落入虚构新品发布区，星核 X1 把算力折叠进口袋，38 TOPS 端侧算力、21 天持续续航、4nm 制程工艺。按住穿越按钮可以长按加速，重新穿越按钮随时再来一次。适合新品发布、科技或科幻品牌当发布开场：向下滚动，点燃跃迁引擎。还有一点，远端发光体随进度增强，过渡到发布区时全屏白闪一次，单个开口圆柱加片元着色器构成隧道。</p>
+</section>
 </body>
 </html>

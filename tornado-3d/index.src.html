@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>龙卷风 — tornado-3d</title>
-<meta name="description" content="螺旋粒子漏斗云 + 卷起的碎片 + 地面尘环：EF0–EF5 风力可调的龙卷风气象可视化。">
+<meta name="description" content="EF0 到 EF5 风力可调的龙卷风气象可视化：螺旋粒子漏斗云柱加卷起的碎片杂物加地面扩散尘环加翻滚云底，慢动作默认零点一二倍，视角可重置，拖动滑杆亲手把风加到最大。EF3 风速二百一十九到二百六十六公里每小时，整面墙会被撕走；EF5 超过三百二十二公里每小时，足以把一辆汽车抛向半空，适合气象科普可视化页。">
 <style>
 /* ============ tornado-3d · 严格三色：#1A1D21 风暴灰 / #8A9199 尘灰 / #FF7A1A 警示橙 ============ */
 :root{
@@ -271,5 +271,11 @@ html.js #loader{opacity:0;pointer-events:none}
 {"imports":{"three":"vendor/three.module.js"}}
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一场 EF0 到 EF5 风力可调的龙卷风气象可视化：螺旋粒子漏斗云柱加卷起的碎片杂物加地面扩散尘环加翻滚云底，拖动滑杆亲手把风加到最大。风力等级滑杆从 EF0 到 EF5，EF3 的风速 219 到 266 公里每小时，整面墙会被撕走；EF5 的风速超过 322 公里每小时，足以把一辆汽车抛向半空。慢动作开关默认 0.12 倍，能一帧帧看漏斗；视角按钮可以重置视角。适合气象、科普、灾难教育或新闻品牌当可视化页：拖动滑杆，亲手把风加到最大。它还有一处细节，整组再做正弦摆动，碎片集中在漏斗下三分之二，轨道半径复用同一轮廓函数。</p>
+</section>
 </body>
 </html>

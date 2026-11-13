@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>褶皱 · 七个项目的七种姿态 — image-distort-3d</title>
-<meta name="description" content="作品集列表页悬停图片 WebGL 扭曲转场：simplex noise 置换 + RGB 分离，扭曲强度随鼠标速度变化。">
+<meta name="description" content="作品集列表页悬停图片 WebGL 扭曲转场：simplex noise 置换加 RGB 分离，扭曲强度随鼠标速度变化，左侧七个项目标题，右侧图片实时生成，无外部图片。七个项目各有自己的姿态，右侧的图不是配图，是每个项目的脾气；七个项目换成自己的作品，移动端点按切换已经适配好，扭曲强度在移动端主要由转场峰值提供。">
 <style>
 /* ============ image-distort-3d · 严格三色：米白 #F4F1EA / 墨黑 #1B1A17 / 赭石 #B56B2B ============ */
 :root{
@@ -233,5 +233,11 @@ setTimeout(function(){document.documentElement.classList.add('done')},6000);
 {"imports":{"three":"vendor/three.module.js"}}
 </script>
 <script type="module" src="src/main.js"></script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一个作品集列表页：左侧是七个项目的标题列表，右侧是一块图片预览区；悬停标题时图片做 WebGL 扭曲转场，simplex noise 置换加 RGB 分离，鼠标划得越快，画面皱得越深。七个项目各有自己的姿态，右侧的图不是配图，是每个项目的脾气；所有图片均为程序实时生成，无外部图片。适合设计师、摄影师或创意工作室当作品集首页：列表加预览加扭曲转场，是 Awwwards 获奖站最常见的作品集形态。套用时把七个项目换成自己的作品，标题与图片生成参数按作品调，移动端点按切换已经适配好。还有一点，速度经指数平滑、惯性衰减。</p>
+</section>
 </body>
 </html>

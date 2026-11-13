@@ -4,6 +4,7 @@
 <script src="/fx-lab/effect-controls.js"></script>
 <link rel="stylesheet" href="/fx-lab/effect-controls.css">
 <meta charset="utf-8">
+<meta name="description" content="纵向滚动漫画《追光者》第一期：封面加 5 个分镜格加封底订阅行动按钮，3 个 WebGL 活分镜实时渲染，日出、纸飞机、山顶斗篷，全部零贴图，滚动即翻页。5 个分镜格各有标题与台词，封面之后是日出、闹钟、纸飞机、归途、登顶，滚动本身就是阅读节奏，续更第二期可照此结构扩展。滚动进度逐个点亮窗口、红月与地平红线。">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>追光者 · 第一期 — 滚动漫画</title>
 <style>
@@ -331,5 +332,11 @@ import*as e from"three";var k=1118481,D=16448247,H=14827042,W=t=>Math.min(1,Math
       void main() { gl_FragColor = vec4(uColor, 1.0); }`}),x=new e.Mesh(new e.PlaneGeometry(1.7,2.3,10,14),w);x.position.set(0,1.35,1.02),o.add(x);let y=[];for(let d=0;d<3;d++){let i=new e.Mesh(new e.BoxGeometry(2.4,.055,.01),new e.MeshBasicMaterial({color:H}));i.position.set(-8+Math.random()*10,1.6+d*1.1,.5),i.userData.speed=5+Math.random()*3,o.add(i),y.push(i)}return{renderer:n,scene:o,camera:s,update(d,i){p.uTime.value=d,l.rotation.y=Math.sin(d*.8)*.08;for(let u of y)u.position.x+=u.userData.speed*i,u.position.x>9&&(u.position.x=-9,u.position.y=1.2+Math.random()*3.4)}}}U(document.getElementById("gl1"),ie);U(document.getElementById("gl3"),re);U(document.getElementById("gl5"),ce);B.forEach(t=>ae.observe(t.canvas));var le=document.getElementById("city"),de="http://www.w3.org/2000/svg";function v(t,n){let o=document.createElementNS(de,t);for(let s in n)o.setAttribute(s,n[s]);return le.appendChild(o),o}var I=[];(function(){v("circle",{cx:505,cy:58,r:27,fill:"#E23E22"}),[[18,64,190],[96,52,150],[160,74,226],[248,46,132],[306,68,205],[386,54,168],[452,66,238],[530,52,160]].forEach(([s,r,a],h)=>{v("rect",{x:s,y:282-a,width:r,height:a,fill:"#111111"}),h%2===0&&v("line",{x1:s+r/2,y1:282-a,x2:s+r/2,y2:282-a-22,stroke:"#111111","stroke-width":4});for(let l=0;l<Math.floor((a-26)/24);l++)for(let E=0;E<Math.floor((r-16)/20);E++)I.push(v("rect",{x:s+10+E*20,y:282-a+14+l*24,width:10,height:13,fill:"#111111"}))}),v("rect",{x:0,y:282,width:600,height:38,fill:"#111111"}),v("rect",{x:0,y:276,width:600,height:6,fill:"#E23E22"})})();var Ee=document.getElementById("panel4"),z=-1;function P(){let t=Math.floor($(Ee)*I.length);if(t!==z){z=t;for(let n=0;n<I.length;n++)I[n].setAttribute("fill",n<t?"#E23E22":"#111111")}}var N=performance.now(),j=0;function te(t){let n=Math.min(.05,(t-N)/1e3);N=t,j+=n;let o=!1;for(let s of B)s.active&&(o=!0,ee(s.renderer,s.canvas),s.camera.aspect=s.canvas.clientWidth/s.canvas.clientHeight,s.camera.updateProjectionMatrix(),s.update(j,n,$(s.canvas)),s.renderer.render(s.scene,s.camera));return P(),K||requestAnimationFrame(te),o}var L=!1;function ne(){L||(L=!0,requestAnimationFrame(()=>{Q(),P(),L=!1}))}addEventListener("scroll",ne,{passive:!0});addEventListener("resize",ne);var C=document.getElementById("cta");C.addEventListener("click",t=>{t.preventDefault();let n=C.textContent;C.textContent="\u5DF2\u8BA2\u9605\uFF01\u4E0B\u671F\u89C1",setTimeout(()=>{C.textContent=n},2200)});if(K){for(let t of B)ee(t.renderer,t.canvas),t.update(2.5,.016,1),t.renderer.render(t.scene,t.camera);z=-2,P(),V.forEach(t=>t.classList.add("played")),F=5,J.textContent=5,q()}else Q(),P(),requestAnimationFrame(te),setTimeout(q,900),setTimeout(()=>X.classList.add("done"),2500);
 
 </script>
+
+<!-- fx-intro: AdSense 4th (F9) — static intro, visible without JS -->
+<section class="fx-intro" id="fx-intro" style="max-width:720px;margin:48px auto 64px;padding:28px 20px 8px;line-height:1.9;font-size:15px;">
+<h2 style="font-size:20px;margin:0 0 12px;">关于这个特效</h2>
+<p style="margin:0;">这是一本纵向滚动的漫画书《追光者》第一期，讲追光少年阿光的一天：封面之后是 5 个分镜格，最后是封底订阅下一期的 CTA。3 个分镜是实时渲染的 WebGL 活画面——清晨纸海上的日出、云海之上的纸飞机、山顶上被风吹成旗的斗篷；另外两格用 CSS 拟声词与 SVG 点灯城来表现，全部零贴图。向下滚动就是翻页，每一格都有自己的标题与台词。适合漫画、绘本、内容品牌或任何想用故事开场的产品页：滚动本身就是阅读节奏。想续更就照这个结构加第二期，分镜格数与活画面的数量都可以按故事扩。细节上，对话框气泡带尾巴。</p>
+</section>
 </body>
 </html>
