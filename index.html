@@ -34,6 +34,10 @@
   .free span{background:#22c55e;color:#04120a;font-weight:700;border-radius:4px;padding:2px 8px;margin-right:10px;font-size:11px;letter-spacing:.1em}
   .free .gh{color:#fff;border-bottom:1px solid rgba(255,255,255,.5);text-decoration:none;margin-left:6px}
   .free .gh:hover{color:#4ade80;border-color:#4ade80}
+  /* ---- 画廊介绍（F11 静态段落） ---- */
+  .gallery-intro{max-width:760px;padding:26px 0 6px}
+  .gallery-intro h2{font-size:19px;font-weight:650;letter-spacing:-.01em;margin-bottom:12px}
+  .gallery-intro p{color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:12px}
   .card{position:relative}
   .card-open{display:block;text-decoration:none;color:inherit}
   .dl{position:absolute;top:12px;right:12px;z-index:2;font-size:12px;letter-spacing:.06em;background:rgba(8,8,10,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.28);padding:7px 14px;border-radius:999px;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s,background .2s,color .2s;text-decoration:none}
@@ -115,7 +119,7 @@
     <div class="kicker">huafire3d · fx-lab</div>
     <h1>Web 3D 动效模板库 <span class="thin">/ 154 套</span></h1>
     <p class="sub">每套都是可直接商用的独立页面：<b>开箱即用</b>、零外部依赖、参数集中可配。点击任意卡片在新窗口打开 live 模板。</p>
-    <p class="free"><span>FREE</span>全部免费 · MIT 协议，可商用、可修改、可转售 <a class="gh" href="https://github.com/HUAFIRE777/fx-lab" target="_blank" rel="noopener">GitHub 开源仓库</a></p>
+    <p class="free"><span>FREE</span>150 套免费 · MIT 协议，可商用、可修改、可转售 <a class="gh" href="https://github.com/HUAFIRE777/fx-lab" target="_blank" rel="noopener">GitHub 开源仓库</a></p>
   </div>
 </header>
 
@@ -137,11 +141,1253 @@
 
 <main>
   <div class="wrap">
+<section class="gallery-intro" aria-label="画廊介绍">
+    <h2>FX Lab 画廊介绍</h2>
+    <p>FX Lab 是 eazyopc 的 3D 特效与落地页模板画廊，一共 154 项：有全屏天空 shader（极光、星云、太阳风暴）、粒子与流体（液态铬、粒子变形、GPGPU 流体）、自然场景（火山、瀑布、间歇泉、沙丘、潮汐），也有可以直接拿去用的完整落地页模板（咖啡馆、健身房、婚礼策划、腕表配置器、3D 看板、定价页），以及滚动叙事、开箱、漫画这类整页动效。每一项都是一个独立页面，打开就能看、能点、能调参数。</p>
+    <p>画廊里的 150 套免费开放，点开即用；另外 4 套是 Max 专属（棱镜之光、液态铬、星云漂流、太阳风暴），永不转免费。免费与专属在每张卡片上都标明了，不会点进去才发现要付费。</p>
+    <p>用法很简单：先按分类逛，看到喜欢的点进去；页面里的滑杆、开关、按钮都是真的，调一调就知道这个特效能变成什么样。做网站的人可以直接把整页代码拿走改成自己的：换品牌名、换文案、换产品模型，结构与动效都不用重写。每一项卡片上都有简介，点进详情页还有一段 200 字以上的介绍，讲这个特效是什么、怎么用、适合什么场景、改哪几个参数。</p>
+    <p>第一次来建议从极光、热气球天空、孔明灯开始：一个讲天空，一个讲云海，一个讲愿望。</p>
+  </section>
     <section id="hot" hidden>
       <h2>本周热门 <span>精选推荐</span></h2>
       <div class="hot-row" id="hotRow"></div>
     </section>
-    <div class="grid" id="grid"></div>
+    <div class="grid" id="grid"><div class="card">
+    <a class="card-open" href="./admin-calendar-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/admin-calendar-3d.png" alt="admin-calendar-3d · 3D 翻转月历日程"><span class="cat-tag">管理系统</span></div>
+    <div class="meta"><h3>admin-calendar-3d · 3D 翻转月历日程</h3><p>Cron（Notion Calendar）式深色日程模板：整张月历是一张 3D 卡片，切换月份时翻转 180°；日期格悬停浮起；事件点按类型着色；点击日期右侧滑出当日日程。纯 CSS 3D + 原生 JS，零第三方库。所有代码原创手写，可直</p>
+    <div class="ref"><span class="src">手法参考 · Cron / Notion Calendar 的排期美学</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/admin-calendar-3d.zip" download="admin-calendar-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./admin-dashboard-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/admin-dashboard-3d.png" alt="admin-dashboard-3d · 暗黑 3D 数据总览后台"><span class="cat-tag">管理系统</span></div>
+    <div class="meta"><h3>admin-dashboard-3d · 暗黑 3D 数据总览后台</h3><p>管理系统首页模板：深色主题，KPI 卡片行 + Three.js 3D 柱状营收图 + 3D 地球实时流量 + 右侧实时动态流。所有代码原创手写，可直接卖。</p>
+    <div class="ref"><span class="src">手法参考 · Stripe / Linear 式深色数据美学</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/admin-dashboard-3d.zip" download="admin-dashboard-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./admin-kanban-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/admin-kanban-3d.png" alt="3D 物理感看板 · admin-kanban-3d"><span class="cat-tag">管理系统</span></div>
+    <div class="meta"><h3>3D 物理感看板 · admin-kanban-3d</h3><p>| 参考对象 | 复现的手法 | 实现方式 |</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/admin-kanban-3d.zip" download="admin-kanban-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./admin-login-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/admin-login-3d.png" alt="admin-login-3d — 3D 背景登录页模板"><span class="cat-tag">管理系统</span></div>
+    <div class="meta"><h3>admin-login-3d — 3D 背景登录页模板</h3><p>管理系统登录页：全屏 GPU 粒子背景 + 中央玻璃拟态登录卡。商用级，可直接改 CONFIG 换皮复用。</p>
+    <div class="ref"><span class="src">手法参考 · Linear</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/admin-login-3d.zip" download="admin-login-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./aurora-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/aurora-3d.png" alt="aurora-3d · 极光夜空"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>aurora-3d · 极光夜空</h3><p>一句话介绍：全屏极光天空 shader——fbm 噪声三层幕布缓慢舞动、程序化星空微闪烁、底部雪山剪影；极光强度与颜色随时间呼吸，可调强度/流速、冰岛·挪威·阿拉斯加三地预设。huafire3d fx-lab — original impl</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/aurora-3d.zip" download="aurora-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./baby-brand-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/baby-brand-page.png" alt="贝安 BAYAN · 母婴品牌整站首页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>贝安 BAYAN · 母婴品牌整站首页模板</h3><p>一套商用级母婴品牌落地页模板（虚构品牌「贝安 BAYAN」）：透明→毛玻璃导航 / 云朵 hero / 分龄 tab 选购（0-1/1-3/3-6岁）/ 安全认证横带 / 明星单品横滑轮播 / 育儿知识卡片 / 新手礼包 CTA / 页脚法</p>
+    <div class="ref"><span class="src">手法参考 · Carter's / 好孩子官网首页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/baby-brand-page.zip" download="baby-brand-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./balloon-sky-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/balloon-sky-3d.png" alt="balloon-sky-3d · 热气球天空"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>balloon-sky-3d · 热气球天空</h3><p>一句话介绍：多层视差热气球（程序化球囊 + 吊篮 + 缆绳）在云海之上漂浮——晨/午/暮三档光照联动、气球数量可调、拖拽换视角的天空题材 hero。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/balloon-sky-3d.zip" download="balloon-sky-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./bank-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/bank-page.png" alt="恒信银行 · 银行金融落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>恒信银行 · 银行金融落地页模板</h3><p>一家虚构银行「恒信银行」的完整金融落地页：藏青 + 金 + 米白三色定死，中文真实感金融文案（存款/理财/贷款利率数字均按 2026 年市场合理水平编写），数字滚动计数器 + 卡片 hover 上浮动效体系，纯原生 JS 零第三方库，开箱即</p>
+    <div class="ref"><span class="src">手法参考 · Chase（chase.com）与招商银行 App/官网</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/bank-page.zip" download="bank-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./beauty-clinic-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/beauty-clinic-page.png" alt="beauty-clinic-page · 医美诊所完整落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>beauty-clinic-page · 医美诊所完整落地页模板</h3><p>虚构品牌「昕妍医疗美容」的整站首页模板：导航 → Hero → 项目分类 → 医生团队 → 案例对比 → 机构资质 → 咨询表单 → 页脚，开箱即卖。</p>
+    <div class="ref"><span class="src">手法参考 · 参考站点</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/beauty-clinic-page.zip" download="beauty-clinic-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./bike-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/bike-page.png" alt="驰轮 VELOCE · 自行车品牌落地页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>驰轮 VELOCE · 自行车品牌落地页</h3><p>一套商用级自行车品牌落地页模板（虚构品牌「驰轮 VELOCE」）：导航 / 公路车 hero / 三车型矩阵 / 参数对比表 / 车架几何可视化 / 骑行故事 / 配件区 / 门店试骑表单 / 页脚，全响应式，GSAP 内联打包、其余零外部</p>
+    <div class="ref"><span class="src">手法参考 · Specialized 官网</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/bike-page.zip" download="bike-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./bonsai-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/bonsai-3d.png" alt="bonsai-3d · 盆景"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>bonsai-3d · 盆景</h3><p>程序化盆景延时生长：递归生成的虬曲树干逐段抽枝、叶簇随枝展叶；春夏秋冬一键换景（叶色渐变 + 花瓣/落叶/飞雪粒子 + 冬日积雪），时间轴可拖回任意生长瞬间——为东方美学 / 文创 / 冥想类 hero 而生的一盆数字盆景。huafire3</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/bonsai-3d.zip" download="bonsai-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cablecar-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cablecar-3d.png" alt="cablecar-3d · 缆车山景"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>cablecar-3d · 缆车山景</h3><p>一辆红色缆车沿钢索缓行，穿过翻涌的云海与三层群山剪影，到站减速停靠播报——为旅游 / 山景地产 hero 而生的云端旅程。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cablecar-3d.zip" download="cablecar-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./camera-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/camera-page.png" alt="camera-page — 镜界 VIEWFINDER · 摄影器材整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>camera-page — 镜界 VIEWFINDER · 摄影器材整站</h3><p>摄影师开的器材店「镜界 VIEWFINDER」整站：品类导航、产品网格、摄影师评测、以旧换新估价、购物袋全流程。</p>
+    <div class="ref"><span class="src">手法参考 · B&amp;H Photo / Adorama</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/camera-page.zip" download="camera-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./campaign-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/campaign-page.png" alt="城市夜跑节 2026 · 营销活动页模板（campaign-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>城市夜跑节 2026 · 营销活动页模板（campaign-page）</h3><p>整站式营销活动落地页模板 —— 导航栏 + 巨型排印 hero + 数据故事卡 + 三档组别 + 参赛者评价 + 翻牌倒计时 + 报名表单 + 规则页脚。商用级，原创代码，换文案即交付客户。</p>
+    <div class="ref"><span class="src">手法参考 · Spotify Wrapped 式年度活动页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/campaign-page.zip" download="campaign-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./campgear-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/campgear-page.png" alt="campgear-page — 野宿 FIELDSTAY · 露营装备整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>campgear-page — 野宿 FIELDSTAY · 露营装备整站</h3><p>露营装备品牌「野宿 FIELDSTAY」的整站落地页：星空帐篷 hero（SVG 山影 + 程序化星点）/ 装备四分类 / 营地指南三卡 / 租赁三档（先租后买）/ 玩家故事墙 / 首单立减 CTA（手机号领取优惠）/ 页脚法务三件套弹窗，</p>
+    <div class="ref"><span class="src">手法参考 · Snow Peak / Coleman 类户外装备品牌官网的公开页面编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/campgear-page.zip" download="campgear-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./car-ev-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/car-ev-page.png" alt="新能源汽车落地页 · 霆驰 ET7"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>新能源汽车落地页 · 霆驰 ET7</h3><p>特斯拉车型页式纯电轿跑整站模板：全屏 hero + 滚动叙事三屏 + 参数对照表 + 车主评价 + 预约试驾表单 + 法务三件套页脚，曜石黑/电光蓝/纯白三色，可直接换品牌文案交付客户上线。</p>
+    <div class="ref"><span class="src">手法参考 · 布局结构和交互编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/car-ev-page.zip" download="car-ev-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./careers-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/careers-3d.png" alt="招聘 3D 职位墙（careers-3d）"><span class="cat-tag">公司介绍</span></div>
+    <div class="meta"><h3>招聘 3D 职位墙（careers-3d）</h3><p>深蓝星空背景上的招聘页：职位卡片以 3D 扇形翻转姿态入场，部门筛选切换时旧卡翻转离场、新卡扇形重排；点击卡片展开详情弹窗投递。双击 index.html 即可看（单文件，断网可开，零外链）。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/careers-3d.zip" download="careers-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./carousel-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/carousel-3d.png" alt="carousel-3d · 旋转木马"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>carousel-3d · 旋转木马</h3><p>午夜嘉年华的旋转木马：六匹木马绕轴旋转兼上下起伏，顶棚灯珠追逐跑马灯——转速、灯光、马匹故事都可玩。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/carousel-3d.zip" download="carousel-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cart-fly-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cart-fly-3d.png" alt="加购飞入 · 3D 购物车"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>加购飞入 · 3D 购物车</h3><p>点击商品卡「加入」后，3D 缩略图沿抛物线飞入右上角购物车，抽屉从右侧滑出，件数徽标弹跳、总价数字逐位翻牌。</p>
+    <div class="ref"><span class="src">手法参考 · Apple Store App 加购动效</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cart-fly-3d.zip" download="cart-fly-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./carwash-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/carwash-page.png" alt="净驰 SHINEGO · 汽车美容连锁官网首页模板（carwash-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>净驰 SHINEGO · 汽车美容连锁官网首页模板（carwash-page）</h3><p>汽车美容连锁「净驰 SHINEGO」官网首页单文件模板：深海军蓝底 + 柠檬黄点缀，</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/carwash-page.zip" download="carwash-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cleaning-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cleaning-page.png" alt="cleaning-page — 净屋 JINGWU · 家政服务整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>cleaning-page — 净屋 JINGWU · 家政服务整站</h3><p>同城直营家政团队「净屋 JINGWU」的整站落地页：服务品类、在线预约、价格透明、服务者评价一页讲完。</p>
+    <div class="ref"><span class="src">手法参考 · Thumbtack / Homeaglow</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cleaning-page.zip" download="cleaning-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cloth-flag-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cloth-flag-3d.png" alt="cloth-flag-3d · 布料波浪"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>cloth-flag-3d · 布料波浪</h3><p>朱砂红绸全屏布料波浪 shader：顶点多层正弦 + simplex 噪声扰动，三种形态（旗/绸/幅）切换，风力滑杆可调，指尖在布面上拖动拨出涟漪。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cloth-flag-3d.zip" download="cloth-flag-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cloud-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cloud-page.png" alt="cloud-page — 云枢 CLOUDPivot · 云服务整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>cloud-page — 云枢 CLOUDPivot · 云服务整站</h3><p>云服务商「云枢」整站：代码窗口 hero、价格计算器、产品矩阵、文档入口，工程师气质拉满。</p>
+    <div class="ref"><span class="src">手法参考 · DigitalOcean / AWS</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cloud-page.zip" download="cloud-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./code-typing-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/code-typing-3d.png" alt="打字机代码 · 3D 粒子阵列"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>打字机代码 · 3D 粒子阵列</h3><p>看一段 15 行的 JS 循环代码被逐字敲出来，点「运行」后 24 根粒子柱跟着代码的每一行从地面升起来。</p>
+    <div class="ref"><span class="src">手法参考 · Stripe docs 的代码块展示</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/code-typing-3d.zip" download="code-typing-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./coffee-brand-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/coffee-brand-page.png" alt="屿咖 ISLE · 咖啡品牌落地页模板（coffee-brand-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>屿咖 ISLE · 咖啡品牌落地页模板（coffee-brand-page）</h3><p>独立咖啡品牌整站首页模板 —— 全屏氛围 hero（蒸汽粒子 + 视差）+ 豆单横滑 + 订阅计划 + 门店 + 品牌故事 + CTA + 完整页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 顶栏</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/coffee-brand-page.zip" download="coffee-brand-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./collection-showcase/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/collection-showcase.png" alt="collection-showcase（产品 3D 陈列墙）"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>collection-showcase（产品 3D 陈列墙）</h3><p>独立站系列页模板：6 件商品的 3D 陈列网格。每张卡片一个实时 3D 视口，悬停加速旋转 + 卡片上浮，点击进详情弹窗（大视口 360° 拖拽查看）。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/collection-showcase.zip" download="collection-showcase.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./comic-scroll-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/comic-scroll-3d.png" alt="comic-scroll-3d · 滚动漫画《追光者》第一期"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>comic-scroll-3d · 滚动漫画《追光者》第一期</h3><p>纵向滚动的漫画书：封面 → 5 个分镜格 → 封底 CTA。3 个 WebGL 活分镜（日出 / 纸飞机 / 山顶斗篷）+ CSS 拟声词格 + SVG 点灯城，全部实时渲染、零贴图。</p>
+    <div class="ref"><span class="src">手法参考 · 参考对象：Ponpon Mania</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/comic-scroll-3d.zip" download="comic-scroll-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./company-hero-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/company-hero-3d.png" alt="company-hero-3d · 公司介绍 Hero 模板"><span class="cat-tag">公司介绍</span></div>
+    <div class="meta"><h3>company-hero-3d · 公司介绍 Hero 模板</h3><p>全屏电影感 3D 公司介绍首屏：GPU 粒子星云背景 + 大标题逐行揭示 + 真实 3D 产品点缀。</p>
+    <div class="ref"><span class="src">手法参考 · lusion.co</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/company-hero-3d.zip" download="company-hero-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./company-home/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/company-home.png" alt="Hexabase · 云基础设施公司官网首页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>Hexabase · 云基础设施公司官网首页</h3><p>虚构云厂商 Hexabase 的完整官网首页模板：导航下拉、hero 代码窗口打字机、客户墙、指标带、全球节点地图、开发者终端 CTA、支持区、肥页脚（含法务三件套弹窗）。开箱即用，可直接换文案交付客户上线。</p>
+    <div class="ref"><span class="src">手法参考 · 顶部导航 hover 下拉面板</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/company-home.zip" download="company-home.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./company-timeline-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/company-timeline-3d.png" alt="公司 3D 时间线 · company-timeline-3d"><span class="cat-tag">公司介绍</span></div>
+    <div class="meta"><h3>公司 3D 时间线 · company-timeline-3d</h3><p>公司介绍「发展历程」页模板。纵向滚动叙事，一个核心动效：**中央发光进度线随滚动生长**，事件卡片左右交替 3D 翻转入场。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/company-timeline-3d.zip" download="company-timeline-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./configurator-pro-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/configurator-pro-3d.png" alt="configurator-pro-3d · 玖时 MERIDIAN 实时 3D 腕表配置器"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>configurator-pro-3d · 玖时 MERIDIAN 实时 3D 腕表配置器</h3><p>一句话：对标 2026 电商获奖 3D 配置器的实时产品配置器模板——左侧 3D 视口（自研 orbit + 影棚三点布光），右侧配置面板（表盘/表带/场景/夜光），价格实时联动，&quot;加入购物袋&quot;带按压反馈与 toast。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/configurator-pro-3d.zip" download="configurator-pro-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./coral-reef-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/coral-reef-3d.png" alt="coral-reef-3d · 珊瑚礁生态"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>coral-reef-3d · 珊瑚礁生态</h3><p>程序化珊瑚礁：递归分支的鹿角珊瑚逐节生长，32 尾鱼群以 boids 算法在丁达尔光束里穿行，焦散光纹在沙地上流淌。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/coral-reef-3d.zip" download="coral-reef-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./counseling-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/counseling-page.png" alt="counseling-page · 听澜心理咨询平台"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>counseling-page · 听澜心理咨询平台</h3><p>一句话介绍：为心理咨询平台「听澜」打造的完整落地页模板——咨询师匹配问卷 hero、个体/伴侣/青少年服务 Tab、保密承诺、咨询师墙、免费匹配表单，氛围克制舒缓，零外部依赖。</p>
+    <div class="ref"><span class="src">手法参考 · BetterHelp</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/counseling-page.zip" download="counseling-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cowork-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cowork-page.png" alt="合座 COBASE · 共享办公品牌落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>合座 COBASE · 共享办公品牌落地页模板</h3><p>一家虚构共享办公品牌「合座 COBASE」的完整落地页：暖白纸面 + 炭黑 + 芥黄三色定死，SVG 手绘空间插画零外部图片，核心动效是「空间图 hover 切换」与「方案卡 3D 倾斜」，城市 tab、预约表单、法务三件套弹窗开箱即用。</p>
+    <div class="ref"><span class="src">手法参考 · WeWork 官网（wework.com）</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cowork-page.zip" download="cowork-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./craftbeer-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/craftbeer-page.png" alt="麦浪 BREWAVE · 精酿啤酒品牌官网首页模板（craftbeer-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>麦浪 BREWAVE · 精酿啤酒品牌官网首页模板（craftbeer-page）</h3><p>精酿啤酒品牌「麦浪 BREWAVE」官网首页单文件模板：深棕黑底 + 琥珀 + 奶油三色，</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/craftbeer-page.zip" download="craftbeer-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./crystal-cave-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/crystal-cave-3d.png" alt="crystal-cave-3d · 水晶洞穴漫游"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>crystal-cave-3d · 水晶洞穴漫游</h3><p>一句话介绍：程序化环形水晶洞穴——发光水晶簇沿隧道壁生长、点光源随呼吸闪烁，相机自动巡航（滚轮加速、拖拽环视），点按任意水晶平滑聚焦并浮现信息卡。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/crystal-cave-3d.zip" download="crystal-cave-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./crystal-prism-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/crystal-prism-3d.png" alt="crystal-prism-3d · 棱镜之光"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>crystal-prism-3d · 棱镜之光 <span class="prem">Max 专享</span></h3><p>一句话介绍：一束白光穿过三角棱镜——边缘辉光随视角变色，右侧散出一道窄光谱，地面光斑跟着棱镜走，拖动旋转、滑杆调光束角度。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="/pricing" title="订阅后下载">订阅 Max 下载</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./cta-finale-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/cta-finale-3d.png" alt="cta-finale-3d — 终章 CTA 动效模板"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>cta-finale-3d — 终章 CTA 动效模板</h3><p>落地页最后一屏：巨型动态标题 + 磁吸 CTA 按钮 + 点击粒子爆发 + 成功态。整页只讲一件事：让人点下去。</p>
+    <div class="ref"><span class="src">手法参考 · Awwwards 获奖站通用的 magnetic button 手法</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/cta-finale-3d.zip" download="cta-finale-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./culture-values-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/culture-values-3d.png" alt="价值观 3D 滚动页（culture-values-3d）"><span class="cat-tag">公司介绍</span></div>
+    <div class="meta"><h3>价值观 3D 滚动页（culture-values-3d）</h3><p>纵向滚动驱动中央 3D 粒子几何体形变（球→立方→圆环→锥体）、每屏讲一个价值观的公司文化页。双击 index.html 即可看（单文件，断网可开，零外链）。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/culture-values-3d.zip" download="culture-values-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./dam-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/dam-3d.png" alt="dam-3d · 大坝泄洪"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>dam-3d · 大坝泄洪</h3><p>混凝土大坝横跨山谷，三孔泄洪闸门抬起后，巨量水流沿抛物线倾泻而下——水舌、落点水花、弥漫雾气三层粒子叠加，泄洪量滑杆 / 闸门开关 / 慢动作三组控制实时改变水势。为水利 / 基建 / 能源品牌 hero 而生的泄洪场景。huafire3d</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/dam-3d.zip" download="dam-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./dark-cinema-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/dark-cinema-3d.png" alt="dark-cinema-3d · 暗黑电影风 3D 模板"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>dark-cinema-3d · 暗黑电影风 3D 模板</h3><p>一句话：深空暗场里的粒子星云 + 远景发光圆环，配 30 秒循环的缓慢电影运镜与强对比中文排印——把网页做成电影。</p>
+    <div class="ref"><span class="src">手法参考 · Active Theory</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/dark-cinema-3d.zip" download="dark-cinema-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./data-galaxy-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/data-galaxy-3d.png" alt="data-galaxy-3d · 数据星系"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>data-galaxy-3d · 数据星系</h3><p>huafire3d fx-lab — original implementation · 深黑底上悬浮四个业务星团的 3D 数据可视化 hero 页：节点呼吸脉冲、链路成网，hover/tap 弹出数据卡，chips 筛选聚焦星团，可拖拽旋</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/data-galaxy-3d.zip" download="data-galaxy-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./dating-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/dating-page.png" alt="心屿 XINYU · 婚恋交友落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>心屿 XINYU · 婚恋交友落地页模板</h3><p>一家虚构婚恋交友平台「心屿」的完整落地页：暖白底 + 深珊瑚红点缀 + 墨黑文字，中文真实感文案。可交互的 profile 卡片堆叠 Hero（点心动/不感兴趣真实滑动），配对流程三步、功能亮点、成功故事墙、手机号表单 CTA，纯 CSS/</p>
+    <div class="ref"><span class="src">手法参考 · Hinge / Bumble（hinge.co / bumble.com）</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/dating-page.zip" download="dating-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./docs-home/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/docs-home.png" alt="Flowbase 帮助中心 · 文档知识库首页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>Flowbase 帮助中心 · 文档知识库首页</h3><p>虚构工作流自动化产品 Flowbase 的帮助中心首页：居中搜索 hero、六格分类卡、热门文章列表、社区/支持双 CTA。搜索框输入可真实过滤文章（纯前端 JS，无后端）。</p>
+    <div class="ref"><span class="src">手法参考 · Stripe Docs 首页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/docs-home.zip" download="docs-home.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./domino-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/domino-3d.png" alt="domino-3d · 多米诺连锁倒塌"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>domino-3d · 多米诺连锁倒塌</h3><p>一句话介绍：程序化多米诺骨牌阵列（直线/S 弯/双排）+ 自研确定性倒塌链——每块牌绕底边前沿翻倒、前块角度越过接触角即触发下一块；牌面逐字印上你的触发词，相机跟随倒塌前锋缓慢推进。huafire3d fx-lab — original i</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/domino-3d.zip" download="domino-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./drive-world-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/drive-world-3d.png" alt="野原工作室 · 可驾驶 3D 小岛"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>野原工作室 · 可驾驶 3D 小岛</h3><p>- 参考对象：**bruno.simpson.com（Bruno Simon）**——十年常青的&quot;开车逛简历&quot;式 3D 个人站，2026 年重制版延续了同一玩法。</p>
+    <div class="ref"><span class="src">手法参考 · bruno.simpson.com（Bruno Simon）</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/drive-world-3d.zip" download="drive-world-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./edu-academy-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/edu-academy-page.png" alt="启航教育 · K12 课外辅导机构官网首页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>启航教育 · K12 课外辅导机构官网首页</h3><p>虚构教培品牌「启航教育」的完整官网首页模板：招生 hero、课程分类 tab（语文/数学/英语翻转卡）、师资墙、提分榜（滚动数字+学员故事轮播）、学习保障、免费试听预约表单、法务三件套弹窗页脚。开箱即用，换掉 SITE 变量即可交付客户上线</p>
+    <div class="ref"><span class="src">手法参考 · 课程分类 tab</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/edu-academy-page.zip" download="edu-academy-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./eldercare-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/eldercare-page.png" alt="颐乐 EVERJOY · 高端养老社区落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>颐乐 EVERJOY · 高端养老社区落地页模板</h3><p>一套商用级高端养老社区落地页模板（虚构品牌「颐乐 EVERJOY」）：透明→毛玻璃导航 / 晨光社区剪影 hero（SVG 云影漂移）/ 照护等级三档对比（自理颐养 / 协助照护 / 记忆照护）/ 纯 SVG 社区环境四宫格 / 入住流程四</p>
+    <div class="ref"><span class="src">手法参考 · Brookdale Senior Living 类养老社区官网的公开页面编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/eldercare-page.zip" download="eldercare-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./esports-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/esports-page.png" alt="esports-page — 燃点 IGNITE · 24小时电竞馆整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>esports-page — 燃点 IGNITE · 24小时电竞馆整站</h3><p>市中心 24 小时电竞馆「燃点 IGNITE」的整站落地页：旗舰设备配置、包间明码标价、赛事活动日历、在线锁位预订一页讲完。</p>
+    <div class="ref"><span class="src">手法参考 · 电竞馆/电竞酒店官网</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/esports-page.zip" download="esports-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./evcharge-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/evcharge-page.png" alt="充电桩品牌落地页 · 驰电 CHIDIAN"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>充电桩品牌落地页 · 驰电 CHIDIAN</h3><p>充电桩品牌「驰电」完整落地页模板：找桩地图式 hero、充电三步、家用/商用方案 tab、加盟合作表单 + 法务三件套页脚，深空灰 × 荧光绿 × 白三色科技能源风，可直接换品牌文案交付客户上线。</p>
+    <div class="ref"><span class="src">手法参考 · 布局结构和交互编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/evcharge-page.zip" download="evcharge-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./eyewear-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/eyewear-page.png" alt="目屿 MUYU — 眼镜品牌落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>目屿 MUYU — 眼镜品牌落地页模板</h3><p>一句话：虚构眼镜品牌「目屿 MUYU」的单页落地模板，核心卖点是可拖动的镜框 360° 旋转展示，附带系列横滑、在家试戴三步骤、验光预约表单与完整法务弹窗。</p>
+    <div class="ref"><span class="src">手法参考 · 居中大字 hero + 镜框主视觉</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/eyewear-page.zip" download="eyewear-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./farmfresh-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/farmfresh-page.png" alt="田集 TIÁNJÍ · 农产品生鲜订阅落地页模板（farmfresh-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>田集 TIÁNJÍ · 农产品生鲜订阅落地页模板（farmfresh-page）</h3><p>农产品生鲜品牌「田集 TIÁNJÍ」完整落地页 —— 当季菜箱 hero（菜叶飘落 + 木箱开箱）+ 本周 8 样菜品网格 + 农场直供故事 + 订阅三档 + 配送范围 + 首单 8 折预约表单，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/farmfresh-page.zip" download="farmfresh-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./feature-showcase-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/feature-showcase-3d.png" alt="feature-showcase-3d — Bento 功能矩阵模板"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>feature-showcase-3d — Bento 功能矩阵模板</h3><p>深色 bento 网格功能矩阵落地页：6 张卡片，每张配一个程序化 3D 小点缀（wireframe/粒子/波形，无外部模型），滚动进入视口 stagger 入场。</p>
+    <div class="ref"><span class="src">手法参考 · Linear 的 features 页面 bento 网格</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/feature-showcase-3d.zip" download="feature-showcase-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./ferris-wheel-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/ferris-wheel-3d.png" alt="ferris-wheel-3d · 摩天轮夜景"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>ferris-wheel-3d · 摩天轮夜景</h3><p>夜空下缓慢旋转的摩天轮：轮圈灯珠 + 座舱暖光 + 嘉年华灯串，乐园 / 节日营销品牌 hero 可用。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/ferris-wheel-3d.zip" download="ferris-wheel-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./flame-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/flame-3d.png" alt="flame-3d · 焰 / 程序化火焰"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>flame-3d · 焰 / 程序化火焰</h3><p>一句话介绍：一团纯程序化的火——FBM 噪声火舌 shader 在纯黑底上撕裂、摆动、向上蹿，火星粒子腾空，火力滑杆、三档火焰形态、火星开关全可玩。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/flame-3d.zip" download="flame-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./flashcards-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/flashcards-3d.png" alt="抽认卡 · 3D 翻卡记忆"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>抽认卡 · 3D 翻卡记忆</h3><p>点一下卡片，它在你面前翻过去露出释义；觉得记住了点&quot;记得&quot;，卡片就飞走叠进右边的掌握堆，纸堆肉眼可见地变厚——8 张全部刷完，直接告诉你一遍记住了几个。</p>
+    <div class="ref"><span class="src">手法参考 · Anki / Quizlet 抽认卡</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/flashcards-3d.zip" download="flashcards-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./florist-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/florist-page.png" alt="花叙 BLOOMTALE · 花艺订阅落地页模板（florist-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>花叙 BLOOMTALE · 花艺订阅落地页模板（florist-page）</h3><p>鲜花订阅品牌「花叙 BLOOMTALE」完整落地页 —— 订阅 hero + 三档包月 + 本周花束网格 + 花语故事 + 企业定制 + 首单半价 CTA，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/florist-page.zip" download="florist-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./formula-derive-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/formula-derive-3d.png" alt="公式是怎么来的 · 等差数列求和推导"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>公式是怎么来的 · 等差数列求和推导</h3><p>四步走完「倒序相加」：公式逐行 stagger 展开、配图 3D 图形同步生长，跟着高斯当年的思路把 S=n(a₁+aₙ)/2 推出来，而不是背下来。</p>
+    <div class="ref"><span class="src">手法参考 · 3Blue1Brown 的公式讲解分镜</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/formula-derive-3d.zip" download="formula-derive-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./fountain-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/fountain-3d.png" alt="fountain-3d · 水乐喷泉"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>fountain-3d · 水乐喷泉</h3><p>夜色池面上，中央水炮与三环喷嘴随程序化节拍起舞——kick 托起中央水柱、bass/lead/hat 各管一环，水下灯环与点光源随灯光模式联动编排；三档节奏一键切换，水柱高度随手可调。huafire3d fx-lab — original </p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/fountain-3d.zip" download="fountain-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./geyser-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/geyser-3d.png" alt="geyser-3d · 间歇泉喷发"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>geyser-3d · 间歇泉喷发</h3><p>地热山谷中的间歇泉：蓄力冒泡 → 水柱冲天 → 蒸汽弥漫 → 休眠的完整周期，喷发时水雾边缘透出一道淡淡虹光——为旅游 / 地热品牌 hero 而生的地热场景。huafire3d fx-lab — original implementati</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/geyser-3d.zip" download="geyser-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./glass-refract-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/glass-refract-3d.png" alt="glass-refract-3d · 玻璃折射棱镜"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>glass-refract-3d · 玻璃折射棱镜</h3><p>一句话介绍：全屏玻璃折射 hero——程序化线条波纹背景 + MeshPhysicalMaterial 真实折射透镜（球体/胶囊体），鼠标视差漂移、透镜缓慢自转，折射率/数量/背景三档可调。huafire3d fx-lab — origin</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/glass-refract-3d.zip" download="glass-refract-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./gpu-fluid-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/gpu-fluid-3d.png" alt="gpu-fluid-3d · GPGPU 粒子流体"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>gpu-fluid-3d · GPGPU 粒子流体</h3><p>指尖搅动深海 —— 20 万粒子在 GPU 里做流体模拟，鼠标划过之处皆起涟漪。</p>
+    <div class="ref"><span class="src">手法参考 · 参考对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/gpu-fluid-3d.zip" download="gpu-fluid-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./gym-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/gym-page.png" alt="铁馆 IRONHOUSE · 健身房官网首页模板（gym-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>铁馆 IRONHOUSE · 健身房官网首页模板（gym-page）</h3><p>综合健身房官网首页模板 —— hero 力量主张 + 团课周排期表 + 教练墙 + 私教三档价格 + 场馆环境 + 免费体验课预约表单，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 顶部导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/gym-page.zip" download="gym-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./hologram-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/hologram-3d.png" alt="hologram-3d · 全息展台"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>hologram-3d · 全息展台</h3><p>huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/hologram-3d.zip" download="hologram-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./hotel-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/hotel-page.png" alt="云汀度假酒店 · 酒店民宿官网首页模板（hotel-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>云汀度假酒店 · 酒店民宿官网首页模板（hotel-page）</h3><p>滨湖度假酒店官网首页模板 —— 夜湖 hero + 预订引擎条 + 三档房型卡 + 设施画廊 + 住客评价 + 交通 + 会员领券 CTA + 法务三件套页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 顶部预订引擎条</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/hotel-page.zip" download="hotel-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./hourglass-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/hourglass-3d.png" alt="hourglass-3d · 沙漏"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>hourglass-3d · 沙漏</h3><p>玻璃沙漏 3D 动效模板：沙粒细流下落、沙堆质量守恒、点击 180° 翻转重计。时间管理 / 效率工具品牌 hero 可直接用。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/hourglass-3d.zip" download="hourglass-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./iceberg-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/iceberg-3d.png" alt="iceberg-3d · 冰山漂浮"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>iceberg-3d · 冰山漂浮</h3><p>极夜北极海中一座程序化冰山缓缓漂浮旋转：displaced 二十面体冰山 + 冰裂纹 emissive 三档发光、海面 shader 波浪与 44 块浮冰随波起伏、远山剪影与天际极光余晖——为环保 / 探险品牌 hero 而生。huafir</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/iceberg-3d.zip" download="iceberg-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./image-distort-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/image-distort-3d.png" alt="image-distort-3d · 图片扭曲转场"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>image-distort-3d · 图片扭曲转场</h3><p>huafire3d fx-lab — original implementation：作品集列表页，悬停标题时右侧图片做 WebGL 扭曲转场——鼠标划得越快，画面皱得越深。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/image-distort-3d.zip" download="image-distort-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./instrument-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/instrument-page.png" alt="聆木 LINGMU · 手工吉他品牌官网首页模板（instrument-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>聆木 LINGMU · 手工吉他品牌官网首页模板（instrument-page）</h3><p>虚构品牌「聆木 LINGMU」的手工吉他品牌整站首页模板 —— 导航（滚动毛玻璃+移动端抽屉）+ 吉他弦波形 hero + 电吉他/木吉他/贝斯系列 tab + 艺术家墙 + 新手指南三步 + 免费体验课预约表单 + 法务三件套页脚，商用级</p>
+    <div class="ref"><span class="src">手法参考 · 产品 hero 大图区</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/instrument-page.zip" download="instrument-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./insurance-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/insurance-page.png" alt="安澜 ANLAN · 保险公司整站落地页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>安澜 ANLAN · 保险公司整站落地页</h3><p>一套商用级保险公司落地页模板（虚构品牌「安澜 ANLAN」）：保障计算器 hero（滑杆实时联动保费）/ 寿险·医疗·意外·年金产品矩阵 / 理赔四步流程 / 顾问预约表单 / CTA / 企业页脚，全响应式，零外部依赖，单文件即发即用。</p>
+    <div class="ref"><span class="src">手法参考 · 平安官网</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/insurance-page.zip" download="insurance-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./interior-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/interior-page.png" alt="造宅 · 全案整装落地页模板（interior-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>造宅 · 全案整装落地页模板（interior-page）</h3><p>装修公司整站首页模板 —— hero + 案例瀑布流 + 装修流程四步 + 报价计算器 + 设计师团队 + 预约 CTA + 页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 案例瀑布流</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/interior-page.zip" download="interior-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./jellyfish-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/jellyfish-3d.png" alt="jellyfish-3d · 水母群游"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>jellyfish-3d · 水母群游</h3><p>深海里的一群发光水母，靠收缩与舒张安静地游。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/jellyfish-3d.zip" download="jellyfish-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./jewelry-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/jewelry-page.png" alt="玖光 JOAILLERIE · 高级珠宝品牌官网首页模板（jewelry-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>玖光 JOAILLERIE · 高级珠宝品牌官网首页模板（jewelry-page）</h3><p>虚构品牌「玖光」的高级珠宝整站首页模板 —— 极简顶栏 + 全屏氛围 hero + 三大系列陈列（项链/戒指/耳饰）+ 工艺故事 + 高级定制四步 + 预约鉴赏表单 + 法务三件套页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 极简顶栏</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/jewelry-page.zip" download="jewelry-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./jobs-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/jobs-page.png" alt="职得 · 招聘平台落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>职得 · 招聘平台落地页模板</h3><p>一家虚构招聘平台「职得」的完整落地页：深蓝 hero + 可交互职位搜索（关键词+城市实时过滤职位列表）、12 个真实感职位卡、8 家入驻公司墙、3 则求职者故事、CTA 与法务三件套弹窗，开箱即用。</p>
+    <div class="ref"><span class="src">手法参考 · LinkedIn / Indeed</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/jobs-page.zip" download="jobs-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./kaleidoscope-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/kaleidoscope-3d.png" alt="kaleidoscope-3d · 万花筒"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>kaleidoscope-3d · 万花筒</h3><p>全屏 fragment shader 万花筒：程序化图案经极坐标镜面折叠成对称图案，缓慢旋转；拖拽改变旋转偏移，滚轮缩放图案密度。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/kaleidoscope-3d.zip" download="kaleidoscope-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./kidspark-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/kidspark-page.png" alt="泡泡岛 BUBBLE ISLAND · 儿童乐园整站首页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>泡泡岛 BUBBLE ISLAND · 儿童乐园整站首页模板</h3><p>一套商用级室内儿童乐园落地页模板（虚构品牌「泡泡岛」）：透明→毛玻璃导航 / 泡泡升腾 hero / 游乐项目矩阵（6 张程序化 SVG 插画卡）/ 票价三档（深蓝高亮主推）/ 生日派对套餐 + 三步流程 / 深蓝安全须知手风琴 / 预约表</p>
+    <div class="ref"><span class="src">手法参考 · 室内儿童乐园官网通用编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/kidspark-page.zip" download="kidspark-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./kite-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/kite-3d.png" alt="kite-3d · 风筝翱翔"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>kite-3d · 风筝翱翔</h3><p>一只风筝在云海之上乘风翱翔——布料随风抖动、阵风把它托高推远、手里这根线由你掌控：上下拖拽放飞收线，拨动风力滑杆，看它在云端翻飞的样子。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/kite-3d.zip" download="kite-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lab-experiment-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lab-experiment-3d.png" alt="凸透镜成像 · 虚拟实验室"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>凸透镜成像 · 虚拟实验室</h3><p>拉一下物距，看光线自己拐弯：三束特征光线实时折射，带着阻尼滑向新的成像位置，像的大小虚实跟着你的手变。</p>
+    <div class="ref"><span class="src">手法参考 · PhET 仿真交互</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lab-experiment-3d.zip" download="lab-experiment-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lantern-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lantern-3d.png" alt="lantern-3d · 孔明灯放飞"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>lantern-3d · 孔明灯放飞</h3><p>夜空下 44 盏孔明灯缓缓升空、随风漂移，写下愿望（≤12 字）放飞属于自己的一盏——为节日 / 婚庆品牌 hero 而生的许愿夜空。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lantern-3d.zip" download="lantern-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./launch-countdown-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/launch-countdown-3d.png" alt="launch-countdown-3d · 新品发布倒计时 3D 模板"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>launch-countdown-3d · 新品发布倒计时 3D 模板</h3><p>新品发布倒计时页：中央 3D 产品（本地模型）缓慢旋转 + 翻牌时钟倒计时（天/时/分/秒，CSS 3D 翻页）；倒计时归零即揭幕——2400 粒子爆发 + 镜头推进 + &quot;IT'S HERE.&quot; 揭幕 + CTA 浮现。示例产品 AURA</p>
+    <div class="ref"><span class="src">手法参考 · 原创设计</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/launch-countdown-3d.zip" download="launch-countdown-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./launch-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/launch-page.png" alt="产品发布页 · Aria Buds Pro"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>产品发布页 · Aria Buds Pro</h3><p>Apple 发布会式新品发布整站模板：粘性产品视觉随滚动旋转叙事，三屏故事 + 高光参数条 + 规格网格 + 预购 CTA，纯黑三色，可直接换文案交付客户上线。</p>
+    <div class="ref"><span class="src">手法参考 · 布局结构和交互编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/launch-page.zip" download="launch-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lawfirm-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lawfirm-page.png" alt="衡信律师事务所 · 落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>衡信律师事务所 · 落地页模板</h3><p>一家虚构综合性商事律所「衡信律师事务所」的完整落地页：藏青 + 鎏金 + 纯白三色，宋体庄重排印，天平线稿描画 + 数据滚动为核心动效，业务领域矩阵 / 律师团队 / 案例数据带 / 免费咨询表单 / 法务三件套弹窗，开箱即用。</p>
+    <div class="ref"><span class="src">手法参考 · 国内外红圈所官网（金杜 / 中伦 / 君合等官网的通用结构）</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lawfirm-page.zip" download="lawfirm-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lead-magnet-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lead-magnet-3d.png" alt="3D 白皮书落地页（lead-magnet-3d）"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>3D 白皮书落地页（lead-magnet-3d）</h3><p>白皮书获客落地页模板 —— 左侧文案 + 表单，右侧 3D 白皮书随鼠标倾斜，点击&quot;翻开看看&quot;书页翻动，提交表单后成功态。商用级，原创代码。</p>
+    <div class="ref"><span class="src">手法参考 · HubSpot 白皮书落地页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lead-magnet-3d.zip" download="lead-magnet-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lesson-steps-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lesson-steps-3d.png" alt="FX·LAB — lesson-steps-3d 课程步骤页（原创实现）"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>FX·LAB — lesson-steps-3d 课程步骤页（原创实现）</h3><p>纸白底的课程步骤页：一颗 3D 发光进度珠沿左侧轨道物理滚动，右侧步骤卡片 3D 翻转入场。全部代码从零编写，零外部依赖、零外部模型。</p>
+    <div class="ref"><span class="src">手法参考 · Stripe docs 式步骤导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lesson-steps-3d.zip" download="lesson-steps-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lighthouse-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lighthouse-3d.png" alt="lighthouse-3d · 灯塔"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>lighthouse-3d · 灯塔</h3><p>深夜海岸的灯塔：一束旋转的光，守着拍岸的浪。指引 / 咨询类品牌 hero 可用。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lighthouse-3d.zip" download="lighthouse-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lightning-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lightning-3d.png" alt="lightning-3d · 闪电风暴"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>lightning-3d · 闪电风暴</h3><p>一场永不停歇的程序化雷暴：FBM 风暴云翻滚、中点位移闪电分叉、斜落雨幕，点击夜空即落雷——为户外 / 能源品牌 hero 而生的风暴场景。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lightning-3d.zip" download="lightning-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./liquid-chrome-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/liquid-chrome-3d.png" alt="liquid-chrome-3d · 液态铬"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>liquid-chrome-3d · 液态铬 <span class="prem">Max 专享</span></h3><p>一句话介绍：一颗液态金属球——顶点噪声让表面缓慢流动，镜面反射手绘条纹环境光，拖动旋转带惯性，滚动加剧形变，镜面/磨砂两种表面。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="/pricing" title="订阅后下载">订阅 Max 下载</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./liveui-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/liveui-3d.png" alt="liveui-3d · 回声 Echo One — 3D 物体上的实时可交互 UI"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>liveui-3d · 回声 Echo One — 3D 物体上的实时可交互 UI</h3><p>一句话：一台程序化 3D 智能音箱，屏幕上贴的不是贴图——而是一张真实可点的 DOM 播放器卡片，每帧用单应性矩阵做 matrix3d 透视贴合，视觉&quot;长&quot;在 3D 物体上，交互走真 DOM。</p>
+    <div class="ref"><span class="src">手法参考 · 参考对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/liveui-3d.zip" download="liveui-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./logistics-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/logistics-page.png" alt="驰运 SWIFTLINE · 物流公司落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>驰运 SWIFTLINE · 物流公司落地页模板</h3><p>一家虚构物流公司「驰运 SWIFTLINE」的完整落地页：藏青 #14264A / 白 / 橙 #F56600 三色定死，中文真实感物流文案（运单查询演示/服务矩阵/时效承诺/网点查询），核心动效是运单查询时间线 + SVG 干线路线路径动</p>
+    <div class="ref"><span class="src">手法参考 · FedEx 与顺丰官网</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/logistics-page.zip" download="logistics-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lookbook-scroll/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lookbook-scroll.png" alt="衣橱档案 · 横向滚动杂志陈列"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>衣橱档案 · 横向滚动杂志陈列</h3><p>滚轮驱动的横向杂志式陈列：纵向滚动映射为横向轨道，五幕各一件服装 3D 雕塑 + 大标题，文字/舞台/背景大词三层视差。</p>
+    <div class="ref"><span class="src">手法参考 · SSENSE editorial</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lookbook-scroll.zip" download="lookbook-scroll.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./lusion-scroll-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/lusion-scroll-3d.png" alt="lusion-scroll-3d · 滚动叙事 3D 模板"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>lusion-scroll-3d · 滚动叙事 3D 模板</h3><p>虚构香水品牌「雾屿 ATELIER」的滚动叙事长页：滚动即运镜——相机环绕一只程序化香水瓶缓慢 dolly 推进，四章节（诞生 / 香调 / 工艺 / 拥有）以雾浓度呼吸过渡，全程「重灯光构图、轻几何复杂度」。</p>
+    <div class="ref"><span class="src">手法参考 · 参考对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/lusion-scroll-3d.zip" download="lusion-scroll-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./magnetic-cards-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/magnetic-cards-3d.png" alt="magnetic-cards-3d · 磁吸卡片"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>magnetic-cards-3d · 磁吸卡片</h3><p>huafire3d fx-lab — original implementation。深空灰底上的六张 SaaS 功能卡：随鼠标做弹簧物理 3D 倾斜、高光扫过、边缘光强化，整组带轻微视差层级，外加一颗会被光标吸住的磁吸按钮。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/magnetic-cards-3d.zip" download="magnetic-cards-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./meteor-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/meteor-3d.png" alt="meteor-3d · 星陨"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>meteor-3d · 星陨</h3><p>流星雨撞击夜空：拖着火尾的流星随机划过天际，撞击地面激起冲击波扩散、尘埃爆发与永久撞击坑——点击天空可亲手召唤一颗。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/meteor-3d.zip" download="meteor-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./mushroom-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/mushroom-3d.png" alt="mushroom-3d · 荧光蘑菇森林"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>mushroom-3d · 荧光蘑菇森林</h3><p>一句话介绍：深夜里一片会发光的蘑菇森林——48 株程序化荧光蘑菇、萤火虫粒子与地面流雾，点蘑菇泛起涟漪光波，一键飘散孢子。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/mushroom-3d.zip" download="mushroom-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./nebula-drift-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/nebula-drift-3d.png" alt="nebula-drift-3d · 星云漂流"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>nebula-drift-3d · 星云漂流 <span class="prem">Max 专享</span></h3><p>一句话介绍：全屏粒子星云——九千颗星尘绕双旋臂缓慢漂流，鼠标视差推镜头，滚动加速穿越，紫雾/冰蓝两种色温。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="/pricing" title="订阅后下载">订阅 Max 下载</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./neon-sign-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/neon-sign-3d.png" alt="neon-sign-3d · 霓虹灯牌"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>neon-sign-3d · 霓虹灯牌</h3><p>一句话介绍：砖墙上的霓虹灯管招牌——灯管拼出可自定义文字，电流闪烁、偶发&quot;接触不良&quot;式抖动，鼠标靠近哪一笔、哪一笔就亮起来；一键开关灯、三档霓虹色可切。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象：酒吧 / 潮牌店门口的霓虹灯招牌（neon sign）。</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/neon-sign-3d.zip" download="neon-sign-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./observatory-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/observatory-3d.png" alt="observatory-3d · 天文台星空"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>observatory-3d · 天文台星空</h3><p>山顶天文台圆顶缓缓巡天旋转、观测缝开合透出暖光，银河横贯天际、流星不时划过，三座星座被连线点亮——为科研 / 教育品牌 hero 而生的深空场景。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/observatory-3d.zip" download="observatory-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./ops-monitor-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/ops-monitor-3d.png" alt="ops-monitor-3d · 暗黑 3D 节点拓扑监控"><span class="cat-tag">管理系统</span></div>
+    <div class="meta"><h3>ops-monitor-3d · 暗黑 3D 节点拓扑监控</h3><p>深色 NOC 风格的网络监控模板：中央 Three.js 程序化 3D 拓扑球（零外部模型）+ 左侧节点列表 + 右侧详情 + 顶部 KPI 微动。所有代码原创手写，可直接卖。</p>
+    <div class="ref"><span class="src">手法参考 · Cloudflare Radar / Vercel Status 的深色监控美学</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/ops-monitor-3d.zip" download="ops-monitor-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./origami-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/origami-3d.png" alt="origami-3d · 折纸展开"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>origami-3d · 折纸展开</h3><p>一张宣纸，七次折叠，成为一叶小船。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/origami-3d.zip" download="origami-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./outdoor-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/outdoor-page.png" alt="野径 TRAILHEAD · 户外装备品牌落地页模板（outdoor-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>野径 TRAILHEAD · 户外装备品牌落地页模板（outdoor-page）</h3><p>一句话介绍：虚构户外品牌「野径 TRAILHEAD」的单页官网模板——全屏山影视差 hero、徒步/露营/攀登装备翻转卡矩阵、探险故事、会员计划 CTA，零依赖单文件可直接交付。</p>
+    <div class="ref"><span class="src">手法参考 · REI</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/outdoor-page.zip" download="outdoor-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./pagoda-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/pagoda-3d.png" alt="pagoda-3d · 宝塔夜景"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>pagoda-3d · 宝塔夜景</h3><p>夜色中七层宝塔飞檐翘角，檐下灯笼随风轻摆、逐层点亮，明月高悬、湖面镜像倒影，萤火虫点点——为文旅 / 中式品牌 hero 而生的东方夜景。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/pagoda-3d.zip" download="pagoda-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./paper-plane-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/paper-plane-3d.png" alt="paper-plane-3d · 纸飞机飞行"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>paper-plane-3d · 纸飞机飞行</h3><p>huafire3d fx-lab — original implementation。纸飞机沿云中岛屿航线巡航，拖着粒子尾迹；按住拖拽蓄力、松开亲手把它掷出去，飞完自动回航。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/paper-plane-3d.zip" download="paper-plane-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./papercraft-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/papercraft-3d.png" alt="papercraft-3d · 纸间故事：一场纸上的散步"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>papercraft-3d · 纸间故事：一场纸上的散步</h3><p>滚动驱动的纸雕绘本世界 —— 纸片小人阿纸沿小径行走，滚轮即脚步，穿过村庄、森林、湖泊三幕。</p>
+    <div class="ref"><span class="src">手法参考 · （2026&quot;反抛光&quot;审美回潮代表）。只学手法，不碰代码：
+
+1.</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/papercraft-3d.zip" download="papercraft-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./particle-morph-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/particle-morph-3d.png" alt="粒子变形 · PARTICLE MORPH"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>粒子变形 · PARTICLE MORPH</h3><p>一套粒子（THREE.Points）在二十面体团块、银河旋涡、&quot;NOVA&quot;文字、星环四个目标点云之间插值变形——切换时先&quot;炸开&quot;再&quot;聚拢&quot;，全程 simplex 噪声呼吸 + additive 辉光。</p>
+    <div class="ref"><span class="src">手法参考 · 参考对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/particle-morph-3d.zip" download="particle-morph-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./pet-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/pet-page.png" alt="爪印 PAW · 宠物用品+宠物医院整站首页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>爪印 PAW · 宠物用品+宠物医院整站首页</h3><p>一套商用级宠物整站首页模板（虚构品牌「爪印 PAW」）：顶部导航 / 宠物氛围 hero / 品类导航 / 商品网格+订阅购 / 宠物医院服务（预约挂号）/ 养宠知识 / CTA / 页脚，全响应式，零外部依赖，单文件即发即用。</p>
+    <div class="ref"><span class="src">手法参考 · Chewy（美国宠物电商）官网首页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/pet-page.zip" download="pet-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./portfolio-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/portfolio-page.png" alt="独立设计师作品集落地页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>独立设计师作品集落地页</h3><p>Awwwards 风格的个人作品集整站模板：宣言式 hero、6 件精选作品、服务列表、关于、巨型邮箱 CTA，可直接换文案上线卖给客户。</p>
+    <div class="ref"><span class="src">手法参考 · 顶级设计师个人作品集站</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/portfolio-page.zip" download="portfolio-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./pricing-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/pricing-3d.png" alt="pricing-3d — 3D 定价页模板"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>pricing-3d — 3D 定价页模板</h3><p>三档 SaaS 定价卡：3D 倾斜跟随鼠标（glare 高光）、月付/年付切换（价格数字里程表滚动 + 粒子微爆）、</p>
+    <div class="ref"><span class="src">手法参考 · Linear 定价页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/pricing-3d.zip" download="pricing-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./product-compare/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/product-compare.png" alt="product-compare · 双品 3D 对比模板"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>product-compare · 双品 3D 对比模板</h3><p>独立站对比页模板：左右并排两个 3D 产品，同步旋转；中间参数对照表；一键「只看差异」。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/product-compare.zip" download="product-compare.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./product-configurator/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/product-configurator.png" alt="3D 产品配置器"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>3D 产品配置器</h3><p>Three.js r160（MIT）与 meshoptimizer 解码器（MIT）为合规开源引用，已下载到本地 vendor/ / src/addons/。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/product-configurator.zip" download="product-configurator.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./product-hero-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/product-hero-3d.png" alt="product-hero-3d · 电商产品 Hero 3D 模板"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>product-hero-3d · 电商产品 Hero 3D 模板</h3><p>独立站首页首屏：全屏 3D 产品展示。默认模型为 本地 models/ 目录的耳机模型</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/product-hero-3d.zip" download="product-hero-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./product-launch-hero-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/product-launch-hero-3d.png" alt="product-launch-hero-3d · 发布会式 3D 产品 Hero"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>product-launch-hero-3d · 发布会式 3D 产品 Hero</h3><p>发布会式产品 Hero 模板 —— 黑场 → 追光亮起 → 产品旋转出场 → 卖点标签环绕 → CTA。商用级，原创代码。</p>
+    <div class="ref"><span class="src">手法参考 · Apple 式产品发布页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/product-launch-hero-3d.zip" download="product-launch-hero-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./product-viewer-lite/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/product-viewer-lite.png" alt="product-viewer-lite · 轻量 3D 商品查看器"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>product-viewer-lite · 轻量 3D 商品查看器</h3><p>独立站商品详情页里的**内嵌小 3D 查看器**——不是整页，是一个可复用的 Web Component</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/product-viewer-lite.zip" download="product-viewer-lite.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./quiz-check-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/quiz-check-3d.png" alt="随堂测 · 3D 答题反馈"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>随堂测 · 3D 答题反馈</h3><p>点一个选项：答对了，绿色对勾在屏幕中央一笔一笔&quot;画&quot;出来，粒子炸开，卡片跟着弹一下；答错了，橙色错叉抖两下，正确答案开始呼吸发光，解析从下面展开。三道题，做完直接出分，可重来。</p>
+    <div class="ref"><span class="src">手法参考 · Duolingo 答题反馈</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/quiz-check-3d.zip" download="quiz-check-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./realestate-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/realestate-page.png" alt="御湖湾 · 房地产楼盘落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>御湖湾 · 房地产楼盘落地页模板</h3><p>虚构高端住宅品牌「御湖湾」的完整楼盘落地页：深墨绿 + 香槟金 + 米白三色，纯 CSS/SVG 程序化湖景 hero，户型 tab 翻转切换、配套距离矩阵、预约表单成功态，开箱即卖。</p>
+    <div class="ref"><span class="src">手法参考 · 贝壳 / 链家楼盘详情页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/realestate-page.zip" download="realestate-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./resale-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/resale-page.png" alt="转转乐 RESALE · 二手交易平台落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>转转乐 RESALE · 二手交易平台落地页模板</h3><p>一套商用级二手交易平台落地页模板（虚构品牌「转转乐 RESALE」）：透明→毛玻璃导航 / 搜索 hero + 漂浮商品卡 / 品类磁贴 / 今日捡漏商品流（价格+成色标签+类目筛选）/ 验机保障区 / 发布闲置 CTA（含表单校验弹窗）/</p>
+    <div class="ref"><span class="src">手法参考 · eBay / 转转 App 首页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/resale-page.zip" download="resale-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./restaurant-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/restaurant-page.png" alt="山外山 · 餐厅官网首页模板（restaurant-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>山外山 · 餐厅官网首页模板（restaurant-page）</h3><p>高端餐厅官网首页模板 —— 深色氛围 hero + 主厨寄语 + 招牌菜 + 到店信息 + 食客评价 + 预订 CTA，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/restaurant-page.zip" download="restaurant-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./robot-arm-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/robot-arm-3d.png" alt="robot-arm-3d · 交互机械臂"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>robot-arm-3d · 交互机械臂</h3><p>程序化建模的三节机械臂：底座 yaw + 两连杆解析 IK，末端跟随鼠标在目标平面上的投影；按住鼠标夹爪合拢抓取悬浮橙立方体并举起，松开后落下带弹性回弹；右上角面板实时显示各关节角度读数。三种运行模式：跟随 / 自动演示 / 抓取演示。hu</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/robot-arm-3d.zip" download="robot-arm-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./saas-landing/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/saas-landing.png" alt="Northloop · SaaS 落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>Northloop · SaaS 落地页模板</h3><p>一家虚构项目协作 SaaS「Northloop」的完整落地页：深空黑底 + 靛蓝点缀，中文真实感文案，纯 CSS 画出的任务看板产品 mock，鼠标视差 + 滚动编排，开箱即用。</p>
+    <div class="ref"><span class="src">手法参考 · Linear（linear.app）</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/saas-landing.zip" download="saas-landing.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./salon-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/salon-page.png" alt="绒 RONG · 美发美容店落地页模板（salon-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>绒 RONG · 美发美容店落地页模板（salon-page）</h3><p>美发美容店「绒 RONG」完整落地页 —— 发丝光泽 hero + 服务价目表 + 造型师墙 + 门店信息 + 在线预约表单，优雅高级风，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/salon-page.zip" download="salon-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./sand-dune-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/sand-dune-3d.png" alt="sand-dune-3d · 沙丘风场"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>sand-dune-3d · 沙丘风场</h3><p>数千沙粒沿实时风场流淌、贴着程序化沙丘做跳跃式搬运，相机以 Earth Studio 式缓慢 dolly 在沙丘上空漫游——风速滑杆、风向拨盘、三档沙丘形态（新月/横脊/星形）实时可调。huafire3d fx-lab — original</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/sand-dune-3d.zip" download="sand-dune-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./satellite-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/satellite-3d.png" alt="satellite-3d · 星环轨道"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>satellite-3d · 星环轨道</h3><p>四颗卫星沿各自轨道环绕一颗程序化地球：夜半球城市灯火点点、晨昏线带着暖橙色余晖缓慢推演，信号波束自星体向地面下行闪烁——为航天科普 / 卫星互联网品牌 hero 而生的深空一页。huafire3d fx-lab — original imp</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/satellite-3d.zip" download="satellite-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./scriptmurder-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/scriptmurder-page.png" alt="scriptmurder-page — 谜屿 MYSTERY ISLE · 剧本杀馆整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>scriptmurder-page — 谜屿 MYSTERY ISLE · 剧本杀馆整站</h3><p>沉浸式剧本杀馆「谜屿 MYSTERY ISLE」的整站落地页：钥匙孔微光 hero（雾效画布 + 打字机悬疑文案）/ 剧本题材 tab 筛选矩阵 / DM 主持人墙 / 玩家评价 / 组局预约四步表单（日期/场次/剧本/人数/联系方式）/ </p>
+    <div class="ref"><span class="src">手法参考 · 头部剧本杀馆 / 密室逃脱品牌官网的公开页面编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/scriptmurder-page.zip" download="scriptmurder-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./scroll-journey-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/scroll-journey-3d.png" alt="scroll-journey-3d · 远望：从深空到黎明"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>scroll-journey-3d · 远望：从深空到黎明</h3><p>一句话介绍：整页是一次 600vh 的滚动旅程——滚动即时间轴，相机沿样条穿越星云、虫洞、月面、晶洞、云海五个连续场景，从深空回到黎明。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/scroll-journey-3d.zip" download="scroll-journey-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./security-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/security-page.png" alt="守望 · 智能安防品牌落地页模板"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>守望 · 智能安防品牌落地页模板</h3><p>一家虚构智能安防品牌「守望」的完整落地页：白 + 深海军蓝 + 电光蓝三色定死，中文真实感安防文案（门铃/摄像头/报警主机三件套、场景守护故事、安装三步、套装价格），雷达扫描主视觉动效 + 滚动 reveal 动效体系，纯原生 JS 零第三</p>
+    <div class="ref"><span class="src">手法参考 · Ring（ring.com）</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/security-page.zip" download="security-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./ski-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/ski-page.png" alt="雪线 SNOWLINE · 滑雪装备落地页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>雪线 SNOWLINE · 滑雪装备落地页</h3><p>一套商用级滑雪装备品牌落地页模板（虚构品牌「雪线 SNOWLINE」）：导航 / 雪山视差 hero / 装备矩阵 / 雪场指南 / 滑手社区 / 早鸟券 CTA / 页脚，全响应式，零外部依赖，单文件即发即用。</p>
+    <div class="ref"><span class="src">手法参考 · Burton 官网</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/ski-page.zip" download="ski-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./smarthome-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/smarthome-page.png" alt="栖智 · 智能家居品牌落地页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>栖智 · 智能家居品牌落地页</h3><p>虚构智能家居品牌「栖智」的完整整站首页模板：场景模式一键联动（核心交互）、产品生态矩阵、App 联动、技术规格、CTA、肥页脚（含法务三件套弹窗）。开箱即用，换文案+SITE 变量即可交付客户上线。</p>
+    <div class="ref"><span class="src">手法参考 · 产品生态矩阵</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/smarthome-page.zip" download="smarthome-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./smoke-ink-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/smoke-ink-3d.png" alt="smoke-ink-3d · 墨 / 烟雾墨水扩散"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>smoke-ink-3d · 墨 / 烟雾墨水扩散</h3><p>一句话介绍：一滴墨落进深水的全屏流体烟雾——FBM 噪声驱动的墨色在水中晕开、翻卷、缓缓升起，鼠标移动搅动、点击激起涟漪，边缘消散。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/smoke-ink-3d.zip" download="smoke-ink-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./snowglobe-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/snowglobe-3d.png" alt="snowglobe-3d · 雪景球"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>snowglobe-3d · 雪景球</h3><p>一句话介绍：一颗可以亲手摇的玻璃雪景球——球内三档微缩冬景（小镇/松林/雪人）一键切换，摇一摇即触发暴风雪粒子，雪量随心调。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/snowglobe-3d.zip" download="snowglobe-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./solar-storm-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/solar-storm-3d.png" alt="solar-storm-3d · 太阳风暴"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>solar-storm-3d · 太阳风暴 <span class="prem">Max 专享</span></h3><p>一句话介绍：一颗正在喷发的恒星——噪声火球表面翻滚，粒子射流向外抛洒，磁弧缓慢转动，日冕随耀斑闪亮，点击触发一次耀斑爆发。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="/pricing" title="订阅后下载">订阅 Max 下载</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./sportswear-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/sportswear-page.png" alt="sportswear-page — 锐行 RUSHLINE · 运动品牌整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>sportswear-page — 锐行 RUSHLINE · 运动品牌整站</h3><p>城市跑步品牌「锐行 RUSHLINE」的整站落地页：碳板竞速跑鞋 hero 主视觉（程序化 SVG 跑鞋 + 速度线粒子画布）/ 新品横滑轮播 / 装备翻转矩阵 / 训练课程 tab / 跑者故事墙 / 会员表单（手机号校验 + 会员码成功</p>
+    <div class="ref"><span class="src">手法参考 · Nike / adidas 类运动品牌官网的公开页面编排</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/sportswear-page.zip" download="sportswear-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./store-home/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/store-home.png" alt="MONO · 极简服饰整站首页"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>MONO · 极简服饰整站首页</h3><p>一套商用级电商整站首页模板（虚构品牌 MONO）：导航 / 大 hero / 品类磁贴 / 商品网格 / 编辑故事 / 订阅 / 页脚，全响应式，零外部依赖，单文件即发即用。</p>
+    <div class="ref"><span class="src">手法参考 · Apple Store 首页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/store-home.zip" download="store-home.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./submarine-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/submarine-3d.png" alt="submarine-3d · 潜水艇深潜"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>submarine-3d · 潜水艇深潜</h3><p>透过圆形铆钉舷窗看深海：浮游颗粒漂浮、座头鲸剪影带着荧光缓缓游过，点击舷窗发射声呐，下潜越深光线越暗、水母与鮟鱇鱼相继登场——为海洋馆 / 探险品牌 hero 而生的深海场景。huafire3d fx-lab — original impl</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/submarine-3d.zip" download="submarine-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./swim-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/swim-page.png" alt="浪里 WAVELANE · 恒温室内游泳馆官网首页模板（swim-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>浪里 WAVELANE · 恒温室内游泳馆官网首页模板（swim-page）</h3><p>恒温室内游泳馆「浪里 WAVELANE」官网首页单文件模板：深海蓝底 + 青色点缀，</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/swim-page.zip" download="swim-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./tea-brand-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/tea-brand-page.png" alt="山涧 SHANJIAN · 高山现泡茶饮品牌落地页模板（tea-brand-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>山涧 SHANJIAN · 高山现泡茶饮品牌落地页模板（tea-brand-page）</h3><p>高山现泡茶饮品牌整站首页模板 —— 当季新品 hero（茶叶飘落粒子 + 视差）+ 六款产品系列网格 + 门店查找（可搜索）+ 会员 CTA + 完整页脚（含法务三件套弹窗），商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 当季新品大图 hero</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/tea-brand-page.zip" download="tea-brand-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./team-showcase-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/team-showcase-3d.png" alt="team-showcase-3d · 团队介绍 3D 卡片"><span class="cat-tag">公司介绍</span></div>
+    <div class="meta"><h3>team-showcase-3d · 团队介绍 3D 卡片</h3><p>公司「团队」介绍页：成员卡片 3D 翻转 + 鼠标视差，暖色纸面质感，点卡片看成员介绍。</p>
+    <div class="ref"><span class="src">手法参考 · Linear about 页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/team-showcase-3d.zip" download="team-showcase-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./teaser-reveal-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/teaser-reveal-3d.png" alt="3D 新品预告揭晓（teaser-reveal-3d）"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>3D 新品预告揭晓（teaser-reveal-3d）</h3><p>黑场中产品剪影缓慢旋转，访客按住拖拽&quot;亲手撕开幕布&quot;，露出产品真容 + 发布日期 + 邮箱订阅。商用级，原创代码。</p>
+    <div class="ref"><span class="src">手法参考 · Nothing Phone 预告页</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/teaser-reveal-3d.zip" download="teaser-reveal-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./terrain-flyover-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/terrain-flyover-3d.png" alt="terrain-flyover-3d · 地形低空漫游"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>terrain-flyover-3d · 地形低空漫游</h3><p>暮色下的程序化地形低空巡航页：simplex 噪声生成的山脉与湖泊，相机沿样条低空自动巡航，滚动页面即可加速。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/terrain-flyover-3d.zip" download="terrain-flyover-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./testimonial-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/testimonial-3d.png" alt="FX·LAB — testimonial-3d 客户评价 3D 墙（原创实现）"><span class="cat-tag">营销落地</span></div>
+    <div class="meta"><h3>FX·LAB — testimonial-3d 客户评价 3D 墙（原创实现）</h3><p>暖纸面编辑风的评价墙模板：3D 堆叠轮播卡片 + 文字 logo 走马灯。全部代码从零编写，零外部依赖。</p>
+    <div class="ref"><span class="src">手法参考 · 3D 堆叠轮播</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/testimonial-3d.zip" download="testimonial-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./tide-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/tide-3d.png" alt="tide-3d · 潮汐涨落"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>tide-3d · 潮汐涨落</h3><p>月夜海湾的半日潮涨退循环：水位按 12.42 小时周期涨落，月相决定潮差大小——朔望大潮时潮差 4.8 米，上下弦小潮时只剩 2.0 米；天上的月亮带着真实明暗界线，水面铺开一条月光路。huafire3d fx-lab — original</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/tide-3d.zip" download="tide-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./timeline-lesson-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/timeline-lesson-3d.png" alt="FX·LAB — timeline-lesson-3d 课程章节横轴（原创实现）"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>FX·LAB — timeline-lesson-3d 课程章节横轴（原创实现）</h3><p>深黑底金线的时间线：一整条章节轴可横向拖拽（带惯性），节点激活时水波纹扩散 + 金色解锁粒子爆发，已学完的章节盖上打勾印章。全部代码从零编写，零外部依赖、零外部模型。</p>
+    <div class="ref"><span class="src">手法参考 · MasterClass 课程章节条</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/timeline-lesson-3d.zip" download="timeline-lesson-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./tiny-planet-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/tiny-planet-3d.png" alt="tiny-planet-3d · 一颗小星球"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>tiny-planet-3d · 一颗小星球</h3><p>球面重力行走模板 —— 开场着陆俯冲 → 小宇航员在低多边形小星球上自由行走 → 走近地标弹出信息卡。商用级，原创代码。</p>
+    <div class="ref"><span class="src">手法参考 · 参考对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/tiny-planet-3d.zip" download="tiny-planet-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./tornado-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/tornado-3d.png" alt="tornado-3d · 龙卷风"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>tornado-3d · 龙卷风</h3><p>EF0–EF5 风力可调的龙卷风气象可视化：螺旋粒子漏斗云柱 + 卷起的碎片杂物 + 地面扩散尘环 + 翻滚云底，拖动滑杆亲手把风加到最大。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/tornado-3d.zip" download="tornado-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./travel-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/travel-page.png" alt="远行 · 旅行社落地页模板（travel-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>远行 · 旅行社落地页模板（travel-page）</h3><p>虚构旅行社品牌「远行」的完整整站首页模板 —— 搜索条式 hero + 热门目的地 + 主题线路横滑 + 旅行家评价 + CTA + 法务三件套页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 搜索条式 hero</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/travel-page.zip" download="travel-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./typo-neon-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/typo-neon-3d.png" alt="typo-neon-3d · 巨型排印 + 单霓虹色 + 3D 点缀"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>typo-neon-3d · 巨型排印 + 单霓虹色 + 3D 点缀</h3><p>虚构赛车手「林跃」2026 赛季宣言页 —— 排印是主角，3D 只做点缀。黑场之上，一个占满视口的「疾速」，配一抹霓虹 #D2FF00。</p>
+    <div class="ref"><span class="src">手法参考 · 借鉴的手法（实现均为原创，未复制其任何代码/素材）：
+
+1.</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/typo-neon-3d.zip" download="typo-neon-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./unboxing-scroll/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/unboxing-scroll.png" alt="unboxing-scroll · 滚动开箱 3D 模板"><span class="cat-tag">电商独立站</span></div>
+    <div class="meta"><h3>unboxing-scroll · 滚动开箱 3D 模板</h3><p>独立站产品故事长页：滚轮即运镜——滚动进度精确映射相机轨道（环绕鉴赏 → 分解视图 → 细节特写），卖点标注随滚动逐段浮现。示例产品 KEY·01 机械键盘（本地模型）。双击 index.html 即可看。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/unboxing-scroll.zip" download="unboxing-scroll.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./vinyl-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/vinyl-3d.png" alt="vinyl-3d · 黑胶机"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>vinyl-3d · 黑胶机</h3><p>一台会自己演奏的黑胶唱片机：点播放，唱臂摆过去、针尖落下，唱片转起来，72 根暖黄音纹光柱跟着程序化合成的 Lo-fi 和弦跳动。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/vinyl-3d.zip" download="vinyl-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./volcano-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/volcano-3d.png" alt="volcano-3d · 火山喷发"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>volcano-3d · 火山喷发</h3><p>一座会呼吸的火山：熔岩沿抛物线喷发坠落，烟柱在风里翻滚，火山口辉光随喷发脉动 —— huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src"></span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/volcano-3d.zip" download="volcano-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./watch-brand-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/watch-brand-page.png" alt="watch-brand-page — 玖时 JIU TIME · 高级钟表整站"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>watch-brand-page — 玖时 JIU TIME · 高级钟表整站</h3><p>高级制表品牌「玖时 JIU TIME」整站：全屏 hero、系列展示、工艺故事、机芯细节，黑金美学。</p>
+    <div class="ref"><span class="src">手法参考 · Rolex / Omega</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/watch-brand-page.zip" download="watch-brand-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./waterfall-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/waterfall-3d.png" alt="waterfall-3d · 瀑布 FALLS"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>waterfall-3d · 瀑布 FALLS</h3><p>程序化悬崖 + GPU 粒子瀑布：数千水粒子从崖顶倾泻而下（位置更新全在 vertex shader，curl 式双层扰动），底部撞击出水花与雾气，水面波纹法线扰动 + 泡沫扩散环；相机缓慢自动环绕，可拖拽视角、滚轮推拉。huafire3d</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/waterfall-3d.zip" download="waterfall-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./wedding-photo-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/wedding-photo-page.png" alt="拾光婚礼影像 · 婚庆摄影工作室官网首页模板（wedding-photo-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>拾光婚礼影像 · 婚庆摄影工作室官网首页模板（wedding-photo-page）</h3><p>婚庆摄影工作室整站首页模板 —— 大字品牌主张 hero + 作品瀑布流 + 套餐三档 + 档期日历 + 摄影师 + 预约表单 + 法务三件套页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/wedding-photo-page.zip" download="wedding-photo-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./wedding-plan-page/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/wedding-plan-page.png" alt="诺言 VOWS · 婚礼策划公司官网首页模板（wedding-plan-page）"><span class="cat-tag">整站落地页</span></div>
+    <div class="meta"><h3>诺言 VOWS · 婚礼策划公司官网首页模板（wedding-plan-page）</h3><p>婚礼策划公司整站首页模板 —— 花瓣飘落 hero + 婚礼拱门剪影 + 案例瀑布流 + 套餐三档 + 策划流程四步 + 新人评价墙 + 档期查询表单 + 法务三件套页脚，商用级，可直接改字上线。</p>
+    <div class="ref"><span class="src">手法参考 · 导航</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/wedding-plan-page.zip" download="wedding-plan-page.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./whiteboard-derive-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/whiteboard-derive-3d.png" alt="黑板推导 · 为什么球表面积是 4πr²"><span class="cat-tag">教程课件</span></div>
+    <div class="meta"><h3>黑板推导 · 为什么球表面积是 4πr²</h3><p>一块黑板，粉笔逐笔写出&quot;球表面积&quot;的 4 步推导，右边的 3D 线框球跟着每一步转过去给你看。</p>
+    <div class="ref"><span class="src">手法参考 · 3Blue1Brown 的分镜节奏</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/whiteboard-derive-3d.zip" download="whiteboard-derive-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./windmill-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/windmill-3d.png" alt="windmill-3d · 风车田野"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>windmill-3d · 风车田野</h3><p>荷兰式风车立于郁金香花海：四叶风轮随风速旋转、数千株郁金香花浪起伏、云影掠过田野，白昼/暮色两档光照——为旅游 / 农业品牌 hero 而生的田野场景。huafire3d fx-lab — original implementation。</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/windmill-3d.zip" download="windmill-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div>
+    <div class="card">
+    <a class="card-open" href="./wormhole-3d/index.html" target="_blank" rel="noopener">
+    <div class="thumb"><img loading="lazy" src="shots/wormhole-3d.png" alt="wormhole-3d · 虫洞穿越"><span class="cat-tag">动效实验</span></div>
+    <div class="meta"><h3>wormhole-3d · 虫洞穿越</h3><p>一句话介绍：滚动驱动穿越速度的全屏虫洞隧道——滚得越快穿越越快、FOV 随之拉伸，隧道尽头跃出白光、落入虚构新品发布区。huafire3d fx-lab — original implementation</p>
+    <div class="ref"><span class="src">手法参考 · 对标对象</span><span class="go">打开模板 →</span></div></div>
+    </a>
+    <a class="dl" href="./zips/wormhole-3d.zip" download="wormhole-3d.zip" title="下载源码包">下载 ZIP</a>
+  </div></div>
     <div class="empty" id="empty">没有匹配的模板，换个关键词试试。</div>
   </div>
 </main>
@@ -149,7 +1395,7 @@
 <footer>
   <div class="wrap">
     <span>fx-lab · 模板持续增加中</span>
-    <span>增量更新 <code>node tools/build-gallery.mjs</code> · 生成于 2026-11-08 14:35</span>
+    <span>增量更新 <code>node tools/build-gallery.mjs</code> · 生成于 2026-11-13 15:58</span>
   </div>
 </footer>
 
